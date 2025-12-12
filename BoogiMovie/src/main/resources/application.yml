@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521/xe
+    username: es
+    password: es1234
+      
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+    
+  elasticsearch:
+    uris: http://localhost:9200 # 연결할 Elasticsearch 주소
+
+logging:
+  level:
+    org.elasticsearch.client: TRACE # Elasticsearch의 쿼리 로그를 출력
+    edu.og.es.common.filter.LoggingFilter: TRACE # 필터 로그
