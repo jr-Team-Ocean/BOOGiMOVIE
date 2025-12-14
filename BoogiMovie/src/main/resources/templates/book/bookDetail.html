@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+        integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
+        crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<body>
+    <thead>
+        <tr>도서 > <td>도서/요리/살림</td></tr>
+        <h1>나폴리 맛피아 시크릿 레시피</h1>
+        <tr class="dt1"><td>권성준</td>|<td>용감한 까치</td>|<td>2025.11.25</td></tr>
+        <p>평점 <b>4.4</b></p>
+        <button>하트 1230</button>
+        <p>수량  <input type="number"></p>
+        <p>판매가<b>23,400원</b></p>
+        <button>장바구니</button><button>구매하기</button>
+    </thead>
+    <tbody>
+
+        <!-- 네비게이션 버튼 부분 -->
+        <ul class="detail-nav nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="poster-tab" data-bs-toggle="tab"
+                        data-bs-target="#poster-tab-pane" type="button" role="tab" aria-controls="poster-tab-pane"
+                        aria-selected="true">상세정보</button>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="comment-tab" data-bs-toggle="tab" data-bs-target="#comment-tab-pane"
+                        type="button" role="tab" aria-controls="comment-tab-pane" aria-selected="false">
+                        후기</th:block>
+                    </button>
+                </li>
+            </ul>
+
+            <!-- 탭 컨텐츠 -->
+            <!-- 네비게이션과 연동된 본문 부분 -->
+            <div class="tab-content" id="myTabContent">
+
+                <div class="tab-pane fade show active" id="poster-tab-pane" role="tabpanel" aria-labelledby="poster-tab"
+                    tabindex="0">
+                    <div class="poster-box">
+                        <link rel="stylesheet" href="./bookDetailSub.html">
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="comment-tab-pane" role="tabpanel" aria-labelledby="comment-tab"
+                    tabindex="0">
+                    <p>기대평들이 없습니다.</p>
+                </div>
+            </div>
+    </tbody>
+</body>
+</html> 
+
+
+
+
