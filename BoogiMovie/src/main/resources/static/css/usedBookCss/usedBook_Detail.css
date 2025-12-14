@@ -1,0 +1,113 @@
+.detail_container{
+
+
+    margin-left: 10%;
+    margin-right: 10%;
+    
+}
+
+.detail_top {
+    display: flex;
+}
+
+.detail_top > div {
+
+    flex: 1;
+}
+
+.detail_img{
+    width: 100%;
+    height: 100%;
+}
+
+.usedBook_sumbnail{
+
+    width: 100%;
+    height: 100%;
+}
+
+.detail_top_text{
+
+    margin-left: 10px;
+}
+
+
+.detail_top {
+
+    display: flex;
+    
+}
+
+
+.detail_title{
+
+    display: inline;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.detail_top_info{
+
+    display: flex;
+}
+
+.detail_top_left{
+
+    width: 50%;
+}
+
+.button_top{
+    display: flex;
+
+}
+
+.button_bottom{
+    display: flex;
+
+}
+
+.detail_middle > table{
+
+    display: block;
+
+}
+
+.bookStatus_Guide{
+
+    display: block;
+}
+
+.bookStatus_Guide_Head > td{
+    
+    
+    border: 1px solid black;
+    text-align: center;
+    
+}
+
+.bookStatus_Guide_Head {
+    
+    
+    background-color: #CFDFFF;
+
+
+    
+    
+}
+
+.bookStatus_Guide_Body > td{
+
+    border: 1px solid black;
+    text-align: center;
+    
+}
+
+.usedBook_detail_low > div{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.long_text {
+    white-space: pre-line;
+    
+}
