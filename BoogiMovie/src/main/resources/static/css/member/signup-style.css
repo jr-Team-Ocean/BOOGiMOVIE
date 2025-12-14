@@ -20,7 +20,12 @@ body {
 
 /*로고*/
 .logo{
-    margin: 35px 0;
+    margin: 25px 0;
+}
+
+.logo > img{
+    width: 250px;
+    height: 200px;
 }
 
 .header{
