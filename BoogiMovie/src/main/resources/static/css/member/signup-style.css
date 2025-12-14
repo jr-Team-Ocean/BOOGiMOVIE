@@ -1,0 +1,218 @@
+* { 
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+  min-height: 800px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+}
+
+.container{
+    width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/*로고*/
+.logo{
+    margin: 35px 0;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.header > div:first-child{
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+.steps{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.basic{
+    width: 30px;
+    height: 30px;
+    background-color: #D9D9D9;
+    text-align: center;
+    border-radius: 50%;
+}
+
+.select{
+    font-weight: bolder;
+    color: #ffff;
+    background-color: #5170B0;
+}
+
+.line{
+    margin-block: 10px;
+    height: 3px;
+    background-color: black;
+}
+
+/*step1 : 휴대폰 인증*/
+.step1 > div:first-child{
+    font-size: 20px;
+    font-weight: bolder;
+    display: flex;
+    margin-block: 25px;
+}
+
+label{
+    display: flex;
+    margin-bottom: 10px;
+}
+
+#phone{
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+
+/*인증번호 입력*/
+.auth-input{
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    justify-content: space-between;
+}
+
+.auth-input > div{
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 270px;
+    height: 40px;
+    text-align: left;
+    padding-left: 5px;
+    align-content: center;
+}
+
+#auth-time{
+    font-size: 14px;
+    color: red;
+}
+
+#authKey{
+    height: 30px;
+    border: none;
+    margin-right: 40px;
+    padding-left: 5px;
+}
+
+#reBtn{
+    width: 120px;
+    height: 40px;
+    padding: 5px;
+    background-color: #ffff;
+    color: #5170B0;
+    border-radius: 5px;
+    border: 2px solid #5170B0;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.description{
+    font-size: 12px;
+    text-align: left;
+    padding-left: 5px;
+    margin-top: 3px;
+}
+
+#sendBtn, #signUpBtn{
+    margin: 40px 0;
+    font-weight: bold;
+    width: 100%;
+    height: 40px;
+    padding: 5px;
+    background-color: #082A71;
+    color: #ffff;
+    border-radius: 5px;
+    border: 1px solid #082A71;
+    cursor: pointer;
+}
+
+/* 숨김 */
+.hidden{
+    display: none;
+}
+
+/* 초록 글씨 */
+.confirm{
+    color: green;
+}
+
+/* 빨간 글씨 */
+.error{
+    color: red;
+}
+
+/* 필수 작성 */
+.required{
+    color: red;
+    padding: 0 5px;
+}
+
+/*step2 : 정보입력*/
+#ID, #password, #passwordCheck, #nickName, #email, #phoneNumber, #realName{
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+
+.address-input-area1{
+    display: flex;
+    align-items: center;
+}
+
+.address-input-area1 > input{
+    width: 50%;
+    height: 40px;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 5px 10px 0 0;
+    padding-left: 10px;
+}
+
+.address-input-area > input{
+    width: 100%;
+    height: 40px;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-top: 5px;
+    padding-left: 10px;
+}
+
+/* 주소 검색 버튼 */
+.button{
+    width: 60px;
+    height: 40px;
+    background-color: #ffff;
+    color: #5170B0;
+    border-radius: 5px;
+    border: 2px solid #5170B0;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+/*유효성 검사 메세지*/
+.signUp-message{
+    display: flex;
+    font-size: 14px;
+    margin-bottom: 25px;
+    padding-left: 5px;
+}
