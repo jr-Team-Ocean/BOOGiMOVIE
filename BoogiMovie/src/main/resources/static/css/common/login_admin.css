@@ -1,0 +1,124 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #5170B0;
+}
+
+/* 로고 사이즈 */
+.logo > img {
+    width: 250px;
+}
+
+/* 요소 전체 감싸는 컨테이너 */
+.login_container {
+    width: 1200px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 100px;
+}
+
+/* 관리자 로그인 텍스트 */
+.admin_login_container {
+    width: 550px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 10px;
+}
+
+/* 아이디 텍스트 */
+.login_id_container > div {
+    margin-left: 13px;
+    margin-right: 8px;
+}
+
+/* 입력칸 전체 감싸기 */
+.login_id_container, .login_pw_container {
+    display: flex;
+    align-items: center;
+    border: 2px solid white;
+    padding: 10px;
+    width: 550px;
+    height: 70px;
+    margin-bottom: 10px;
+}
+
+/* 인풋창 (아이디/비번) */
+.input_width {
+    border: none;
+    width: 400px;
+    align-items: center;
+    margin-left: 30px;
+    height: 30px;
+    font-size: 16px;
+    background-color: #5170B0;
+    color: white;
+}
+
+/* 인풋창 선택시 테두리 없애기 */
+.input_width:focus {
+    border: none;
+    outline: none;
+}
+
+/* 아이디 비번 텍스트 */
+.login_input {
+    margin: 0 0 2px 5px;
+    font-weight: bold;
+    color: white;
+}
+
+/* 아이디 저장 */
+.save_id_container {
+    display: flex;
+    justify-content: end;
+    margin-bottom: 15px;
+}
+
+#saveId {
+    width: 16px;
+    margin-top: 2px;
+    margin-right: 5px;
+    accent-color: #082A71; /* 체크시 색상 */
+}
+
+label {
+    color: white;
+}
+
+/* 로그인 버튼 */
+.login_btn > button {
+    width: 550px;
+    height: 60px;
+    color: white;
+    border: none;
+    background-color: #E1B12C;
+}
+
+.login_btn > button:hover {
+    cursor: pointer;
+    background-color: #efc246;
+}
+
+/* 사용자 로그인 */
+.login_signup_container {
+    width: 550px;
+    display: flex;
+    justify-content: end;
+}
+
+.go_user_login {
+    font-size: 12px;
+}
