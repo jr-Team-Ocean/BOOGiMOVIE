@@ -1,0 +1,38 @@
+* {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* 24px */
+.font-24px {
+    font-size: 24px;
+}
+
+/* 20px */
+.font-20px {
+    font-size: 20px;
+}
+
+/* 18px */
+.font-18px {
+    font-size: 18px
+}
+
+/* 16px - 기본 본문 사이즈 */
+.font-16px {
+    font-size: 16px;
+}
+
+/* 14px */
+.font-16px {
+    font-size: 14px;
+}
+
+/* 10px - 푸터, 채팅 시간 등 */
+.font-10px {
+    font-size: 10px;
+}
+
+/* 굵게 */
+.bold {
+    font-weight: bold;
+}
