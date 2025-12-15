@@ -1,0 +1,40 @@
+/* 우측 하단 고정 영역 */
+.floating-ui {
+    position: fixed;
+    right: 32px;
+    bottom: 32px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    z-index: 1000;
+}
+
+/* 원형 버튼 기본 모양 */
+.floating-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+
+    border: 2px solid #082A71;
+    background-color: #ffffff;
+    cursor: pointer;
+
+    /* 아이콘 중앙 정렬용 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 서랍 아이콘 */
+.icon-drawer {
+    font-size: 30px;
+}
+
+/* 로고 버튼 부분 */
+.ft-bt2 {
+    width: 70%;
+    height: 70%;
+    object-fit: contain;
+}
