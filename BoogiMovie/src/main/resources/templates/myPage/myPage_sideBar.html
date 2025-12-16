@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../static/css/myPage/myPage_sideBar.css">
+    <link rel="stylesheet" href="../../static/css/common/font.css">
+</head>
+<body>
+    <!-- 전체 사이드 영역 -->
+    <div class="my_page_side_container">
+
+        <!-- 프로필 관리 -->
+        <!-- 타임리프로 변경시 아래 코드 추가 예정 (JS 사용 X) -->
+        <!-- th:classappend="${activeMenu == 'profile'} ? 'active_my_page'" -->
+        <div class="my_profile_setting_container active_my_page">
+            <img src="../../static/svg/myPage_user_icon.svg" alt="">
+            <div class="my_page_menu bold">프로필 관리</div>
+        </div>
+
+        <!-- 내가 찜한 상품 -->
+        <div class="my_wish_list_container">
+            <img src="../../static/svg/heart_icon.svg" alt="">
+            <div class="my_page_menu bold">내가 찜한 상품</div>
+        </div>
+
+        <!-- 회원 탈퇴 -->
+        <div class="user_secession_container">
+            <img src="../../static/svg/myPage_secession_icon.svg" alt="">
+            <div class="my_page_menu bold">회원 탈퇴</div>
+        </div>
+    </div>
+</body>
+</html>
