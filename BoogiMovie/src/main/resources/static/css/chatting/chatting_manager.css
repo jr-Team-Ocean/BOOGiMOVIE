@@ -1,0 +1,387 @@
+/* 기본 설정 */
+body {
+    /* 배경색: 약간 따뜻하고 밝은 회색으로 변경 */
+    background-color: #fcfcfc; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+    color: #333;
+    margin: 0; 
+    padding: 0;
+    line-height: 1.5;
+}
+
+/* 메인 컨테이너 */
+main {
+    width: 95%;
+    max-width: 1400px;
+    margin: 25px auto; /* 마진 증가 */
+    background-color: #ffffff;
+    padding: 25px; /* 패딩 증가 */
+    border-radius: 16px; /* 모서리 더 둥글게 */
+    /* 그림자: 부드럽고 넓게 퍼지는 그림자 */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); 
+}
+
+/* 헤더 */
+.section_header {
+    height: 60px;
+    background-color: #293d4f; /* 진한 네이비/짙은 회색 */
+    color: white;
+    margin-bottom: 30px; /* 마진 증가 */
+    display: flex;
+    align-items: center;
+    padding-left: 25px;
+    border-radius: 10px;
+}
+
+.section_header h1 {
+    font-size: 26px;
+    margin: 0;
+    font-weight: 500;
+}
+
+/* 네비게이션/검색 섹션 */
+.section_nav { 
+    margin-bottom: 25px;
+    display: flex; 
+    align-items: center; 
+    justify-content: flex-start; 
+    padding: 0 10px;
+    gap: 180px; 
+}
+
+/* 버튼 그룹 */
+.header_nav_button {
+    display: flex; 
+    align-items: center; 
+    gap: 12px; /* 간격 미세 조정 */
+    position: relative;
+}
+
+.header_nav_button > button {
+    border-radius: 20px;
+    height: 38px;
+    width: 85px;
+    border: none; /* 경계선 제거 */
+    background-color: #eef2f5; /* 더 밝은 배경색 */
+    color: #2c3e50;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.header_nav_button > button.active {
+    background-color: #4a98f7; /* 생기 있는 파란색 */
+    color: white;
+    box-shadow: 0 2px 8px rgba(74, 152, 247, 0.4);
+}
+
+.header_nav_button > button:hover:not(.active) {
+    background-color: #e0e6eb;
+    transform: translateY(-1px); /* 살짝 떠오르는 효과 */
+}
+
+.notread_img {
+    position: absolute; 
+    top: -5px;
+    right: 5px;
+    width: 18px;
+    height: 18px;
+    background-color: #e74c3c;
+    border-radius: 50%;
+}
+
+/* 검색창 */
+.header_nav_search {
+    position: relative; 
+    width: 350px;
+}
+
+.header_nav_search > img {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    left: 15px; /* 아이콘 위치 조정 */
+    transform: translateY(-50%);
+    opacity: 0.5;
+}
+
+.header_nav_search > input { 
+    width: 100%;
+    height: 42px; /* 높이 미세 조정 */
+    padding-left: 45px;
+    border: 1px solid #e0e0e0; /* 연한 경계선 */
+    border-radius: 22px;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.header_nav_search > input:focus {
+    border-color: #4a98f7;
+    box-shadow: 0 0 5px rgba(74, 152, 247, 0.2);
+}
+
+/* 상단 페이지네이션 스타일 */
+.header_nav_page {
+    margin-left: auto; 
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 간격 미세 조정 */
+    flex-shrink: 0; 
+}
+
+.header_nav_page a {
+    text-decoration: none; 
+    color: #4a98f7;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.page_status {
+    color: #999;
+    font-size: 15px;
+}
+
+/* --- 채팅 컨테이너 --- */
+.chat_container {
+    display: flex;
+    height: calc(70vh - 90px); 
+    min-height: 450px;
+    border: none;
+}
+
+/* 좌측 채팅 목록 패널 */
+.side_list {
+    width: 350px;
+    background-color: #f7f7f7; /* 약간 어두운 배경으로 변경 */
+    border-radius: 12px;
+    padding: 10px;
+    margin-right: 20px; /* 마진 증가 */
+    /* 그림자 제거 또는 매우 약하게 */
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.03); 
+    display: flex; 
+    flex-direction: column; 
+}
+
+.chatter_list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1; 
+    overflow-y: hidden; 
+}
+
+.individual_chatter {
+    margin-bottom: 6px; /* 마진 감소 */
+    border-radius: 8px;
+    padding: 12px; /* 패딩 증가 */
+    transition: background-color 0.2s;
+    position: relative;
+    cursor: pointer;
+}
+
+.individual_chatter:hover {
+    background-color: #e7eff5; /* 호버 색상 조정 */
+}
+
+.individual_chatter.active_chat {
+    background-color: #e7eff5; 
+    border-left: 4px solid #4a98f7; /* 왼쪽 경계선으로 활성화 강조 */
+    padding-left: 8px;
+}
+
+.individual_chatter > a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    gap: 12px; 
+}
+
+.individual_chatter a img {
+    width: 40px; /* 크기 조정 */
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #eee;
+}
+
+.chat_info {
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.chatter_name {
+    font-weight: 600;
+    font-size: 15px;
+    color: #333;
+}
+
+.last_message {
+    color: #888;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 13px;
+}
+
+.unread_count_icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 15px;
+    height: 15px;
+}
+
+
+/* 우측 채팅 패널 */
+.right_panel {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff; /* 흰색 유지 */
+    border-radius: 12px; 
+    padding: 20px; /* 패딩 증가 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* 부드러운 그림자 */
+}
+
+/* 채팅 메시지 영역 (스크롤) */
+.chat_messages {
+    flex-grow: 1;
+    overflow-y: auto; 
+    padding-right: 15px; /* 스크롤 공간 확보 */
+    margin-bottom: 10px;
+}
+
+.message_row {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+/* 메시지 스타일 */
+.user_row { justify-content: flex-start; }
+.user_msg { max-width: 70%; }
+.user_msg a { display: flex; align-items: flex-start; text-decoration: none; color: inherit; gap: 10px; }
+.user_msg a img { width: 35px; height: 35px; border-radius: 50%; } /* 크기 조정 */
+.user_content { display: flex; flex-direction: column; }
+.user_name { font-weight: 600; margin-bottom: 2px; color: #333; }
+.message_bubble { 
+    padding: 10px 15px; 
+    border-radius: 18px; 
+    word-wrap: break-word; 
+    font-size: 14px; 
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); 
+}
+.user_msg .message_bubble { 
+    background-color: #eef2f5; /* 연한 회색/파란색 톤 */
+    border: none; 
+}
+.manager_row { justify-content: flex-end; }
+.manager_msg { max-width: 70%; }
+.manager_msg .message_bubble { 
+    background-color: #4a98f7; /* 포인트 색상 */
+    color: white; 
+}
+
+
+/* --- 하단 컨트롤 라인: 페이지네이션과 입력창을 한 라인에 배치 --- */
+
+.bottom_control_row {
+    display: flex;
+    align-items: center; 
+    margin-top: 20px; /* 간격 증가 */
+}
+
+/* 좌측 목록 하단 페이지네이션 섹션 */
+.side_pagination_section {
+    width: 375px; 
+    padding: 5px 0;
+    flex-shrink: 0; 
+}
+
+.side_list_pagination {
+    display: flex;
+    justify-content: flex-start; 
+    gap: 2px; /* 간격 미세 조정 */
+    padding: 0; 
+    margin-left: 10px; 
+}
+
+.side_list_pagination a {
+    color: #777; 
+    text-decoration: none;
+    min-width: 28px; /* 크기 조정 */
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    border-radius: 6px; /* 더 둥글게 */
+    border: 1px solid #e0e0e0;
+    transition: all 0.2s;
+    font-size: 13px;
+    margin: 0 2px; 
+}
+
+.side_list_pagination a.active {
+    background-color: #4a98f7;
+    color: white;
+    border-color: #4a98f7;
+    font-weight: 600;
+    box-shadow: 0 1px 4px rgba(74, 152, 247, 0.3); 
+}
+
+.side_list_pagination a:hover:not(.active) {
+    background-color: #f0f0f0;
+    color: #4a98f7;
+    border-color: #ccc;
+}
+
+
+/* 우측 메시지 창 하단 입력창 섹션 */
+.chat_input_section {
+    flex-grow: 1;
+    padding-left: 20px; /* 간격 증가 */
+}
+
+.bottom_input_container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    border-radius: 28px; /* 더 둥글게 */
+    background-color: white;
+    padding: 6px 18px; /* 패딩 미세 조정 */
+    height: 50px; /* 높이 미세 조정 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.chat_input {
+    flex-grow: 1;
+    height: 100%;
+    border: none;
+    padding: 0 15px;
+    font-size: 16px;
+    outline: none;
+}
+
+.send_button, .attach_button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 6px; /* 패딩 미세 조정 */
+    transition: opacity 0.1s;
+    color: #777; /* 아이콘 색상 설정 */
+}
+
+.send_button:hover, .attach_button:hover {
+    opacity: 0.7;
+    color: #4a98f7;
+}
+
+.bottom_img1, .bottom_img2 { 
+    width: 28px; /* 아이콘 크기 조정 */
+    height: 28px; 
+    filter: invert(30%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(50%) contrast(90%); /* 아이콘 색상을 회색으로 가정 */
+}
+.send_button:hover .bottom_img1, .attach_button:hover .bottom_img2 {
+    filter: invert(47%) sepia(35%) saturate(3015%) hue-rotate(193deg) brightness(97%) contrast(92%); /* 호버 시 파란색으로 변경 (SVG 아이콘 가정) */
+}
