@@ -1,0 +1,141 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* 전체 컨테이너 (화면 배치) */
+.cart_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1200px;
+}
+
+/* ================================== */
+/* ================================== */
+
+/* 왼쪽 컨테이너 */
+.left_container {
+    display: inline-block;
+    flex: 2;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 체크박스 / 전체삭제 */
+.item_delete_area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #B3B3B3;
+    width: auto;
+    padding: 10px;
+}
+
+.check_item_area {
+    display: flex;
+}
+
+.check_item_area > input {
+    width: 20px;
+    margin-right: 8px;
+    accent-color: #082A71;
+}
+
+/* ================================== */
+/* ================================== */
+
+/* 아이템 없는 경우 */
+.no_item_container {
+    margin-top: 30px;
+    background-color: #F6F6F6;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 0px;
+}
+
+/* 아이콘 */
+.no_item_icon {
+    margin: 20px 40px;
+}
+
+.no_item_text {
+    margin: 0 0 20px 0;
+}
+
+/* 홈으로 */
+.go_home {
+    background-color: #5170B1;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+}
+
+.go_home:hover {
+    cursor: pointer;
+}
+
+/* ================================== */
+/* ================================== */
+
+/* 아이템 있는 경우 */
+
+
+
+
+/* 오른쪽 컨테이너 */
+.right_container {
+    margin-top: 40px;
+    display: inline-block;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #082A71;
+    width: 330px;
+    height: 380px;
+    margin-left: 20px;
+}
+
+.product_price_container {
+    margin-top: 40px;
+}
+
+.delivery_price_container {
+    margin-bottom: 30px;
+}
+
+
+.product_price_container,  .delivery_price_container, .last_price_container {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 60px;
+}
+
+.mini_line {
+    height: 2px;
+    background-color: #d1d1d1;
+    margin: 0 30px;
+}
+
+/* 주문하기 */
+.order_btn {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+}
+.order_btn > button {
+    border-radius: 5px;
+    width: 300px;
+    background-color: #E1B12C;
+    border: none;
+    padding: 15px;
+    color: white;
+}
