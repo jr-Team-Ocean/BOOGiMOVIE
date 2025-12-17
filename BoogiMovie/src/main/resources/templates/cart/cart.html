@@ -10,69 +10,92 @@
     <link rel="stylesheet" href="../../static/css/common/header.css">
 </head>
 <body>
-
-    <!-- 전체 컨테이너 -->
-    <div class="cart_container">
-
-        <!-- 왼쪽 결제할 아이템 영역 -->
-        <div class="left_container">
-
-            <!-- 전체 / 전체삭제 -->
-            <div class="item_delete_area">
-
-                <!-- 전체 선택 체크박스 -->
-                <div class="check_item_area">
-                    <input type="checkbox" id="item_delete">
-                    <label for="item_delete">전체</label>
+    <div class="header_container">
+        <div class="blue_background">
+            <div class="header_inner">
+                <div class="header_category">
+                    <!-- 선택에 따른 효과 - 타임리프(경로에 따른 효과 주기로 변경 예정) -->
+                    <div class="header_active"><a href="#">홈</a></div>
+                    <div><a href="#">도서</a></div>
+                    <div><a href="#">중고도서</a></div>
+                    <div><a href="#">영화</a></div>
                 </div>
-    
-                <!-- 전체 삭제 버튼 -->
-                <div class="all_delete_item">
-                    <a href="#">전체 삭제</a>
+
+                <div class="header_login">
+                    <div><a href="#">로그인</a></div>
+                    <div><a href="#">회원가입</a></div>
                 </div>
-            </div>
-    
-            <!-- 아이템 없는 경우 -->
-            <div class="no_item_container">
-                <div class="no_item_icon">
-                    <img src="../../static/svg/danger_icon.svg" alt="">
-                </div>
-    
-                <div class="no_item_text font-18px">장바구니에 담긴 상품이 없습니다.</div>
-    
-                <button class="go_home bold font-18px">홈으로</button>
-            </div>
-        </div>
-
-        <!-- 오른쪽 상품 금액 및 주문하기 영역 -->
-        <div class="right_container">
-
-            <!-- 상품 금액 -->
-            <div class="product_price_container">
-                <div class="font-18px bold">상품 금액</div>
-                <div class="font-18px bold">28,000원</div>
-            </div>
-
-            <!-- 배송비 -->
-            <div class="delivery_price_container">
-                <div>배송비</div>
-                <div>0원</div>
-            </div>
-    
-            <div class="mini_line"></div>
-
-            <!-- 결제 예정 금액 -->
-            <div class="last_price_container">
-                <div class="bold">결제 예정 금액</div>
-                <div class="bold">0원</div>
-            </div>
-
-            <!-- 주문하기 버튼 -->
-            <div class="order_btn">
-                <button class="bold">주문하기</button>
             </div>
         </div>
 
     </div>
+
+
+    <!-- 전체 컨테이너 -->
+     <div class="container">
+
+         <div class="cart_container">
+     
+             <!-- 왼쪽 결제할 아이템 영역 -->
+             <div class="left_container">
+     
+                 <!-- 전체 / 전체삭제 -->
+                 <div class="item_delete_area">
+     
+                     <!-- 전체 선택 체크박스 -->
+                     <div class="check_item_area">
+                         <input type="checkbox" id="item_delete">
+                         <label for="item_delete">전체</label>
+                     </div>
+         
+                     <!-- 전체 삭제 버튼 -->
+                     <div class="all_delete_item">
+                         <a href="#">전체 삭제</a>
+                     </div>
+                 </div>
+         
+                 <!-- 아이템 없는 경우 -->
+                 <div class="no_item_container">
+                     <div class="no_item_icon">
+                         <img src="../../static/svg/danger_icon.svg" alt="">
+                     </div>
+         
+                     <div class="no_item_text font-18px">장바구니에 담긴 상품이 없습니다.</div>
+         
+                     <button class="go_home bold font-18px">홈으로</button>
+                 </div>
+             </div>
+     
+             <!-- 오른쪽 상품 금액 및 주문하기 영역 -->
+             <div class="right_container">
+     
+                 <!-- 상품 금액 -->
+                 <div class="product_price_container">
+                     <div class="font-18px bold">상품 금액</div>
+                     <div class="font-18px bold">28,000원</div>
+                 </div>
+     
+                 <!-- 배송비 -->
+                 <div class="delivery_price_container">
+                     <div>배송비</div>
+                     <div>0원</div>
+                 </div>
+         
+                 <div class="mini_line"></div>
+     
+                 <!-- 결제 예정 금액 -->
+                 <div class="last_price_container">
+                     <div class="bold">결제 예정 금액</div>
+                     <div class="bold">0원</div>
+                 </div>
+     
+                 <!-- 주문하기 버튼 -->
+                 <div class="order_btn">
+                     <button class="bold">주문하기</button>
+                 </div>
+             </div>
+     
+         </div>
+     </div>
 </body>
 </html>
