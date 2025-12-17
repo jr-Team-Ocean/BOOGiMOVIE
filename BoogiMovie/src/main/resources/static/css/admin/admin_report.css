@@ -1,0 +1,200 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;    
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    width: 100%;
+    max-width: 1400px;
+    margin: 25px auto;
+}
+
+fieldset {
+    margin-top: 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    margin-left: 10px;
+    padding: 10px;
+    width: 670px;
+    height: 80px;
+    margin-bottom: 50px;
+    border-radius: 7px;
+    border: 1px solid #e0e0e0;
+    background-color: #f9f9f9;
+}
+
+fieldset > :nth-child(n+2):nth-child(-n+5)
+ {
+    border: 1px solid rgb(206, 206, 205);
+    padding: 6px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+
+}
+
+fieldset > div:nth-child(n+2):nth-child(-n+5):hover {
+    border-color: #5170B0;
+    color: #5170B0;
+}
+
+/*class 추가 예정*/
+.box_color {
+    background-color: #082A71;
+}
+
+fieldset .date {
+    margin-left: 30px;
+    margin-right: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+fieldset > button {
+    border: none;
+    border-radius: 7px;
+    background-color: #5170B0;
+    color: white;
+    width: 50px;
+    height: 30px;
+}
+
+fieldset > button:hover {
+
+    background-color: #082A71;
+    cursor: pointer;
+}
+
+.date_wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px 15px 5px 10px;
+}
+
+.calendar_icon {
+    position : absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 15px;
+    height: 15px;
+    opacity: 0.6;
+}
+
+
+
+
+.total_delete {
+    display: flex;
+    justify-content: flex-end;    
+    margin-bottom: 20px;
+}
+
+
+.total_delete button {
+    border-radius: 5px;
+    border: none;
+    background-color: #5170B0;
+    color: white;
+    width: 70px;
+    height: 25px;
+    margin-right: 10px
+
+}
+
+.total_delete button:hover {
+    background-color: #082A71;
+    cursor: pointer;
+}
+
+
+/*테이블*/
+
+table {   
+    text-align: center;
+    font-size: 13px; 
+    border-collapse: collapse;
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+}
+
+tr:hover {
+    background-color: #fcfcfc;
+}
+
+td {
+    border: none;
+    border-bottom: 1px solid #eee;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid rgb(168, 168, 168);    
+}
+
+table button {
+    border: none;
+    border-radius: 7px;
+    background-color: #5170B0;
+    color: white;
+    width: 40px;
+    height: 20px;
+    font-size: 11px;
+    margin: 0 2px;
+}
+
+table button:hover
+ {
+    background-color: #082A71;
+    cursor: pointer;
+}
+
+.report_detail {
+    text-decoration: none;
+    color: black;
+
+}
+
+/*페이지네이션*/
+.pagination {
+    display: flex;
+    justify-content: center;
+    max-width: 100%;
+    margin: 30px 0;
+    width: 100%;
+    margin-top: 70px;
+    margin-bottom: 100px;
+}
+
+.pagination ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    gap: 15px;
+}
+
+.pagination a {
+    width: 35px;
+    height: 35px;
+    text-decoration: none;    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    
+
+}
+
+.pagination a:hover,
+.pagination a.active {
+    background-color: #082A71;
+    color: white;
+    border-color: #082A71;
+}

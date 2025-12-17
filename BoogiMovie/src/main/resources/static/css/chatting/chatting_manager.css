@@ -385,3 +385,19 @@ main {
 .send_button:hover .bottom_img1, .attach_button:hover .bottom_img2 {
     filter: invert(47%) sepia(35%) saturate(3015%) hue-rotate(193deg) brightness(97%) contrast(92%); /* 호버 시 파란색으로 변경 (SVG 아이콘 가정) */
 }
+
+
+/***
+
+사이드 메뉴
+
+*/
+
+.manager_side_menu {
+    background-color: greenyellow;    
+}
+
+.manager_list_group {
+    list-style: none;
+}
+
