@@ -1,13 +1,13 @@
 main {
-    width: 1200px; /* 1920 - 360*2 */
+    width: 1080px; /* 1920 - 360*2 */
     margin: 0 auto;
     font-family: 'Noto Sans KR', sans-serif;
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 
 /* 카테고리 경로 */
 .book-category-path {
-    border: 1px solid blue;
+    /* border: 1px solid blue; */
     
     display: flex;
     justify-content: space-between;
@@ -164,8 +164,8 @@ main {
     font-size: 25px;
     border: none;
 }
-/* ------------------------------------------------------------------------- */
-
+/* ---------------------------------------------------------------------------- */
+/* 부트스트랩 css 강제로 고치기 */
 /* 하단 탭 */
 .detail-nav.nav-tabs {
     --bs-nav-tabs-border-width: 0;
@@ -212,12 +212,190 @@ main {
     border-top: 2px solid black;
     border-left: 2px solid black;
     border-right: 2px solid black;
-    border-bottom: none;
 
     position: relative;
     z-index: 2;
 }
 
-.detail-nav:hover {
+/* 비활성 탭 hover 효과 제거 */
+.detail-nav .nav-link:not(.active):hover {
+    background-color: #fff !important;
+    color: #777 !important;
+    border: 1px solid #777;
+    border-bottom: 2px solid black;    
+}
 
+.tab-content {
+    margin-top: 50px;
+}
+
+/* ---------------------------------------------------------------------------- */
+
+/* 책 소개 */
+.detail-text {
+    font-size: 25px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    margin: 0;
+}
+
+/* 접힘상태 */
+.detail-text.closed {
+    max-height: 180px;
+    overflow: hidden;
+    position: relative;
+}
+
+/* 더보기 버튼 */
+.open-toggle {
+    width: 100px;
+    height: 30px;
+    display: block;
+    font-size: 18px;
+    border: none;
+    margin: 15px 0 30px;
+}
+
+
+
+/* ---------------------------------------------------------------------------- */
+
+/* 연관상품 박스 */
+.same-box {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    width: 1080px;
+    height: 550px;
+    border: 1px solid #F7F7F7;
+    border-radius: 30px;
+    background-color: #F7F7F7;
+}
+
+/* 제목 */
+.same-type {
+    font-size: 25px;
+    margin-top: 30px;
+    margin-left: 30px;
+    margin-bottom: 40px;
+}
+
+/* 상품 정렬 */
+.same-product-row {
+    display: flex;
+    justify-content: space-around;
+    margin: 0px 30px;
+    gap: 30px;
+}
+
+/* 상품 개별 */
+.same-product {
+    width: 178px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    
+    text-decoration: none;
+    color: #000;
+
+}
+
+
+/* 연관상품 이미지 */
+.same-img {
+    width: 178px;
+    height: 264px;
+    object-fit: cover;
+}
+
+/* 연관상품 제목 */
+.same-title {
+    width: 178px;
+    height: 60px;
+    font-size: 20px;
+    font-weight: bold;
+
+    text-align: left;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    
+
+}
+
+/* 제작사 작가이름 기타등등 */
+.same-maker {
+    width: 178px;
+    height: 30px;
+
+    font-size: 15px;
+    font-weight: normal;
+
+    text-align: left;
+    color: #7F7F7F;
+}
+
+/* 연관상품 가격 */
+.same-price {
+    width: 178px;
+    height: 30px;
+    
+    font-size: 15px;
+    font-weight: bold;
+    text-align: end;
+}
+
+/* ---------------------------------------------------------------------------- */
+
+/* 후기 */
+.review-box {
+    border: 1px solid red;
+
+    display: flex;
+    justify-content: space-between;
+
+    height: 120px;
+}
+
+/*  */
+.review-user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 50px;
+
+    margin-top: 10px;
+}
+
+.review-user-profile {
+    width: 75px;
+    height: 75px;
+    margin-bottom: 5px;
+}
+.review-user-name {
+    width: 120px;
+    text-align: center;
+    font-size: 15px;
+}
+
+.review-detail {
+    display: flex;
+    flex-direction: column;
+}
+
+.review-star {
+    font-size: 25px;
+    color: #E1B12C;
+}
+
+.review-text {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.review-controll {
+    display: flex;
+    flex-direction: column;
+    text-align: end;
 }
