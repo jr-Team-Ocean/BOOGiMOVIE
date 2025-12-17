@@ -15,7 +15,7 @@ a {
 .blue_background {
     background-color: #082A71;
     width: 100%;
-    height: 100px;
+    height: 90px;
 }
 
 .header_inner {
@@ -35,7 +35,7 @@ a {
 .header_category div {
     margin-right: 40px;
     font-weight: bold;
-    height: 100px;
+    height: 90px;
 
     display: flex;
     align-items: center;
