@@ -10,6 +10,7 @@ a {
 
 /* 전체 컨테이너 (화면 배치) */
 .container {
+    margin-top: 50px;
     width: 1920px;
     display: flex;
     justify-content: center;
@@ -48,10 +49,15 @@ a {
     display: flex;
 }
 
-.check_item_area > input {
+.check_item_area>input {
     width: 20px;
     margin-right: 8px;
     accent-color: #082A71;
+}
+
+/* 전체삭제 */
+.all_delete_item>a {
+    color: black;
 }
 
 /* ================================== */
@@ -94,7 +100,75 @@ a {
 /* ================================== */
 
 /* 아이템 있는 경우 */
+/* 전체 컨테이너: 가로 정렬 */
+.cart-item {
+    display: flex;
+    align-items: flex-start;
+    border-bottom: 1px solid #ddd;
+    padding: 20px 0;
+}
 
+.check-area {
+    margin-right: 15px;
+}
+
+.check-area input {
+    accent-color: #082A71;
+}
+
+.image-area img {
+    width: 130px;
+    height: 170px;
+    margin-right: 20px;
+    border: 1px solid #eee;
+}
+
+/* 남은 공간 모두 차지하도록 */
+.info-area {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 제목과 삭제 버튼 */
+.item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.product_title {
+    margin: 0;
+    font-size: 16px;
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* 수량 조절 */
+.quantity-control {
+    margin-top: 60px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px;
+}
+
+.quantity-control input {
+    width: 60px;
+}
+
+.quantity-control button {
+    width: 20px;
+    background-color: #082A71;
+    color: white;
+    border: none;
+    border-radius: 2px;
+}
 
 
 
@@ -120,7 +194,9 @@ a {
 }
 
 
-.product_price_container,  .delivery_price_container, .last_price_container {
+.product_price_container,
+.delivery_price_container,
+.last_price_container {
     display: flex;
     justify-content: space-between;
     padding: 15px 60px;
@@ -139,7 +215,7 @@ a {
     justify-content: center;
 }
 
-.order_btn > button {
+.order_btn>button {
     border-radius: 5px;
     width: 300px;
     background-color: #E1B12C;
@@ -148,6 +224,6 @@ a {
     color: white;
 }
 
-.order_btn > button:hover {
+.order_btn>button:hover {
     cursor: pointer;
 }
