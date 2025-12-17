@@ -61,52 +61,61 @@
         </div>
     </div>
 
-    <h3 class="h3">영화 상품 등록</h3> 
-    <!-- <form action="#" method="POST"> -->
-    <table class="table-container">
-        <thead>
-            <tr class="table-title">
-                <th>영화제목</th>
-                <th>대표이미지</th>
-                <th>감독</th>
-                <th>출연배우</th>
-                <th>상영시간</th>
-                <th>관람등급</th>
-                <th>제작사</th>
-                <th>개봉일</th>
-                <th>판매가</th>
-                <th>국가</th>
-                <th>카테고리</th>
-                <th>영화소개</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="table-content">
-                <td><input type="text" class="movie-title" placeholder="영화 제목을 입력하세요."></td>
-                <td><img src="../../static/svg/ImageAdd.svg"></td>
-                <td><input name='creator' class='some_class_name' placeholder='감독을 입력해주세요.'></td>
-                <td><input name='actor' class='some_class_name' placeholder='배우를 입력해주세요.'></td>
-                <td><input type="number" class="input">분</td>
-                <td class="td-radio">
-                    <input type="radio" name="filmClass"> 전체관람가
-                    <input type="radio" name="filmClass"> 12세이상 관람가
-                    <input type="radio" name="filmClass"> 15세이상 관람가
-                    <input type="radio" name="filmClass"> 청소년관람불가
-                </td>
-                <td><input name='company' class='some_class_name' placeholder='제작사를 입력해주세요.'></td>
-                <td><input type="date"></td>
-                <td><input type="number" class="input">원</td>
-                <td><input name='nation' class='some_class_name' placeholder='국가를 입력해주세요.'></td>
-                <td>카테고리 선택?</td>
-                <td class="movie-content"><textarea name="" id="" placeholder="내용을 입력하세요."></textarea></td>
-            </tr>
-        </tbody>
-    </table>
-    <div class="button-group">
-        <button type="submit">등록하기</button>
-        <button type="reset">취소</button>
+    <div class="write-container">
+        <div class="table-wrapper">
+            <h3>영화 상품 등록</h3> 
+            <!-- <form action="#" method="POST"> -->
+            <table class="table-container">
+                <thead>
+                    <tr class="table-title">
+                        <th>영화제목</th>
+                        <th>대표이미지</th>
+                        <th>감독</th>
+                        <th>출연배우</th>
+                        <th>상영시간</th>
+                        <th>관람등급</th>
+                        <th>제작사</th>
+                        <th>개봉일</th>
+                        <th>판매가</th>
+                        <th>국가</th>
+                        <th>카테고리</th>
+                        <th class="movie-th">영화소개</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table-content">
+                        <td><input type="text" class="movie-title" placeholder="영화 제목을 입력하세요."></td>
+                        <td><img src="../../static/svg/ImageAdd.svg" id="add-img"></td>
+                        <td><input name='creator' class='some_class_name' placeholder='감독을 입력해주세요.'></td>
+                        <td><input name='actor' class='some_class_name' placeholder='배우를 입력해주세요.'></td>
+                        <td><input type="number" class="input">분</td>
+                        <td class="td-radio">
+                            <input type="radio" name="filmClass"> 전체관람가
+                            <input type="radio" name="filmClass"> 12세이상 관람가
+                            <input type="radio" name="filmClass"> 15세이상 관람가
+                            <input type="radio" name="filmClass"> 청소년관람불가
+                        </td>
+                        <td><input name='company' class='some_class_name' placeholder='제작사를 입력해주세요.'></td>
+                        <td><input type="date"  class="open-date"></td>
+                        <td><input type="number" class="input">원</td>
+                        <td><input name='nation' class='some_class_name' placeholder='국가를 입력해주세요.'></td>
+                        <td>
+                            <select name="movieType">
+                                <option value="DOMESTIC">국내영화</option>
+                                <option value="FOREIGN">해외영화</option>
+                            </select>
+                        </td>
+                        <td class="movie-td"><textarea name="" id="movie-content" placeholder="내용을 입력하세요."></textarea></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="button-group">
+                <button type="submit">등록하기</button>
+                <button type="reset">취소</button>
+            </div>
+            <!-- </form> -->
+        </div>
     </div>
-    <!-- </form> -->
 
     <script src="../../static/js/movie/movie.js"></script>
     

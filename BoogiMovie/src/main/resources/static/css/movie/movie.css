@@ -2,15 +2,28 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-size: 16px;
 }
 
-.h3{
+.write-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.table-wrapper {
+    width: 900px;     
+    display: flex;
+    flex-direction: column;
+}
+
+h3{
     font-size: 24px;
-    margin: 40px 0 30px 100px;
+    margin-bottom: 20px;
 }
 
 table{
-    max-width: 1000px;
+    max-width: 900px;
     height: 100%;
     display: flex;
     justify-content: center;
@@ -32,15 +45,15 @@ tbody{
 
 th{
     width: 100%;
-    height: 80px;
+    height: 70px;
     align-content: center;
 }
 
 td{
     width: 100%;
-    height: 80px;
+    height: 70px;
     align-content: center;
-    padding-left: 30px;
+    padding: 0 30px;
 }
 
 .table-title{
@@ -59,27 +72,37 @@ td{
     width: 100%;
 }
 
+.movie-title{
+    width: 100%;
+    height: 70%;
+    padding: 0 10px;
+}
+
+/* 대표이미지 */
+#add-img{
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+}
+
 .table-content > td{
     border-bottom: 1px solid black;
 }
 
+/* 관람등급 라디오버튼 */
 .td-radio{
     display: flex;
     flex-direction: row;
     align-items: center;
-    flex-wrap: wrap;
     gap: 8px;
-}
-
-.some_class_name{
-    width: 400px;
 }
 
 .td-radio > input{
     margin-left: 20px;
 }
 
-.movie-title{
+/* 태그 */
+.some_class_name{
     width: 400px;
 }
 
@@ -90,8 +113,32 @@ td{
     padding-left: 5px;
 }
 
+/* 개봉일 */
+.open-date{
+    width: 150px;
+    height: 70%;
+    padding-left: 10px;
+}
+
+/* 영화소개 */
+#movie-content{
+    width: 100%;
+    height: 90%;
+    padding: 10px;
+    resize: none;
+    overflow: auto;
+}
+
+/* 버튼 */
+.button-group{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
 button[type='submit']{
-    margin: 40px 0;
+    margin: 20px 0;
     font-weight: bold;
     width: 110px;
     height: 40px;
@@ -113,6 +160,8 @@ button[type='reset']{
     cursor: pointer;
 }
 
-.button-group{
-    position: relative;
+.movie-th, .movie-td{
+    height: 300px;
 }
+
+/* 카테고리 */
