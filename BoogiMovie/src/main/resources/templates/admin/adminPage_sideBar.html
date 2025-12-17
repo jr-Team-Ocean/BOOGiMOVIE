@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../static/css/admin/adminPage_sideBar.css">
+    <link rel="stylesheet" href="../../static/css/common/font.css">
+</head>
+<body>
+
+    <!-- 전체 사이드 영역 -->
+    <div class="admin_page_side_container">
+
+        <!-- 대시보드 -->
+        <!-- 타임리프로 변경시 아래 코드 추가 예정 (JS 사용 X) -->
+        <!-- th:classappend="${activeMenu == 'profile'} ? 'active_admin_page'" -->
+        <div class="admin_profile_setting_container active_admin_page">
+            <img src="../../static/svg/dashBoard_icon.svg" alt="">
+            <div class="admin_page_menu bold">대시보드</div>
+        </div>
+
+        <!-- 신고 관리 -->
+        <div class="admin_wish_list_container">
+            <img src="../../static/svg/reportManage_icon.svg" alt="">
+            <div class="admin_page_menu bold">신고 관리</div>
+        </div>
+
+        <!-- 1:1 문의 -->
+        <div class="user_secession_container">
+            <img src="../../static/svg/inquiry_icon.svg" alt="">
+            <div class="admin_page_menu bold">1:1 문의</div>
+        </div>
+
+        <!-- 홈페이지 -->
+        <div class="user_secession_container">
+            <img src="../../static/svg/homePage_icon.svg" alt="">
+            <div class="admin_page_menu bold">홈페이지</div>
+        </div>
+    </div>
+
+</body>
+</html>
