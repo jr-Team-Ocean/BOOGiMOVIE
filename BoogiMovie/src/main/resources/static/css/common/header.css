@@ -6,7 +6,6 @@
 
 a {
     text-decoration: none;
-    font-size: 18px;
 }
 
 .white {
@@ -45,7 +44,8 @@ a {
 
     padding: 25px;
     border-radius: 15px 15px 0 0;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s ease;
+
 }
 
 .header_login div {
@@ -55,9 +55,9 @@ a {
 /* 로고 및 검색바 */
 .logo_search_container {
     display: flex;
-    justify-content: center;
     align-items: center;
     margin-top: 30px;
+    margin-left: 360px;
     width: 1200px;
 }
 
