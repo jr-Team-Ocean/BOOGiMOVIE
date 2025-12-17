@@ -75,5 +75,4 @@ function onTagifyFocusBlur(e){
 
 function onDropdownSelect(e){
     console.log("onDropdownSelect: ", e.detail)
-
 }
