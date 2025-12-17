@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/css/common/header.css">
+    <link rel="stylesheet" href="../../static/css/movie/movie.css">
+    <title>영화상품 등록</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    
+    <!-- Tagify -->
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+    <!-- 헤더 -->
+    <div class="header_container">
+        <div class="blue_background">
+            <div class="header_inner">
+                <div class="header_category">
+                    <!-- 선택에 따른 효과 - 타임리프(경로에 따른 효과 주기로 변경 예정) -->
+                    <div class="header_active"><a href="#">홈</a></div>
+                    <div><a href="#">도서</a></div>
+                    <div><a href="#">중고도서</a></div>
+                    <div><a href="#">영화</a></div>
+                </div>
+
+                <div class="header_login">
+                    <div><a href="#">로그인</a></div>
+                    <div><a href="#">회원가입</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 로고 및 검색바 -->
+    <div class="logo_search_container">
+        <!-- 로고 -->
+        <div class="logo_container">
+            <a href="#"><img src="../../static/images/common/logo_basic.png" alt=""></a>
+        </div>
+
+        <!-- 검색바 전체 자리 -->
+        <div class="search_container">
+            <!-- 검색 아이콘 -->
+            <div class="search_icon">
+                <img src="../../static/svg/search_icon.svg" alt="">
+            </div>
+
+            <!-- 검색란 -->
+            <div class="search_input">
+                <input type="text" placeholder="원하는 작품을 검색해 보세요!">
+            </div>
+        </div>
+    </div>
+
+    <h3>영화 상품 등록</h3> 
+    <!-- <form action="#" method="POST"> -->
+        <table>
+            <tbody>
+                <tr>
+                    <th>영화제목</th>
+                    <td class="input"><input type="text" placeholder="영화 제목을 입력하세요."></td>
+                </tr>
+                <tr>
+                    <th>대표 이미지</th>
+                    <td><img src="../../static/images/movie/ImageAdd.svg"></td>
+                </tr>
+                <tr>
+                    <th>감독</th>
+                    <td class="input"><input type="text"></td>
+                </tr>
+                <tr>
+                    <th>출연배우</th>
+                    <td class="input"><input type="text"></td>
+                </tr>
+                <tr>
+                    <th>상영시간</th>
+                    <td><input type="text">분</td>
+                </tr>
+                <tr>
+                    <th>관람등급</th>
+                    <td>
+                        <input type="radio" name="filmClass"> 전체관람가
+                        <input type="radio" name="filmClass"> 12세이상 관람가
+                        <input type="radio" name="filmClass"> 15세이상 관람가
+                        <input type="radio" name="filmClass"> 청소년관람불가
+                    </td>
+                </tr>
+                <tr>
+                    <th>제작사</th>
+                    <td class="input"><input type="text"></td>
+                </tr>
+                <tr>
+                    <th>개봉일</th>
+                    <td>
+                        <input type="date">
+                    </td>
+                </tr>
+                <tr>
+                    <th>판매가</th>
+                    <td><input type="text">원</td>
+                </tr>
+                <tr>
+                    <th>국가</th>
+                    <td class="input"><input name='input' class='some_class_name' placeholder='국가을 입력해주세요.'></td>
+                </tr>
+                <tr>
+                    <tr>
+                        <th>카테고리</th>
+                        <td>카테고리 선택?</td>
+                    </tr>
+                </tr>
+                <tr>
+                    <th>영화소개</th>
+                    <td class="movie-content"><textarea name="" id="" placeholder="내용을 입력하세요."></textarea></td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="submit">등록하기</button>
+        <button type="reset">취소</button>
+    <!-- </form> -->
+
+    <script src="../../static/js/movie/movie.js"></script>
+    
+</body>
+</html>
