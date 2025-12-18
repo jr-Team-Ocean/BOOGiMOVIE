@@ -1,0 +1,144 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.movie-container{
+    width: 1200px;
+    margin: auto;
+}
+
+/* 네비게이션 */
+.movie-header{
+    width: 1200px;
+    height: 100%;
+}
+
+.movie-header a{
+    text-decoration: none;
+}
+
+.nav-container{
+    border-bottom: 2px solid #5170B0 ;
+}
+
+.nav{
+    height: 50px;
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item{
+    width: 100px;
+    text-align: center;
+    padding: 10px;
+    border: 2px solid #B3B3B3;
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+    background-color: #fff;
+    cursor: pointer;
+    margin-right: 2px;
+}
+
+.nav-item.active {
+  border-color: #5170B0;
+  font-weight: bold;
+  position: relative;
+  top: 2px; /* 아래 라인이랑 자연스럽게 연결 */
+}
+
+.nav-item:hover{
+    border-color: #5170B0;
+}
+
+.nav-link{
+    color: #565050;
+}
+
+.nav-link.active{
+    color: #5170B0;
+}
+
+/* 최신순, 미니검색 */
+.list-top-area{
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0;
+}
+
+#list-sort{
+    width: 80px;
+    height: 45px;
+    padding: 0 5px;
+}
+
+#mini-search-input{
+    width: 300px;
+    height: 45px;
+    border: 2px solid #5170B0;
+    padding-left: 10px;
+}
+
+#mini-search-btn{
+    width: 80px;
+    height: 45px;
+    color: white;
+    font-weight: bolder;
+    background: #5170B0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 카드 이미지 */
+.card-group{
+    display: flex;
+    justify-self: left;
+    gap: 95px;
+}
+
+.card {
+    width: 160px;
+    margin: 0 0 30px 0;
+}
+
+.card-img-top{
+    border: 1px solid #b2b2b2;
+    border-radius: 10px;
+}
+
+.card-body{
+    padding-left: 5px;
+}
+
+.card-body > span{
+    margin: 0 5px;
+}
+
+.card-title{
+    font-weight: bold;
+    text-align: left;
+}
+
+.btn-area{
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* 글쓰기 버튼 */
+#write-btn{
+    margin: 10px 0;
+    font-weight: bold;
+    width: 100px;
+    height: 40px;
+    padding: 5px;
+    background-color: #082A71;
+    color: #ffff;
+    border-radius: 5px;
+    border: 1px solid #082A71;
+    cursor: pointer;
+}
