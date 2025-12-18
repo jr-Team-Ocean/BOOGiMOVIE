@@ -1,0 +1,17 @@
+.pagination{
+    margin: 50px 0;
+}
+
+.pagination-list{
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    gap: 25px;
+    justify-content: center;
+}
+
+.pagination-link{
+    color: #5170B0;
+    font-weight: bold;
+    font-size: 20px;
+}

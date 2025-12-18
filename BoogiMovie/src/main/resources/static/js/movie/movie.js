@@ -76,3 +76,11 @@ function onTagifyFocusBlur(e){
 function onDropdownSelect(e){
     console.log("onDropdownSelect: ", e.detail)
 }
+
+// ======================================================
+// 이미지 등록
+const addImg = document.getElementById('add-img')
+
+addImg.addEventListener('click', ()=>{
+    
+})
