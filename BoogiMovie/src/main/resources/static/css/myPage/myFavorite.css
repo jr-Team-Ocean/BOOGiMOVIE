@@ -1,0 +1,117 @@
+body {
+    padding: 0;
+    margin: 0 auto; 
+}
+
+.body_container {
+    display: flex;
+    flex-direction: row;
+}
+
+main {
+    width: 100%;    
+    max-width: 1200px;
+    padding-left: 30px;    
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); 
+
+}
+
+.section_header {
+    text-align: center;
+    margin-bottom: 50px;    
+}
+
+.select_container {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 180px;
+}
+
+.search_order {
+    width: 70px;
+    height: 30px;
+    text-align: center;
+    border-radius: 7px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+}
+
+.search_box_menu {
+    display: flex;
+    margin: 0 120px;    
+    text-align: center;
+    
+}
+
+
+h5 {
+    width: 100%;
+    padding: 7px;    
+    background-color: rgb(66, 66, 116);    
+    color: white;
+}
+
+.search_box_content {      
+    margin-left: 250px;  
+    margin-top: 5px;      
+    font-size: 13px;      
+    border-bottom: 1px solid black;            
+}
+
+.search_box_content .search_box img {
+    width: 40px;
+    height: 40px;    
+}
+
+.span_search_box {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    
+}
+
+/* .title {
+    font-weight: bold;
+}
+
+.writer {
+    margin-left: 50px;
+    margin-bottom: 20px;
+} */
+
+
+/*페이지네이션*/
+.pagination {
+    display: flex;
+    justify-content: center;
+    max-width: 100%;
+    margin: 30px 0;
+    width: 100%;
+    margin-top: 70px;
+}
+
+.pagination ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    gap: 15px;
+}
+
+.pagination a {
+    width: 35px;
+    height: 35px;
+    text-decoration: none;    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    
+
+}
+
+.pagination a:hover,
+.pagination a.active {
+    background-color: #082A71;
+    color: white;
+    border-color: #082A71;
+}
