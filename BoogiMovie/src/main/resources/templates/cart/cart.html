@@ -57,7 +57,7 @@
                 </div>
 
                 <!-- 아이템 없는 경우 -->
-                <!-- <div class="no_item_container">
+                <!-- <div class="no_item_container hide">
                      <div class="no_item_icon">
                          <img src="../../static/svg/danger_icon.svg" alt="">
                      </div>
@@ -71,6 +71,7 @@
                 <!-- 아이템 하나 -->
                 <div class="cart-item">
                     <div class="check-area">
+                        <!-- 개별 아이템 선택 체크박스 -->
                         <input type="checkbox" class="product_del_checkbox">
                     </div>
 
@@ -83,17 +84,17 @@
                         <div class="item-header">
                             <!-- [도서 / 영화 / 중고도서] 조건 나눠서 대괄호 안에 넣어줘야 함 -->
                             <h3 class="product_title">[도서] 개발자 생존법</h3>
-                            <button class="delete-btn">삭제</button>
+                            <button class="delete_btn">삭제</button>
                         </div>
 
-                        <p class="product_price">18,200원</p>
+                        <div class="product_price">18,200원</div>
 
                         <div class="quantity-control">
                             <span>수량</span>
                             <div class="inputs">
-                                <button>-</button>
-                                <input type="text" value="1" readonly>
-                                <button>+</button>
+                                <button class="quantity_minus">-</button>
+                                <input type="text" value="1" readonly class="quantity_input">
+                                <button class="quantity_plus">+</button>
                             </div>
                             <span>개</span>
                         </div>
@@ -115,17 +116,17 @@
                         <div class="item-header">
                             <!-- [도서 / 영화 / 중고도서] 조건 나눠서 대괄호 안에 넣어줘야 함 -->
                             <h3 class="product_title">[영화] 루퍼</h3>
-                            <button class="delete-btn">삭제</button>
+                            <button class="delete_btn">삭제</button>
                         </div>
 
-                        <p class="product_price">7,000원</p>
+                        <div class="product_price">7,000원</div>
 
                         <div class="quantity-control">
                             <span>수량</span>
                             <div class="inputs">
-                                <button>-</button>
-                                <input type="text" value="1" readonly>
-                                <button>+</button>
+                                <button class="quantity_minus">-</button>
+                                <input type="text" value="1" readonly class="quantity_input">
+                                <button class="quantity_plus">+</button>
                             </div>
                             <span>개</span>
                         </div>
@@ -140,13 +141,13 @@
                 <!-- 상품 금액 -->
                 <div class="product_price_container">
                     <div class="font-18px bold">상품 금액</div>
-                    <div class="font-18px bold">28,000원</div>
+                    <div class="total_product_price font-18px bold">0원</div>
                 </div>
 
                 <!-- 배송비 -->
                 <div class="delivery_price_container">
                     <div>배송비</div>
-                    <div>0원</div>
+                    <div class="delivery_price">0원</div>
                 </div>
 
                 <div class="mini_line"></div>
@@ -154,7 +155,7 @@
                 <!-- 결제 예정 금액 -->
                 <div class="last_price_container">
                     <div class="bold">결제 예정 금액</div>
-                    <div class="bold">0원</div>
+                    <div class="final_price bold">0원</div>
                 </div>
 
                 <!-- 주문하기 버튼 -->
@@ -165,6 +166,8 @@
 
         </div>
     </div>
+
+    <script src="../../static/js/cart/cart.js"></script>
 </body>
 
 </html>
