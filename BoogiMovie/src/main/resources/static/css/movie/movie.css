@@ -2,19 +2,166 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-size: 16px;
+}
+
+.write-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.table-wrapper {
+    width: 900px;     
+    display: flex;
+    flex-direction: column;
+}
+
+h3{
+    font-size: 24px;
+    margin-bottom: 20px;
 }
 
 table{
-    max-width: 1200px;
+    max-width: 900px;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+thead{
+    width: 150px;
     border: 1px solid black;
+    background-color: #F1F1F1;
+}
+
+tbody{
+    width: 100%;
+    border: 1px solid black;
+    border-left: 1px solid white;
 }
 
 th{
-    border-bottom: 1px solid black;
+    width: 100%;
+    height: 70px;
+    align-content: center;
 }
 
 td{
+    width: 100%;
+    height: 70px;
+    align-content: center;
+    padding: 0 30px;
+}
+
+.table-title{
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+}
+
+.table-title > th{
     border-bottom: 1px solid black;
 }
 
+.table-content{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.movie-title{
+    width: 100%;
+    height: 70%;
+    padding: 0 10px;
+}
+
+/* 대표이미지 */
+#add-img{
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+}
+
+.table-content > td{
+    border-bottom: 1px solid black;
+}
+
+/* 관람등급 라디오버튼 */
+.td-radio{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+.td-radio > input{
+    margin-left: 20px;
+}
+
+/* 태그 */
+.some_class_name{
+    width: 400px;
+}
+
+.input{
+    width: 70px;
+    height: 30px;
+    margin-right: 5px;
+    padding-left: 5px;
+}
+
+/* 개봉일 */
+.open-date{
+    width: 150px;
+    height: 70%;
+    padding-left: 10px;
+}
+
+/* 영화소개 */
+#movie-content{
+    width: 100%;
+    height: 90%;
+    padding: 10px;
+    resize: none;
+    overflow: auto;
+}
+
+/* 버튼 */
+.button-group{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+button[type='submit']{
+    margin: 20px 0;
+    font-weight: bold;
+    width: 110px;
+    height: 40px;
+    padding: 5px;
+    background-color: #082A71;
+    color: #ffff;
+    border-radius: 5px;
+    border: 1px solid #082A71;
+    cursor: pointer;
+}
+
+button[type='reset']{
+    width: 80px;
+    height: 40px;
+    padding: 5px;
+    font-weight: bold;
+    border: 1px solid gray;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.movie-th, .movie-td{
+    height: 300px;
+}
+
+/* 카테고리 */
