@@ -1,0 +1,93 @@
+/* 기본 초기화 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* 전체 컨테이너 (화면 중앙 정렬) */
+.pay_completed_container {
+    display: flex;
+    justify-content: center;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.inner_container {
+    width: 1200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 결제 완료 문구 */
+.pay_completed_text {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.pay_completed_text img {
+    margin-bottom: 20px;
+}
+
+.complete_msg {
+    font-size: 28px;
+    font-weight: bold;
+    color: #5170B1;
+}
+
+/* 배송 및 결제정보 컨테이너 */
+.pay_info_container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 80px;
+}
+
+/* 왼쪽, 오른쪽 컬럼 공통 */
+.info_column {
+    flex: 1;
+}
+
+.margin {
+    margin-right: 90px;
+}
+
+/* 섹션 타이틀 (배송정보, 결제정보) */
+.section_title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #000;
+}
+
+.info_row {
+    display: flex;
+    padding: 15px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #5170B1;
+    font-size: 15px;
+}
+
+/* 왼쪽 라벨 (주문자, 배송지 등) */
+.info_row .label {
+    width: 100px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 오른쪽 내용 */
+.info_row .content {
+    flex: 1;
+    color: #555;
+    line-height: 1.5;
+}
+
+.info_row .content .phone {
+    margin-left: 15px;
+}
+
+.price {
+    font-weight: 500;
+}

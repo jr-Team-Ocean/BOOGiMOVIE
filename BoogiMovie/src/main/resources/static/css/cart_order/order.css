@@ -1,0 +1,221 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+.red {
+    color: red;
+    margin-right: 5px;
+}
+
+/* 전체 컨테이너 */
+.order_container {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* ======================================================== */
+/* ======================================================== */
+
+/* 배송 정보 */
+.order_info_container {
+    display: flex;
+    flex-direction: column;
+}
+
+.order_info_box {
+    margin-top: 10px;
+    border: 2px solid #5170B1;
+    border-radius: 5px;
+
+    width: 1200px;
+    height: 280px;
+
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 80px;
+}
+
+/* input 공통 속성 */
+.orderer_input {
+    border-radius: 5px;
+    border: 1px solid #5170B1;
+    height: 45px;
+    padding: 8px;
+}
+
+.orderer_input:focus {
+    outline: 1px solid #082A71;
+}
+
+/* 소제목 정보 텍스트 공통 속성 */
+.info_text {
+    margin-bottom: 7px;
+}
+
+/* 양쪽 영역 높이 */
+.orderer_left_container, .orderer_right_container {
+    height: 185px;
+}
+
+/* 왼쪽 영역 (주문자 및 요청사항) */
+.orderer_left_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* 주문자 영역 */
+.orderer_name {
+    width: 130px;
+}
+
+.orderer_phone {
+    width: 250px;
+}
+
+/* 요청사항 */
+.order_request {
+    width: 383px;
+}
+
+/* 주소 영역 */
+.orderer_address_area {
+    display: flex;
+    flex-direction: column;
+}
+
+.orderer_address_area div {
+    margin-bottom: 10px;
+}
+
+.orderer_address_area div > input {
+    height: 45px;
+}
+
+/* 우편번호 */
+.orderer_post {
+    width: 300px;
+}
+
+/* 도로명/상세주소 */
+.orderer_address, .orderer_detail_address {
+    width: 400px;
+}
+
+.find_address_btn {
+    width: 95px;
+    border: none;
+    border-radius: 5px;
+    background-color: #5170B1;
+    color: white;
+    height: 45px;
+}
+
+.find_address_btn:hover {
+    cursor: pointer;
+}
+
+
+/* ======================================================== */
+/* ======================================================== */
+
+/* 주문정보 및 결제수단 */
+.order_pay_container {
+    width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+}
+
+.order_product_container, .payment_container {
+    border: 2px solid #5170B1;
+    border-radius: 5px;
+    padding: 30px 60px;
+    display: flex;
+    margin-top: 10px;
+}
+
+/* 주문정보 */
+.order_info_left_container {
+    width: 65%;
+    margin-right: 50px;
+}
+
+/* 이미지 */
+.order_product_container div:first-child {
+    border-radius: 1px solid #B3B3B3;
+}
+
+/* 오른쪽 영역 (상품 정보) */
+.product_info_container {
+    width: 500px;
+    margin-left: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+/* 상품명 */
+.product_title {
+    width: 300px;
+}
+
+
+/* =========================================== */
+/* =========================================== */
+
+/* 오른쪽 영역 */
+.order_info_right_container {
+    width: 35%;
+}
+
+/* 결제수단 */
+.payment_container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.payment > div {
+    margin-bottom: 10px;
+}
+
+/* 결제 및 취소 버튼 */
+.btn_area {
+    display: flex;
+    flex-direction: column;
+}
+
+.btn_area button {
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    height: 45px;
+    margin-top: 10px;
+    border: none;
+    font-size: 16px;
+}
+
+/* 결제하기 */
+.btn_area button:first-child {
+    background-color: #082A71;
+}
+
+/* 결제취소 */
+.btn_area button:last-child {
+    background-color: #7F7F7F;
+}
+
+.btn_area button:hover {
+    cursor: pointer;
+}

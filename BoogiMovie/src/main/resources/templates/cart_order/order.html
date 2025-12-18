@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery</title>
+    <link rel="stylesheet" href="../../static/css/cart_order/order.css">
+    <link rel="stylesheet" href="../../static/css/common/font.css">
+    <link rel="stylesheet" href="../../static/css/common/header.css">
+</head>
+
+<body>
+
+    <div class="header_container">
+        <div class="blue_background">
+            <div class="header_inner">
+                <div class="header_category">
+                    <!-- 선택에 따른 효과 - 타임리프(경로에 따른 효과 주기로 변경 예정) -->
+                    <div class="header_active"><a href="#" class="white font-18px">홈</a></div>
+                    <div><a href="#" class="white font-18px">도서</a></div>
+                    <div><a href="#" class="white font-18px">중고도서</a></div>
+                    <div><a href="#" class="white font-18px">영화</a></div>
+                </div>
+
+                <div class="header_login">
+                    <div><a href="#" class="white font-18px">로그인</a></div>
+                    <div><a href="#" class="white font-18px">회원가입</a></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- 전체 컨테이너 -->
+    <div class="order_container">
+
+        <!-- 배송 정보 -->
+        <div class="order_info_container">
+            <div class="font-20px bold">배송정보</div>
+
+            <!-- 테두리 -->
+            <div class="order_info_box">
+
+                <!-- 왼쪽 영역 (주문자 및 요청사항) -->
+                <div class="orderer_left_container">
+                    <!-- 주문자 영역 -->
+                    <div class="orderer_container">
+                        <div class="info_text">
+                            <span class="red">*</span><span>주문자</span>
+                        </div>
+                        <div class="orderer_info">
+                            <input type="text" placeholder="주문자명" class="orderer_name orderer_input">
+                            <input type="text" placeholder="연락처('-' 포함)" class="orderer_phone orderer_input">
+                        </div>
+                    </div>
+
+                    <!-- 요청사항 -->
+                    <div class="orderer_request_container">
+                        <div class="info_text">요청사항 (선택)</div>
+                        <div>
+                            <input type="text" placeholder="요청사항을 작성해 주세요. (최대 30자)"
+                                class="order_request orderer_input">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 오른쪽 영역 (주소) -->
+                <div class="orderer_right_container">
+                    <div class="info_text">
+                        <span class="red">*</span><span>주소</span>
+                    </div>
+                    <!-- 주소 영역 -->
+                    <div class="orderer_address_area">
+                        <!-- 우편번호 및 주소찾기 -->
+                        <div>
+                            <input type="text" placeholder="우편번호" class="orderer_input orderer_post">
+                            <button class="find_address_btn bold">주소 찾기</button>
+                        </div>
+                        <!-- 도로명 주소 -->
+                        <div>
+                            <input type="text" placeholder="도로명 주소" class="orderer_input orderer_address">
+                        </div>
+                        <!-- 상세주소 -->
+                        <div>
+                            <input type="text" placeholder="상세 주소" class="orderer_input orderer_detail_address">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 주문정보 및 결제수단 -->
+        <div class="order_pay_container">
+
+            <!-- 왼쪽 영역 (주문 정보) -->
+            <div class="order_info_left_container">
+                <div class="font-20px bold">주문정보</div>
+
+                <!-- 상품 하나 -->
+                <div class="order_product_container">
+                    <!-- 왼쪽 영역 (상품 이미지) -->
+                    <div>
+                        <img src="../../static/images/cart/mock_book1.png" alt="">
+                    </div>
+    
+                    <!-- 오른쪽 영역 (상품 정보) -->
+                    <div class="product_info_container">
+                        <div class="product_title bold font-18px">바이브 코딩 너머 개발자 생존법</div>
+    
+                        <div class="quantity_price_container">
+                            <div>
+                                <span>수량</span> <span>1개</span>
+                            </div>
+                            <div>18,200원</div>
+                        </div>
+    
+                    </div>
+                </div>
+
+                <div class="order_product_container">
+                    <!-- 왼쪽 영역 (상품 이미지) -->
+                    <div>
+                        <img src="../../static/images/cart/mock_book2.png" alt="">
+                    </div>
+    
+                    <!-- 오른쪽 영역 (상품 정보) -->
+                    <div class="product_info_container">
+                        <div class="product_title bold font-18px">루퍼</div>
+    
+                        <div class="quantity_price_container">
+                            <div>
+                                <span>수량</span> <span>1개</span>
+                            </div>
+                            <div>9,000원</div>
+                        </div>
+    
+                    </div>
+                </div>
+
+            </div> <!-- 왼쪽 end -->
+
+            <!-- 오른쪽 영역 (결제 수단) -->
+            <div class="order_info_right_container">
+                <div class="font-20px bold">결제수단</div>
+
+                <div class="payment_container">
+                    <div class="payment">
+                        <div>
+                            <input type="radio" name="payments" value="simple" id="simple">
+                            <label for="simple">간편 결제</label> 
+                        </div>
+                        <div>
+                            <input type="radio" name="payments" value="card" id="card">
+                            <label for="card">카드 결제</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 결제 및 취소 버튼 -->
+                <div class="btn_area">
+                    <button><span>18,200원 </span>결제하기</button>
+                    <button>결제취소</button>
+                </div>
+            </div> <!-- 오른쪽 end -->
+        </div>
+    </div>
+
+
+
+
+<footer class="footer">
+  <div class="footer-in">
+
+    <!-- 상단 링크 -->
+    <nav class="ft-toplinks" aria-label="Ft links">
+      <a href="#">회사소개</a>
+      <span class="sep">|</span>
+      <a href="#">서비스 소개</a>
+      <span class="sep">|</span>
+      <a href="#">이용약관</a>
+      <span class="sep">|</span>
+      <a href="#">개인정보처리방침</a>
+      <span class="sep">|</span>
+      <a href="#">청소년보호정책</a>
+      <span class="sep">|</span>
+      <a href="#">채용정보</a>
+      <span class="sep">|</span>
+      <a href="#">광고문의</a>
+    </nav>
+
+    <div class="footer-main">
+      <!-- 좌측 로고 -->
+      <div class="footer-brand" aria-label="BOOGIMOVIE">
+        <img src="../../static/images/common/logo_white.png" alt="">
+      </div>
+
+      <!-- 회사 정보 -->
+      <div class="footer-info">
+        <div class="info-row">
+          <span class="info-title">(주)BOOGIMOVIE</span>
+        </div>
+
+        <div class="info-row">
+          <span>서울특별시 종로구 우정국로2길 21 9층, 903호</span>
+        </div>
+
+        <div class="info-row">
+          <span>대표자: (발신자부담) 1544-0000(부기문고) · 1661-1112(핫트랙스)</span>
+        </div>
+
+        <div class="info-row">
+          <span>이메일: boogi@naver.com</span>
+        </div>
+
+        <div class="info-row">
+          <span>대표 FAX: 2025-012-0801</span>
+        </div>
+
+        <div class="info-row">
+          <span>사업자등록번호: 102-81-11670</span>
+        </div>
+
+        <div class="info-row">
+          <span>통신판매업신고: 0000 - 서울 종로구 - 00000</span>
+        </div>
+
+        <div class="info-row">
+          <span>개인정보관리 책임자: 김무비</span>
+        </div>
+
+        <div class="info-row copyright">
+          © BOOGIMOVIE CENTRE
+        </div>
+      </div>
+
+      <!-- 우측 SNS -->
+      <div class="footer-sns" aria-label="Social links">
+        <a class="sns-btn" href="#" aria-label="KakaoTalk"><img src="../../static/svg/footer-kakao.svg" alt=""></a>
+        <a class="sns-btn" href="#" aria-label="Facebook"><img src="../../static/svg/footer-facebook.svg" alt=""></a>
+        <a class="sns-btn" href="https://www.instagram.com/dog___foooot?igsh=MTlyc3lpc3Y3c3FqMA==" aria-label="Instagram"><img src="../../static/svg/footer-instagram.svg" alt=""></a>
+        <a class="sns-btn" href="#" aria-label="YouTube"><img src="../../static/svg/footer-youtube.svg" alt=""></a>
+      </div>
+    </div>
+  </div>
+</footer>
+<link rel="stylesheet" href="../../static/css/common/footer.css">
+</body>
+
+</html>
