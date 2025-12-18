@@ -5,10 +5,16 @@ body {
     padding: 0;
 }
 
+.body_container {
+    display: flex;
+    flex-direction: row;
+}
+
 main {
-    width: 100%;
-    max-width: 1400px;
-    margin: 25px auto;
+    flex: 1;
+    margin-right: 18%;    
+    padding: 10px 30px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); 
 }
 
 fieldset {
@@ -19,7 +25,7 @@ fieldset {
     gap: 10px;
     margin-left: 10px;
     padding: 10px;
-    width: 670px;
+    width: 730px;
     height: 80px;
     margin-bottom: 50px;
     border-radius: 7px;
@@ -170,7 +176,6 @@ table button:hover
     margin: 30px 0;
     width: 100%;
     margin-top: 70px;
-    margin-bottom: 100px;
 }
 
 .pagination ul {
