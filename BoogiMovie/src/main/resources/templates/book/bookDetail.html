@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../../static/css/common/header.css">
     <link rel="stylesheet" href="../../static/css/common/footer.css">
     <link rel="stylesheet" href="../../static/css/book/bookDetail-style.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -304,8 +304,61 @@
                     <!-- 후기 페이지 -->
                     <section class="review-area">
 
-                        <button class="review-write-btn">후기 작성</button>
+
                         
+                        <!-- 후기 작성 화면 구역 -->
+                        <section class="review-write-area">
+                            
+                            <!-- 상단 -->
+                            <div class="review-write-top">
+                                <button class="review-write-btn">후기 작성</button>
+
+                                <div class="review-star">
+                                    <label class="review-star-label" for="star-01">
+                                        <input type="radio" class="review-star-input" name="star" id="star-01">
+                                        <span class="star-icon"></span>
+                                    </label>
+                                    <label class="review-star-label" for="star-02">
+                                        <input type="radio" class="review-star-input" name="star" id="star-02">
+                                        <span class="star-icon"></span>
+                                    </label>
+                                    <label class="review-star-label" for="star-03">
+                                        <input type="radio" class="review-star-input" name="star" id="star-03">
+                                        <span class="star-icon"></span>
+                                    </label>
+                                    <label class="review-star-label" for="star-04">
+                                        <input type="radio" class="review-star-input" name="star" id="star-04">
+                                        <span class="star-icon"></span>
+                                    </label>
+                                    <label class="review-star-label" for="star-05">
+                                        <input type="radio" class="review-star-input" name="star" id="star-05">
+                                        <span class="star-icon"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- 작성 내용 -->
+                            <div class="review-write-box">
+                                <input type="text" 
+                                       class="review-write-input"
+                                       placeholder="후기를 작성해주세요!"
+                                >
+                            </div>
+
+                            <!-- 등록 취소 -->
+                            <div class="review-write-controller">
+                                <button class="review-write-submit">등록</button>
+                                <button class="review-write-cancel">취소</button>
+                            </div>
+
+                        </section>
+                        
+
+
+
+
+
+
                         <!-- 작성된 후기가 없는 경우 -->
                         <div class="no-review">
                             <hr>
@@ -329,8 +382,12 @@
                                 <section class="review-detail">
                                     
                                     <!-- 별점 -->
-                                    <div class="review-star">
-                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                    <div class="review-star readonly">
+                                        <span class="star-icon filled"></span>
+                                        <span class="star-icon filled"></span>
+                                        <span class="star-icon filled"></span>
+                                        <span class="star-icon"></span>
+                                        <span class="star-icon"></span>
                                     </div>
     
                                     <!-- 내용 -->
@@ -374,7 +431,26 @@
                                     
                                     <!-- 별점 -->
                                     <div class="review-star">
-                                        <span>★</span><span>★</span><span>★</span><span>☆</span><span>☆</span>
+                                        <label class="review-star-label" for="star-01">
+                                            <input type="radio" class="review-star-input" name="star" id="star-01">
+                                            <span class="star-icon"></span>
+                                        </label>
+                                        <label class="review-star-label" for="star-02">
+                                            <input type="radio" class="review-star-input" name="star" id="star-02">
+                                            <span class="star-icon"></span>
+                                        </label>
+                                        <label class="review-star-label" for="star-03">
+                                            <input type="radio" class="review-star-input" name="star" id="star-03">
+                                            <span class="star-icon"></span>
+                                        </label>
+                                        <label class="review-star-label" for="star-04">
+                                            <input type="radio" class="review-star-input" name="star" id="star-04">
+                                            <span class="star-icon"></span>
+                                        </label>
+                                        <label class="review-star-label" for="star-05">
+                                            <input type="radio" class="review-star-input" name="star" id="star-05">
+                                            <span class="star-icon"></span>
+                                        </label>
                                     </div>
     
                                     <!-- 내용 -->

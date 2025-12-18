@@ -227,12 +227,14 @@ main {
 
 .tab-content {
     margin-top: 50px;
+    font-family: 'Noto Sans KR', sans-serif;
 }
 
 /* ---------------------------------------------------------------------------- */
 
 /* 책 소개 */
 .detail-text {
+    font-family: 'Noto Sans KR', sans-serif;
     font-size: 25px;
     line-height: 1.5;
     white-space: pre-wrap;
@@ -348,9 +350,26 @@ main {
 
 /* ---------------------------------------------------------------------------- */
 
+/* 후기 작성 버튼 */
+.review-write-btn {
+    width: 150px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #5170B0;
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+
+}
+
+
+
+
 /* 후기 */
 .review-box {
-    border: 1px solid red;
+
+    border-bottom: 1px solid #777;
 
     display: flex;
     justify-content: space-between;
@@ -358,11 +377,12 @@ main {
     height: 120px;
 }
 
-/*  */
+/* 후기 유저 부분 */
 .review-user {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: left;
     margin-left: 50px;
 
     margin-top: 10px;
@@ -382,20 +402,92 @@ main {
 .review-detail {
     display: flex;
     flex-direction: column;
+    flex: 1;
+    margin-left: 10px;
 }
 
 .review-star {
-    font-size: 25px;
-    color: #E1B12C;
+    margin-top: 5px;
+
 }
+
+/* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+.review-star-input {
+    display: none;
+}
+
+.review-star-label .star-icon {
+    width: 30px;
+    height: 30px;
+    display: block;
+    position: relative;
+    left: 0;
+    background-image: url(../../svg/review-star-empty.svg);
+    background-repeat: no-repeat;
+    background-size: 30px;
+    
+}
+
+.review-star-label .star-icon.filled {
+    background-image: url(../../svg/review-star-filled.svg);
+}
+
+.review-star.readonly .star-icon {
+  opacity: 0.7;
+  cursor: default;
+}
+/* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+
+
 
 .review-text {
     font-size: 20px;
     font-weight: 500;
 }
 
+.review-time {
+    margin-top: 10px;
+    color: #7F7F7F;
+}
+
 .review-controll {
     display: flex;
     flex-direction: column;
     text-align: end;
+    margin-right: 10px;
+    margin-top: 10px;
+    justify-content: space-between;
+}
+
+/* 신고 */
+.review-report {
+    font-weight: bold;
+}
+
+
+/* 수정 삭제 */
+.review-edit {
+    margin-bottom: 10px;
+}
+
+.review-report:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.review-edit-btn:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.review-delete-btn {
+    color: red;
+}
+.review-delete-btn:hover {
+    cursor: pointer;
+    text-decoration: underline;
 }
