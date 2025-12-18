@@ -2,12 +2,12 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-size: 16px;
 }
 
 .movie-container{
     width: 1200px;
     margin: auto;
+    font-size: 16px;
 }
 
 /* 네비게이션 */
@@ -94,6 +94,17 @@
     cursor: pointer;
 }
 
+/* 전체/국내영화/해외영화 리스트 부분 */
+.movie-list {
+  display: none;
+}
+
+.movie-list.active {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
 /* 카드 이미지 */
 .card-group{
     display: flex;
@@ -142,3 +153,23 @@
     border: 1px solid #082A71;
     cursor: pointer;
 }
+
+/* 페이지네이션 */
+.pagination{
+    margin: 50px 0;
+}
+
+.pagination-list{
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    gap: 25px;
+    justify-content: center;
+}
+
+.pagination-link{
+    color: #5170B0;
+    font-weight: bold;
+    font-size: 20px;
+}
+
