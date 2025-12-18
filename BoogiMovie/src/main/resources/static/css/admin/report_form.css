@@ -17,6 +17,7 @@ main {
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); 
 }
 
+
 h1 {
     text-align: center;
 }
@@ -131,7 +132,7 @@ form > button:hover {
     align-items: flex-start;
     padding: 0 50px;
     gap: 7px;
-    margin-bottom: 5px;
+    margin-bottom: 20px;
 }
 
 .warning img {
