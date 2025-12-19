@@ -2,13 +2,13 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-size: 16px;
 }
 
 .write-container{
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 16px;
 }
 
 .table-wrapper {
@@ -81,8 +81,9 @@ td{
 /* 대표이미지 */
 #add-img{
     cursor: pointer;
-    width: 60px;
-    height: 60px;
+    width: 150px;
+    height: 220px;
+    margin: 10px 0;
 }
 
 .table-content > td{
@@ -112,6 +113,7 @@ td{
     margin-right: 5px;
     padding-left: 5px;
 }
+
 
 /* 개봉일 */
 .open-date{
@@ -160,9 +162,14 @@ button[type='reset']{
     cursor: pointer;
 }
 
-.movie-th, .movie-td{
+.movie-img{
+    height: 250px;
+}
+
+.movie-th{
     height: 300px;
 }
+
 
 /* 카테고리 */
 .category-th{
