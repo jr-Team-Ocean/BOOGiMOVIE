@@ -1,0 +1,92 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main{
+    margin: auto;
+    width: 1100px;
+    padding: 30px;
+    font-size: 20px;
+}
+
+.movie-category-path{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.go-edit{cursor: pointer;}
+
+.go-delete{
+    color: red;
+    cursor: pointer;
+}
+
+/* 이미지 */
+.img-area > img{
+    width: 280px;
+    height: 400px;
+}
+
+.movie-detail-main{
+    display: flex;
+    align-items: flex-start;
+    gap: 50px;
+}
+
+.movie-title, .movie-info{
+    margin-bottom: 30px;
+}
+
+.movie-info > span:last-child{
+    color: #009E4F;
+}
+
+.movie-heart{
+    width: 130px;
+    height: 50px;
+    border-radius: 20px;
+    border: 2px solid red;
+    font-size: 18px;
+    background-color: white;
+    margin-bottom: 40px;
+    cursor: pointer;
+}
+
+.movie-price{
+    display: flex;
+    gap: 110px;
+    font-size: 24px;
+    margin-bottom: 50px;
+}
+
+.rate-value{color: #5170B1;}
+
+.movie-buy{
+    display: flex;
+    gap: 100px;
+}
+
+.add-cart{
+    width: 200px;
+    height: 70px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    background-color: #082A71;
+    border: none;
+    border-radius: 5px;
+}
+
+.buy{
+    width: 350px;
+    height: 70px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    background-color: #E1B12C;
+    border: none;
+    border-radius: 5px;
+}
