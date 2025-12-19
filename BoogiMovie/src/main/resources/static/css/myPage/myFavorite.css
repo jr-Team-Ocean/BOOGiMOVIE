@@ -36,48 +36,39 @@ main {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
 }
 
+
+/* search_content */
+
 .search_box_menu {
+    margin: 50px 150px;
+}
+
+.search_box_results {
     display: flex;
-    margin: 0 120px;    
-    text-align: center;
-    
+    flex-direction: row;
+    justify-content: flex-start;
+    border-bottom: 1px solid black;
+    margin: 20px 150px;
+    padding: 20px 30px;
+    gap: 70px;
 }
 
-
-h5 {
-    width: 100%;
-    padding: 7px;    
-    background-color: rgb(66, 66, 116);    
-    color: white;
+.search_box_pic img {
+    width: 60px;
 }
 
-.search_box_content {      
-    margin-left: 250px;  
-    margin-top: 5px;      
-    font-size: 13px;      
-    border-bottom: 1px solid black;            
+.search_box_detail {
+    margin-right: 200px;
+    padding-top: 5px;
 }
 
-.search_box_content .search_box img {
-    width: 40px;
-    height: 40px;    
-}
-
-.span_search_box {
+.search_box_like {
     display: flex;
-    gap: 20px;
+    flex-direction: column;
     align-items: center;
-    
+    margin-left: 60px;
+    padding-top: 10px;
 }
-
-/* .title {
-    font-weight: bold;
-}
-
-.writer {
-    margin-left: 50px;
-    margin-bottom: 20px;
-} */
 
 
 /*페이지네이션*/
@@ -88,6 +79,7 @@ h5 {
     margin: 30px 0;
     width: 100%;
     margin-top: 70px;
+    margin-bottom: 50px;
 }
 
 .pagination ul {
