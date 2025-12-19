@@ -32,13 +32,13 @@ writeReviewBtn.addEventListener('click', () =>{
 */
 
 // 별점 기능 부분
-const reviewWrap = document.querySelectorAll('.review-star'),
+const reviewWrap = document.querySelectorAll('.review-star.write-star'),
     label = document.querySelectorAll('.review-star .review-star-label'),
     input = document.querySelectorAll('.review-star .review-star-input'),
     labelLength = label.length,
     opacityHover = '1';
 
-let stars = document.querySelectorAll('.review-star .star-icon')
+let stars = document.querySelectorAll('.review-star.write-star .star-icon')
 
 checkedStar();
 

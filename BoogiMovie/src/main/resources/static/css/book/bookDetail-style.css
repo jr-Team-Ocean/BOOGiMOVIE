@@ -349,6 +349,36 @@ main {
 }
 
 /* ---------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------- */
+
+/* 후기 기본별 설정 구역 */
+
+/* 채워진 별 */
+.star-icon.filled {
+    background-image: url(../../svg/review-star-filled.svg) !important;
+}
+.star-icon {
+    width: 40px;
+    height: 40px;
+    display: block;
+    background-image: url(../../svg/review-star-empty.svg);
+    background-repeat: no-repeat;
+    background-size: 40px;
+}
+
+
+/* ---------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------- */
+
+
+
 
 /* 후기 작성 버튼 */
 .review-write-btn {
@@ -363,10 +393,118 @@ main {
 
 }
 
+/* 작성구역 */
+.review-write-area {
+    /* border: 1px solid red; */
+    display: flex;
+    flex-direction: column;
+    height: 185px;
+}
+
+.review-write-top {
+    
+    display: flex;
+    gap: 50px;
+    margin-bottom: 10px;
+}
+
+/* 별점 작성 구역 */
+.review-star {
+    width: 215px;
+    margin-top: 5px;
+    display: flex;
+
+}
+
+.review-star-input {
+    display: none;
+    cursor: default;
+}
+
+
+/* .review-star-label .star-icon {
+    width: 40px;
+    height: 40px;
+    display: block;
+    position: relative;
+    left: -1;
+    background-image: url(../../svg/review-star-empty.svg);
+    background-repeat: no-repeat;
+    background-size: 40px;
+    cursor: default;
+    
+} */
+
+/* .review-star-label .star-icon.filled {
+    background-image: url(../../svg/review-star-filled.svg);
+} */
+.review-star-label{
+  display: block; /* 혹은 flex item */
+  cursor: default;
+}
+
+.review-star.readonly .star-icon {
+  opacity: 0.7;
+  cursor: default;
+}
 
 
 
-/* 후기 */
+
+
+.review-write-box {
+    width: 100%;
+    height: 80px;
+    border-radius: 5px;
+    background-color: #EBF2FF;
+}
+.review-write-input {
+    width: 100%;
+    padding-left: 30px;
+    height: 100%;
+    border: none;
+
+    background-color: transparent;
+
+    font-size: 15px;
+    font-weight: 700;
+}
+.review-write-input:focus {
+    outline: none;
+}
+
+.review-write-controller {
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.review-write-submit {
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    width: 80px;
+    height: 40px;
+    background-color: #5170B0;
+    color: white;
+}
+.review-write-cancel {
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    width: 80px;
+    height: 40px;
+    background-color: #B3B3B3;
+    color: black;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+
+/* 후기 카드 */
 .review-box {
 
     border-bottom: 1px solid #777;
@@ -406,44 +544,6 @@ main {
     margin-left: 10px;
 }
 
-.review-star {
-    margin-top: 5px;
-
-}
-
-/* -------------------------------------------------------------------------- */
-/* -------------------------------------------------------------------------- */
-/* -------------------------------------------------------------------------- */
-.review-star-input {
-    display: none;
-}
-
-.review-star-label .star-icon {
-    width: 30px;
-    height: 30px;
-    display: block;
-    position: relative;
-    left: 0;
-    background-image: url(../../svg/review-star-empty.svg);
-    background-repeat: no-repeat;
-    background-size: 30px;
-    
-}
-
-.review-star-label .star-icon.filled {
-    background-image: url(../../svg/review-star-filled.svg);
-}
-
-.review-star.readonly .star-icon {
-  opacity: 0.7;
-  cursor: default;
-}
-/* -------------------------------------------------------------------------- */
-/* -------------------------------------------------------------------------- */
-/* -------------------------------------------------------------------------- */
-
-
-
 .review-text {
     font-size: 20px;
     font-weight: 500;
@@ -473,6 +573,10 @@ main {
 .review-edit {
     margin-bottom: 10px;
 }
+.review-edit:nth-child(2) {
+    cursor: default;
+
+}
 
 .review-report:hover {
     cursor: pointer;
@@ -490,4 +594,60 @@ main {
 .review-delete-btn:hover {
     cursor: pointer;
     text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------- */
+
+
+/* 후기 수정 */
+.review-edit-box {
+    margin-top: 10px;
+    width: 100%;
+    height: 80px;
+    border-radius: 5px;
+    background-color: #EBF2FF;
+}
+.review-edit-input {
+    width: 100%;
+    padding-left: 30px;
+    height: 100%;
+    border: none;
+
+    background-color: transparent;
+
+    font-size: 15px;
+}
+.review-edit-input:focus {
+    outline: none;
+}
+
+.review-edit-controller {
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.review-edit-submit {
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    width: 80px;
+    height: 40px;
+    background-color: #5170B0;
+    color: white;
+}
+.review-edit-cancel {
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    width: 80px;
+    height: 40px;
+    background-color: #B3B3B3;
+    color: black;
 }
