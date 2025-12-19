@@ -1,0 +1,115 @@
+/* 폰트 색상 */
+.gray {
+    color: #565050;
+}
+
+.my_movie_a {
+    text-decoration: none;
+    color: black;
+}
+
+body {
+    display: flex;
+    flex-direction: column; 
+    margin: 0; 
+    min-height: 100vh; 
+}
+
+.content_wrapper {
+    display: flex; 
+    flex: 1;
+    width: 100%;
+}
+
+
+/* 전체 컨테이너 */
+.myPage_container {
+    width: 65%;
+}
+
+/* 오른쪽 빈 공간 */
+.right_empty_container {
+    background-color: rgb(255, 209, 149);
+    width: 35%;
+}
+
+/* 사용자 정보 */
+.user_info_container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 50px;
+    margin-top: 50px;
+
+}
+
+/* 정보 간격 */
+.user_info_container div {
+    padding: 1px 0 1px 0;
+}
+
+.user_info_container > div:nth-child(2) {
+    margin-top: 40px;
+}
+
+.user_info_container > div:nth-child(3) {
+    margin-top: 10px;
+}
+
+.user_info_container > div:nth-child(4) {
+    font-weight: 450;
+}
+
+/* 프로필 수정 버튼 */
+.profile_update_btn {
+    background-color: #5170B1;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    border: none;
+    margin-top: 15px;
+}
+
+.profile_update_btn:hover {
+    cursor: pointer;
+}
+
+/* ========================================================== */
+
+.myPage_line {
+    height: 1px;
+    background-color: #565050;
+    width: 994px;
+    margin-left: 100px;
+}
+
+/* ========================================================== */
+
+/* 내가 소장한 영화 */
+.my_movies_container {
+    margin: 30px 0 100px 100px;
+    display: flex;
+    flex-direction: column;
+    width: 1200px;
+    gap: 40px;
+}
+
+.my_movie_title {
+    margin-top: 50px;
+    margin-left: 100px;
+}
+ 
+/* 상품들 */
+.movie_container {
+    display: flex;
+}
+
+.my_movie {
+    margin-right: 28px;
+}
+
+.my_movie > div > img {
+    width: 180px;
+    height: 250px;
+    border: 1px solid #565050;
+}
