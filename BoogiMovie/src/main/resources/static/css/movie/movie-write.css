@@ -2,13 +2,13 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-size: 16px;
 }
 
 .write-container{
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-size: 16px;
 }
 
 .table-wrapper {
@@ -103,7 +103,7 @@ td{
 
 /* 태그 */
 .some_class_name{
-    width: 400px;
+    width: 100%;
 }
 
 .input{
