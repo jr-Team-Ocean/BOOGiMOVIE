@@ -18,8 +18,15 @@
 <body>
     <div class="floating-ui">
       <button class="floating-btn"><span class="icon-drawer"></span></button>
-      <button class="floating-btn"><img class="ft-bt2" src="../../static/images/common/only-logo.png" alt=""></button>
+      <button onclick="openBot()" class="floating-btn"><img class="ft-bt2" src="../../static/images/common/only-logo.png" alt=""></button>
       <button class="floating-btn"><i class="fa-solid fa-caret-up"><br>맨 위로</i></button>
     </div>
+
+    <script>
+      /* 챗봇 팝업 띄우기 */
+        function openBot() {
+          window.open("chatBot.html", "_blank", 'width=530, height=710')
+        }
+    </script>
 </body>
 </html>
