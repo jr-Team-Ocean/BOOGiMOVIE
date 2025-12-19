@@ -4,64 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <link rel="stylesheet" href="../../static/css/common/font.css">
     <link rel="stylesheet" href="../../static/css/common/header.css">
     <link rel="stylesheet" href="../../static/css/common/footer.css">
     <link rel="stylesheet" href="../../static/css/book/bookDetail-style.css">
+    <link rel="stylesheet" href="../../static/css/common/bot-nav-btn.css">
 
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    
     <script src="https://kit.fontawesome.com/f7459b8054.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+
 
     <title>도서 상세 페이지</title>
 </head>
 <body>
     <!-- 헤더 -->
     <header>
-    <div class="header_container">
-        <div class="blue_background">
-            <div class="header_inner">
-                <div class="header_category">
-                    <!-- 선택에 따른 효과 - 타임리프(경로에 따른 효과 주기로 변경 예정) -->
-                    <div class="header_active"><a href="#">홈</a></div>
-                    <div><a href="#">도서</a></div>
-                    <div><a href="#">중고도서</a></div>
-                    <div><a href="#">영화</a></div>
+        <div class="header_container">
+
+            <div class="blue_background">
+
+                <div class="header_inner">
+
+                    <div class="header_category">
+                        <!-- 선택에 따른 효과 - 타임리프(경로에 따른 효과 주기로 변경 예정) -->
+                        <div class="header_active"><a href="#" class="white font-18px">홈</a></div>
+                        <div><a href="#" class="white font-18px">도서</a></div>
+                        <div><a href="#" class="white font-18px">중고도서</a></div>
+                        <div><a href="#" class="white font-18px">영화</a></div>
+                    </div>
+    
+                    <div class="header_login">
+                        <div><a href="#" class="white font-18px">로그인</a></div>
+                        <div><a href="#" class="white font-18px">회원가입</a></div>
+                    </div>
+
                 </div>
 
-                <div class="header_login">
-                    <div><a href="#">로그인</a></div>
-                    <div><a href="#">회원가입</a></div>
+            </div>
+
+        </div>
+    
+        <!-- 로고 및 검색바 -->
+        <div class="logo_search_container">
+
+            <!-- 로고 -->
+            <div class="logo_container">
+                <a href="#"><img src="../../static/images/common/logo_basic.png" alt=""></a>
+            </div>
+    
+            <!-- 검색바 전체 자리 -->
+            <div class="search_container">
+
+                <!-- 검색 아이콘 -->
+                <div class="search_icon">
+                    <img src="../../static/svg/search_icon.svg" alt="">
                 </div>
+    
+                <!-- 검색란 -->
+                <div class="search_input">
+                    <input type="text" placeholder="원하는 작품을 검색해 보세요!">
+                </div>
+
             </div>
+            
         </div>
 
-    </div>
-
-    <!-- 로고 및 검색바 -->
-    <div class="logo_search_container">
-        <!-- 로고 -->
-        <div class="logo_container">
-            <a href="#"><img src="../../static/images/common/logo_basic.png" alt=""></a>
-        </div>
-
-        <!-- 검색바 전체 자리 -->
-        <div class="search_container">
-            <!-- 검색 아이콘 -->
-            <div class="search_icon">
-                <img src="../../static/svg/search_icon.svg" alt="">
-            </div>
-
-            <!-- 검색란 -->
-            <div class="search_input">
-                <input type="text" placeholder="원하는 작품을 검색해 보세요!">
-            </div>
-        </div>
-    </div>
-
-    </div>
     </header>
 
 
@@ -304,8 +325,61 @@
                     <!-- 후기 페이지 -->
                     <section class="review-area">
 
-                        <button class="review-write-btn">후기 작성</button>
+
                         
+                        <!-- 후기 작성 화면 구역 -->
+                        <section class="review-write-area">
+                            
+                            <!-- 상단 -->
+                            <div class="review-write-top">
+                                <button class="review-write-btn">후기 작성</button>
+
+                                <div class="review-star write-star">
+                                    <label class="review-star-label" for="star-01">
+                                        <input type="radio" class="review-star-input" name="star" id="star-01">
+                                        <span class="star-icon"></span>
+                                    </label>
+                                    <label class="review-star-label" for="star-02">
+                                        <input type="radio" class="review-star-input" name="star" id="star-02">
+                                        <span class="star-icon"></span>
+                                    </label>
+                                    <label class="review-star-label" for="star-03">
+                                        <input type="radio" class="review-star-input" name="star" id="star-03">
+                                        <span class="star-icon"></span>
+                                    </label>
+                                    <label class="review-star-label" for="star-04">
+                                        <input type="radio" class="review-star-input" name="star" id="star-04">
+                                        <span class="star-icon"></span>
+                                    </label>
+                                    <label class="review-star-label" for="star-05">
+                                        <input type="radio" class="review-star-input" name="star" id="star-05">
+                                        <span class="star-icon"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- 작성 내용 -->
+                            <div class="review-write-box">
+                                <input type="text" 
+                                       class="review-write-input"
+                                       placeholder="후기를 작성해주세요!"
+                                >
+                            </div>
+
+                            <!-- 등록 취소 -->
+                            <div class="review-write-controller">
+                                <button class="review-write-submit">등록</button>
+                                <button class="review-write-cancel">취소</button>
+                            </div>
+
+                        </section>
+                        
+
+
+
+
+
+
                         <!-- 작성된 후기가 없는 경우 -->
                         <div class="no-review">
                             <hr>
@@ -324,13 +398,19 @@
                                     <img class="review-user-profile" src="../../static/svg/person.svg">
                                     <span class="review-user-name">유저일</span>
                                 </section>
+
+
     
                                 <!-- 후기 본문 -->
                                 <section class="review-detail">
                                     
                                     <!-- 별점 -->
-                                    <div class="review-star">
-                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                    <div class="review-star readonly">
+                                        <span class="star-icon filled"></span>
+                                        <span class="star-icon filled"></span>
+                                        <span class="star-icon filled"></span>
+                                        <span class="star-icon"></span>
+                                        <span class="star-icon"></span>
                                     </div>
     
                                     <!-- 내용 -->
@@ -368,15 +448,19 @@
                                     <img class="review-user-profile" src="">
                                     <span class="review-user-name">유저김이박최구강</span>
                                 </section>
-    
+                                
                                 <!-- 후기 본문 -->
                                 <section class="review-detail">
-                                    
+
                                     <!-- 별점 -->
-                                    <div class="review-star">
-                                        <span>★</span><span>★</span><span>★</span><span>☆</span><span>☆</span>
+                                    <div class="review-star readonly">
+                                        <span class="star-icon filled"></span>
+                                        <span class="star-icon filled"></span>
+                                        <span class="star-icon filled"></span>
+                                        <span class="star-icon"></span>
+                                        <span class="star-icon"></span>
                                     </div>
-    
+
                                     <!-- 내용 -->
                                     <div class="review-text">
                                         <span>대충 여기 공백포함 40자 정도 들어갈 수 있는 후기 글 뭐시기 입니다.</span>
@@ -404,6 +488,26 @@
                                 <hr>
                             
                             </section>
+                            
+
+                            <!-- 후기 수정 화면 -->
+                            <section class="review-edit-area">
+                                <!-- 작성 내용 -->
+                                <div class="review-edit-box">
+                                    <input type="text" 
+                                           class="review-edit-input"
+                                           value="이건 아마 기존 후기글일껄요?"
+                                    >
+                                </div>
+                                
+                                <!-- 등록 취소 -->
+                                <div class="review-edit-controller">
+                                    <button class="review-edit-submit">수정</button>
+                                    <button class="review-edit-cancel">취소</button>
+                                </div>
+
+                            </section>
+
 
                         </div>
 
@@ -419,82 +523,87 @@
     </main>
 
     <footer class="footer">
-        <div class="footer-in">
+    <div class="footer-in">
 
-            <!-- 상단 링크 -->
-            <nav class="ft-toplinks" aria-label="Ft links">
-            <a href="#">회사소개</a>
-            <span class="sep">|</span>
-            <a href="#">서비스 소개</a>
-            <span class="sep">|</span>
-            <a href="#">이용약관</a>
-            <span class="sep">|</span>
-            <a href="#">개인정보처리방침</a>
-            <span class="sep">|</span>
-            <a href="#">청소년보호정책</a>
-            <span class="sep">|</span>
-            <a href="#">채용정보</a>
-            <span class="sep">|</span>
-            <a href="#">광고문의</a>
-            </nav>
+        <!-- 상단 링크 -->
+        <nav class="ft-toplinks" aria-label="Ft links">
+        <a href="#">회사소개</a>
+        <span class="sep">|</span>
+        <a href="#">서비스 소개</a>
+        <span class="sep">|</span>
+        <a href="#">이용약관</a>
+        <span class="sep">|</span>
+        <a href="#">개인정보처리방침</a>
+        <span class="sep">|</span>
+        <a href="#">청소년보호정책</a>
+        <span class="sep">|</span>
+        <a href="#">채용정보</a>
+        <span class="sep">|</span>
+        <a href="#">광고문의</a>
+        </nav>
 
-            <div class="footer-main">
-            <!-- 좌측 로고 -->
-            <div class="footer-brand" aria-label="BOOGIMOVIE">
-                <img src="../../static/images/common/logo_white.png" alt="">
-                <div class="brand-text">BOOGIMOVIE</div>
+        <div class="footer-main">
+        <!-- 좌측 로고 -->
+        <div class="footer-brand" aria-label="BOOGIMOVIE">
+            <img src="../../static/images/common/logo_white.png" alt="">
+        </div>
+
+        <!-- 회사 정보 -->
+        <div class="footer-info">
+            <div class="info-row">
+            <span class="info-title">(주)BOOGIMOVIE</span>
             </div>
 
-            <!-- 회사 정보 -->
-            <div class="footer-info">
-                <div class="info-row">
-                <span class="info-title">(주)BOOGIMOVIE</span>
-                </div>
-
-                <div class="info-row">
-                <span>서울특별시 종로구 우정국로2길 21 9층, 903호</span>
-                </div>
-
-                <div class="info-row">
-                <span>대표자: (발신자부담) 1544-0000(부기문고) · 1661-1112(핫트랙스)</span>
-                </div>
-
-                <div class="info-row">
-                <span>이메일: boogi@naver.com</span>
-                </div>
-
-                <div class="info-row">
-                <span>대표 FAX: 2025-012-0801</span>
-                </div>
-
-                <div class="info-row">
-                <span>사업자등록번호: 102-81-11670</span>
-                </div>
-
-                <div class="info-row">
-                <span>통신판매업신고: 0000 - 서울 종로구 - 00000</span>
-                </div>
-
-                <div class="info-row">
-                <span>개인정보관리 책임자: 김무비</span>
-                </div>
-
-                <div class="info-row copyright">
-                © BOOGIMOVIE CENTRE
-                </div>
+            <div class="info-row">
+            <span>서울특별시 종로구 우정국로2길 21 9층, 903호</span>
             </div>
 
-            <!-- 우측 SNS -->
-            <div class="footer-sns" aria-label="Social links">
-                <a class="sns-btn" href="#" aria-label="KakaoTalk">카톡</a>
-                <a class="sns-btn" href="#" aria-label="Facebook">페북</a>
-                <a class="sns-btn" href="#" aria-label="Instagram">인스타</a>
-                <a class="sns-btn" href="#" aria-label="YouTube">유튜브</a>
+            <div class="info-row">
+            <span>대표자: (발신자부담) 1544-0000(부기문고) · 1661-1112(핫트랙스)</span>
             </div>
+
+            <div class="info-row">
+            <span>이메일: boogi@naver.com</span>
+            </div>
+
+            <div class="info-row">
+            <span>대표 FAX: 2025-012-0801</span>
+            </div>
+
+            <div class="info-row">
+            <span>사업자등록번호: 102-81-11670</span>
+            </div>
+
+            <div class="info-row">
+            <span>통신판매업신고: 0000 - 서울 종로구 - 00000</span>
+            </div>
+
+            <div class="info-row">
+            <span>개인정보관리 책임자: 김무비</span>
+            </div>
+
+            <div class="info-row copyright">
+            © BOOGIMOVIE CENTRE
             </div>
         </div>
+
+        <!-- 우측 SNS -->
+        <div class="footer-sns" aria-label="Social links">
+            <a class="sns-btn" href="#" aria-label="KakaoTalk"><img src="../../static/svg/footer-kakao.svg" alt=""></a>
+            <a class="sns-btn" href="#" aria-label="Facebook"><img src="../../static/svg/footer-facebook.svg" alt=""></a>
+            <a class="sns-btn" href="https://www.instagram.com/dog___foooot?igsh=MTlyc3lpc3Y3c3FqMA==" aria-label="Instagram"><img src="../../static/svg/footer-instagram.svg" alt=""></a>
+            <a class="sns-btn" href="#" aria-label="YouTube"><img src="../../static/svg/footer-youtube.svg" alt=""></a>
+        </div>
+        </div>
+    </div>
     </footer>
 
+    <!-- 우측하단 -->
+    <div class="floating-ui">
+      <button class="floating-btn"><span class="icon-drawer"></span></button>
+      <button class="floating-btn"><img class="ft-bt2" src="../../static/images/common/only-logo.png" alt=""></button>
+      <button class="floating-btn"><i class="fa-solid fa-caret-up"><br>맨 위로</i></button>
+    </div>
 
     <script src="../../static/js/book/bookDetail.js"></script>
 </body>
