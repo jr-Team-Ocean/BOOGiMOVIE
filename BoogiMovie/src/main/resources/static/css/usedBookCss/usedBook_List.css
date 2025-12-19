@@ -1,0 +1,40 @@
+main{
+    margin-left: 20%;
+    margin-right: 20%;
+
+    box-sizing: border-box;
+}
+
+.category_td{
+
+    min-width: 160px;
+    height: 35px;
+    background-color: gainsboro;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+
+    margin: 5px;
+}
+
+.category_section{
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.sort_search {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.sort_search_right {
+
+    display: flex;
+    gap: 0;
+}
+
+.search_btn{
+
+    margin-left: 3px;
+}

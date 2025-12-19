@@ -1,42 +1,35 @@
 .detail_container{
 
 
-    margin-left: 10%;
-    margin-right: 10%;
+    margin-left: 25%;
+    margin-right: 25%;
+
     
 }
 
 .detail_top {
     display: flex;
-}
-
-.detail_top > div {
-
+    align-items: stretch;
     flex: 1;
 }
 
-.detail_img{
-    width: 100%;
-    height: 100%;
+.detail_top_left, .detail_top_right {
+    display: flex;
+    flex-direction: column;
+    align-content: space-around;
+    gap: 8px;
+    margin-top: 5px;
 }
 
-.usedBook_sumbnail{
 
-    width: 100%;
-    height: 100%;
-}
 
 .detail_top_text{
 
-    margin-left: 10px;
-}
-
-
-.detail_top {
-
-    display: flex;
+    margin-left: 30px;
     
 }
+
+
 
 
 .detail_title{
@@ -46,36 +39,134 @@
     font-size: 24px;
 }
 
+.author_publisher{
+    margin-top: 15px;
+}
+
+.enroll_date{
+    margin-top: 15px;
+}
+
 .detail_top_info{
 
     display: flex;
 }
 
+.present_price {
+    color: #F4307E;
+    font-size: 24px;
+}
+
 .detail_top_left{
 
-    width: 50%;
+    width: 70%;
+
+
 }
+
+.like_part{
+    margin-top: 30px;
+}
+
+.like_part > span{
+    font-size: 34px;
+    font-weight: bold;
+
+}
+
+.heart .fa-solid {
+    display: none;
+
+}
+
+.heart.active .fa-solid {
+    display: inline;
+    color: red;
+    
+}
+
+.heart.active .fa-regular {
+    display: none;
+    
+}
+
 
 .button_top{
     display: flex;
+
 
 }
 
 .button_bottom{
     display: flex;
+    justify-content: space-between;
+}
 
+.cart_btn{
+    font-size: 24px;
+    width: 200px;
+    height: 70px;
+    background-color: #082A71;
+    border-radius: 5px;
+    color: white;
+    border: 0px;
+
+}
+
+.purchase_btn{
+    font-size: 24px;
+    width: 348px;
+    height: 70px;
+    background-color: #E1B12C;
+    border-radius: 5px;
+    color: white;
+    margin-left: 10px;
+    border: 0px;
+}
+
+
+.button_bottom > button{
+
+    font-size: 24px;
+    width: 180px;
+    height: 70px;
+    border-radius: 5px;
+    color: white;
+    margin-top: 15px;
+    font-weight: bold;
+    border: 0px;
+
+
+}
+
+.detail_top_text > .buttons{
+
+    margin-top: 50px;
+
+}
+
+
+
+.edit_btn{
+    background-color: #0C54B4;
+}
+
+.del_btn{
+    margin-left: 5px;
+    background-color: #F4307E;
+}
+
+.list_btn{
+    margin-left: 5px;
+    background-color: #5170B1;
 }
 
 .detail_middle > table{
 
-    display: block;
+    display: block
 
 }
 
-.bookStatus_Guide{
-
-    display: block;
-}
 
 .bookStatus_Guide_Head > td{
     
@@ -87,11 +178,7 @@
 
 .bookStatus_Guide_Head {
     
-    
     background-color: #CFDFFF;
-
-
-    
     
 }
 
@@ -110,4 +197,10 @@
 .long_text {
     white-space: pre-line;
     
+}
+
+
+.detail_middle{
+
+    margin-top: 150px;
 }
