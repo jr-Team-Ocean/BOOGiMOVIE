@@ -1,0 +1,42 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.body_container {
+    display: flex;
+    flex-direction: row;
+}
+
+main {
+    flex: 1;
+    margin-right: 18%;    
+    padding: 10px 30px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); 
+    background: linear-gradient(217deg, rgb(255 0 0 / 80%), rgb(255 0 0 / 0%) 70.71%),
+    
+
+}
+
+.section_header {
+    margin-top: 10px;
+    margin-bottom: 60px;
+}
+
+.search_book > h3, .search_movie > h3 {    
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding-left: 20px;
+}
+
+.search_book > div, .search_movie > div {    
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding-left: 20px;
+}
+
+iframe {
+    border: none;
+    
+}
+

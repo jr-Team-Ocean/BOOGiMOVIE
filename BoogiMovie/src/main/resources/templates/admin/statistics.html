@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>연령대별 콘텐츠 구매 통계 분석</title>
+    <link rel="stylesheet" href="../../static/css/admin/statistics.css">
+    <link rel="stylesheet" href="../../static/css/common/header.css">
+    <link rel="stylesheet" href="../../static/css/common/font.css">
+    <link rel="stylesheet" href="../../static/css/common/footer.css">
+    <link rel="stylesheet" href="../../static/css/admin/adminPage_sideBar.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    
+    <!-- header -->
+    
+    <div class="header_container">
+        <div class="blue_background">
+            <div class="header_inner">
+                <div class="header_category">
+                    <!-- 선택에 따른 효과 - 타임리프(경로에 따른 효과 주기로 변경 예정) -->
+                    <div class="header_active"><a href="#" class="white font-18px">홈</a></div>
+                    <div><a href="#" class="white font-18px">도서</a></div>
+                    <div><a href="#" class="white font-18px">중고도서</a></div>
+                    <div><a href="#" class="white font-18px">영화</a></div>
+                </div>
+
+                <div class="header_login">
+                    <div><a href="#" class="white font-18px">로그인</a></div>
+                    <div><a href="#" class="white font-18px">회원가입</a></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 로고 및 검색바 -->
+    <div class="logo_search_container">
+        <!-- 로고 -->
+        <div class="logo_container">
+            <a href="#"><img src="../../static/images/common/logo_basic.png" alt=""></a>
+        </div>
+
+        <!-- 검색바 전체 자리 -->
+        <div class="search_container">
+            <!-- 검색 아이콘 -->
+            <div class="search_icon">
+                <img src="../../static/svg/search_icon.svg" alt="">
+            </div>
+
+            <!-- 검색란 -->
+            <div class="search_input">
+                <input type="text" placeholder="원하는 작품을 검색해 보세요!">
+            </div>
+        </div>
+    </div>
+
+  
+    <!-- header -->
+
+    <div class="body_container">
+
+    <!-- side Menu -->
+
+        <!-- 전체 사이드 영역 -->
+    <div class="admin_page_side_container">
+
+        <!-- 대시보드 -->
+        <!-- 타임리프로 변경시 아래 코드 추가 예정 (JS 사용 X) -->
+        <!-- th:classappend="${activeMenu == 'profile'} ? 'active_admin_page'" -->
+        <div class="admin_profile_setting_container active_admin_page">
+            <img src="../../static/svg/dashBoard_icon.svg" alt="">
+            <div class="admin_page_menu bold">대시보드</div>
+        </div>
+
+        <!-- 신고 관리 -->
+        <div class="admin_wish_list_container">
+            <img src="../../static/svg/reportManage_icon.svg" alt="">
+            <div class="admin_page_menu bold">신고 관리</div>
+        </div>
+
+        <!-- 1:1 문의 -->
+        <div class="user_secession_container">
+            <img src="../../static/svg/inquiry_icon.svg" alt="">
+            <div class="admin_page_menu bold">1:1 문의</div>
+        </div>
+
+        <!-- 홈페이지 -->
+        <div class="user_secession_container">
+            <img src="../../static/svg/homePage_icon.svg" alt="">
+            <div class="admin_page_menu bold">홈페이지</div>
+        </div>
+    </div>
+
+    <!-- side Menu -->
+
+    <main>
+        <div class="section_header">
+            <h2>연령대별 콘텐츠 구매 통계 분석</h2>
+        </div>
+
+        <div class="search_book">
+            <h3>연령대별 가장 많이 구매한 도서 장르</h2>
+            <div>
+                <iframe src="http://localhost:5601/app/dashboards#/view/eb42eb78-5b45-48ae-8c24-263530fb7eea?embed=true&_g=%28refreshInterval%3A%28pause%3A%21t%2Cvalue%3A60000%29%2Ctime%3A%28from%3Anow-1y%2Fd%2Cto%3Anow%29%29&hide-filter-bar=true" height="600" width="1150"></iframe>
+            </div>
+        </div>
+
+        <div class="search_movie">
+            <h3>연령대별 가장 많이 구매한 영화 장르</h3>
+            <div>                
+                <iframe src="http://localhost:5601/app/dashboards#/view/eb42eb78-5b45-48ae-8c24-263530fb7eea?embed=true&_g=%28refreshInterval%3A%28pause%3A%21t%2Cvalue%3A60000%29%2Ctime%3A%28from%3Anow-1y%2Fd%2Cto%3Anow%29%29&hide-filter-bar=true" height="600" width="1150"></iframe>                
+            </div>
+            
+        </div>
+
+    </main>
+
+    </div>
+
+    <!-- footer -->
+
+    <footer class="footer">
+        <div class="footer-in">
+
+            <!-- 상단 링크 -->
+            <nav class="ft-toplinks" aria-label="Ft links">
+                <a href="#">회사소개</a>
+                <span class="sep">|</span>
+                <a href="#">서비스 소개</a>
+                <span class="sep">|</span>
+                <a href="#">이용약관</a>
+                <span class="sep">|</span>
+                <a href="#">개인정보처리방침</a>
+                <span class="sep">|</span>
+                <a href="#">청소년보호정책</a>
+                <span class="sep">|</span>
+                <a href="#">채용정보</a>
+                <span class="sep">|</span>
+                <a href="#">광고문의</a>
+            </nav>
+
+            <div class="footer-main">
+                <!-- 좌측 로고 -->
+                <div class="footer-brand" aria-label="BOOGIMOVIE">
+                    <img src="../../static/images/common/logo_white.png" alt="">
+                <div class="brand-text">BOOGIMOVIE</div>
+            </div>
+
+            <!-- 회사 정보 -->
+            <div class="footer-info">
+                <div class="info-row">
+                    <span class="info-title">(주)BOOGIMOVIE</span>
+                </div>
+
+                <div class="info-row">
+                    <span>서울특별시 종로구 우정국로2길 21 9층, 903호</span>
+                </div>
+
+                <div class="info-row">
+                    <span>대표자: (발신자부담) 1544-0000(부기문고) · 1661-1112(핫트랙스)</span>
+                </div>
+
+                <div class="info-row">
+                    <span>이메일: boogi@naver.com</span>
+                </div>
+
+                <div class="info-row">
+                    <span>대표 FAX: 2025-012-0801</span>
+                </div>
+
+                <div class="info-row">
+                    <span>사업자등록번호: 102-81-11670</span>
+                </div>
+
+                <div class="info-row">
+                    <span>통신판매업신고: 0000 - 서울 종로구 - 00000</span>
+                </div>
+
+                <div class="info-row">
+                    <span>개인정보관리 책임자: 김무비</span>
+                </div>
+
+                <div class="info-row copyright">
+                    © BOOGIMOVIE CENTRE
+                </div>
+            </div>
+
+            <!-- 우측 SNS -->
+                <div class="footer-sns" aria-label="Social links">
+                    <a class="sns-btn" href="#" aria-label="KakaoTalk">카톡</a>
+                    <a class="sns-btn" href="#" aria-label="Facebook">페북</a>
+                    <a class="sns-btn" href="#" aria-label="Instagram">인스타</a>
+                    <a class="sns-btn" href="#" aria-label="YouTube">유튜브</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- footer -->
+
+</body>
+</html>
