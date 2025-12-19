@@ -1,0 +1,247 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.book-container{
+    width: 1200px;
+    margin: auto;
+    font-size: 16px;
+}
+
+/* 네비게이션 */
+.book-header{
+    width: 1200px;
+    height: 100%;
+}
+
+.book-header a{
+    text-decoration: none;
+}
+
+.nav-container{
+    border-bottom: 2px solid #5170B0 ;
+}
+
+.nav{
+    height: 50px;
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item{
+    width: 100px;
+    text-align: center;
+    padding: 10px;
+    border: 2px solid #B3B3B3;
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+    background-color: #fff;
+    cursor: pointer;
+    margin-right: 2px;
+}
+
+.nav-item.active {
+  border-color: #5170B0;
+  font-weight: bold;
+  position: relative;
+  top: 2px; /* 아래 라인이랑 자연스럽게 연결 */
+}
+
+.nav-item:hover{
+    border-color: #5170B0;
+}
+
+.nav-link{
+    color: #565050;
+}
+
+.nav-link.active{
+    color: #5170B0;
+}
+
+/* 최신순, 미니검색 */
+.list-top-area{
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0;
+}
+
+#list-sort{
+    width: 80px;
+    height: 45px;
+    padding: 0 5px;
+}
+
+#mini-search-input{
+    width: 300px;
+    height: 45px;
+    border: 2px solid #5170B0;
+    padding-left: 10px;
+}
+
+#mini-search-btn{
+    width: 80px;
+    height: 45px;
+    color: white;
+    font-weight: bolder;
+    background: #5170B0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 전체/국내영화/해외영화 리스트 부분 */
+.book-list {
+  display: none;
+}
+
+.book-list.active {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+
+/* -------------------------------------------------------- */
+/* -------------------------------------------------------- */
+/* -------------------------------------------------------- */
+
+/* 상품 개별 */
+/* .book-product {
+    width: 178px;
+    
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    
+    text-decoration: none;
+    color: #000;
+    
+} */
+
+/* 카드 이미지 */
+.card-group{
+    width: 1200px;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+/* 상품 개별 */
+.book-product {
+    width: 178px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    
+    text-decoration: none;
+    color: #000;
+
+}
+
+
+
+.book-img {
+    width: 178px;
+    height: 264px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+
+.book-title {
+    width: 178px;
+    height: 60px;
+    font-size: 20px;
+    font-weight: bold;
+
+    text-align: left;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    
+
+}
+
+/* 제작사 작가이름 기타등등 */
+.book-maker {
+    width: 178px;
+    height: 20px;
+    font-size: 15px;
+    font-weight: normal;
+
+    text-align: left;
+    color: #7F7F7F;
+}
+.book-com {
+    width: 178px;
+    height: 20px;
+
+    font-size: 15px;
+    font-weight: normal;
+
+    text-align: left;
+    color: #7F7F7F;
+}
+
+.book-price {
+    width: 178px;
+    height: 30px;
+    
+    font-size: 20px;
+    font-weight: bold;
+    color: #5170B0;
+}
+.book-rating {
+    width: 178px;
+    height: 30px;
+    
+    font-size: 15px;
+    font-weight: bold;
+}
+
+
+
+/* -------------------------------------------------------- */
+/* -------------------------------------------------------- */
+/* -------------------------------------------------------- */
+
+/* 글쓰기 버튼 */
+#write-btn{
+    margin: 10px 0;
+    font-weight: bold;
+    width: 100px;
+    height: 40px;
+    padding: 5px;
+    background-color: #082A71;
+    color: #ffff;
+    border-radius: 5px;
+    border: 1px solid #082A71;
+    cursor: pointer;
+}
+
+/* 페이지네이션 */
+.pagination{
+    margin: 50px 0;
+}
+
+.pagination-list{
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    gap: 25px;
+    justify-content: center;
+}
+
+.pagination-link{
+    color: #5170B0;
+    font-weight: bold;
+    font-size: 20px;
+}
+
