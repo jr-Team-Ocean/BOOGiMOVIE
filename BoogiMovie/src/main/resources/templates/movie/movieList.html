@@ -64,15 +64,43 @@
             <div class="nav-container">
                 <ul class="nav nav-tabs">
                     <li class="nav-item active">
-                        <a class="nav-link active" aria-current="page" href="#">전체</a>
+                        <a class="nav-link active" data-target="all" href="#">전체</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">국내영화</a>
+                        <a class="nav-link" data-target="domestic" href="#">국내영화</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">해외영화</a>
+                        <a class="nav-link" data-target="foreign" href="#">해외영화</a>
                     </li>
                 </ul>
+            </div>
+
+            <!-- 카테고리(장르) -->
+            <div class="genre-list">
+                <div class="genre-group">
+                    <button>액션</button>
+                    <button>모험</button>
+                    <button>애니메이션</button>
+                    <button>코미디</button>
+                    <button>범죄</button>
+                    <button>다큐멘터리</button>
+                    <button>드라마</button>
+                    <button>가족</button>
+                    <button>판타지</button>
+                    <button>역사</button>
+                </div>
+
+                <div class="genre-group">
+                    <button>공포</button>
+                    <button>음악</button>
+                    <button>미스터리</button>
+                    <button>로맨스</button>
+                    <button>SF</button>
+                    <button>TV 영화</button>
+                    <button>스릴러</button>
+                    <button>전쟁</button>
+                    <button>서부</button>
+                </div>
             </div>
         
             <div class="list-top-area">
@@ -87,7 +115,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- 전체 -->
         <div class="movie-list active" id="all">
             <!-- 카드 이미지 그룹(1줄)-->
@@ -288,11 +316,6 @@
 
         <!-- 국내영화 -->
         <div class="movie-list" id="domestic">
-            <!-- 카테고리(장르) -->
-            <div>
-                
-            </div>
-
             <!-- 영화 포스터 -->
             <div class="card-group">
                 <!-- 카드 이미지 1개 -->
@@ -722,11 +745,9 @@
         </ul>
     </nav>
 
-
     <!-- 푸터 -->
     <footer class="footer">
         <div class="footer-in">
-
             <!-- 상단 링크 -->
             <nav class="ft-toplinks" aria-label="Ft links">
             <a href="#">회사소개</a>
@@ -808,5 +829,7 @@
             </div>
         </div>
     </footer>
+
+    <script src="../../static/js/movie/movie-list.js"></script>
 </body>
 </html>
