@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>부기봇</title>
+    <link rel="stylesheet" href="../../static/css/common/chatBot.css">
+    <link rel="stylesheet" href="../../static/css/common/font.css">
+</head>
+<body>
+    <section>
+        <div class="chatBot-header">
+            <div class="chatBot-title font-20px bold">부기봇</div>
+        </div>
+    
+            <!-- 다시마봇 -->
+            <div class="boogi-chatting">
+                <div class="boogi-info">
+                    <img src="../../static/images/common/only-logo.png" alt="">
+                    <div class="text-size-16 medium-text">부기봇</div>
+                </div>
+                <p class="bot-text font-16px">
+                    안녕하세요. 부기봇이예요.<br>
+                    궁금하신 작품이 있다면 물어보세요!
+                </p>
+            </div>
+
+            <!-- 유저 -->
+            <div class="user-chatting">
+                <p class="user-text font-16px">개발자가 읽기 좋은 책을 추천해줘</p>
+            </div>
+
+            <!-- 채팅 보내는 영역 -->
+            <div class="write-chatting-area">
+                <div>
+                    <textarea name="questionToBot" id="write-chatting" placeholder="궁금하신 것을 물어보세요!"></textarea>
+                </div>
+                <img src="../../static/svg/send_message.svg" alt="">
+            </div>
+        </div>
+        
+    </section>
+
+    <script src="../../static/js/chatting/chatBot.js"></script>
+</body>
+</html>
