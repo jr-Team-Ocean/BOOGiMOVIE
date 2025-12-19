@@ -11,7 +11,7 @@ a {
 /* 전체 컨테이너 (화면 배치) */
 .container {
     margin-top: 50px;
-    width: 1920px;
+    /* width: 1920px; */
     display: flex;
     justify-content: center;
     align-items: center;
