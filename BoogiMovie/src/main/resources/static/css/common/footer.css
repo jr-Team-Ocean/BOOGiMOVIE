@@ -2,7 +2,7 @@
   background: #082A71;
   color: #ffffff;
   padding: 22px 0 26px;
-  font-size: 13px;
+  font-size: 11px;
   line-height: 1.7;
 }
 
@@ -64,14 +64,6 @@
   font-size: 28px;
   font-weight: 700;
   letter-spacing: 0.5px;
-}
-
-.brand-text {
-  margin-top: 8px;
-  font-weight: 700;
-  letter-spacing: 0.6px;
-  font-size: 12px;
-  opacity: 0.95;
 }
 
 .footer-info {

@@ -63,15 +63,9 @@
             <!-- 네비게이션 -->
             <div class="nav-container">
                 <ul class="nav nav-tabs">
-                    <li class="nav-item active">
-                        <a class="nav-link active" data-target="all" href="#">전체</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-target="domestic" href="#">국내영화</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-target="foreign" href="#">해외영화</a>
-                    </li>
+                    <li class="nav-item active" data-type="all">전체</li>
+                    <li class="nav-item" data-type="domestic">국내영화</li>
+                    <li class="nav-item" data-type="foreign">해외영화</li>
                 </ul>
             </div>
 
@@ -121,15 +115,17 @@
             <!-- 카드 이미지 그룹(1줄)-->
             <div class="card-group">
                 <!-- 카드 이미지 1개 -->
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
+                 <a href="#" id="movie-a">
+                     <div class="card">
+                         <img src="../../static/images/movie/movie_sample_img.png" class="card-img-top">
+                         <div class="card-body">
+                             <p class="card-title">아바타:불과재</p>
+                             평점<span class="card-rating">9.5</span> <br>
+                             개봉<span class="card-date">2025.12.17</span> <br>
+                             판매가<span class="card-money">12,000</span>원
+                         </div>
+                     </div>
+                 </a>
                 <div class="card">
                     <img src="../../static/images/movie/movie_sample_img.png" class="card-img-top">
                     <div class="card-body">
