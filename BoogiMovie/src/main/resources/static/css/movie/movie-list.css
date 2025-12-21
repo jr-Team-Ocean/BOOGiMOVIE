@@ -42,10 +42,12 @@
     background-color: #fff;
     cursor: pointer;
     margin-right: 2px;
+    color: #565050;
 }
 
 .nav-item.active {
   border-color: #5170B0;
+  color: #5170B0;
   font-weight: bold;
   position: relative;
   top: 2px; /* 아래 라인이랑 자연스럽게 연결 */
@@ -55,19 +57,37 @@
     border-color: #5170B0;
 }
 
-.nav-link{
-    color: #565050;
+/* 카테고리 */
+.genre-list{
+    display: none;
 }
 
-.nav-link.active{
-    color: #5170B0;
+.genre-list.active{
+    display: block;
+    margin-top: 40px;
+}
+
+.genre-group{
+    display: flex;
+    gap: 10px;
+    margin: 0 0 10px 20px;
+}
+
+.genre-group > button{
+    max-width: 130px;
+    height: 50px;
+    padding: 10px 15px;
+    font-size: 18px;
+    border-radius: 5px;
+    border: 1px solid #ffff;
+    cursor: pointer;
 }
 
 /* 최신순, 미니검색 */
 .list-top-area{
     display: flex;
     justify-content: space-between;
-    margin: 50px 0;
+    margin: 40px 0 50px 0;
 }
 
 #list-sort{
@@ -106,6 +126,10 @@
 }
 
 /* 카드 이미지 */
+#movie-a{
+    color: black;
+}
+
 .card-group{
     display: flex;
     justify-self: left;
