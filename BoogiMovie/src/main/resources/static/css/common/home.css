@@ -1,0 +1,136 @@
+* {
+    box-sizing: border-box;
+}
+
+.a_deco {
+    color: black;
+    text-decoration: none;
+}
+
+/* 저자 및 출판사 글씨 연하게 */
+.info_gray {
+    color: #777;
+}
+
+/* 홈 컨테이너 */
+.home_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+/* 배너 */
+.banner_area {
+    width: 1200px;
+    height: 340px;
+    border: 1px solid gray;
+}
+
+/* 버튼 자리 차지 */
+.btn_hide {
+    width: 60px;
+    height: 300px;
+}
+
+/* 버튼 */
+.product_pre_btn, .product_next_btn {
+    font-size: 30px;
+    color: #5170B1;
+    font-weight: 750;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 30%;
+    padding: 2px;
+}
+
+.product_pre_btn:hover, .product_next_btn:hover {
+    background-color: #f7f7ff;
+    border-radius: 30%;
+    color: #5170B1; /* 포인트 컬러 */
+}
+
+/* ================================================================= */
+/* ================================================================= */
+
+/* 큰 컨테이너 4개 (도서/영화) */
+.category_container {
+    margin-top: 80px;
+    display: flex;
+    flex-direction: column;
+    width: 1200px;
+}
+
+
+/* 베스트 셀러 or 인기 도서 및 영화 타이틀 */
+.category_title {
+    padding: 2px;
+}
+
+.category_title {
+    display: flex;
+    justify-content: center;
+    color: #5170B1;
+}
+
+
+/* 서브 타이틀 */
+.sub_title {
+    color: rgb(83, 83, 83);
+    font-size: 15px;
+    letter-spacing: -0.5px;
+    font-weight: 500;
+}
+
+/* 버튼과 상품 전체 감싸는 영역 */
+.product_list_container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    width: 1200px;
+    align-items: center;
+}
+
+/* 슬라이드 영역 */
+.product_card_container {
+    width: 1060px;
+    overflow: hidden;
+}
+
+.slide_area {
+    display: flex;
+    /* 애니메이션 효과 */
+    transition: transform 0.5s ease-in-out;
+    gap: 40px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+/* 상품 카드 */
+.product_card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 180px;
+    height: 280px;
+    border: 1px solid #eeeeee;
+    background-color: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 15%);
+    flex-shrink: 0;
+    border-radius: 5px;
+    
+}
+
+.product_card:hover {
+    transform: translateY(-10px);
+    
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* 상품명 */
+.product_title {
+    font-weight: bold;
+}
