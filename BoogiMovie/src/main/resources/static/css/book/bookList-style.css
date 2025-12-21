@@ -109,6 +109,78 @@
 /* -------------------------------------------------------- */
 /* -------------------------------------------------------- */
 /* -------------------------------------------------------- */
+.book-category-area {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-left: 20px;
+    margin-top: 30px;
+}
+
+/* 공통 버튼 */
+.category-btn {
+    height: 35px;
+    font-size: 15px;
+    border-radius: 5px;
+    border: none;
+    background: #eee;
+    cursor: pointer;
+}
+
+/* 작은 버튼 */
+.category-btn.small {
+    width: 70px;
+}
+
+/* 큰 버튼 */
+.category-btn {
+    width: 160px;
+}
+
+/* 1줄째 */
+.book-category-main1, .book-category-main2 {
+    display: flex;
+    gap: 20px;
+}
+
+/* 소설 */
+.category-novel-group {
+    margin-left: 90px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.category-sub {
+    display: flex;
+    gap: 20px;
+}
+
+.category-sub .category-btn {
+    width: 70px;
+}
+
+/* -------------------------------------------------------- */
+/* -------------------------------------------------------- */
+/* -------------------------------------------------------- */
+/* 기본: 소설 하위 숨김 */
+.category-sub {
+    display: none;
+}
+
+/* 호버시 세부 열림 */
+.category-novel-group:hover .category-sub {
+    display: flex;
+}
+
+/* 선택 시 유지용 */
+.category-novel-group.open .category-sub {
+    display: flex;
+}
+
+
+/* -------------------------------------------------------- */
+/* -------------------------------------------------------- */
 
 /* 상품 개별 */
 /* .book-product {

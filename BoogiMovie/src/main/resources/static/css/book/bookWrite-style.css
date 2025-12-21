@@ -1,0 +1,123 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 20px;
+}
+
+.write-container{
+    display: flex;
+    justify-content: center;
+}
+
+.table-wrapper {
+    width: 1200px;
+    display: flex;
+    flex-direction: column;
+}
+
+h3{
+    font-size: 25px;
+    margin-bottom: 20px;
+}
+
+/* 테이블 */
+.table-container {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-container th {
+    border: 1px solid black;
+    width: 200px;
+    background-color: #F1F1F1;
+    text-align: center;
+    font-weight: 600;
+    vertical-align: middle;
+}
+
+
+.table-container td {
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+}
+
+
+.table-container input {
+    height: 35px;
+}
+.table-container select {
+    height: 35px;
+}
+
+
+.book-isbn { 
+    width: 500px; 
+}
+
+.book-title { 
+    width: 500px; 
+}
+
+.book-writer{
+     width: 500px;
+}
+.book-maker {
+    width: 500px;
+}
+
+/* 이미지 */
+#add-img {
+    width: 100px;
+    height: 150px;
+    cursor: pointer;
+}
+
+/* 카테고리 */
+.category-td select {
+    width: 200px;
+    height: 200px;
+    margin-right: 10px;
+}
+
+/* 책 소개 */
+.book-info {
+    width: 980px;
+    height: 700px;
+    resize: none;
+}
+
+/* 버튼 */
+.button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.submit {
+    border: none;
+    width: 160px;
+    height: 50px;
+    border-radius: 5px;
+    color: white;
+    background-color: #082A71;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.reset {
+    border: none;
+    width: 100px;
+    height: 50px;
+    border-radius: 5px;
+    color: black;
+    background-color: #B3B3B3;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+/* 하위 카테고리 */
+.category-type-sub {
+    display: none;
+}
