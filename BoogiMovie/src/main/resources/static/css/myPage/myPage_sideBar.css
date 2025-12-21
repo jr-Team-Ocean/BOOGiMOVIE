@@ -10,6 +10,7 @@
     min-height: 100vh; /* 본문 영역에 따라 사이트바 높이 달라지게 */
     /* min-height: calc(100vh - 헤더높이 - 푸터높이); */
 
+    flex-shrink: 0;
     background-color: #082A71;
     display: flex;
     flex-direction: column;
