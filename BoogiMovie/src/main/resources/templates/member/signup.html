@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="/src/main/resources/static/css/member/signup-style.css">
+    <link rel="stylesheet" href="/src/main/resources/static/css/member/signUp.css">
     
 </head>
 <body>
@@ -76,6 +76,13 @@
                 </label>
                 <input type="text" name="realName" id="realName" placeholder="2~5자리 한글만 가능" maxlength="5">
                 <span class="signUp-message" id="name-message"></span>
+
+                <label for="birthDate">
+                    <span class="required">*</span>
+                    생년월일(8글자)
+                </label>
+                <input type="text" name="birthDate" id="birthDate" placeholder="ex) 20251221" maxlength="8">
+                <span class="signUp-message" id="brith-message"></span>
                 
                 <label for="phoneNumber">
                     <span class="required">*</span>

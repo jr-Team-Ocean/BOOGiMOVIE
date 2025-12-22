@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="../../static/css/usedBookCss/usedBook_Enroll.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../static/css/common/header.css">
+
+    <link rel="stylesheet" href="../../static/css/common/font.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+    <div class="header_container">
+        <div class="blue_background">
+            <div class="header_inner">
+                <div class="header_category">
+                    <!-- 선택에 따른 효과 - 타임리프(경로에 따른 효과 주기로 변경 예정) -->
+                    <div class="header_active"><a href="#" class="white font-18px">홈</a></div>
+                    <div><a href="#" class="white font-18px">도서</a></div>
+                    <div><a href="#" class="white font-18px">중고도서</a></div>
+                    <div><a href="#" class="white font-18px">영화</a></div>
+                </div>
+
+                <div class="header_login">
+                    <div><a href="#" class="white font-18px">로그인</a></div>
+                    <div><a href="#" class="white font-18px">회원가입</a></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    
+    <main>
+        
+        <p class="top_title">도서 등록</p>
+
+
+        <form action="">
+
+
+            <section class="enroll_container">
+    
+                <div class="enroll_line">
+                    <span class="enroll_left"><p class="left_label">도서명</p></span>
+                    <span class="enroll_right"><input type="text"></span>
+    
+                </div>
+    
+                <div class="enroll_line">
+                    <span class="enroll_left"><p class="left_label">대표 이미지</p></span>
+                    <span class="enroll_right"><div class="img_case"><img class="usedBook_enroll_thumbnail" src="utube.png"></div></span>
+    
+                </div>
+    
+                <div class="enroll_line">
+                    <span class="enroll_left"><p class="left_label">작가</p></span>
+                    <span class="enroll_right"><input type="text"></span>
+    
+                </div>
+    
+                <div class="enroll_line">
+                    <span class="enroll_left"><p class="left_label">출판사</p></span>
+                    <span class="enroll_right"><input type="text"></span>
+    
+                </div>
+    
+                <div class="enroll_line">
+                    <span class="enroll_left"><p class="left_label">도서 상태</p></span>
+                    <span class="enroll_right">
+                        <label class="select_usedBook_status_label" for="usedBook_status">도서 상태</label>
+                        <select class="select_usedBook_status" name="" id="usedBook_status" aria-placeholder="도서 상태를 선택하세요">
+                            <option value="best">최상</option>
+                            <option value="advanced">상</option>
+                            <option value="intermediate">중</option>
+                        </select>
+
+                        
+                        
+                        <table class="bookStatus_Guide">
+                            
+                            <caption>BOOGIMOVIE 중고 품질 판정 가이드</caption>
+                            
+                            
+                            <thead>
+                                <tr class="bookStatus_Guide_Head">
+                                    <td>품질등급</td>
+                                    <td>헌 상태</td>
+                                    <td>표지</td>
+                                    <td>책등/책배</td>
+                                    <td>내부/제본상태</td>
+                                
+                                </tr>
+            
+                            </thead>
+            
+                            <tbody>
+            
+                                <tr class="bookStatus_Guide_Body">
+                                    <td>최상</td>
+                                    <td>
+                                        새것에 가까움  
+            
+                                    </td>
+                                    <td>
+                                        변색 없음 <br>
+                                        찢어진 흔적 없음 <br>
+                                        닳은 흔적 없음 <br>
+                                        낙서 없음 <br>
+                                        얼룩 없음 <br>
+                                        도서 겉표지 있음
+                                    </td>
+                                    <td>
+                                        변색 없음 <br>
+                                        닳은 흔적 없음 <br>
+                                        낙서 없음 <br>
+                                        얼룩 없음
+                                    
+                                    </td>
+                                    <td>
+                                        변색 없음 <br>
+                                        낙서 없음 <br>
+                                        변형 없음 <br>
+                                        얼룩 없음 <br>
+                                        제본 탈착 없음
+                                    </td>
+                                </tr>
+            
+            
+                            </tbody>
+
+                            <tbody>
+            
+                                <tr class="bookStatus_Guide_Body">
+                                    <td>상</td>
+                                    <td>
+                                        약간의 사용감은 있으나 깨끗한 책  
+            
+                                    </td>
+                                    <td>
+                                        희미한 변색이나 작은 얼룩이 있음 <br>
+                                        찢어진 흔적 없음 <br>
+                                        약간의 모서리 해짐 <br>
+                                        낙서 없음 <br>
+                                        도서 겉표지 있음
+                                    </td>
+                                    <td>
+                                        희미한 변색이나 작은 얼룩이 있음 <br>
+                                        약간의 닳은 흔적 있음 <br>
+                                        낙서 없음
+                                    
+                                    </td>
+                                    <td>
+                                        변색 없음 <br>
+                                        낙서 없음 <br>
+                                        변형 없음 <br>
+                                        얼룩 없음 <br>
+                                        제본 탈착 없음
+                                    </td>
+                                </tr>
+            
+            
+                            </tbody>
+
+                            <tbody>
+            
+                                <tr class="bookStatus_Guide_Body">
+                                    <td>중</td>
+                                    <td>
+                                        사용감이 많으며 헌 느낌이 나는 책  
+            
+                                    </td>
+                                    <td>
+                                        전체적인 변색 <br>
+                                        모서리 해짐 있음 <br>
+                                        2cm 이하의 찢어짐 <br>
+                                        오염 있음 <br>
+                                        낙서 있음 <br>
+                                        도서 겉표지 없음 <br>
+                                        아웃케이스 없음
+                                    </td>
+                                    <td>
+                                        전체적인 변색 <br>
+                                        모서리 해짐 있음 <br>
+                                        오염 있음 <br>
+                                        낙서 있음
+                                    
+                                    </td>
+                                    <td>
+                                        변색 없음 <br>
+                                        2cm 이하 찢어짐 있음 <br>
+                                        5족 이하의 필기 <br>
+                                        얼룩 및 오염 있음 <br>
+                                        제본 탈착 없음
+                                    </td>
+                                </tr>
+            
+            
+                            </tbody>
+        
+                        </table>
+
+                        <p class="status_Guide">
+                            
+                            <span class="empty_left"></span>
+
+                            <span class="right_area">
+                                <span class="arrow">
+                                    모든 등급의 품질 판정 가이드 보기
+                                    <img class="arrow_down" src="ep_arrow-down.png">
+                                    <img class="arrow_up" src="ep_arrow-up.png">
+    
+                                </span>
+
+                                
+
+                            </span>
+                    
+                        </p>
+                    
+                    </span>
+    
+                </div>
+    
+                <div class="enroll_line">
+                    <span class="enroll_left"><p class="left_label">정가</p></span>
+                    <span class="enroll_right"><input type="text"></span>
+    
+                </div>
+    
+                <div class="enroll_line">
+                    <span class="enroll_left"><p class="left_label">판매가</p></span>
+                    <span class="enroll_right"><input type="text"></span>
+    
+                </div>
+    
+                <div class="enroll_line">
+                    <span class="enroll_left"><p class="left_label">카테고리</p></span>
+                    <span class="enroll_right">
+                        <span>
+                            <select class="select_category" name="" id="usedBook_category" size="6">
+                                <option value="">운동/취미/살림</option>
+                                <option value="">교재/참고서/자격증</option>
+                                <option value="">유아/어린이</option>
+                                <option value="">여행</option>
+                                <option value="">역사/문화/예술/종교</option>
+                                <option value="">과학</option>
+                                <option value="">외국어</option>
+                                <option value="">만화</option>
+                                <option value="">컴퓨터/모바일</option>
+                                <option value="">외국도서</option>
+                                <option value="">기타</option>
+                                <option value="drama">소설/희곡</option>
+                                
+                            </select>
+
+                            <select class="select_small_category" name="" id="" size="6">
+                                <option value="">라이트노벨</option>
+                                <option value="">판타지</option>
+                                <option value="">SF</option>
+                                <option value="">추리</option>
+                                <option value="">로맨스</option>
+                                <option value="">무협</option>
+                                <option value="">희곡</option>
+                                <option value="">기타</option>
+        
+                            </select>
+
+
+                        </span>
+                        
+                    </span>
+    
+                </div>
+    
+                <div class="enroll_line">
+                    <span class="enroll_left"><p class="left_label">책소개</p></span>
+                    <span class="enroll_right"><textarea class="intro" name="" id=""></textarea></span>
+    
+                </div>
+    
+                <div class="enroll_line">
+                    <span class="enroll_left"><p class="left_label">목차</p></span>
+                    <span class="enroll_right"><textarea class="intro" name="희곡" id=""></textarea></span>
+    
+                </div>
+    
+                <div class="enroll_line">
+                    <span class="enroll_left"><p class="left_label">저자 및 역자 소개</p></span>
+                    <span class="enroll_right"><textarea class="intro" name="" id=""></textarea></span>
+    
+                </div>
+
+                
+                
+            </section>
+            
+            <div class="buttons">
+
+                <button class="insert_btn">등록완료</button>
+                <button class="cancel_btn">취소</button>
+
+            </div>
+
+        </form>
+
+
+
+
+
+
+
+
+
+
+
+    </main>
+
+
+
+    
+
+    <footer class="footer">
+        <div class="footer-in">
+
+            <!-- 상단 링크 -->
+            <nav class="ft-toplinks" aria-label="Ft links">
+            <a href="#">회사소개</a>
+            <span class="sep">|</span>
+            <a href="#">서비스 소개</a>
+            <span class="sep">|</span>
+            <a href="#">이용약관</a>
+            <span class="sep">|</span>
+            <a href="#">개인정보처리방침</a>
+            <span class="sep">|</span>
+            <a href="#">청소년보호정책</a>
+            <span class="sep">|</span>
+            <a href="#">채용정보</a>
+            <span class="sep">|</span>
+            <a href="#">광고문의</a>
+            </nav>
+
+            <div class="footer-main">
+            <!-- 좌측 로고 -->
+            <div class="footer-brand" aria-label="BOOGIMOVIE">
+                <img src="../../static/images/common/logo_white.png" alt="">
+            </div>
+
+            <!-- 회사 정보 -->
+            <div class="footer-info">
+                <div class="info-row">
+                <span class="info-title">(주)BOOGIMOVIE</span>
+                </div>
+
+                <div class="info-row">
+                <span>서울특별시 종로구 우정국로2길 21 9층, 903호</span>
+                </div>
+
+                <div class="info-row">
+                <span>대표자: (발신자부담) 1544-0000(부기문고) · 1661-1112(핫트랙스)</span>
+                </div>
+
+                <div class="info-row">
+                <span>이메일: boogi@naver.com</span>
+                </div>
+
+                <div class="info-row">
+                <span>대표 FAX: 2025-012-0801</span>
+                </div>
+
+                <div class="info-row">
+                <span>사업자등록번호: 102-81-11670</span>
+                </div>
+
+                <div class="info-row">
+                <span>통신판매업신고: 0000 - 서울 종로구 - 00000</span>
+                </div>
+
+                <div class="info-row">
+                <span>개인정보관리 책임자: 김무비</span>
+                </div>
+
+                <div class="info-row copyright">
+                © BOOGIMOVIE CENTRE
+                </div>
+            </div>
+
+            <!-- 우측 SNS -->
+            <div class="footer-sns" aria-label="Social links">
+                <a class="sns-btn" href="#" aria-label="KakaoTalk"><img src="../../static/svg/footer-kakao.svg" alt=""></a>
+                <a class="sns-btn" href="#" aria-label="Facebook"><img src="../../static/svg/footer-facebook.svg" alt=""></a>
+                <a class="sns-btn" href="https://www.instagram.com/dog___foooot?igsh=MTlyc3lpc3Y3c3FqMA==" aria-label="Instagram"><img src="../../static/svg/footer-instagram.svg" alt=""></a>
+                <a class="sns-btn" href="#" aria-label="YouTube"><img src="../../static/svg/footer-youtube.svg" alt=""></a>
+            </div>
+            </div>
+        </div>
+    </footer>
+        <!-- <link rel="stylesheet" href="../../static/css/common/footer.css"> -->
+        <link rel="stylesheet" href="footer.css">
+
+
+
+
+
+
+
+    <script>
+        document.querySelectorAll('textarea').forEach(textarea => {
+            textarea.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = this.scrollHeight + 'px';
+
+                
+            });
+        });
+
+    </script>
+
+    <script>
+
+        const bookStatus_Guide = document.querySelector('.bookStatus_Guide')
+        const rightArea = document.querySelector('.right_area')
+        const arrow_up = document.querySelector('.arrow_up')
+        const arrow_down = document.querySelector('.arrow_down')
+        console.log(rightArea)
+
+        rightArea.addEventListener('click', function() {
+
+            
+            
+            bookStatus_Guide.classList.toggle('active');
+
+            arrow_up.classList.toggle('active')
+            arrow_down.classList.toggle('active')
+            
+
+        })
+        
+    </script>
+
+    <script>
+
+        const selectCategory = document.getElementById('usedBook_category')
+        const selectSmallCategory = document.querySelector('.select_small_category')
+
+        selectCategory.addEventListener('change', function() {
+
+            const selectedOption = this.value
+
+            if(selectedOption == 'drama'){
+                selectSmallCategory.classList.add('active')
+
+                console.log('active')
+            } else {
+                selectSmallCategory.classList.remove('active')
+            }
+        })
+
+    </script>
+
+    
+</body>
+</html>

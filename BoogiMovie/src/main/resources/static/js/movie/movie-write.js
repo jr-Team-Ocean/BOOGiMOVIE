@@ -1,9 +1,10 @@
 console.log('movie.js loaded....')
 
+// tag 입력(수정, 등록)
 const tagifyNation  = createTagify('input[name=nation]',  ["대한민국", "미국", "일본"]);
-const tagifyActor   = createTagify('input[name=actor]',   ["송강호", "김혜수", "김태리", "현빈"]);
-const tagifyCreator = createTagify('input[name=creator]', ["박찬욱", "류승완", "나홍진", "봉준호"]);
-const tagifyCompany = createTagify('input[name=company]', ["롯데", "CJ"]);
+const tagifyActor   = createTagify('input[name=actor]',   ["샘 워싱턴", "조 샐다나", "시고니 위버", "스티븐 랭"]);
+const tagifyCreator = createTagify('input[name=creator]', ["박찬욱", "류승완", "나홍진", "봉준호", "제임스 카메론"]);
+const tagifyCompany = createTagify('input[name=company]', ["롯데", "CJ", "월트디즈니 컴퍼니 코리아"]);
 
 function createTagify(selector, whitelist){
     const input = document.querySelector(selector)

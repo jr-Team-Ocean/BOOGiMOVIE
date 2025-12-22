@@ -173,6 +173,27 @@ a {
     cursor: pointer;
 }
 
+/* 쇼핑 계속하기 버튼 */
+.continue_shopping_area {
+    margin-top: 20px;
+    display: flex;
+    justify-content: end;
+}
+
+.continue_shopping_btn {
+    background-color: #5170B1;
+    border: none;
+    padding: 15px 20px;
+    color: white;
+    border-radius: 5px;
+}
+
+.continue_shopping_btn:hover {
+    cursor: pointer;
+}
+
+/* ================================================= */
+/* ================================================= */
 
 
 /* 오른쪽 컨테이너 */
