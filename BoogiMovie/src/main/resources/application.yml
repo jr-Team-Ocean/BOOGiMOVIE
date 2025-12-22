@@ -11,6 +11,13 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+    
+  # REDIS 데이터베이스
+  data:
+    redis:
+      host: localhost
+      port: 6379 # 기본 포트 주소
+  
   
   jackson:
     property-naming-strategy: SNAKE_CASE
