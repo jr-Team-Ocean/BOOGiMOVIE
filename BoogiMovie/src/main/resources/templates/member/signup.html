@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,13 +9,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="/src/main/resources/static/css/member/signUp.css">
+    <link rel="stylesheet" th:href="@{/css/member/signUp.css}">
     
 </head>
 <body>
     <div class="container">
         <div class="logo">
-            <img src="/src/main/resources/static/images/common/logo_basic.png">
+            <img th:src="@{/images/common/logo_basic.png}">
         </div>
         <div class="header">
             <div>휴대폰으로 인증</div>
@@ -48,7 +48,7 @@
         
 
         <div class="step2 hidden">
-            <form action="#" method="POST" name="signUpFrm" id="signUpFrm">
+            <form th:action="@{/member/signUp}" method="POST" name="signUpFrm" id="signUpFrm">
                 <label for="ID">
                     <span class="required">*</span>
                     아이디
@@ -126,6 +126,8 @@
         </div>
     </div>
 
+    <script th:src="@{/js/member/signUp.js}"></script>
+
     <!-- 주소 검색 api -->
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
@@ -155,6 +157,5 @@
         }
     </script>
 
-    <script src="/src/main/resources/static/js/member/signUP.js"></script>
 </body>
 </html>
