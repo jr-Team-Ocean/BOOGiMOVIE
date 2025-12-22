@@ -41,8 +41,6 @@ logging:
     org.elasticsearch.client: TRACE # Elasticsearch의 쿼리 로그를 출력
     edu.og.es.common.filter.LoggingFilter: TRACE # 필터 로그
 
-<<<<<<< HEAD
-=======
   # 파일 업로드 제한 설정
   servlet:
     multipart:
@@ -55,4 +53,3 @@ logging:
 #   member:
 #     location: C:/boogimovieImg/member/
 #     webpath: /images/member/
->>>>>>> b7aa8fc (Add. yml 파일 내용 추가 (파일 경로, Hikari CP 등))
