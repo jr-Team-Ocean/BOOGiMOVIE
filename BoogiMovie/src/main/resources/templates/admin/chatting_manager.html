@@ -188,7 +188,7 @@
                 </ul>
             </aside>
 
-            <section class="right_panel">
+            <section class="right_panel" id="rightChatBox">
                 <div class="chat_messages">
                     <div class="message_row user_row">
                         <div class="user_msg">
@@ -242,11 +242,11 @@
 
             <div class="chat_input_section">
                 <div class="bottom_input_container">
-                    <input type="text" placeholder="메세지를 입력하세요" class="chat_input">
+                    <input type="text" placeholder="메세지를 입력하세요" class="chat_input" id="chattingInput">
                     <button class="attach_button">
                         <img src="../../static/svg/camera.svg" class="bottom_img2" alt="파일 첨부 버튼"> 
                     </button>
-                    <button class="send_button">
+                    <button class="send_button" id="sendBtn">
                         <img src="../../static/svg/enter.svg" class="bottom_img1" alt="전송 버튼"> 
                     </button>
                 </div>
@@ -337,6 +337,9 @@
     </footer>
 
     <!-- footer -->
+
+
+    <script src="../../static/js/admin/chatting_manager.js"></script>
 
 </body>
 </html>

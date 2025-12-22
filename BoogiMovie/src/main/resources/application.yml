@@ -29,3 +29,4 @@ logging:
   level:
     org.elasticsearch.client: TRACE # Elasticsearch의 쿼리 로그를 출력
     edu.og.es.common.filter.LoggingFilter: TRACE # 필터 로그
+
