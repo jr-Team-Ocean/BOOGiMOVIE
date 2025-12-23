@@ -5,11 +5,11 @@
 }
 
 body {
-  min-height: 800px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 18px;
+    min-height: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
 }
 
 .container{
@@ -117,8 +117,8 @@ label{
     padding-left: 5px;
 }
 
-#reBtn{
-    width: 120px;
+.reBtn{
+    width: 60px;
     height: 40px;
     padding: 5px;
     background-color: #ffff;

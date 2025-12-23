@@ -94,10 +94,24 @@ memberId?.addEventListener('input', ()=>{
 
     const idRegEx = /^[a-z0-9]{4,12}$/
     if(idRegEx.test(memberId.value)){
-        // fetch()
-        // .then(resp => resp.text())
-        // .then()
-        // .catch(err => console.log(err))
+        fetch(`/dupCheck/id?id=${encodeURIComponent(memberId.value)}`)
+        .then(resp => resp.json())
+        .then(result => {
+
+            if(result.duplicated){
+                idMessage.innerText = '이미 사용중인 아이디입니다.';
+                idMessage.classList.remove('confirm');
+                idMessage.classList.add('error');
+                checkObj.memberId = false;
+            
+            }else {
+                idMessage.innerText = '사용 가능한 아이디입니다.';
+                idMessage.classList.remove('error');
+                idMessage.classList.add('confirm');
+                checkObj.memberId = true;
+            }
+        })
+        .catch(err => console.log(err))
     
     }else{
         idMessage.innerText = "사용 불가능한 아이디 입니다.";
@@ -214,12 +228,27 @@ nickName?.addEventListener('input', ()=>{
         return;
     }
 
+    // 닉네임 중복검사
     const nickRegEx = /^[가-힣a-zA-z0-9]{2,8}$/;
     if(nickRegEx.test(nickName.value)){
-        // fetch()
-        // .then(resp => resp.text())
-        // .then()
-        // .catch(err => console.log(err))
+        fetch(`/dupCheck/nickname?nickname=${encodeURIComponent(nickName.value)}`)
+        .then(resp => resp.json())
+        .then(result => {
+
+            if(result.duplicated){
+                nickNameMessage.innerText = '이미 사용중인 닉네임입니다.';
+                nickNameMessage.classList.remove('confirm');
+                nickNameMessage.classList.add('error');
+                checkObj.memberId = false;
+            
+            }else {
+                nickNameMessage.innerText = '사용 가능한 닉네임입니다.';
+                nickNameMessage.classList.remove('error');
+                nickNameMessage.classList.add('confirm');
+                checkObj.memberId = true;
+            }
+        })
+        .catch(err => console.log(err))
     
     }else{
         nickNameMessage.innerText = '사용 불가능한 닉네임 입니다.';
