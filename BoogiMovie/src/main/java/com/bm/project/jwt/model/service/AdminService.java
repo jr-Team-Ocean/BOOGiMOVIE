@@ -1,5 +1,5 @@
 package com.bm.project.jwt.model.service;
 
-public class AdminService {
+public interface AdminService {
 
 }

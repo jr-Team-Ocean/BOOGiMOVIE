@@ -1,5 +1,9 @@
 package com.bm.project.jwt.repository;
 
-public class AdminRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.bm.project.entity.Member;
+
+public interface AdminRepository extends JpaRepository<Member, Long>{
 
 }
