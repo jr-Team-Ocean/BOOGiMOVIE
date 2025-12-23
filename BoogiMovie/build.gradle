@@ -49,7 +49,6 @@ dependencies {
     //GSON
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.10.1'
     
-    // jwt
     // JWT 생성 및 검증을 위한 라이브러리
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'	 // 핵심 JWT 인터페이스 & 빌더 API
     implementation 'io.jsonwebtoken:jjwt-impl:0.11.5' 	 // 실제 JWT 구현체
@@ -57,6 +56,10 @@ dependencies {
     
     // REDIS
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    
+    // solapi 문자인증
+    implementation 'com.solapi:sdk:1.0.3'
+    implementation "org.springframework.boot:spring-boot-starter-validation" // 입력값 검증용
 }
 
 tasks.named('test') {
