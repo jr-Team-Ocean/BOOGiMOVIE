@@ -5,10 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <link rel="stylesheet" href="usedBook_Detail.css">
+    <link rel="stylesheet" href="../../static/css/usedBookCss/usedBook_Detail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../static/css/common/header.css">
+
+    <link rel="stylesheet" href="../../static/css/common/font.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 
 </head>
 <body>
+    <div class="header_container">
+        <div class="blue_background">
+            <div class="header_inner">
+                <div class="header_category">
+                    <!-- 선택에 따른 효과 - 타임리프(경로에 따른 효과 주기로 변경 예정) -->
+                    <div class="header_active"><a href="#" class="white font-18px">홈</a></div>
+                    <div><a href="#" class="white font-18px">도서</a></div>
+                    <div><a href="#" class="white font-18px">중고도서</a></div>
+                    <div><a href="#" class="white font-18px">영화</a></div>
+                </div>
+
+                <div class="header_login">
+                    <div><a href="#" class="white font-18px">로그인</a></div>
+                    <div><a href="#" class="white font-18px">회원가입</a></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 로고 및 검색바 -->
+    <div class="logo_search_container">
+        <!-- 로고 -->
+        <div class="logo_container">
+            <a href="#"><img src="../../static/images/common/logo_basic.png" alt=""></a>
+        </div>
+
+        <!-- 검색바 전체 자리 -->
+        <div class="search_container">
+            <!-- 검색 아이콘 -->
+            <div class="search_icon">
+                <img src="../../static/svg/search_icon.svg" alt="">
+            </div>
+
+            <!-- 검색란 -->
+            <div class="search_input">
+                <input type="text" placeholder="원하는 작품을 검색해 보세요!">
+            </div>
+        </div>
+    </div>
+
+    </div>
 
     <main>
 
@@ -16,7 +65,7 @@
             
             <section class="detail_top">
                 <div class="detail_img">
-                    <img class="usedBook_sumbnail" src="images.jpg">
+                    <img class="usedBook_thumbnail" src="../../static/images/common/utube.png">
 
 
                 </div> 
@@ -30,7 +79,7 @@
 
                     </section>
 
-                    <section>
+                    <section class="enroll_date">
                         등록일: 2025/12/25
 
                     </section>
@@ -38,132 +87,95 @@
                     <section class="detail_top_info">
 
                         <div class="detail_top_left">
-    
-                            <section>
-                                <p>
-                                    새상품
-                                </p>
+                            
+                            <p>
+                                새상품
+                            </p>
                                 
-        
-                            </section>
-        
-                            <section>
-                                <p>
-                                    판매가
+                            
+                            <p>
+                                판매가
 
-                                </p>
-        
-                            </section>
-        
-                            <section>
+                            </p>
+                            
+                            <p>
+                                상품 상태
 
-                                <p>
-                                    상품 상태
-
-                                </p>
-        
-                            </section>
-        
-                            <section>
-                                <p>
-                                    카테고리
-                                </p>
-        
-                            </section>
+                            </p>
     
-                            <section>
-
-                                <p>
-                                    배송료
-                                </p>
-        
-                            </section>
+                            <p>
+                                카테고리
+                            </p>
     
+                            <p>
+                                배송료
+                            </p>
     
                         </div>
     
                         <div class="detail_top_right">
     
-                            <section>
-                                
-                                <p>
-                                    17,820원
+                            <p>
+                                17,820원
 
-                                </p>
-        
-                            </section>
-        
-                            <section>
-                                <p>
-                                    10,400원
-                                </p>
-        
-                            </section>
-        
-                            <section>
-                                <p>
-                                    중
-                                </p>
-
-        
-                            </section>
-        
-                            <section>
-                                <p>
-                                    컴퓨터/모바일
-                                </p>
-        
-                            </section>
-    
-                            <section>
-                                <p>
-                                    유료(2만원 이상 무료,  도서 포함 1만 5천원 이상 무료)
-                                </p>
-
-        
-                            </section>
-    
-    
-                        </div>
-
-                    </section>
-
-
-
-                    <section>
-                        <span>관심도서 등록</span>
-                        <span>하트</span>
-                        <span>17</span>
-
-                    </section>
-                        <div class="button_top">
-
-                            <button>장바구니</button>
-    
-                            <button>구매하기</button>
-
-                        </div>
-
-                    <section>
-
-                        <div class="button_bottom">
-
-                            <button>수정하기</button>
-    
-                            <button>삭제하기</button>
-
-                            <button>목록으로</button>
+                            </p>
                         
+                            <p class="present_price">
+                                10,400원
+                            </p>
+    
+                            <p>
+                                중
+                            </p>
+    
+                            <p>
+                                컴퓨터/모바일
+                            </p>
+    
+                            <p>
+                                유료(2만원 이상 무료,  도서 포함 1만 5천원 이상 무료)
+                            </p>
+    
                         </div>
 
                     </section>
 
+                    <section class="like_part">
+                        <span>관심도서 등록</span>
+                        <span class="heart">
+                            <i class="fa-regular fa-heart"></i>
+                            <i class="fa-solid fa-heart"></i>
+                        </span>
+                        <span>17</span>
+                        
+                    </section>
+                    
+                    <section class="buttons">
+
+                        <div class="button_top">
+    
+                            <button class="cart_btn">장바구니</button>
+        
+                            <button class="purchase_btn">구매하기</button>
+    
+                        </div>
+    
+                        <div class="button_bottom">
+    
+                            <button class="edit_btn">수정하기</button>
+        
+                            <button class="del_btn">삭제하기</button>
+    
+                            <button class="list_btn">목록으로</button>
+                            
+                        </div>
+
+                    </section>
 
                 </div>
                 
                 
             </section>
-
 
             <section class="detail_middle">
 
@@ -174,6 +186,8 @@
 
                 <table class="bookStatus_Guide">
     
+                    
+
                     <thead>
                         <tr class="bookStatus_Guide_Head">
                             <td>품질등급</td>
@@ -186,6 +200,74 @@
     
                     </thead>
     
+                    <tbody>
+    
+                        <tr class="bookStatus_Guide_Body">
+                            <td>최상</td>
+                            <td>
+                                새것에 가까움  
+    
+                            </td>
+                            <td>
+                                변색 없음 <br>
+                                찢어진 흔적 없음 <br>
+                                닳은 흔적 없음 <br>
+                                낙서 없음 <br>
+                                얼룩 없음 <br>
+                                도서 겉표지 있음
+                            </td>
+                            <td>
+                                변색 없음 <br>
+                                닳은 흔적 없음 <br>
+                                낙서 없음 <br>
+                                얼룩 없음
+                            
+                            </td>
+                            <td>
+                                변색 없음 <br>
+                                낙서 없음 <br>
+                                변형 없음 <br>
+                                얼룩 없음 <br>
+                                제본 탈착 없음
+                            </td>
+                        </tr>
+    
+    
+                    </tbody>
+
+                    <tbody>
+    
+                        <tr class="bookStatus_Guide_Body">
+                            <td>상</td>
+                            <td>
+                                약간의 사용감은 있으나 깨끗한 책  
+    
+                            </td>
+                            <td>
+                                희미한 변색이나 작은 얼룩이 있음 <br>
+                                찢어진 흔적 없음 <br>
+                                약간의 모서리 해짐 <br>
+                                낙서 없음 <br>
+                                도서 겉표지 있음
+                            </td>
+                            <td>
+                                희미한 변색이나 작은 얼룩이 있음 <br>
+                                약간의 닳은 흔적 있음 <br>
+                                낙서 없음
+                            
+                            </td>
+                            <td>
+                                변색 없음 <br>
+                                낙서 없음 <br>
+                                변형 없음 <br>
+                                얼룩 없음 <br>
+                                제본 탈착 없음
+                            </td>
+                        </tr>
+    
+    
+                    </tbody>
+
                     <tbody>
     
                         <tr class="bookStatus_Guide_Body">
@@ -289,8 +371,92 @@ Zach King Studio VFX 디자인.
 
         </section>
 
-
     </main>
+
+
+    
+    <footer class="footer">
+        <div class="footer-in">
+
+            <!-- 상단 링크 -->
+            <nav class="ft-toplinks" aria-label="Ft links">
+            <a href="#">회사소개</a>
+            <span class="sep">|</span>
+            <a href="#">서비스 소개</a>
+            <span class="sep">|</span>
+            <a href="#">이용약관</a>
+            <span class="sep">|</span>
+            <a href="#">개인정보처리방침</a>
+            <span class="sep">|</span>
+            <a href="#">청소년보호정책</a>
+            <span class="sep">|</span>
+            <a href="#">채용정보</a>
+            <span class="sep">|</span>
+            <a href="#">광고문의</a>
+            </nav>
+
+            <div class="footer-main">
+            <!-- 좌측 로고 -->
+            <div class="footer-brand" aria-label="BOOGIMOVIE">
+                <img src="../../static/images/common/logo_white.png" alt="">
+            </div>
+
+            <!-- 회사 정보 -->
+            <div class="footer-info">
+                <div class="info-row">
+                <span class="info-title">(주)BOOGIMOVIE</span>
+                </div>
+
+                <div class="info-row">
+                <span>서울특별시 종로구 우정국로2길 21 9층, 903호</span>
+                </div>
+
+                <div class="info-row">
+                <span>대표자: (발신자부담) 1544-0000(부기문고) · 1661-1112(핫트랙스)</span>
+                </div>
+
+                <div class="info-row">
+                <span>이메일: boogi@naver.com</span>
+                </div>
+
+                <div class="info-row">
+                <span>대표 FAX: 2025-012-0801</span>
+                </div>
+
+                <div class="info-row">
+                <span>사업자등록번호: 102-81-11670</span>
+                </div>
+
+                <div class="info-row">
+                <span>통신판매업신고: 0000 - 서울 종로구 - 00000</span>
+                </div>
+
+                <div class="info-row">
+                <span>개인정보관리 책임자: 김무비</span>
+                </div>
+
+                <div class="info-row copyright">
+                © BOOGIMOVIE CENTRE
+                </div>
+            </div>
+
+            <!-- 우측 SNS -->
+            <div class="footer-sns" aria-label="Social links">
+                <a class="sns-btn" href="#" aria-label="KakaoTalk"><img src="../../static/svg/footer-kakao.svg" alt=""></a>
+                <a class="sns-btn" href="#" aria-label="Facebook"><img src="../../static/svg/footer-facebook.svg" alt=""></a>
+                <a class="sns-btn" href="https://www.instagram.com/dog___foooot?igsh=MTlyc3lpc3Y3c3FqMA==" aria-label="Instagram"><img src="../../static/svg/footer-instagram.svg" alt=""></a>
+                <a class="sns-btn" href="#" aria-label="YouTube"><img src="../../static/svg/footer-youtube.svg" alt=""></a>
+            </div>
+            </div>
+        </div>
+        </footer>
+        <!-- <link rel="stylesheet" href="../../static/css/common/footer.css"> -->
+        <link rel="stylesheet" href="../../static/css/common/footer.css">
+
+
+    </footer>
+
+
     
 </body>
 </html>

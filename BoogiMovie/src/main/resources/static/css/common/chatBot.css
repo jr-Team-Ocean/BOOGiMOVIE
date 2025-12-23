@@ -1,0 +1,112 @@
+section {
+    width: 500px;
+    height: 700px;
+    position: relative;
+}
+
+.chatBot-header {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    padding: 15px;
+}
+
+/* 채팅 영역 */
+.chatting_container {
+    height: calc(100% - 130px);
+    overflow-y: auto;
+    padding-bottom: 20px;
+}
+
+
+/* 봇 채팅 */
+.boogi-chatting {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.boogi-info {
+    display: flex;
+    align-items: center;
+}
+
+/* 봇 사진 */
+.boogi-info > img {
+    width: 30px;
+    border: 2px solid #082A71;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+.boogi-info div {
+    margin: 10px;
+    color: #565656;
+    font-weight: 500;
+}
+
+.bot-text {
+    width: fit-content;
+    max-width: 180px;
+    border: 10px;
+    background-color: #e3e3e3;
+    margin-left: 50px;
+    padding: 10px;
+    border-radius: 0 10px 10px 10px;
+}
+
+/* 사용자 채팅 */
+.user-chatting {
+    display: flex;
+    justify-content: end;
+    margin: 20px;
+}
+
+.user-text {
+    width: fit-content;
+    max-width: 180px;
+    background-color: #5170B0;
+    padding: 10px;
+    color: white;
+    border-radius: 10px 0 10px 10px;
+}
+
+/* 채팅 보내는 영역 */
+.write-chatting-area {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.write-chatting-area > div {
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    width: 400px;
+    height: 50px;
+    box-shadow : 3px 3px 10px 5px rgba(188, 188, 188, 0.372);
+}
+
+#write-chatting {
+    margin-top: 15px;
+    width: 100%;
+    border-radius: 10px;
+    border: none;
+    resize: none;
+    text-align: center;
+}
+
+.write-chatting-area > img {
+    width: 110px;
+}
+
+#write-chatting:focus {
+    outline: none;
+}
+
+.write-chatting-area img:hover {
+    cursor: pointer;
+}

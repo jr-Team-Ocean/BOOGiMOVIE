@@ -16,10 +16,129 @@
 
 </head>
 <body>
+	<!-- 최근 본 콘텐츠 -->
+    <div class="view-contanier open">
+        <h3>최근 본 콘텐츠</h3>
+
+        <div class="button-group">
+            <button class="recent-btn select">전체</button>
+            <button class="recent-btn">도서</button>
+            <button class="recent-btn">영화</button>
+        </div>
+
+        <div class="count">
+            <p><b>5</b>개</p>
+            <p>전체삭제</p>
+        </div>
+
+		<!-- 전체 -->
+		<section class="recent-all">
+			<!-- 최근 본 콘텐츠 1개 -->
+			<div class="content-box">
+				<img src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+				<div class="content-text">
+					<p class="view-title">[국내도서] 돈의 속성(400쇄 리커버에디션)</p>
+					<span>김승호</span><span>/</span><span>스노우폭스북스</span>
+				</div>
+				<p class="view-x-btn">&times;</p>
+			</div>
+
+			<div class="content-box">
+				<img src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+				<div class="content-text">
+					<p class="view-title">[국내도서] 돈의 속성(400쇄 리커버에디션)</p>
+					<span>김승호</span><span>/</span><span>스노우폭스북스</span>
+				</div>
+				<p class="view-x-btn">&times;</p>
+			</div>
+
+			<div class="content-box">
+				<img src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+				<div class="content-text">
+					<p class="view-title">[국내도서] 돈의 속성(400쇄 리커버에디션)</p>
+					<span>김승호</span><span>/</span><span>스노우폭스북스</span>
+				</div>
+				<p class="view-x-btn">&times;</p>
+			</div>
+
+			<div class="content-box">
+				<img src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+				<div class="content-text">
+					<p class="view-title">[국내도서] 돈의 속성(400쇄 리커버에디션)</p>
+					<span>김승호</span><span>/</span><span>스노우폭스북스</span>
+				</div>
+				<p class="view-x-btn">&times;</p>
+			</div>
+
+			<div class="content-box">
+				<img src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+				<div class="content-text">
+					<p class="view-title">[국내도서] 돈의 속성(400쇄 리커버에디션)</p>
+					<span>김승호</span><span>/</span><span>스노우폭스북스</span>
+				</div>
+				<p class="view-x-btn">&times;</p>
+			</div>
+		</section>
+
+		<!-- 도서 -->
+		<section class="recent-book colse">
+			<!-- 최근 본 콘텐츠 1개 -->
+			<div class="content-box">
+				<img src="../../static/images/movie/movie_sample_img2.png">
+				<div class="content-text">
+					<p class="view-title">[국내도서] 돈의 속성(400쇄 리커버에디션)</p>
+					<span>김승호</span><span>/</span><span>스노우폭스북스</span>
+				</div>
+				<p class="view-x-btn">&times;</p>
+			</div>
+
+			<div class="content-box">
+				<img src="../../static/images/movie/movie_sample_img2.png">
+				<div class="content-text">
+					<p class="view-title">[국내도서] 돈의 속성(400쇄 리커버에디션)</p>
+					<span>김승호</span><span>/</span><span>스노우폭스북스</span>
+				</div>
+				<p class="view-x-btn">&times;</p>
+			</div>
+		</section>
+
+		<!-- 영화 -->
+		<section class="recent-movie colse">
+			<!-- 최근 본 콘텐츠 1개 -->
+			<div class="content-box">
+				<img src="../../static/images/movie/movie_sample_img3.png">
+				<div class="content-text">
+					<p class="view-title">[국내도서] 돈의 속성(400쇄 리커버에디션)</p>
+					<span>김승호</span><span>/</span><span>스노우폭스북스</span>
+				</div>
+				<p class="view-x-btn">&times;</p>
+			</div>
+
+			<div class="content-box">
+				<img src="../../static/images/movie/movie_sample_img3.png">
+				<div class="content-text">
+					<p class="view-title">[국내도서] 돈의 속성(400쇄 리커버에디션)</p>
+					<span>김승호</span><span>/</span><span>스노우폭스북스</span>
+				</div>
+				<p class="view-x-btn">&times;</p>
+			</div>
+		</section>
+        
+    </div>
+
+	<!-- flating 버튼 -->
     <div class="floating-ui">
-      <button class="floating-btn"><span class="icon-drawer"></span></button>
-      <button class="floating-btn"><img class="ft-bt2" src="../../static/images/common/only-logo.png" alt=""></button>
+      <button class="floating-btn" id="btnRecent"><span class="icon-drawer"></span></button>
+      <button onclick="openBot()" class="floating-btn"><img class="ft-bt2" src="../../static/images/common/only-logo.png" alt=""></button>
       <button class="floating-btn"><i class="fa-solid fa-caret-up"><br>맨 위로</i></button>
     </div>
+
+    <script>
+		/* 챗봇 팝업 띄우기 */
+		function openBot() {
+			window.open("chatBot.html", "_blank", 'width=530, height=710')
+		}
+    </script>
+	<script src="../../static/js/common/recentView.js"></script>
 </body>
 </html>

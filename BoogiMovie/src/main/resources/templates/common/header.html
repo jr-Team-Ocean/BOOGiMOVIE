@@ -16,47 +16,192 @@
 
 <body>
     <div class="header_container">
+        <!-- 홈 / 도서 / 중고도서 / 영화 -->
         <div class="blue_background">
             <div class="header_inner">
                 <div class="header_category">
                     <!-- 선택에 따른 효과 - 타임리프(경로에 따른 효과 주기로 변경 예정) -->
-                    <div class="header_active"><a href="#" class="white font-18px">홈</a></div>
-                    <div><a href="#" class="white font-18px">도서</a></div>
-                    <div><a href="#" class="white font-18px">중고도서</a></div>
-                    <div><a href="#" class="white font-18px">영화</a></div>
+                    <a class="header_active"><div href="#" class="white font-18px">홈</div></a>
+                    <a><div href="#" class="white font-18px">도서</div></a>
+                        <a><div href="#" class="white font-18px">중고도서</div></a>
+                        <a><div href="#" class="white font-18px">영화</div></a>
                 </div>
 
-                <div class="header_login">
-                    <div><a href="#" class="white font-18px">로그인</a></div>
-                    <div><a href="#" class="white font-18px">회원가입</a></div>
+                    <div class="header_login">
+                        <a><div href="#" class="white font-18px">로그인</div></a>
+                        <a><div href="#" class="white font-18px">회원가입</div></a>
+                    </div>
                 </div>
             </div>
-        </div>
 
-    </div>
+            <!-- 로고 및 검색바 -->
+            <div class="logo_search_container">
+                <div class="search_margin">
+                    <!-- 로고 -->
+                    <div class="logo_container">
+                        <a href="#"><img src="../../static/images/common/logo_basic.png" alt=""></a>
+                    </div>
+    
+                    <!-- 검색바 전체 자리 -->
+                    <div class="search_wrapper">
+                        
+                        <div class="search_container">
+                            <div class="search_icon">
+                                <img src="../../static/svg/search_icon.svg" alt="">
+                            </div>
+                            <div class="search_input">
+                                <input type="text" placeholder="원하는 작품을 검색해 보세요!">
+                            </div>
+                        </div>
 
-    <!-- 로고 및 검색바 -->
-    <div class="logo_search_container">
-        <!-- 로고 -->
-        <div class="logo_container">
-            <a href="#"><img src="../../static/images/common/logo_basic.png" alt=""></a>
-        </div>
+                        <!-- 통합검색 결과 -->
+                        <div class="search_dropdown">
+                            
+                            <!-- 도서 -->
+                            <div class="search_category">
+                                <div class="dropdown_category bold font-18px">도서</div>
 
-        <!-- 검색바 전체 자리 -->
-        <div class="search_container">
-            <!-- 검색 아이콘 -->
-            <div class="search_icon">
-                <img src="../../static/svg/search_icon.svg" alt="">
+                                <!-- 상품들 묶는 컨테이너 -->
+                                <div class="search_result_container">
+                                    <!-- 상품 하나 -->
+                                    <a href="#" class="category_a">
+                                        <div class="dropdown_item">
+                                            <div class="dropdown_img">
+                                                <img src="../../static/images/cart/mock_book1.png">
+                                            </div>
+                                            <div class="dropdown_item_name">개발자 생존법</div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="category_a">
+                                        <div class="dropdown_item">
+                                            <div class="dropdown_img">
+                                                <img src="../../static/images/cart/mock_book1.png">
+                                            </div>
+                                            <div>개발자 생존법</div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="category_a">
+                                        <div class="dropdown_item">
+                                            <div class="dropdown_img">
+                                                <img src="../../static/images/cart/mock_book1.png">
+                                            </div>
+                                            <div>개발자 생존법</div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- 중고도서 -->
+                            <div class="search_category">
+                                <div class="dropdown_category bold font-18px">중고도서</div>
+
+                                <!-- 상품들 묶는 컨테이너 -->
+                                <div class="search_result_container">
+                                    <!-- 상품 하나 -->
+                                    <a href="#" class="category_a">
+                                        <div class="dropdown_item">
+                                            <div class="dropdown_img">
+                                                <img src="../../static/images/cart/mock_book1.png">
+                                            </div>
+                                            <div class="dropdown_item_name">개발자 생존법</div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="category_a">
+                                        <div class="dropdown_item">
+                                            <div class="dropdown_img">
+                                                <img src="../../static/images/cart/mock_book1.png">
+                                            </div>
+                                            <div>개발자 생존법</div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="category_a">
+                                        <div class="dropdown_item">
+                                            <div class="dropdown_img">
+                                                <img src="../../static/images/cart/mock_book1.png">
+                                            </div>
+                                            <div>개발자 생존법</div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>  
+
+                            <!-- 영화 -->
+                            <div class="search_category">
+                                <div class="dropdown_category bold font-18px">영화</div>
+
+                                <!-- 상품들 묶는 컨테이너 -->
+                                <div class="search_result_container">
+                                    <!-- 상품 하나 -->
+                                    <a href="#" class="category_a">
+                                        <div class="dropdown_item">
+                                            <div class="dropdown_img">
+                                                <img src="../../static/images/cart/mock_book2.png">
+                                            </div>
+                                            <div class="dropdown_item_name">엑스 마키나</div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="category_a">
+                                        <div class="dropdown_item">
+                                            <div class="dropdown_img">
+                                                <img src="../../static/images/cart/mock_book2.png">
+                                            </div>
+                                            <div>루퍼</div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="category_a">
+                                        <div class="dropdown_item">
+                                            <div class="dropdown_img">
+                                                <img src="../../static/images/cart/mock_book2.png">
+                                            </div>
+                                            <div>이글 아이</div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+    
+                    <!-- 인기 검색어 -->
+                    <div class="popular_search_box">
+                        <div class="bold">인기 검색어</div>
+                        
+                        <div class="popular_search_window">
+                            <ul class="popular_search_list">
+                                <li>개발자 책 추천</li>
+                                <li>자바스크립트 죽어</li>
+                                <li>아 살려주세요</li>
+                                <li>여기 사람 갇혔어요</li>
+                                <li>이거 언제 다 만드냐고</li>
+                                <li>왜 되다 말어</li>
+                                <li>왜애애애</li>
+                                <li>제발 잠 좀</li>
+                                <li>자게 해주세요</li>
+                                <li>종강원해요</li>
+                            </ul>
+                        </div>
+    
+                        <!-- <div class="popular_search_window">
+                            <ul class="popular_search_list" id="rollingList">
+                                <li th:each="keyword, stat : ${popularKeywords}" 
+                                    th:text="${stat.count + '. ' + keyword}">검색어</li>
+                                
+                                검색어 무한 반복을 위해 처음 요소를 다시 넣어줌!
+                                <li th:if="${not #lists.isEmpty(popularKeywords)}" 
+                                    th:text="${'1. ' + popularKeywords[0]}">검색어</li>
+                            </ul>
+                        </div> -->
+                </div>
+                </div>
             </div>
 
-            <!-- 검색란 -->
-            <div class="search_input">
-                <input type="text" placeholder="원하는 작품을 검색해 보세요!">
-            </div>
         </div>
-    </div>
 
-    </div>
+        <script src="../../static/js/common/header.js"></script>
+
+
 </body>
 
 </html>

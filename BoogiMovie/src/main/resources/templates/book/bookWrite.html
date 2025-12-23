@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/css/common/header.css">
+    <link rel="stylesheet" href="../../static/css/book/bookWrite-style.css">
+    <title>도서 상품 등록</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    
+    
+
+</head>
+<body>
+    <!-- 헤더 -->
+    <div class="header_container">
+        <div class="blue_background">
+            <div class="header_inner">
+                <div class="header_category">
+                    <!-- 선택에 따른 효과 - 타임리프(경로에 따른 효과 주기로 변경 예정) -->
+                    <div class="header_active"><a href="#" class="white font-18px">홈</a></div>
+                    <div><a href="#" class="white font-18px">도서</a></div>
+                    <div><a href="#" class="white font-18px">중고도서</a></div>
+                    <div><a href="#" class="white font-18px">영화</a></div>
+                </div>
+
+                <div class="header_login">
+                    <div><a href="#" class="white font-18px">로그인</a></div>
+                    <div><a href="#" class="white font-18px">회원가입</a></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 로고 및 검색바 -->
+    <div class="logo_search_container">
+        <!-- 로고 -->
+        <div class="logo_container">
+            <a href="#"><img src="../../static/images/common/logo_basic.png" alt=""></a>
+        </div>
+
+        <!-- 검색바 전체 자리 -->
+        <div class="search_container">
+            <!-- 검색 아이콘 -->
+            <div class="search_icon">
+                <img src="../../static/svg/search_icon.svg" alt="">
+            </div>
+
+            <!-- 검색란 -->
+            <div class="search_input">
+                <input type="text" placeholder="원하는 작품을 검색해 보세요!">
+            </div>
+        </div>
+    </div>
+
+
+
+    <main class="write-container">
+
+        <div class="table-wrapper">
+            <h3>도서 상품 등록</h3> 
+            <form action="#" method="POST" name="bookFrm" id="writeFrm" enctype="multipart/form-data">
+                
+                <table class="table-container">
+                    
+                    <tbody>
+                        <tr> <!-- isbn -->
+                            <th>ISBN</th>
+                            <td><input class="book-isbn" type="text" placeholder="국제도서고유번호를 입력해 주세요. (공란 가능)"></td>
+                        </tr>
+
+                        <tr> <!-- 제목 -->
+                            <th>도서명</th>
+                            <td><input class="book-title" type="text" placeholder="책 제목을 입력해주세요."></td>
+                        </tr>
+
+                        <tr> <!-- 이미지 -->
+                            <th>대표이미지</th>
+                            <td>
+                                <label for="book-img"><img src="../../static/svg/ImageAdd.svg" id="add-img"></label>
+                                <input class="book-img" type="file" name="bookImage" hidden>
+                            </td>
+                        </tr>
+
+                        <tr> <!-- 작가 -->
+                            <th>작가</th>
+                            <td><input class='book-writer' placeholder='작가(지은이/글쓴이)를 입력해주세요.'></td>
+                        </tr>
+
+                        <tr> <!-- 출판사 -->
+                            <th>출판사</th>
+                            <td><input class='book-maker' placeholder='출판사를 입력해주세요.'></td>
+                        </tr>
+                        
+                        <tr> <!-- 출간일 -->
+                            <th>출간일</th>
+                            <td><input class="book-date" type="date"></td>
+                        </tr>
+
+                        <tr> <!-- 가격 -->
+                            <th>판매가</th>
+                            <td><input class="book-price" type="number" > 원</td>
+                        </tr>
+
+                        <tr> <!-- 카테고리 -->
+                            <th class="category-th">카테고리</th>
+                            <td class="category-td">
+                                <select class="category-type" name="categoryMain" size="12">
+                                    <option value="">운동/취미/살림</option>
+                                    <option value="">교재/참고서/자격증</option>
+                                    <option value="">유아/어린이</option>
+                                    <option value="">여행</option>
+                                    <option value="">역사/문화/예술/종교</option>
+                                    <option value="">과학</option>
+                                    <option value="">외국어</option>
+                                    <option value="">만화</option>
+                                    <option value="">컴퓨터/모바일</option>
+                                    <option value="">외국도서</option>
+                                    <option value="novel">소설/희곡</option>
+                                    <option value="">기타</option>
+                                </select>
+        
+                                <select class="category-type-sub" name="categorySub" size="8">
+                                    <option value="">라이트노벨</option>
+                                    <option value="">판타지</option>
+                                    <option value="">SF</option>
+                                    <option value="">추리</option>
+                                    <option value="">로맨스</option>
+                                    <option value="">무협</option>
+                                    <option value="">희곡</option>
+                                    <option value="">기타</option>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr> <!-- 재고 -->
+                            <th>재고</th>
+                            <td><input class="book-stock" name="stock" type="number" value="0">개</td>
+                            
+                        </tr>
+
+                        <tr class="book-th"> <!-- 소개 -->
+                            <th>책 소개</th>
+                            <td>
+                                <textarea class="book-info" id="book-info" placeholder="내용을 입력해주세요."></textarea>
+                            </td>
+                        </tr>
+
+
+                    </tbody>
+
+                </table>
+
+                <!-- 제출버튼 -->
+                <div class="button-group">
+                    <button class="submit">등록하기</button>
+                    <button class="reset">취소</button>
+                </div>
+            </form>
+
+        </div>
+
+    </main>
+    
+    <script src="../../static/js/book/bookWrite.js"></script>
+</body>
+</html>

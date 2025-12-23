@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/css/common/header.css">
+    <link rel="stylesheet" href="../../static/css/common/footer.css">
+    <link rel="stylesheet" href="../../static/css/book/bookList-style.css">
+    <title>도서 목록 상세</title>
+
+    <script src="../../static/js/book/bookList.js"></script>
+    
+    <!-- 폰트 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <!-- 헤더 -->
+    <div class="header_container">
+        <div class="blue_background">
+            <div class="header_inner">
+                <div class="header_category">
+                    <!-- 선택에 따른 효과 - 타임리프(경로에 따른 효과 주기로 변경 예정) -->
+                    <div class="header_active"><a href="#" class="white font-18px">홈</a></div>
+                    <div><a href="#" class="white font-18px">도서</a></div>
+                    <div><a href="#" class="white font-18px">중고도서</a></div>
+                    <div><a href="#" class="white font-18px">영화</a></div>
+                </div>
+
+                <div class="header_login">
+                    <div><a href="#" class="white font-18px">로그인</a></div>
+                    <div><a href="#" class="white font-18px">회원가입</a></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 로고 및 검색바 -->
+    <div class="logo_search_container">
+        <!-- 로고 -->
+        <div class="logo_container">
+            <a href="#"><img src="../../static/images/common/logo_basic.png" alt=""></a>
+        </div>
+
+        <!-- 검색바 전체 자리 -->
+        <div class="search_container">
+            <!-- 검색 아이콘 -->
+            <div class="search_icon">
+                <img src="../../static/svg/search_icon.svg" alt="">
+            </div>
+
+            <!-- 검색란 -->
+            <div class="search_input">
+                <input type="text" placeholder="원하는 작품을 검색해 보세요!">
+            </div>
+        </div>
+    </div>
+
+    <!-- 도서 목록 1페이지 -->
+    <div class="book-container">
+
+        <div class="book-header">
+            
+            <!-- 네비게이션 -->
+            <div class="nav-container">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item active">
+                        <a class="nav-link active" aria-current="page" href="#">도서</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 장르 필터 -->
+            <section class="book-category-area">
+
+                <!-- 카테고리 -->
+                <div class="book-category-main1">
+                    <button type="button" class="category-btn small" data-value="0">전체</button>
+                    <button type="button" class="category-btn" data-value="01">운동/취미/살림</button>
+                    <button type="button" class="category-btn" data-value="02">교재/참고서/자격증</button>
+                    <button type="button" class="category-btn" data-value="03">유아/어린이</button>
+                    <button type="button" class="category-btn" data-value="04">여행</button>
+                    <button type="button" class="category-btn" data-value="05">역사/문화/예술/종교</button>
+                </div>
+                <div class="book-category-main2">
+                    <button type="button" class="category-btn small" data-value="99">기타</button>
+                    <button type="button" class="category-btn" data-value="06">과학</button>
+                    <button type="button" class="category-btn" data-value="07">외국어</button>
+                    <button type="button" class="category-btn" data-value="08">만화</button>
+                    <button type="button" class="category-btn" data-value="09">컴퓨터/모바일</button>
+                    <button type="button" class="category-btn" data-value="10">외국도서</button>
+                </div>
+
+                <!-- 소설 구역 -->
+                <div class="category-novel-group">
+                    <button type="button" class="category-btn" data-value="11">소설/희곡 ▶</button>
+                    <div class="category-sub">
+                        <button type="button" class="category-btn sub" data-value="21">라이트노벨</button>
+                        <button type="button" class="category-btn sub" data-value="22">판타지</button>
+                        <button type="button" class="category-btn sub" data-value="23">SF</button>
+                        <button type="button" class="category-btn sub" data-value="24">추리</button>
+                        <button type="button" class="category-btn sub" data-value="25">로맨스</button>
+                        <button type="button" class="category-btn sub" data-value="26">무협</button>
+                        <button type="button" class="category-btn sub" data-value="27">희곡</button>
+                        <button type="button" class="category-btn sub" data-value="28">기타</button>
+                    </div>
+                </div>
+            </section>
+        
+            <div class="list-top-area">
+                <select name="sort" id="list-sort">
+                    <option value="최신순">최신순</option>
+                    <option value="인기순">인기순</option>
+                </select>
+        
+                <div>
+                    <input type="text" id="mini-search-input" placeholder="제목, 작가 검색">
+                    <button id="mini-search-btn">검색</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 전체 -->
+        <div class="book-list active" id="all">
+            
+            <!-- 상품 1행 -->
+            <div class="card-group">
+
+                <!-- 상품 1개 -->
+                <a class="book-product" href="#">
+                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
+                    <div class="book-maker">백종원</div>
+                    <div class="book-com">용감한 까치</div>
+                    <div class="book-price">20,000 원</div>
+                    <div class="book-rating">평점 4.5</div>
+                </a>
+
+                <a class="book-product" href="#">
+                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
+                    <div class="book-maker">백종원</div>
+                    <div class="book-com">용감한 까치</div>
+                    <div class="book-price">20,000 원</div>
+                    <div class="book-rating">평점 4.5</div>
+                </a>
+
+                <a class="book-product" href="#">
+                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
+                    <div class="book-maker">백종원</div>
+                    <div class="book-com">용감한 까치</div>
+                    <div class="book-price">20,000 원</div>
+                    <div class="book-rating">4.5</div>
+                </a>
+
+                <a class="book-product" href="#">
+                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
+                    <div class="book-maker">백종원</div>
+                    <div class="book-com">용감한 까치</div>
+                    <div class="book-price">20,000 원</div>
+                    <div class="book-rating">4.5</div>
+                </a>
+
+                <a class="book-product" href="#">
+                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
+                    <div class="book-maker">백종원</div>
+                    <div class="book-com">용감한 까치</div>
+                    <div class="book-price">20,000 원</div>
+                    <div class="book-rating">4.5</div>
+                </a>
+                
+            </div>
+
+            <div class="card-group">
+
+                <!-- 상품 1개 -->
+                <a class="book-product" href="#">
+                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
+                    <div class="book-maker">백종원</div>
+                    <div class="book-com">용감한 까치</div>
+                    <div class="book-price">20,000 원</div>
+                    <div class="book-rating">평점 4.5</div>
+                </a>
+                <a class="book-product" href="#">
+                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
+                    <div class="book-maker">백종원</div>
+                    <div class="book-com">용감한 까치</div>
+                    <div class="book-price">20,000 원</div>
+                    <div class="book-rating">평점 4.5</div>
+                </a>
+                <a class="book-product" href="#">
+                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
+                    <div class="book-maker">백종원</div>
+                    <div class="book-com">용감한 까치</div>
+                    <div class="book-price">20,000 원</div>
+                    <div class="book-rating">4.5</div>
+                </a>
+                <a class="book-product" href="#">
+                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
+                    <div class="book-maker">백종원</div>
+                    <div class="book-com">용감한 까치</div>
+                    <div class="book-price">20,000 원</div>
+                    <div class="book-rating">4.5</div>
+                </a>
+                <a class="book-product" href="#">
+                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
+                    <div class="book-maker">백종원</div>
+                    <div class="book-com">용감한 까치</div>
+                    <div class="book-price">20,000 원</div>
+                    <div class="book-rating">4.5</div>
+                </a>
+                
+            </div>
+
+            <div class="card-group">
+
+                <!-- 상품 1개 -->
+                <a class="book-product" href="#">
+                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
+                    <div class="book-maker">백종원</div>
+                    <div class="book-com">용감한 까치</div>
+                    <div class="book-price">20,000 원</div>
+                    <div class="book-rating">평점 4.5</div>
+                </a>
+                <a class="book-product" href="#">
+                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
+                    <div class="book-maker">백종원</div>
+                    <div class="book-com">용감한 까치</div>
+                    <div class="book-price">20,000 원</div>
+                    <div class="book-rating">평점 4.5</div>
+                </a>
+                <a class="book-product" href="#">
+                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
+                    <div class="book-maker">백종원</div>
+                    <div class="book-com">용감한 까치</div>
+                    <div class="book-price">20,000 원</div>
+                    <div class="book-rating">4.5</div>
+                </a>
+                <a class="book-product" href="#">
+                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
+                    <div class="book-maker">백종원</div>
+                    <div class="book-com">용감한 까치</div>
+                    <div class="book-price">20,000 원</div>
+                    <div class="book-rating">4.5</div>
+                </a>
+                <a class="book-product" href="#">
+                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
+                    <div class="book-maker">백종원</div>
+                    <div class="book-com">용감한 까치</div>
+                    <div class="book-price">20,000 원</div>
+                    <div class="book-rating">4.5</div>
+                </a>
+                
+            </div>
+
+            <div class="card-group">
+
+                <!-- 상품 1개 -->
+                <a class="book-product" href="#">
+                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
+                    <div class="book-maker">백종원</div>
+                    <div class="book-com">용감한 까치</div>
+                    <div class="book-price">20,000 원</div>
+                    <div class="book-rating">평점 4.5</div>
+                </a>
+                <a class="book-product" href="#">
+                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
+                    <div class="book-maker">백종원</div>
+                    <div class="book-com">용감한 까치</div>
+                    <div class="book-price">20,000 원</div>
+                    <div class="book-rating">평점 4.5</div>
+                </a>
+                <a class="book-product" href="#">
+                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
+                    <div class="book-maker">백종원</div>
+                    <div class="book-com">용감한 까치</div>
+                    <div class="book-price">20,000 원</div>
+                    <div class="book-rating">4.5</div>
+                </a>
+                <a class="book-product" href="#">
+                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
+                    <div class="book-maker">백종원</div>
+                    <div class="book-com">용감한 까치</div>
+                    <div class="book-price">20,000 원</div>
+                    <div class="book-rating">4.5</div>
+                </a>
+                <a class="book-product" href="#">
+                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
+                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
+                    <div class="book-maker">백종원</div>
+                    <div class="book-com">용감한 까치</div>
+                    <div class="book-price">20,000 원</div>
+                    <div class="book-rating">4.5</div>
+                </a>
+                
+            </div>
+
+        </div>
+
+
+        <div class="btn-area">
+            <button id="write-btn">글쓰기</button>
+        </div>
+    </div>
+
+    <!-- 페이지네이션 -->
+    <nav class="pagination" aria-label="페이지네이션">
+        <ul class="pagination-list">
+            <li class="pagination-item">
+                <a class="pagination-link" href="#" aria-label="첫 페이지" rel="first">&#60;&#60;</a>
+            </li>
+            <li class="pagination-item">
+                <a class="pagination-link" href="#" aria-label="이전 페이지" rel="prev">&#60;</a>
+            </li>
+
+            <li class="pagination-item"><a class="pagination-link is-active" href="#" aria-current="page">1</a></li>
+            <li class="pagination-item"><a class="pagination-link" href="#">2</a></li>
+            <li class="pagination-item"><a class="pagination-link" href="#">3</a></li>
+            <li class="pagination-item"><a class="pagination-link" href="#">4</a></li>
+            <li class="pagination-item"><a class="pagination-link" href="#">5</a></li>
+            <li class="pagination-item"><a class="pagination-link" href="#">6</a></li>
+            <li class="pagination-item"><a class="pagination-link" href="#">7</a></li>
+            <li class="pagination-item"><a class="pagination-link" href="#">8</a></li>
+            <li class="pagination-item"><a class="pagination-link" href="#">9</a></li>
+            <li class="pagination-item"><a class="pagination-link" href="#">10</a></li>
+
+            <li class="pagination-item">
+            <a class="pagination-link" href="#" aria-label="다음 페이지" rel="next">&#62;</a>
+            </li>
+            <li class="pagination-item">
+            <a class="pagination-link" href="#" aria-label="마지막 페이지" rel="last">&#62;&#62;</a>
+            </li>
+        </ul>
+    </nav>
+
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <div class="footer-in">
+
+            <!-- 상단 링크 -->
+            <nav class="ft-toplinks" aria-label="Ft links">
+            <a href="#">회사소개</a>
+            <span class="sep">|</span>
+            <a href="#">서비스 소개</a>
+            <span class="sep">|</span>
+            <a href="#">이용약관</a>
+            <span class="sep">|</span>
+            <a href="#">개인정보처리방침</a>
+            <span class="sep">|</span>
+            <a href="#">청소년보호정책</a>
+            <span class="sep">|</span>
+            <a href="#">채용정보</a>
+            <span class="sep">|</span>
+            <a href="#">광고문의</a>
+            </nav>
+
+            <div class="footer-main">
+            <!-- 좌측 로고 -->
+            <div class="footer-brand" aria-label="BOOGIbook">
+                <img src="../../static/images/common/logo_white.png" alt="">
+                <div class="brand-text">BOOGIbook</div>
+            </div>
+
+            <!-- 회사 정보 -->
+            <div class="footer-info">
+                <div class="info-row">
+                <span class="info-title">(주)BOOGIbook</span>
+                </div>
+
+                <div class="info-row">
+                <span>서울특별시 종로구 우정국로2길 21 9층, 903호</span>
+                </div>
+
+                <div class="info-row">
+                <span>대표자: (발신자부담) 1544-0000(부기문고) · 1661-1112(핫트랙스)</span>
+                </div>
+
+                <div class="info-row">
+                <span>이메일: boogi@naver.com</span>
+                </div>
+
+                <div class="info-row">
+                <span>대표 FAX: 2025-012-0801</span>
+                </div>
+
+                <div class="info-row">
+                <span>사업자등록번호: 102-81-11670</span>
+                </div>
+
+                <div class="info-row">
+                <span>통신판매업신고: 0000 - 서울 종로구 - 00000</span>
+                </div>
+
+                <div class="info-row">
+                <span>개인정보관리 책임자: 김무비</span>
+                </div>
+
+                <div class="info-row copyright">
+                © BOOGIbook CENTRE
+                </div>
+            </div>
+
+            <!-- 우측 SNS -->
+            <div class="footer-sns" aria-label="Social links">
+                <a class="sns-btn" href="#" aria-label="KakaoTalk">
+                <img src="../../static/images/common/footer-kakao.png">
+                </a>
+                <a class="sns-btn" href="#" aria-label="Facebook">
+                <img src="../../static/images/common/footer-facebook.png">
+                </a>
+                <a class="sns-btn" href="#" aria-label="Instagram">
+                <img src="../../static/images/common/footer-instagram.png">
+                </a>
+                <a class="sns-btn" href="#" aria-label="YouTube">
+                <img src="../../static/images/common/footer-youtube.png">
+                </a>
+            </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

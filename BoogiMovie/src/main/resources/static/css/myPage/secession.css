@@ -1,0 +1,61 @@
+.secession {
+    display: flex;
+}
+
+/* 회원 탈퇴 전체 컨테이너 */
+.secession_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 150px;
+
+    margin-top: 50px;
+}
+
+.center_logo > img {
+    width: 250px;
+}
+
+.secession_text_box {
+    border: 1px solid #5170B1;
+    padding: 40px 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.secession_text_box div {
+    margin: 15px;
+}
+
+/* 회원 탈퇴 약관 */
+.secession_title {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* 동의 */
+.secession_agree {
+    margin-top: 30px;
+    display: flex;
+    margin-bottom: 30px;
+}
+
+#secession_check {
+    width: 20px;
+    height: 20px;
+    accent-color: #082A71;
+    margin-right: 15px;
+}
+
+/* 탈퇴 버튼 */
+.secession_btn > button {
+    width: 860px;
+    border: none;
+    background-color: #082A71;
+    color: white;
+    font-weight: bold;
+    padding: 20px 0;
+    font-size: 20px;
+    border-radius: 5px;
+}

@@ -38,3 +38,99 @@
     height: 70%;
     object-fit: contain;
 }
+
+
+
+/* 최근 본 콘텐츠 CSS */
+.view-contanier{
+    position: fixed;
+    right: calc(24px + var(--float-w, 70px) + 14px);
+    width: 500px;
+    height: 720px;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 0 15px;
+    overflow: auto;
+    scrollbar-gutter: stable;
+    background-color: #ffffff;
+    box-shadow: 0 12px 30px rgba(0,0,0,.18);
+    z-index: 999;
+    display: none; 
+}
+
+.view-contanier.open{
+  display: block;
+}
+
+h3{
+    margin-left: 5px;
+}
+
+/* 버튼 */
+.recent-btn{
+    font-size: 16px;
+    width: 70px;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.recent-btn.select{
+    background-color: black;
+    color: white;
+}
+
+/* count, all-delete */
+.count{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+.count b {
+    color: #2494FD;
+}
+
+.count > p:last-child{
+    font-size: 14px;
+}
+
+/* content-box 1개 */
+.content-box{
+    position: relative;
+    display: flex;
+    gap: 20px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+/* box-image */
+.content-box > img{
+    width: 90px;
+    height: 130px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+/* 제목 */
+.view-title{
+    font-weight: bold;
+}
+
+.content-text > span{
+    font-size: 14px;
+}
+
+/* X 버튼 */
+.view-x-btn{
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.colse{display: none;}

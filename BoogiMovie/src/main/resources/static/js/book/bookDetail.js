@@ -11,16 +11,6 @@ toggleBtn.addEventListener('click', () => {
 // --------------------------------------------------------------------------
 // --------------------------------------------------------------------------
 
-/*
-const writeReviewBtn = document.getElementsByClassName('review-write-btn');
-
-writeReviewBtn.addEventListener('click', () =>{
-    
-    // 후기작성영역 생성
-    const writeReviewBoxArea = document.createElement('section');
-    writeReviewBoxArea.className = 'write-review-box';
-
-    // 후기 작
 
 
 
@@ -28,8 +18,7 @@ writeReviewBtn.addEventListener('click', () =>{
 
 
 
-})
-*/
+
 
 // 별점 기능 부분
 const reviewWrap = document.querySelectorAll('.review-star.write-star'),

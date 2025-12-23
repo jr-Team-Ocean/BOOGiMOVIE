@@ -4,8 +4,13 @@
     box-sizing: border-box;
 }
 
-a {
+.header_category a {
     text-decoration: none;
+}
+
+.category_a {
+    text-decoration: none;
+    color: black;
 }
 
 .white {
@@ -17,10 +22,12 @@ a {
 .blue_background {
     background-color: #082A71;
     height: 90px;
+    width: auto;
+    min-width: 1200px;
 }
 
 .header_inner {
-    max-width: 1200px;
+    width: 1200px;
     margin: 0 auto;
     height: 100%;
     display: flex;
@@ -44,7 +51,6 @@ a {
     padding: 25px;
     border-radius: 15px 15px 0 0;
     transition: background-color 0.2s ease;
-
 }
 
 .header_login div {
@@ -56,22 +62,31 @@ a {
     display: flex;
     align-items: center;
     margin-top: 30px;
-    margin-left: 360px;
-    width: 1200px;
 }
 
 .logo_container > a > img {
     width: 150px;
 }
 
+.search_margin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 300px;
+    gap: 30px;
+}
+
 /* 검색바 영역 */
+.search_wrapper {
+    position: relative;    
+}
+
 .search_container {
     width: 500px;
     border: 2px solid #082A71;
     height: 60px;
     display: flex;
     align-items: center;
-    margin-left: 30px;
     margin-bottom: 10px;
 }
 
@@ -91,11 +106,97 @@ a {
     outline: none;
 }
 
-/* 헤더 선택 효과 */
-.header_category div a {
-    display: block;
+/* 검색 결과 박스 */
+.search_dropdown {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    position: absolute;
+    top: 62px;
+    left: 0;
+    width: 500px;
+    
+    background-color: white;
+    border: 2px solid #082A71;
+    
+    padding: 20px;
+    z-index: 10;
+
+    row-gap: 20px;
 }
 
-.header_category div.header_active {
+.dropdown_category {
+    margin-bottom: 10px;
+}
+
+/* 상품들 묶는 컨테이너 */
+.search_result_container {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+}
+
+.dropdown_img {
+    border: 1px solid #b3b3b3;
+}
+
+.dropdown_img > img {
+    width: 100px;
+    height: 130px;
+}
+
+.dropdown_item_name {
+    width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* 글자 길면 ... 처리 */
+}
+
+/* 인기 검색어 */
+.popular_search_box {
+    border-bottom: 2px solid #082A71;
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+    align-items: center;
+    width: 250px;
+    height: 45px;
+}
+
+.popular_search_box > div {
+    white-space: nowrap; /* 줄바꿈 x */
+}
+
+.popular_search_window {
+    width: 120px;
+    height: 20px;
+    overflow: hidden;
+}
+
+.popular_search_list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.popular_search_list li {
+    height: 20px;
+    line-height: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* 글자 길면 ... 처리 */
+}
+
+/* 헤더 선택 효과 */
+.header_active div,
+.header_category a:hover div {
     background-color: #5170B0;
+    cursor: pointer;
+}
+
+.header_login a {
+    cursor: pointer;
 }

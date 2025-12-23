@@ -1,7 +1,14 @@
+server:
+  port: 80
+
 spring:
   profiles:
-   include: secret
-   active: local
+    include: secret
+    active: local
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
       
   jpa:
     database-platform: org.hibernate.dialect.OracleDialect
@@ -9,13 +16,47 @@ spring:
       ddl-auto: update
     show-sql: true
   
+  # HikariCP
+  datasource:
+    hikari:
+      connection-timeout: 30000      # 30초 대기
+      maximum-pool-size: 20          # 최대 연결 수
+      idle-timeout: 600000           # 10분 유휴 시간
+      pool-name: MyHikariCP
+      auto-commit: false             # 자동 커밋 쓰기
+    
+  # REDIS 데이터베이스
+  data:
+    redis:
+      host: localhost
+      port: 6379 # 기본 포트 주소
+  
   jackson:
     property-naming-strategy: SNAKE_CASE
     
   elasticsearch:
     uris: http://localhost:9200 # 연결할 Elasticsearch 주소
+    
+  # 파일 업로드 제한 설정
+  servlet:
+    multipart:
+      file-size-threshold: 50MB    # 52,428,800 bytes
+      max-file-size: 10MB          # 10,485,760 bytes
+      max-request-size: 50MB       # 52,428,800 bytes
 
 logging:
   level:
     org.elasticsearch.client: TRACE # Elasticsearch의 쿼리 로그를 출력
     edu.og.es.common.filter.LoggingFilter: TRACE # 필터 로그
+    
+# 문자인증    
+solapi:
+  api-key: ${SOLAPI_API_KEY}
+  api-secret: ${SOLAPI_API_SECRET}
+
+
+# 커스텀 경로 설정 (아래는 예시 코드)
+# my:
+#   member:
+#     location: C:/boogimovieImg/member/
+#     webpath: /images/member/
