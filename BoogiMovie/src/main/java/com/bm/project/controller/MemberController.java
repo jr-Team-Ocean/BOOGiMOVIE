@@ -71,7 +71,7 @@ public class MemberController {
 		
 		if(!memberId.isEmpty()) {
 			path += "/"; // 홈(메인)화면
-			message = creatDto.getNick_name() + "님의 가입을 환영합니다.";
+			message = creatDto.getNickName() + "님의 가입을 환영합니다.";
 		
 		}else {
 			path += "/member/signUp";

@@ -14,36 +14,29 @@ public class MemberDto {
 	@Setter
 	@ToString
 	public static class Create{
-		private String member_id;
-		private String member_pw;
-		private String member_name;
-		private String birth_date;
+		private String memberId;
+		private String memberPw;
+		private String memberName;
+		private String birth;
 		private String phone;
-		private String nick_name;
+		private String nickName;
 		private String email;
 		private String address;
 		
 		
 		public Member toEntity() {
 			return Member.builder()
-					.memberId(this.member_id)
-					.memberPw(this.member_pw)
-					.memberName(this.member_name)
-					.memberBirth(this.birth_date)
+					.memberId(this.memberId)
+					.memberPw(this.memberPw)
+					.memberName(this.memberName)
+					.memberBirth(this.birth)
 					.memberEmail(this.email)
-					.memberNickName(this.nick_name)
+					.memberNickName(this.nickName)
 					.memberAddress(this.address)
 					.memberPhone(this.phone)
 					.build();
 		}
 		
 	}
-	
-	// 중복 검사
-	@Getter
-    @AllArgsConstructor
-    public static class DupCheckResponse {
-        private boolean available;
-    }
 	
 }
