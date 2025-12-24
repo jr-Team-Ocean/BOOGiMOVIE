@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 
 import com.solapi.sdk.message.service.DefaultMessageService;
 
-@Configuration
 public class SmsConfig {
 
 	@Value("${solapi.api-key}")

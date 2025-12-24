@@ -1,0 +1,36 @@
+package com.bm.project.controller;
+
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.bm.project.dto.MemberDto.DupCheckResponse;
+import com.bm.project.service.member.AjaxService;
+
+import lombok.RequiredArgsConstructor;
+
+@RestController
+@RequestMapping("/dupCheck")
+@RequiredArgsConstructor
+public class AjaxController {
+
+	private final AjaxService ajaxService;
+	
+	// 아이디 중복 검사
+	@GetMapping("/id")
+	public Map<String, Boolean> checkId(@RequestParam String id){
+		boolean duplicated = ajaxService.checkId(id);
+		return Map.of("duplicated", duplicated);
+	}
+	
+	// 닉네임 중복 검사
+	@GetMapping("/nickname")
+	public Map<String, Boolean> checkNickname(@RequestParam String nickname){
+		boolean duplicated = ajaxService.checkNickname(nickname);
+		return Map.of("duplicated", duplicated);
+	}
+}
