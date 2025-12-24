@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../static/css/common/header.css">
-    <link rel="stylesheet" href="../../static/css/common/font.css">
+    <link rel="stylesheet" th:href="@{/css/common/header.css}">
+    <link rel="stylesheet" th:href="@{/css/common/font.css}">
     <title>header</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,15 +21,15 @@
             <div class="header_inner">
                 <div class="header_category">
                     <!-- 선택에 따른 효과 - 타임리프(경로에 따른 효과 주기로 변경 예정) -->
-                    <a class="header_active"><div href="#" class="white font-18px">홈</div></a>
-                    <a><div href="#" class="white font-18px">도서</div></a>
-                        <a><div href="#" class="white font-18px">중고도서</div></a>
-                        <a><div href="#" class="white font-18px">영화</div></a>
+                    <a th:href="@{#}" class="header_active"><div class="white font-18px">홈</div></a>
+                    <a th:href="@{#}"><div class="white font-18px">도서</div></a>
+                        <a th:href="@{#}"><div class="white font-18px">중고도서</div></a>
+                        <a th:href="@{#}"><div class="white font-18px">영화</div></a>
                 </div>
 
                     <div class="header_login">
-                        <a><div href="#" class="white font-18px">로그인</div></a>
-                        <a><div href="#" class="white font-18px">회원가입</div></a>
+                        <a th:href="@{#}"><div class="white font-18px">로그인</div></a>
+                        <a th:href="@{#}"><div class="white font-18px">회원가입</div></a>
                     </div>
                 </div>
             </div>
@@ -39,7 +39,7 @@
                 <div class="search_margin">
                     <!-- 로고 -->
                     <div class="logo_container">
-                        <a href="#"><img src="../../static/images/common/logo_basic.png" alt=""></a>
+                        <a th:href="@{#}"><img th:src="@{/images/common/logo_basic.png}" alt=""></a>
                     </div>
     
                     <!-- 검색바 전체 자리 -->
@@ -47,7 +47,7 @@
                         
                         <div class="search_container">
                             <div class="search_icon">
-                                <img src="../../static/svg/search_icon.svg" alt="">
+                                <img th:src="@{/svg/search_icon.svg}" alt="">
                             </div>
                             <div class="search_input">
                                 <input type="text" placeholder="원하는 작품을 검색해 보세요!">
@@ -64,26 +64,26 @@
                                 <!-- 상품들 묶는 컨테이너 -->
                                 <div class="search_result_container">
                                     <!-- 상품 하나 -->
-                                    <a href="#" class="category_a">
+                                    <a th:href="@{#}" class="category_a">
                                         <div class="dropdown_item">
                                             <div class="dropdown_img">
-                                                <img src="../../static/images/cart/mock_book1.png">
+                                                <img th:src="@{/images/cart/mock_book1.png}">
                                             </div>
                                             <div class="dropdown_item_name">개발자 생존법</div>
                                         </div>
                                     </a>
-                                    <a href="#" class="category_a">
+                                    <a th:href="@{#}" class="category_a">
                                         <div class="dropdown_item">
                                             <div class="dropdown_img">
-                                                <img src="../../static/images/cart/mock_book1.png">
+                                                <img th:src="@{/images/cart/mock_book1.png}">
                                             </div>
                                             <div>개발자 생존법</div>
                                         </div>
                                     </a>
-                                    <a href="#" class="category_a">
+                                    <a th:href="@{#}" class="category_a">
                                         <div class="dropdown_item">
                                             <div class="dropdown_img">
-                                                <img src="../../static/images/cart/mock_book1.png">
+                                                <img th:src="@{/images/cart/mock_book1.png}">
                                             </div>
                                             <div>개발자 생존법</div>
                                         </div>
@@ -98,26 +98,26 @@
                                 <!-- 상품들 묶는 컨테이너 -->
                                 <div class="search_result_container">
                                     <!-- 상품 하나 -->
-                                    <a href="#" class="category_a">
+                                    <a th:href="@{#}" class="category_a">
                                         <div class="dropdown_item">
                                             <div class="dropdown_img">
-                                                <img src="../../static/images/cart/mock_book1.png">
+                                                <img th:src="@{/images/cart/mock_book1.png}">
                                             </div>
                                             <div class="dropdown_item_name">개발자 생존법</div>
                                         </div>
                                     </a>
-                                    <a href="#" class="category_a">
+                                    <a th:href="@{#}" class="category_a">
                                         <div class="dropdown_item">
                                             <div class="dropdown_img">
-                                                <img src="../../static/images/cart/mock_book1.png">
+                                                <img th:src="@{/images/cart/mock_book1.png}">
                                             </div>
                                             <div>개발자 생존법</div>
                                         </div>
                                     </a>
-                                    <a href="#" class="category_a">
+                                    <a th:href="@{#}" class="category_a">
                                         <div class="dropdown_item">
                                             <div class="dropdown_img">
-                                                <img src="../../static/images/cart/mock_book1.png">
+                                                <img th:src="@{/images/cart/mock_book1.png}">
                                             </div>
                                             <div>개발자 생존법</div>
                                         </div>
@@ -132,26 +132,26 @@
                                 <!-- 상품들 묶는 컨테이너 -->
                                 <div class="search_result_container">
                                     <!-- 상품 하나 -->
-                                    <a href="#" class="category_a">
+                                    <a th:href="@{#}" class="category_a">
                                         <div class="dropdown_item">
                                             <div class="dropdown_img">
-                                                <img src="../../static/images/cart/mock_book2.png">
+                                                <img th:src="@{/images/cart/mock_book2.png}">
                                             </div>
                                             <div class="dropdown_item_name">엑스 마키나</div>
                                         </div>
                                     </a>
-                                    <a href="#" class="category_a">
+                                    <a th:href="@{#}" class="category_a">
                                         <div class="dropdown_item">
                                             <div class="dropdown_img">
-                                                <img src="../../static/images/cart/mock_book2.png">
+                                                <img th:src="@{/images/cart/mock_book2.png}">
                                             </div>
                                             <div>루퍼</div>
                                         </div>
                                     </a>
-                                    <a href="#" class="category_a">
+                                    <a th:href="@{#}" class="category_a">
                                         <div class="dropdown_item">
                                             <div class="dropdown_img">
-                                                <img src="../../static/images/cart/mock_book2.png">
+                                                <img th:src="@{/images/cart/mock_book2.png}">
                                             </div>
                                             <div>이글 아이</div>
                                         </div>
@@ -199,7 +199,7 @@
 
         </div>
 
-        <script src="../../static/js/common/header.js"></script>
+        <script th:src="@{/js/common/header.js}"></script>
 
 
 </body>

@@ -23,7 +23,7 @@ public class RedisConfig {
     
     // Redis 연결 팩토리 설정
     @Bean
-    public RedisConnectionFactory redisConnectionFactory() {
+    RedisConnectionFactory redisConnectionFactory() {
     	// Redis 설정: host / port 필요
     	RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
     	config.setHostName(host);
@@ -38,7 +38,7 @@ public class RedisConfig {
     // RedisTemplate: DB 서버에 Set / Get / Delete 등 사용할 수 있다.
     // 트랜잭션도 지원!
     @Bean
-    public RedisTemplate<String, Object> redisTemplate() {
+    RedisTemplate<String, Object> redisTemplate() {
     	RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
     	redisTemplate.setConnectionFactory(redisConnectionFactory());
     	
