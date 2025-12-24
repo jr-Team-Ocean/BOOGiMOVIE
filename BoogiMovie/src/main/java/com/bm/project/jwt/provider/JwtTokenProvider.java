@@ -37,10 +37,8 @@ import lombok.extern.slf4j.Slf4j;
  * JWT를 생성하고, 검증하는 등 핵심 기능 제공하는 클래스 
  */
 @Component
-@RequiredArgsConstructor
 @Slf4j
 public class JwtTokenProvider {
-	private final AdminService adminService; // 서비스 클래스
 	
 	private final RedisDao redisDao; // 리프레시 토큰 저장
 	
@@ -59,7 +57,6 @@ public class JwtTokenProvider {
 	private long REFRESH_TOKEN_EXPIRE_TIME;
 
 	public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, 
-							AdminService adminService,
 							RedisDao redisDao) {
 		
 		// Base64로 인코딩된 시크릿 키를 다시 디코딩 하여 저장 (평문인 경우에는 반대로 Encoder)
@@ -71,7 +68,6 @@ public class JwtTokenProvider {
 		// HAMC-SHA: 비밀 키를 사용하여 메세지의 무결성을 검증하는 해시 기반 인증 코드
 		// 메세지와 키를 결합한 후 해시 값 생성
 		
-		this.adminService = adminService;
 		this.redisDao = redisDao;
 	}
 	
@@ -125,6 +121,14 @@ public class JwtTokenProvider {
 				.setExpiration(expireDate)
 				.signWith(key, SignatureAlgorithm.HS256)
 				.compact();
+	}
+	
+	// 토큰 재발급을 위해 AccessToken만 별도로 생성하는 메소드 
+	public String reissueAccessToken(String username, String authorities) {
+		long now = new Date().getTime();
+		Date accessTokenExpire = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
+		
+		return createAccessToken(username, authorities, accessTokenExpire);
 	}
 	
 	// JWT 토큰을 복호화 하여 토큰에 들어있는 정보 꺼내기
