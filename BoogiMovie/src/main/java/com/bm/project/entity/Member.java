@@ -42,7 +42,7 @@ public class Member {
 	@Column(name = "MEMBER_EMAIL", length = 50, nullable = false)
 	private String memberEmail;
 	
-	@Column(name = "MEMBER_ID", length = 30, nullable = false)
+	@Column(name = "MEMBER_ID", unique=true, length = 30, nullable = false)
 	private String memberId;
 	
 	@Column(name = "MEMBER_PW", length = 300, nullable = false)
@@ -51,7 +51,7 @@ public class Member {
 	@Column(name = "MEMBER_NAME", length = 50, nullable = false)
 	private String memberName;
 	
-	@Column(name = "MEMBER_NICKNAME", length = 30, nullable = false)
+	@Column(name = "MEMBER_NICKNAME", unique=true, length = 30, nullable = false)
 	private String memberNickName;
 	
 	@Column(name = "MEMBER_ADDRESS", length = 200, nullable = false)
@@ -59,6 +59,9 @@ public class Member {
 	
 	@Column(name = "MEMBER_BIRTH", length = 8, nullable = false)
 	private String memberBirth;
+	
+	@Column(name = "MEMBER_PHONE", unique = true, length = 11, nullable = false)
+	private String memberPhone;
 	
 	@Column(name = "PROFILE_PATH", length = 200) // NULL 허용
 	private String profilePath;
