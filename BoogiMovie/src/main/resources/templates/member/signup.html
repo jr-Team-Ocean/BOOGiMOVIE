@@ -32,19 +32,21 @@
         
             <label for="phone">휴대폰 번호</label>
             <input type="tel" name="phone" id="phone" placeholder="숫자만 입력해주세요." maxlength="11">
-            <div class="auth-input hidden">
-                <div>
-                    <input type="text" name="auth" id="authKey" placeholder="인증번호 6자리" maxlength="6">
-                    <span id="auth-time">03:00</span>
+            <div class="auth-area hidden">
+                <div class="auth-input">
+                    <div>
+                        <input type="text" name="auth" id="authKey" placeholder="인증번호 6자리" maxlength="6">
+                        <span id="auth-time">03:00</span>
+                    </div>
+                    <button type="button" class="reBtn" id="okBtn">인증</button>
+                    <button type="button" class="reBtn" id="reBtn">재전송</button>
                 </div>
-                <button type="button" class="reBtn" id="okBtn">확인</button>
-                <button type="button" class="reBtn" id="reBtn">재전송</button>
-            </div>
-            <div class="description hidden">
-                인증번호가 전송되었습니다.<br>미전송 시 휴대폰 번호를 확인해 주세요
+                <div class="description">
+                    인증번호가 전송되었습니다.<br>미전송 시 휴대폰 번호를 확인해 주세요
+                </div>
             </div>
     
-            <button type="button" id="sendBtn">인증번호 발송</button>
+            <button type="button" id="sendBtn" data-state="send">인증번호 발송</button>
         </div>
         
 
@@ -57,33 +59,33 @@
                 <input type="text" name="memberId" id="memberId" placeholder="4~12자리 영소문자, 숫자" maxlength="12" autocomplete="username">
                 <span class="signUp-message" id="id-message"></span>
                 
-                <label for="password">
+                <label for="memberPw">
                     <span class="required">*</span>
                     비밀번호
                 </label>
                 <input type="password" name="memberPw" id="memberPw" placeholder="8~16자리 영어, 숫자, 특수문자(!@#$%^&*-) 조합" maxlength="12" autocomplete="new-password">
                 <span class="signUp-message" id="pw-message"></span>
 
-                <label for="passwordCheck">
+                <label for="memberPwCheck">
                     <span class="required">*</span>
                     비밀번호 확인
                 </label>
                 <input type="password" name="memberPwCheck" id="memberPwCheck" placeholder="비밀번호 재입력" maxlength="12" autocomplete="new-password">
                 <span class="signUp-message" id="pw-check-message"></span>
 
-                <label for="realName">
+                <label for="memberName">
                     <span class="required">*</span>
                     이름 (실명)
                 </label>
                 <input type="text" name="memberName" id="memberName" placeholder="2~5자리 한글만 가능" maxlength="5">
                 <span class="signUp-message" id="name-message"></span>
 
-                <label for="birthDate">
+                <label for="memberBirth">
                     <span class="required">*</span>
                     생년월일(8글자)
                 </label>
                 <input type="text" name="memberBirth" id="memberBirth" placeholder="ex) 20251221" maxlength="8">
-                <span class="signUp-message" id="brith-message"></span>
+                <span class="signUp-message" id="birth-message"></span>
                 
                 <label for="phoneNumber">
                     <span class="required">*</span>
@@ -92,21 +94,21 @@
                 <input type="tel" name="memberPhone" id="memberPhone" placeholder="‘-’ 없이 숫자만 입력" maxlength="11">
                 <span class="signUp-message" id="tel-message"></span>
 
-                <label for="nickName">
+                <label for="memberNickName">
                     <span class="required">*</span>
                     닉네임
                 </label>
                 <input type="text" name="memberNickName" id="memberNickName" placeholder="2~8자리 한글, 영어, 숫자 조합" maxlength="8">
                 <span class="signUp-message" id="nickName-message"></span>
 
-                <label for="email">
+                <label for="memberEmail">
                     <span class="required">*</span>
                     이메일
                 </label>
                 <input type="email" name="memberEmail" id="memberEmail" placeholder="주문 알림을 받을 이메일 (예: example@gmail.com)">
                 <span class="signUp-message" id="email-message"></span>
 
-                <label for="address">
+                <label for="memberAddress">
                     <span class="required">*</span>
                     주소
                 </label>
@@ -122,7 +124,7 @@
                     <input type="text" name="memberAddress" id="sample6_detailAddress" placeholder="상세 주소">
                 </div>
 
-                <button id="signUpBtn">가입하기</button>
+                <button type="submit" id="signUpBtn">가입하기</button>
             </form>
         </div>
     </div>
