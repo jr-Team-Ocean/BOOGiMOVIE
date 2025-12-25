@@ -128,7 +128,7 @@ memberId?.addEventListener('input', ()=>{
     const idRegEx = /^[a-z0-9]{4,12}$/
     if(idRegEx.test(memberId.value)){
         fetch(`/dupCheck/id?id=${encodeURIComponent(memberId.value)}`)
-        .then(resp => resp.json())
+        .then(resp => resp.text())
         .then(result => {
 
             if(result == 'true'){
@@ -290,7 +290,7 @@ nickName?.addEventListener('input', ()=>{
     const nickRegEx = /^[가-힣a-zA-z0-9]{2,8}$/;
     if(nickRegEx.test(nickName.value)){
         fetch(`/dupCheck/nickname?nickname=${encodeURIComponent(nickName.value)}`)
-        .then(resp => resp.json())
+        .then(resp => resp.text())
         .then(result => {
 
             if(result == 'true'){
