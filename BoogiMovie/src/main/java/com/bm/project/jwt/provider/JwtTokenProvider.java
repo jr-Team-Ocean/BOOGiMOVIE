@@ -95,6 +95,8 @@ public class JwtTokenProvider {
 		redisDao.setValues(username, refreshToken, Duration.ofMillis(REFRESH_TOKEN_EXPIRE_TIME));
 		log.info("[Redis] : RefreshToken 저장");
 		
+		
+		// JwtToken DTO에 값 세팅
 		return JwtToken.builder()
 				.grantType(GRANT_TYPE) // "Bearer" : 요청 보낼 때 헤더에 붙어서 보내짐
 				.accessToken(accessToken)

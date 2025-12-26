@@ -12,7 +12,6 @@ import com.bm.project.jwt.model.dto.JwtToken;
 import com.bm.project.jwt.model.service.AdminService;
 
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
@@ -41,12 +40,19 @@ public class AdminController {
 			// 로그인 인증 및 토큰 생성
 			JwtToken adminToken = adminService.adminLogin(adminDto);
 			
-			// 쿠키에 토큰 저장
-			Cookie cookie = new Cookie("accessToken", adminToken.getAccessToken());
-			cookie.setHttpOnly(true);  // 자바스크립트 접근 방지
-			cookie.setPath("/"); 	   // 모든 경로에서 쿠키 전송
-			cookie.setMaxAge(60 * 60); // 1시간
-			response.addCookie(cookie);
+			// 쿠키에 Access 토큰 저장
+			Cookie accessCookie = new Cookie("accessToken", adminToken.getAccessToken());
+			accessCookie.setHttpOnly(true);  // 자바스크립트 접근 방지
+			accessCookie.setPath("/"); 	   // 모든 경로에서 쿠키 전송
+			accessCookie.setMaxAge(60 * 60); // 1시간
+			response.addCookie(accessCookie);
+			
+			// Refresh 토큰도 함께 저장
+			Cookie refreshCookie = new Cookie("refreshToken", adminToken.getRefreshToken());
+			refreshCookie.setHttpOnly(true);
+			refreshCookie.setPath("/");
+			refreshCookie.setMaxAge(60 * 60);
+			response.addCookie(refreshCookie);
 			
 			return "redirect:/admin/statistics";
 			
