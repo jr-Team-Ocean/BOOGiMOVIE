@@ -12,6 +12,7 @@ import com.bm.project.jwt.provider.JwtTokenProvider;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -56,12 +57,13 @@ public class JwtFilter extends OncePerRequestFilter {
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 				// => 현재 실행 중인 Thread에 인증 정보 저장
 				
-			} else {
-				// 토큰이 유효하지 않는 경우 필터 처리 X
-				HttpServletResponse httpResponse = (HttpServletResponse) response;
-				httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 인증 정보 부족
-				return;
-			}
+			} 
+//			else {
+//				// 토큰이 유효하지 않는 경우 필터 처리 X
+//				HttpServletResponse httpResponse = (HttpServletResponse) response;
+//				httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 인증 정보 부족
+//				return;
+//			}
 		}
 		
 		filterChain.doFilter(request, response); // 다음 필터로
@@ -70,8 +72,19 @@ public class JwtFilter extends OncePerRequestFilter {
 	// Request Header에서 JWT 토큰 추출
 	private String resolveToken(HttpServletRequest request) {
 		String bearerToken = request.getHeader(AUTHORIZATION_HEADER); // 헤더에 붙은 문자열
+		
 		if(StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
 			return bearerToken.substring(7); // "Bearer " 이후만 넘김 (주의: 띄어쓰기 포함)
+		}
+		
+		// 헤더에 토큰이 없다면 컨트롤러에서 세팅한 쿠키값 가져오기
+		Cookie[] cookies = request.getCookies(); // 쿠키들 가져오기
+		if(cookies != null) {
+			for(Cookie c : cookies) {
+				if("accessToken".equals(c.getName())) {
+					return c.getValue();
+				}
+			}
 		}
 		
 		return null;
