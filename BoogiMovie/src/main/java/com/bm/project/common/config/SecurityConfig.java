@@ -43,7 +43,7 @@ public class SecurityConfig {
 		
 			.authorizeHttpRequests(auth -> auth
 			    // 관리자 로그인 주소만 빼서 누구나 접근 가능하도록 함
-				.requestMatchers("/admin/login").permitAll()
+					.requestMatchers("/admin/login").permitAll()
 					
 				// 관리자 관련 페이지는 인증 필요
 				.requestMatchers("/admin/**").hasRole("ADMIN")
