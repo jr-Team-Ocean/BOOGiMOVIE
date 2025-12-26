@@ -8,10 +8,10 @@
             <div class="header_inner">
                 <div class="header_category">
                     <!-- 선택에 따른 효과 - 타임리프(경로에 따른 효과 주기로 변경 예정) -->
-                    <a th:href="@{#}" class="header_active"><div class="white font-18px">홈</div></a>
-                    <a th:href="@{#}"><div class="white font-18px">도서</div></a>
-                        <a th:href="@{#}"><div class="white font-18px">중고도서</div></a>
-                        <a th:href="@{#}"><div class="white font-18px">영화</div></a>
+                    <a th:href="@{/}" th:classappend="${url == 'home' ? 'header_active' : ''}"><div class="white font-18px">홈</div></a>
+                    <a th:href="@{/books}" th:classappend="${url == 'books' ? 'header_active' : ''}"><div class="white font-18px">도서</div></a>
+                        <a th:href="@{/ubooks}" th:classappend="${url == 'ubooks' ? 'header_active' : ''}"><div class="white font-18px">중고도서</div></a>
+                        <a th:href="@{/movies}" th:classappend="${url == 'movies' ? 'header_active' : ''}"><div class="white font-18px">영화</div></a>
                 </div>
                     <!-- 로그인X -->
                     <div th:unless="${session.loginMember}" class="header_login">
@@ -21,8 +21,8 @@
 
                     <!-- 로그인O -->
                     <div th:if="${session.loginMember}" class="header_login">
-                        <a th:href="@{#}"><div class="white font-18px">장바구니</div></a>
-                        <a th:href="@{#}"><div class="white font-18px">마이페이지</div></a>
+                        <a th:href="@{/myPage/myCart}"><div class="white font-18px">장바구니</div></a>
+                        <a th:href="@{/myPage}"><div class="white font-18px">마이페이지</div></a>
                         <a th:href="@{#}"><div class="white font-18px">1:1 문의</div></a>
                         <a th:href="@{/member/logout}"><div class="white font-18px">로그아웃</div></a>
                     </div>
