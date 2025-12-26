@@ -59,6 +59,7 @@ public class AdminServiceImpl implements AdminService {
 																				List.of(new SimpleGrantedAuthority("ROLE_ADMIN")));
 																				// 권한이 여러 개일 수도 있으므로 List로 담아 보냄
 		
+		// AccessToken 및 RefreshToken 생성
 		return jwtTokenProvider.createToken(authentication);
 	}
 

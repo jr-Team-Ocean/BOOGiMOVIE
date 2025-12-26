@@ -6,7 +6,7 @@
 
 /* 사이드 바 전체 컨테이너 */
 .my_page_side_container {
-    width: 360px;
+    width: 320px;
     min-height: 100vh; /* 본문 영역에 따라 사이트바 높이 달라지게 */
     /* min-height: calc(100vh - 헤더높이 - 푸터높이); */
 
@@ -21,7 +21,7 @@
 .my_profile_setting_container,
 .my_wish_list_container,
 .user_secession_container {
-    width: 360px;
+    width: 320px;
     height: 70px;
 
     display: flex;
