@@ -1,12 +1,11 @@
 package com.bm.project.controller;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -14,8 +13,13 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bm.project.dto.MemberDto;
+import com.bm.project.dto.MemberDto.Login;
+import com.bm.project.dto.MemberDto.LoginResult;
+import com.bm.project.entity.Member;
 import com.bm.project.service.member.MemberService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -32,9 +36,49 @@ public class MemberController {
 		return "member/login";
 	}
 	
+	
+	// 로그인 
+	@PostMapping("login")
+	public String login(Model model, MemberDto.Login loginDto
+			, @RequestHeader(value = "referer", required = false) String referer
+			, @RequestParam(value = "saveId", required = false) String saveId
+			, HttpServletResponse response
+			, RedirectAttributes ra) {
+		
+		LoginResult loginMember = memberService.login(loginDto);
+		
+		String path = "redirect:";
+		
+		if(loginMember != null) {
+			path += "/";
+			
+			model.addAttribute("loginMember", loginMember);
+			
+			// 쿠키 생성
+			Cookie cookie = new Cookie("saveId", loginMember.getMemberId());
+			
+			if(saveId != null) {
+				cookie.setMaxAge(60 * 60 * 24 * 30);
+				
+			}else {
+				cookie.setMaxAge(0);
+			}
+			
+			cookie.setPath("/");
+			response.addCookie(cookie);
+			
+		}else {
+			path += referer;
+			ra.addFlashAttribute("message", "아이디 또는 비밀번호가 일치하지 않습니다.");
+		}
+		
+		return path;
+	}
+	
+	
 	// 로그아웃
 	@GetMapping("logout")
-	public String logout(SessionStatus status) {
+	public String logout(SessionStatus status, RedirectAttributes ra) {
 		status.setComplete();
 		return "redirect:/";
 	}
@@ -45,6 +89,7 @@ public class MemberController {
 	public String signUp() {
 		return "member/signUp";
 	}
+	
 	
 	// 회원 가입(등록)
 	@PostMapping("/signUp")

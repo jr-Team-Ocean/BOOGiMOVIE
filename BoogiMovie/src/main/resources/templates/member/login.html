@@ -21,13 +21,13 @@
                 <!-- 아이디 -->
                 <div class="login_id_container">
                     <div class="login_input">아이디</div>
-                    <input type="text" class="input_width" name="memberId">
+                    <input type="text" class="input_width" name="memberId" value="" required>
                 </div>
 
                 <!-- 비밀번호 -->
                 <div class="login_pw_container">
                     <div class="login_input">비밀번호</div>
-                    <input type="password" class="input_width" name="memberPw">
+                    <input type="password" class="input_width" name="memberPw" required>
                 </div>
 
                 <!-- 아이디 저장 -->
@@ -64,6 +64,36 @@
             </div>
         </div>
     </div>
+
+    <script th:inline="javascript">
+        const message = /*[[${message}]]*/ "전달 받은 message";
+        if(message != null) alert(message);
+
+        // JS로 Cookie 가져오기
+        function getCookie(key){
+            const cookies = document.cookie
+            console.log(cookies)
+            const cookieList = cookies.split(";").map(cookie => cookie.split("="))
+
+            const obj = {}; // 비어있는 객체 생성
+
+            for(let i=0; i<cookieList.length; i++){
+                obj[cookieList[i][0]] = cookieList[i][1]; // K = V
+            }
+
+            return obj[key]; 
+        }
+
+        // 쿠키에 saveId가 있을 경우
+        if(document.getElementsByName("memberId")[0] != null){
+            const saveId = getCookie("saveId");
+
+            if(saveId != undefined){
+                document.querySelector("input[name='memberId']").value = saveId;
+                document.querySelector("input[name='saveId']").checked = true;
+            }
+        }
+    </script>
 </body>
 
 </html>

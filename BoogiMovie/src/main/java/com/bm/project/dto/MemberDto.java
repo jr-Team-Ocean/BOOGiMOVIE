@@ -39,4 +39,31 @@ public class MemberDto {
 		
 	}
 	
+	// 로그인 요청
+	@Getter
+	@Setter
+	public static class Login{
+		private String memberId;
+		private String memberPw;
+	}
+	
+	// 로그인 결과
+	@Getter
+	@Setter
+	public static class LoginResult{
+		private Long memberNo;
+		private String memberId;
+		private String memberNickName;
+		
+		
+		public static LoginResult fromEntity(Member m) {
+			LoginResult dto = new LoginResult();
+	        dto.setMemberNo(m.getMemberNo());
+	        dto.setMemberId(m.getMemberId());
+	        dto.setMemberNickName(m.getMemberNickName());
+	        return dto;
+	    }
+		
+	}
+	
 }

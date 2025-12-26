@@ -74,16 +74,16 @@ public class SecurityConfig {
             				).authenticated()
             		
             		.anyRequest().permitAll() // 위 경로 제외 다른 곳들은 자유롭게 접근 가능
-        		)
-            .formLogin(form -> form
-    				.loginPage("/member/login")       // 커스텀 로그인 페이지
-    				.loginProcessingUrl("/member/login") // 로그인 처리 URL
-    				.usernameParameter("memberId")
-    			    .passwordParameter("memberPw")
-    				.defaultSuccessUrl("/")           // 성공 시 메인으로
-    				.failureUrl("/member/login?error")
-    				.permitAll()
-    			);
+        		);
+//            .formLogin(form -> form
+//    				.loginPage("/member/login")       // 커스텀 로그인 페이지
+//    				.loginProcessingUrl("/member/login") // 로그인 처리 URL
+//    				.usernameParameter("memberId")
+//    			    .passwordParameter("memberPw")
+//    				.defaultSuccessUrl("/")           // 성공 시 메인으로
+//    				.failureUrl("/member/login?error")
+//    				.permitAll()
+//    			);
 
         return http.build();
         
