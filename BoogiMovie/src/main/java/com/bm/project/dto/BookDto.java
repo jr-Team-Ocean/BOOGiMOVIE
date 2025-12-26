@@ -3,6 +3,8 @@ package com.bm.project.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.bm.project.entity.Product;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,13 +33,22 @@ public class BookDto {
         private Long categoryId; // 카테고리
         
         private List<String> writers; // 작가
-        private List<Long> publishers; // 출판사
+        private List<String> publishers; // 출판사
         
         
-        // 도서 목록 조회
-//        public static Response toListDto(Product product) {
+        // 도서 목록 조회용 DTO
+        public static Response toListDto(Product product, List<String> writers) {
         	
-//        }
+        	return Response .builder()
+        					.productNo(product.getProductNo())
+        					.productTitle(product.getProductTitle())
+        					.imgPath(product.getImgPath())
+        					.productPrice(product.getProductPrice())
+        					.writers(writers)
+        					.categoryId(product.getCategory().getCategoryId())
+        					
+        					.build();
+        }
         
         
 	}

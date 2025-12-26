@@ -1,8 +1,10 @@
 package com.bm.project.repository;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
@@ -20,8 +22,85 @@ public class BookRepositoryImpl implements BookRepository{
 	// 도서 목록 조회
 	@Override
 	public Page<Product> selectBookList(Map<String, Object> paramMap, Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Long categoryId = null;
+		
+		// 장르 여부 확인
+		if (paramMap.get("category") != null) {
+		    categoryId = Long.valueOf(paramMap.get("category").toString());
+		}
+		
+		String query = "select p " +
+				       "from Book b " +
+				       "join b.product p " +
+					   "where p.productDelFl = 'N' " +
+					   "and p.productType.typeCode = 1 " +
+					   "and b.bookCount > 0";
+		
+		// 카테고리 필터 적용
+		if (categoryId != null) {
+	        query += " and p.category.categoryId = :categoryId";
+	    }
+		
+		List<Product> books = em.createQuery(query, Product.class)
+								
+								// 어디서부터 가지고 올 것인지
+				                .setFirstResult((int)pageable.getOffset())
+				                // 몇개를 가지고 올 것인지
+				                .setMaxResults(pageable.getPageSize())
+				                .getResultList();
+		
+		// 카테고리 선택시 
+		if (categoryId != null) {
+	        em.createQuery(query, Product.class)
+	          .setParameter("categoryId", categoryId);
+	    }
+		
+		// 게시글 수
+		String countQuery = "select count(p) " +
+							"from Book b " +
+							"join b.product p " +
+		                    "where p.productDelFl = 'N' " +
+		                    "and p.productType.typeCode = 1 " +
+		                    "and b.bookCount > 0";
+		// 카테고리 선택시 
+		if (categoryId != null) {
+	        countQuery += " and p.category.categoryId = :categoryId";
+	    }
+		
+		Long total = em.createQuery(countQuery, Long.class)
+	                   .getSingleResult();
+		               // 결과 1개 반환
+		
+		
+		return new PageImpl<>(books, pageable, total);
+	}
+	
+	
+	
+	// 상품번호로 저자목록 조회
+	@Override
+	public List<Object[]> selectWritersByProductNos(List<Long> productNos) {
+		
+		// 없을 경우
+		if (productNos.isEmpty()) {
+			return List.of();
+		}
+		
+		
+		String query = "select p.productNo, t.tagName " +
+		               "from ProductTagConnect ptc " +
+		               "join ptc.product p " +
+		               "join ptc.productTag t " +
+		               "join t.tagCode tc " +
+		               "where p.productNo in :productNos " +
+		               "and tc.tagCode = 1";
+		
+		List<Object[]> result = em.createQuery(query, Object[].class)
+		                          .setParameter("productNos", productNos)
+		                          .getResultList();
+		
+		return result;
 	}
 	
 	
