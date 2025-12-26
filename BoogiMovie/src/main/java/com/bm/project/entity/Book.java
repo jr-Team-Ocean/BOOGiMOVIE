@@ -23,11 +23,11 @@ public class Book {
     @Column(name = "PRODUCT_NO")
     private Long productNo;
 	
-	
 	@OneToOne(fetch = FetchType.LAZY)
     @MapsId // PK 이면서 FK 일 때 사용
     @JoinColumn(name = "PRODUCT_NO")
 	private Product product;
+	
 	
 	@Column(name = "BOOK_COUNT")
 	private Integer bookCount;
