@@ -17,11 +17,11 @@ public class MemberDto {
 		private String memberId;
 		private String memberPw;
 		private String memberName;
-		private String birth;
-		private String phone;
-		private String nickName;
-		private String email;
-		private String address;
+		private String memberBirth;
+		private String memberPhone;
+		private String memberNickName;
+		private String memberEmail;
+		private String memberAddress;
 		
 		
 		public Member toEntity() {
@@ -29,11 +29,11 @@ public class MemberDto {
 					.memberId(this.memberId)
 					.memberPw(this.memberPw)
 					.memberName(this.memberName)
-					.memberBirth(this.birth)
-					.memberEmail(this.email)
-					.memberNickName(this.nickName)
-					.memberAddress(this.address)
-					.memberPhone(this.phone)
+					.memberBirth(this.memberBirth)
+					.memberEmail(this.memberEmail)
+					.memberNickName(this.memberNickName)
+					.memberAddress(this.memberAddress)
+					.memberPhone(this.memberPhone)
 					.build();
 		}
 		
