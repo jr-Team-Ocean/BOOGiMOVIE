@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../static/css/common/header.css">
     <link rel="stylesheet" href="../../static/css/common/font.css">
     <link rel="stylesheet" href="../../static/css/common/footer.css">
+    <link rel="stylesheet" href="../../static/css/admin/adminPage_sideBar.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,12 +17,13 @@
 </head>
 <body>
     
-    <!-- header -->
+         <!-- header -->
     
     <div class="header_container">
         <div class="blue_background">
             <div class="header_inner">
                 <div class="header_category">
+                    <!-- 선택에 따른 효과 - 타임리프(경로에 따른 효과 주기로 변경 예정) -->
                     <div class="header_active"><a href="#" class="white font-18px">홈</a></div>
                     <div><a href="#" class="white font-18px">도서</a></div>
                     <div><a href="#" class="white font-18px">중고도서</a></div>
@@ -34,6 +36,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
     <!-- 로고 및 검색바 -->
@@ -57,6 +60,7 @@
         </div>
     </div>
 
+  
     <!-- header -->   
 
     <main>
@@ -65,62 +69,71 @@
         </header>
 
         <section class="section_nav"> 
+            <div class="header_nav_button">
+                <button class="notread">안읽음</button>
+                <img src="../../static/svg/count.svg" class="notread_img" alt="안읽은 메시지 수">
+            </div> 
+
             <div class="header_nav_search">
                 <img src="../../static/svg/magnifier.svg" alt="검색 아이콘">
-                <input id="targetInput" type="text" placeholder="관리자와의 대화를 검색하세요">
-                <ul id="resultArea"></ul>
+                <input type="text" placeholder="메세지를 입력하세요">
             </div> 
             
             <nav class="header_nav_page"> 
-                <a href="#">&laquo;</a>
                 <a href="#">&lt;</a>
-                <span class="page_status"> 1 / 1</span>
-                <a href="#">&gt;</a>
-                <a href="#">&raquo;</a>
+                <span class="page_status"> 1 / 4</span>
+                <a href="#">&gt;</a> 
             </nav>
         </section>            
 
-        <section class="right_panel" id="rightChatBox">
-            <ul class="display-chatting">
-                <li class="target-chat">
-                    <img src="../../static/svg/person.svg" alt="프로필">
-                    <div>
-                        <b>관리자</b>
-                        <div style="display: flex; gap: 8px; align-items: flex-end;">
-                            <p class="chat">장바구니를 눌렀는데, 아무 반응이 없어요. 아무 반응이 없어요. 아무 반응이 없어요. 아무 반응이 없어요. 아무 반응이 없어요. 아무 반응이 없어요. 아무 반응이 없어요. 아무 반응이 없어요.</p>
-                            <span class="chatDate">14:20</span>
+            <section class="right_panel">
+                <div class="chat_messages">
+                    <div class="message_row user_row">
+                        <div class="user_msg">
+                            <a href="#">
+                                <img src="../../static/svg/person.svg" alt="프로필">
+                                <div class="user_content">
+                                    <div class="user_name">주윤박</div>
+                                    <div class="message_bubble">장바구니를 눌렀는데, 아무 반응이 없어요. 아무 반응이 없어요. 아무 반응이 없어요. 아무 반응이 없어요. 아무 반응이 없어요. 아무 반응이 없어요. 아무 반응이 없어요. 아무 반응이 없어요.</div>
+                                </div>
+                            </a>
                         </div>
                     </div>
-                </li>
-                <li class="my-chat">
-                    <span class="chatDate">14:25</span>
-                    <p class="chat">확인중입니다. 확인중입니다. 확인중입니다. 확인중입니다. 확인중입니다. 확인중입니다. 확인중입니다. 확인중입니다. 확인중입니다. 확인중입니다.</p>
-                </li>
-                <li class="target-chat">
-                    <img src="../../static/svg/person.svg" alt="프로필">
-                    <div>
-                        <b>관리자</b>
-                        <div style="display: flex; gap: 8px; align-items: flex-end;">
-                            <p class="chat">언제쯤 확인이 가능할까요?</p>
-                            <span class="chatDate">14:28</span>
+                    <div class="message_row manager_row">
+                        <div class="manager_msg">
+                            <div class="message_bubble">확인중입니다. 확인중입니다. 확인중입니다. 확인중입니다. 확인중입니다. 확인중입니다. 확인중입니다. 확인중입니다. 확인중입니다. 확인중입니다.</div>
                         </div>
                     </div>
-                </li>
-                <li class="my-chat">
-                    <span class="chatDate">14:30</span>
-                    <p class="chat">잠시만 기다려주시면 정확한 확인 후 답변드리겠습니다.</p>
-                </li>
-            </ul>
+                    <div class="message_row user_row">
+                        <div class="user_msg">
+                            <a href="#">
+                                <img src="../../static/svg/person.svg" alt="프로필">
+                                <div class="user_content">
+                                    <div class="user_name">주윤박</div>
+                                    <div class="message_bubble">언제쯤 확인이 가능할까요?</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="message_row manager_row">
+                        <div class="manager_msg">
+                            <div class="message_bubble">잠시만 기다려주시면 정확한 확인 후 답변드리겠습니다.</div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
         </section>
         
         <section class="bottom_control_row">
+
             <div class="chat_input_section">
                 <div class="bottom_input_container">
-                    <input type="text" placeholder="메세지를 입력하세요" class="chat_input" id="chattingInput">
+                    <input type="text" placeholder="메세지를 입력하세요" class="chat_input">
                     <button class="attach_button">
                         <img src="../../static/svg/camera.svg" class="bottom_img2" alt="파일 첨부 버튼"> 
                     </button>
-                    <button class="send_button" id="sendBtn">
+                    <button class="send_button">
                         <img src="../../static/svg/enter.svg" class="bottom_img1" alt="전송 버튼"> 
                     </button>
                 </div>
@@ -129,7 +142,7 @@
         
     </main>
 
-    <!-- footer -->
+        <!-- footer -->
 
     <footer class="footer">
         <div class="footer-in">
@@ -198,18 +211,17 @@
             </div>
 
             <!-- 우측 SNS -->
-            <div class="footer-sns" aria-label="Social links">
-                <a class="sns-btn" href="#" aria-label="KakaoTalk">카톡</a>
-                <a class="sns-btn" href="#" aria-label="Facebook">페북</a>
-                <a class="sns-btn" href="#" aria-label="Instagram">인스타</a>
-                <a class="sns-btn" href="#" aria-label="YouTube">유튜브</a>
-            </div>
+                <div class="footer-sns" aria-label="Social links">
+                    <a class="sns-btn" href="#" aria-label="KakaoTalk">카톡</a>
+                    <a class="sns-btn" href="#" aria-label="Facebook">페북</a>
+                    <a class="sns-btn" href="#" aria-label="Instagram">인스타</a>
+                    <a class="sns-btn" href="#" aria-label="YouTube">유튜브</a>
+                </div>
             </div>
         </div>
     </footer>
 
     <!-- footer -->
 
-    <script src="../../static/js/chatting/chatting_user.js"></script>
 </body>
 </html>
