@@ -1,20 +1,7 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.thymeleaf.org">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/css/common/header.css}">
-    <link rel="stylesheet" th:href="@{/css/common/font.css}">
-    <title>header</title>
+<link rel="stylesheet" th:href="@{/css/common/header.css}">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
-
-</head>
-
-<body>
+<header>
     <div class="header_container">
         <!-- 홈 / 도서 / 중고도서 / 영화 -->
         <div class="blue_background">
@@ -26,11 +13,20 @@
                         <a th:href="@{#}"><div class="white font-18px">중고도서</div></a>
                         <a th:href="@{#}"><div class="white font-18px">영화</div></a>
                 </div>
-
-                    <div class="header_login">
-                        <a th:href="@{#}"><div class="white font-18px">로그인</div></a>
-                        <a th:href="@{#}"><div class="white font-18px">회원가입</div></a>
+                    <!-- 로그인X -->
+                    <div th:unless="${session.loginMember}" class="header_login">
+                        <a th:href="@{/member/login}"><div class="white font-18px">로그인</div></a>
+                        <a th:href="@{/member/signUp}"><div class="white font-18px">회원가입</div></a>
                     </div>
+
+                    <!-- 로그인O -->
+                    <div th:if="${session.loginMember}" class="header_login">
+                        <a th:href="@{#}"><div class="white font-18px">장바구니</div></a>
+                        <a th:href="@{#}"><div class="white font-18px">마이페이지</div></a>
+                        <a th:href="@{#}"><div class="white font-18px">1:1 문의</div></a>
+                        <a th:href="@{/member/logout}"><div class="white font-18px">로그아웃</div></a>
+                    </div>
+
                 </div>
             </div>
 
@@ -39,7 +35,7 @@
                 <div class="search_margin">
                     <!-- 로고 -->
                     <div class="logo_container">
-                        <a th:href="@{#}"><img th:src="@{/images/common/logo_basic.png}" alt=""></a>
+                        <a th:href="@{/}"><img th:src="@{/images/common/logo_basic.png}"></a>
                     </div>
     
                     <!-- 검색바 전체 자리 -->
@@ -194,14 +190,12 @@
                             </ul>
                         </div> -->
                 </div>
-                </div>
             </div>
-
         </div>
 
-        <script th:src="@{/js/common/header.js}"></script>
+    </div>
 
+    <script th:src="@{/js/common/header.js}"></script>
 
-</body>
+</header>
 
-</html>
