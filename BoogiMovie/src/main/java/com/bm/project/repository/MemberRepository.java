@@ -1,7 +1,10 @@
 package com.bm.project.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.bm.project.dto.MemberDto.Login;
 import com.bm.project.entity.Member;
 
 public interface MemberRepository extends JpaRepository<Member, Long>{
@@ -14,5 +17,11 @@ public interface MemberRepository extends JpaRepository<Member, Long>{
 
 	// 전화번호 중복검사
 	boolean existsByMemberPhone(String memberPhone);
+
+	// 로그인
+	Optional<Member> findByMemberId(String memberId);
+
+	
+
 
 }

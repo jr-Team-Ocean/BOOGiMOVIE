@@ -70,17 +70,20 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
             		
             		// 로그인 해야만 접근할 수 있는 곳 (글쓰기 등 경로 더 작성하면 됨)
-            		.requestMatchers("/member/**"
+            		.requestMatchers("/home/**"
             				).authenticated()
             		
             		.anyRequest().permitAll() // 위 경로 제외 다른 곳들은 자유롭게 접근 가능
-        		)
-            .formLogin(form -> form
-    				.loginPage("/member/login")       // 커스텀 로그인 페이지
-    				.loginProcessingUrl("/member/login") // 로그인 처리 URL
-    				.defaultSuccessUrl("/")           // 성공 시 메인으로
-    				.permitAll()
-    			);
+        		);
+//            .formLogin(form -> form
+//    				.loginPage("/member/login")       // 커스텀 로그인 페이지
+//    				.loginProcessingUrl("/member/login") // 로그인 처리 URL
+//    				.usernameParameter("memberId")
+//    			    .passwordParameter("memberPw")
+//    				.defaultSuccessUrl("/")           // 성공 시 메인으로
+//    				.failureUrl("/member/login?error")
+//    				.permitAll()
+//    			);
 
         return http.build();
         
