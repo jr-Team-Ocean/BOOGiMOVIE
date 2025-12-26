@@ -24,6 +24,7 @@ body {
 
 /* 전체 컨테이너 */
 .myPage_container {
+    margin-right: 50px;
     width: 65%;
 }
 
