@@ -2,9 +2,12 @@ package com.bm.project.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -28,6 +31,10 @@ public class ProductTag {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tag_seq")
 	@SequenceGenerator(name = "tag_seq", sequenceName = "seq_tag_no", allocationSize = 1)
 	private Long tagNo;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "TAG_CODE", nullable = false)
+	private TagCode tagCode;
 	
 	
 	@Column(name = "TAG_NAME", length = 50, nullable = false, unique = true)

@@ -68,7 +68,7 @@ public class Product {
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "PRODUCT_DEL_FL", columnDefinition = "CHAR(1)", nullable = false)
-	private CommonEnums.ProductDelFl ProductDelFl;
+	private CommonEnums.ProductDelFl productDelFl;
 	
 	
 	@Column(name="IMG_PATH", length=200, nullable=false)
@@ -85,8 +85,8 @@ public class Product {
 			this.productDate = LocalDateTime.now();
 		}
 		
-		if (this.ProductDelFl == null) {
-			this.ProductDelFl = CommonEnums.ProductDelFl.N;
+		if (this.productDelFl == null) {
+			this.productDelFl = CommonEnums.ProductDelFl.N;
 			
 		}
 		
@@ -101,7 +101,9 @@ public class Product {
 	@Builder.Default
 	private List<ProductTagConnect> productTagConnects = new ArrayList<>();
 	
-	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "TYPE_CODE", nullable = false)
+	private ProductType productType;
 	
 	
 	

@@ -17,12 +17,13 @@
 </head>
 <body>
     
-    <!-- header -->
+         <!-- header -->
     
     <div class="header_container">
         <div class="blue_background">
             <div class="header_inner">
                 <div class="header_category">
+                    <!-- 선택에 따른 효과 - 타임리프(경로에 따른 효과 주기로 변경 예정) -->
                     <div class="header_active"><a href="#" class="white font-18px">홈</a></div>
                     <div><a href="#" class="white font-18px">도서</a></div>
                     <div><a href="#" class="white font-18px">중고도서</a></div>
@@ -59,6 +60,7 @@
         </div>
     </div>
 
+  
     <!-- header -->   
 
     <div class="body_container">
@@ -70,13 +72,15 @@
     <div class="my_page_side_container">
 
         <!-- 프로필 관리 -->
-        <div class="my_profile_setting_container">
+        <!-- 타임리프로 변경시 아래 코드 추가 예정 (JS 사용 X) -->
+        <!-- th:classappend="${activeMenu == 'profile'} ? 'active_my_page'" -->
+        <div class="my_profile_setting_container active_my_page">
             <img src="../../static/svg/myPage_user_icon.svg" alt="">
             <div class="my_page_menu bold">프로필 관리</div>
         </div>
 
         <!-- 내가 찜한 상품 -->
-        <div class="my_wish_list_container active_my_page">
+        <div class="my_wish_list_container">
             <img src="../../static/svg/heart_icon.svg" alt="">
             <div class="my_page_menu bold">내가 찜한 상품</div>
         </div>
@@ -108,37 +112,7 @@
                 <h3>검색 결과</h3>
             </div>
 
-            <!-- 타임리프로 초기 데이터 렌더링 -->
-            <th:block th:each="favorite : ${favorites}">
-                <div class="search_box_results">   
-                    <div class="search_box_pic"> 
-                        <a href="#"><img th:src="${favorite.productImage}" th:alt="${favorite.productTitle}"></a>
-                    </div>
-
-                    <div class="search_box_detail">                   
-                        <div class="title" th:text="${favorite.productTitle}"></div>
-                        <div class="writer" th:text="'지은이 : ' + ${favorite.productAuthor}"></div>
-                        <div class="price" th:text="'상품상태(' + ${favorite.productStatus} + ')/판매가격(' + ${#numbers.formatInteger(favorite.productPrice, 3, 'COMMA')} + '원)'"></div>
-                    </div>            
-                        
-                    <div class="search_box_like">
-                        <a href="#" th:onclick="removeFavorite([[${favorite.favoriteNo}]]); return false;"><img src="../../static/svg/heart_filled.svg" alt=""></a>                 
-                        <div th:text="${#dates.format(favorite.favoriteDate, 'yyyy년 MM월 dd일')}"></div>
-                    </div>     
-                        
-                </div>
-            </th:block>
-
-            <!-- 찜한 상품이 없을 때 메시지 (개발용: 백엔드 완성 후 th:if 활성화) -->
-            <th:block th:if="${#lists.isEmpty(favorites)}">
-                <div style="text-align: center; padding: 60px 20px; color: #999;">
-                    <p style="font-size: 16px; margin-bottom: 10px;">찜한 상품이 없습니다.</p>
-                    <p style="font-size: 14px;">마음에 드는 상품을 찜해보세요!</p>
-                </div>
-            </th:block>
-
-            <!-- 개발용 샘플 데이터 (백엔드 완성 후 삭제) -->
-            <div class="search_box_results" style="border-bottom: 1px solid black; margin: 20px 0; padding: 20px 0;">   
+            <div class="search_box_results">   
                 <div class="search_box_pic"> 
                     <a href="#"><img src="../../static/images/sample_book.png" alt=""></a>
                 </div>
@@ -156,38 +130,92 @@
                     
             </div>
 
-            <div class="search_box_results" style="border-bottom: 1px solid black; margin: 20px 0; padding: 20px 0;">   
+            <div class="search_box_results">   
                 <div class="search_box_pic"> 
                     <a href="#"><img src="../../static/images/sample_book.png" alt=""></a>
                 </div>
 
                 <div class="search_box_detail">                   
-                    <div class="title">[중고]파이썬 완벽 가이드</div>
-                    <div class="writer">지은이 : 이순신</div>
-                    <div class="price">상품상태(중)/판매가격(15,000원)</div>
+                    <div class="title">[중고]유튜브, 이제 나도! 유튜버다</div>
+                    <div class="writer">지은이 : 김춘추</div>
+                    <div class="price">상품상태(중)/판매가격(12,000원)</div>
                 </div>            
                     
                 <div class="search_box_like">
                     <a href="#"><img src="../../static/svg/heart_filled.svg" alt=""></a>                 
-                    <div>2026년 1월 2일</div>
+                    <div>2026년 1월 1일</div>
                 </div>     
                     
             </div>
 
-            <div class="search_box_results" style="border-bottom: 1px solid black; margin: 20px 0; padding: 20px 0;">   
+            <div class="search_box_results">   
                 <div class="search_box_pic"> 
                     <a href="#"><img src="../../static/images/sample_book.png" alt=""></a>
                 </div>
 
                 <div class="search_box_detail">                   
-                    <div class="title">[중고]JavaScript 마스터하기</div>
-                    <div class="writer">지은이 : 세종대왕</div>
-                    <div class="price">상품상태(상)/판매가격(18,000원)</div>
+                    <div class="title">[중고]유튜브, 이제 나도! 유튜버다</div>
+                    <div class="writer">지은이 : 김춘추</div>
+                    <div class="price">상품상태(중)/판매가격(12,000원)</div>
                 </div>            
                     
                 <div class="search_box_like">
                     <a href="#"><img src="../../static/svg/heart_filled.svg" alt=""></a>                 
-                    <div>2026년 1월 3일</div>
+                    <div>2026년 1월 1일</div>
+                </div>     
+                    
+            </div>
+
+            <div class="search_box_results">   
+                <div class="search_box_pic"> 
+                    <a href="#"><img src="../../static/images/sample_book.png" alt=""></a>
+                </div>
+
+                <div class="search_box_detail">                   
+                    <div class="title">[중고]유튜브, 이제 나도! 유튜버다</div>
+                    <div class="writer">지은이 : 김춘추</div>
+                    <div class="price">상품상태(중)/판매가격(12,000원)</div>
+                </div>            
+                    
+                <div class="search_box_like">
+                    <a href="#"><img src="../../static/svg/heart_filled.svg" alt=""></a>                 
+                    <div>2026년 1월 1일</div>
+                </div>     
+                    
+            </div>
+
+            <div class="search_box_results">   
+                <div class="search_box_pic"> 
+                    <a href="#"><img src="../../static/images/sample_book.png" alt=""></a>
+                </div>
+
+                <div class="search_box_detail">                   
+                    <div class="title">[중고]유튜브, 이제 나도! 유튜버다</div>
+                    <div class="writer">지은이 : 김춘추</div>
+                    <div class="price">상품상태(중)/판매가격(12,000원)</div>
+                </div>            
+                    
+                <div class="search_box_like">
+                    <a href="#"><img src="../../static/svg/heart_filled.svg" alt=""></a>                 
+                    <div>2026년 1월 1일</div>
+                </div>     
+                    
+            </div>
+
+            <div class="search_box_results">   
+                <div class="search_box_pic"> 
+                    <a href="#"><img src="../../static/images/sample_book.png" alt=""></a>
+                </div>
+
+                <div class="search_box_detail">                   
+                    <div class="title">[중고]유튜브, 이제 나도! 유튜버다</div>
+                    <div class="writer">지은이 : 김춘추</div>
+                    <div class="price">상품상태(중)/판매가격(12,000원)</div>
+                </div>            
+                    
+                <div class="search_box_like">
+                    <a href="#"><img src="../../static/svg/heart_filled.svg" alt=""></a>                 
+                    <div>2026년 1월 1일</div>
                 </div>     
                     
             </div>
@@ -195,27 +223,30 @@
         </section>
 
         <div class="pagination">
-            <a href="#">&laquo;</a>
-            <a href="#">&lt;</a>
-            <a href="#" class="active">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">5</a>
-            <a href="#">6</a>
-            <a href="#">7</a>
-            <a href="#">8</a>
-            <a href="#">9</a>
-            <a href="#">10</a>
-            <a href="#">&gt;</a>
-            <a href="#">&raquo;</a>
+            <ul>
+                <a href="">&laquo;</a>
+                <a href="">&lt</a>
+                <a href="" class="active">1</a>
+                <a href="">2</a>
+                <a href="">3</a>
+                <a href="">4</a>
+                <a href="">5</a>
+                <a href="">6</a>
+                <a href="">7</a>
+                <a href="">8</a>
+                <a href="">9</a>
+                <a href="">10</a>
+                <a href="">&gt</a>
+                <a href="">&raquo;</a>
+            </ul>
+
         </div>
     </main>
 
     </div>
 
 
-    <!-- footer -->
+        <!-- footer -->
 
     <footer class="footer">
         <div class="footer-in">
@@ -259,7 +290,7 @@
                 </div>
 
                 <div class="info-row">
-                    <span>이메일: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="86e4e9e9e1efc6e8e7f0e3f4a8e5e9eb">[email&#160;protected]</a></span>
+                    <span>이메일: boogi@naver.com</span>
                 </div>
 
                 <div class="info-row">
@@ -284,11 +315,17 @@
             </div>
 
             <!-- 우측 SNS -->
-            <div class="footer-sns" aria-label="Social links">
-                <a class="sns-btn" href="#" aria-label="KakaoTalk">카톡</a>
-                <a class="sns-btn" href="#" aria-label="Facebook">페북</a>
-                <a class="sns-btn" href="#" aria-label="Instagram">인스타</a>
-                <a class="sns-btn" href="#" aria-label="YouTube">유튜브</a>
-            </div>
+                <div class="footer-sns" aria-label="Social links">
+                    <a class="sns-btn" href="#" aria-label="KakaoTalk">카톡</a>
+                    <a class="sns-btn" href="#" aria-label="Facebook">페북</a>
+                    <a class="sns-btn" href="#" aria-label="Instagram">인스타</a>
+                    <a class="sns-btn" href="#" aria-label="YouTube">유튜브</a>
+                </div>
             </div>
         </div>
+    </footer>
+
+    <!-- footer -->
+
+</body>
+</html>
