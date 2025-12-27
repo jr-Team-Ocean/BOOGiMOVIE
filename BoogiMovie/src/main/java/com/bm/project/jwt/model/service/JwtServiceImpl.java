@@ -14,7 +14,7 @@ import com.bm.project.entity.Member;
 import com.bm.project.jwt.model.dto.AdminDto;
 import com.bm.project.jwt.model.dto.JwtToken;
 import com.bm.project.jwt.provider.JwtTokenProvider;
-import com.bm.project.jwt.repository.AdminRepository;
+import com.bm.project.jwt.repository.JwtRepository;
 import com.nimbusds.jose.Option;
 
 import lombok.RequiredArgsConstructor;
@@ -22,8 +22,8 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AdminServiceImpl implements AdminService {
-	private final AdminRepository adminRepository;
+public class JwtServiceImpl implements JwtService {
+	private final JwtRepository adminRepository;
 	private final BCryptPasswordEncoder bcrypt;
 	private final JwtTokenProvider jwtTokenProvider;
 	

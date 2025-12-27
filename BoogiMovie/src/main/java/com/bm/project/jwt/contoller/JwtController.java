@@ -1,15 +1,15 @@
 package com.bm.project.jwt.contoller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bm.project.jwt.model.dto.AdminDto;
 import com.bm.project.jwt.model.dto.JwtToken;
-import com.bm.project.jwt.model.service.AdminService;
+import com.bm.project.jwt.model.service.JwtService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,8 +22,8 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequestMapping("/admin")
 @RequiredArgsConstructor
-public class AdminController {
-	private final AdminService adminService;
+public class JwtController {
+	private final JwtService adminService;
 	
 	// 회원 로그인에서 관리자 로그인 페이지로 이동 요청
 	@GetMapping("/login")
@@ -63,9 +63,11 @@ public class AdminController {
 		}
 	}
 	
-	// 통계 화면 보여주기
-	@GetMapping("/statistics")
-	public String statistics() {
-		return "admin/statistics";
-	}
+	// 관리자 로그아웃
+//	@GetMapping("/logout")
+//	public String adminLogout() {
+//		
+//	}
+	
+
 }
