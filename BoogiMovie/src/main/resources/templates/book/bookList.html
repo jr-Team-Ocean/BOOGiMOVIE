@@ -27,6 +27,7 @@
     <!-- 도서 목록 1페이지 -->
     <div class="book-container">
 
+        <input type="color">
 
         <div th:each="book : ${page.content}">
             <p th:text="${book.productTitle}"></p>
