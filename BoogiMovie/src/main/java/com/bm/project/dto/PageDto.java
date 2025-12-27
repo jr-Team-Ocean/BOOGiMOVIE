@@ -21,7 +21,7 @@ public class PageDto<T> {
 	// Page<T> : 페이지 결과를 담고 있는 인터페이스
 	public PageDto(Page<T> page) {
 		this.content = page.getContent(); 	 		// 데이터 목록
-		this.currentPage = page.getNumber(); 		// 현재 페이지
+		this.currentPage = page.getNumber() + 1; 		// 현재 페이지
 		this.totalPage = page.getTotalPages(); 		// 총 페이지 수
 		this.totalCount = page.getTotalElements();  // 총 데이터 수
 		this.hasNext = page.hasNext(); 		   		// 다음 페이지 여부

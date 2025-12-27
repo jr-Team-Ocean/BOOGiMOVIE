@@ -37,24 +37,26 @@ public class BookRepositoryImpl implements BookRepository{
 					   "and p.productType.typeCode = 1 " +
 					   "and b.bookCount > 0";
 		
+		
+		
 		// 카테고리 필터 적용
 		if (categoryId != null) {
 	        query += " and p.category.categoryId = :categoryId";
 	    }
 		
-		List<Product> books = em.createQuery(query, Product.class)
-								
-								// 어디서부터 가지고 올 것인지
-				                .setFirstResult((int)pageable.getOffset())
-				                // 몇개를 가지고 올 것인지
-				                .setMaxResults(pageable.getPageSize())
-				                .getResultList();
+		var bQuery = em.createQuery(query, Product.class);
 		
 		// 카테고리 선택시 
 		if (categoryId != null) {
-	        em.createQuery(query, Product.class)
-	          .setParameter("categoryId", categoryId);
-	    }
+			bQuery.setParameter("categoryId", categoryId);
+		}
+		
+		List<Product> books = bQuery.setFirstResult((int)pageable.getOffset())
+				                    // 어디서부터 가지고 올 것인지
+									.setMaxResults(pageable.getPageSize())
+				                    // 몇개를 가지고 올 것인지
+									.getResultList();
+		
 		
 		// 게시글 수
 		String countQuery = "select count(p) " +
@@ -68,9 +70,16 @@ public class BookRepositoryImpl implements BookRepository{
 	        countQuery += " and p.category.categoryId = :categoryId";
 	    }
 		
-		Long total = em.createQuery(countQuery, Long.class)
-	                   .getSingleResult();
-		               // 결과 1개 반환
+		
+		
+		var cQuery = em.createQuery(countQuery, Long.class);
+		
+		if (categoryId != null) {
+			cQuery.setParameter("categoryId", categoryId);
+        }
+		
+		Long total = cQuery.getSingleResult();
+		                   // 결과 1개 반환
 		
 		
 		return new PageImpl<>(books, pageable, total);

@@ -3,6 +3,7 @@ package com.bm.project.controller;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -26,10 +27,14 @@ public class BookController {
 	@GetMapping
 	public String selectBookList(
 			@RequestParam Map<String, Object> paramMap,
-			@PageableDefault(size = 20, page=0)Pageable pageable,
+			@RequestParam(name = "page", defaultValue = "1") int page,
+			
 			Model model
 			) {
-		Page<BookDto.Response> page;
+		Page<BookDto.Response> pageResp;
+		
+		
+		Pageable pageable = PageRequest.of(page - 1, 20);
 		/* 
 		 * 검색 목록 조회 : 페이지 + 정렬 + 장르 + 검색어
 		 * 				/books?category=10&key=홍길동&page=1&sort=latest
@@ -44,16 +49,16 @@ public class BookController {
 		if (paramMap.get("query") == null ||paramMap.get("query").toString().isBlank() ) {
 			
 			// 검색 없는 경우
-			page = bookService.selectBookList(paramMap, pageable);
+			pageResp = bookService.selectBookList(paramMap, pageable);
 			
 			
 		} else {
 			
 			// 검색 있음
-			page = bookService.searchBookList(paramMap, pageable);
+			pageResp = bookService.searchBookList(paramMap, pageable);
 		}
 		
-		model.addAttribute("page", page);
+		model.addAttribute("page", pageResp);
 		model.addAttribute("paramMap", paramMap);
 		
 		

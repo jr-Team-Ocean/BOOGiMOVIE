@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../static/css/common/header.css">
-    <link rel="stylesheet" href="../../static/css/common/footer.css">
-    <link rel="stylesheet" href="../../static/css/book/bookList-style.css">
+    <!-- <link rel="stylesheet" th:href="@{/css/common/header.css}"> -->
+    <link rel="stylesheet" th:href="@{/css/common/footer.css}">
+
+    <!-- <link rel="stylesheet" href="../../static/css/common/footer.css"> -->
+    
+    <link rel="stylesheet" th:href="@{/css/book/bookList-style.css}">
+    <!-- <link rel="stylesheet" href="../../static/css/book/bookList-style.css"> -->
     <title>도서 목록 상세</title>
 
-    <script src="../../static/js/book/bookList.js"></script>
     
     <!-- 폰트 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,13 +20,21 @@
 
 </head>
 <body>
-    
     <!-- 헤더 -->
     <th:block th:replace="~{common/header}"></th:block>
-    
+
 
     <!-- 도서 목록 1페이지 -->
     <div class="book-container">
+
+        <input type="color">
+
+        <div th:each="book : ${page.content}">
+            <p th:text="${book.productTitle}"></p>
+            <p th:text="${book.productPrice}"></p>
+        </div>
+
+
 
         <div class="book-header">
             
@@ -42,18 +53,18 @@
                 <!-- 카테고리 -->
                 <div class="book-category-main1">
                     <button type="button" class="category-btn small" data-value="0">전체</button>
-                    <button type="button" class="category-btn" data-value="01">운동/취미/살림</button>
-                    <button type="button" class="category-btn" data-value="02">교재/참고서/자격증</button>
-                    <button type="button" class="category-btn" data-value="03">유아/어린이</button>
-                    <button type="button" class="category-btn" data-value="04">여행</button>
-                    <button type="button" class="category-btn" data-value="05">역사/문화/예술/종교</button>
+                    <button type="button" class="category-btn" data-value="1">운동/취미/살림</button>
+                    <button type="button" class="category-btn" data-value="2">교재/참고서/자격증</button>
+                    <button type="button" class="category-btn" data-value="3">유아/어린이</button>
+                    <button type="button" class="category-btn" data-value="4">여행</button>
+                    <button type="button" class="category-btn" data-value="5">역사/문화/예술/종교</button>
                 </div>
                 <div class="book-category-main2">
                     <button type="button" class="category-btn small" data-value="99">기타</button>
-                    <button type="button" class="category-btn" data-value="06">과학</button>
-                    <button type="button" class="category-btn" data-value="07">외국어</button>
-                    <button type="button" class="category-btn" data-value="08">만화</button>
-                    <button type="button" class="category-btn" data-value="09">컴퓨터/모바일</button>
+                    <button type="button" class="category-btn" data-value="6">과학</button>
+                    <button type="button" class="category-btn" data-value="7">외국어</button>
+                    <button type="button" class="category-btn" data-value="8">만화</button>
+                    <button type="button" class="category-btn" data-value="9">컴퓨터/모바일</button>
                     <button type="button" class="category-btn" data-value="10">외국도서</button>
                 </div>
 
@@ -61,14 +72,14 @@
                 <div class="category-novel-group">
                     <button type="button" class="category-btn" data-value="11">소설/희곡 ▶</button>
                     <div class="category-sub">
-                        <button type="button" class="category-btn sub" data-value="21">라이트노벨</button>
-                        <button type="button" class="category-btn sub" data-value="22">판타지</button>
-                        <button type="button" class="category-btn sub" data-value="23">SF</button>
-                        <button type="button" class="category-btn sub" data-value="24">추리</button>
-                        <button type="button" class="category-btn sub" data-value="25">로맨스</button>
-                        <button type="button" class="category-btn sub" data-value="26">무협</button>
-                        <button type="button" class="category-btn sub" data-value="27">희곡</button>
-                        <button type="button" class="category-btn sub" data-value="28">기타</button>
+                        <button type="button" class="category-btn sub" data-value="11">라이트노벨</button>
+                        <button type="button" class="category-btn sub" data-value="12">판타지</button>
+                        <button type="button" class="category-btn sub" data-value="13">SF</button>
+                        <button type="button" class="category-btn sub" data-value="14">추리</button>
+                        <button type="button" class="category-btn sub" data-value="15">로맨스</button>
+                        <button type="button" class="category-btn sub" data-value="16">무협</button>
+                        <button type="button" class="category-btn sub" data-value="17">희곡</button>
+                        <button type="button" class="category-btn sub" data-value="18">기타</button>
                     </div>
                 </div>
             </section>
@@ -90,52 +101,20 @@
         <div class="book-list active" id="all">
             
             <!-- 상품 1행 -->
-            <div class="card-group">
+            <div class="card-group" th:each="row : ${#numbers.sequence(0, page.content.size() - 1, 5)}">
 
                 <!-- 상품 1개 -->
-                <a class="book-product" href="#">
-                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
-                    <div class="book-maker">백종원</div>
-                    <div class="book-com">용감한 까치</div>
-                    <div class="book-price">20,000 원</div>
+                <a class="book-product" 
+                   th:each="i : ${#numbers.sequence(row, row + 4)}"
+                   th:if="${i < page.content.size()}"
+                   th:with="book=${page.content[i]}"
+                   th:href="@{/books/{id}(id=${book.productNo})}">
+
+                    <img class="book-img" th:src="${book.imgPath}" alt="도서 이미지">
+                    <div class="book-title" th:text="${book.productTitle}"></div>
+                    <div class="book-maker" th:text="${book.writers}"></div>
+                    <div class="book-price" th:text="${#numbers.formatInteger(book.productPrice, 0, 'COMMA')} + ' 원'"></div>
                     <div class="book-rating">평점 4.5</div>
-                </a>
-
-                <a class="book-product" href="#">
-                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
-                    <div class="book-maker">백종원</div>
-                    <div class="book-com">용감한 까치</div>
-                    <div class="book-price">20,000 원</div>
-                    <div class="book-rating">평점 4.5</div>
-                </a>
-
-                <a class="book-product" href="#">
-                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
-                    <div class="book-maker">백종원</div>
-                    <div class="book-com">용감한 까치</div>
-                    <div class="book-price">20,000 원</div>
-                    <div class="book-rating">4.5</div>
-                </a>
-
-                <a class="book-product" href="#">
-                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
-                    <div class="book-maker">백종원</div>
-                    <div class="book-com">용감한 까치</div>
-                    <div class="book-price">20,000 원</div>
-                    <div class="book-rating">4.5</div>
-                </a>
-
-                <a class="book-product" href="#">
-                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
-                    <div class="book-maker">백종원</div>
-                    <div class="book-com">용감한 까치</div>
-                    <div class="book-price">20,000 원</div>
-                    <div class="book-rating">4.5</div>
                 </a>
                 
             </div>
@@ -402,5 +381,8 @@
             </div>
         </div>
     </footer>
+
+
+    <script  th:src="@{/js/book/bookList.js}"></script>
 </body>
 </html>
