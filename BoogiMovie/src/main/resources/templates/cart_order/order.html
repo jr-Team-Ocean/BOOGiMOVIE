@@ -1,36 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delivery</title>
-    <link rel="stylesheet" href="../../static/css/cart_order/order.css">
-    <link rel="stylesheet" href="../../static/css/common/font.css">
-    <link rel="stylesheet" href="../../static/css/common/header.css">
+    <title>주문하기</title>
+    <link rel="stylesheet" th:href="@{/css/cart_order/order.css}">
+    <link rel="stylesheet" th:href="@{/css/common/font.css}">
+    <link rel="stylesheet" th:href="@{/css/common/header.css}">
+    <link rel="stylesheet" th:href="@{/css/common/font.css}">
 </head>
 
 <body>
 
-    <div class="header_container">
-        <div class="blue_background">
-            <div class="header_inner">
-                <div class="header_category">
-                    <!-- 선택에 따른 효과 - 타임리프(경로에 따른 효과 주기로 변경 예정) -->
-                    <div class="header_active"><a href="#" class="white font-18px">홈</a></div>
-                    <div><a href="#" class="white font-18px">도서</a></div>
-                    <div><a href="#" class="white font-18px">중고도서</a></div>
-                    <div><a href="#" class="white font-18px">영화</a></div>
-                </div>
-
-                <div class="header_login">
-                    <div><a href="#" class="white font-18px">로그인</a></div>
-                    <div><a href="#" class="white font-18px">회원가입</a></div>
-                </div>
-            </div>
-        </div>
-
-    </div>
+    <th:block th:replace="~{common/header_no_search}">header_no_search.html</th:block>
 
 
     <!-- 전체 컨테이너 -->
@@ -75,16 +58,16 @@
                     <div class="orderer_address_area">
                         <!-- 우편번호 및 주소찾기 -->
                         <div>
-                            <input type="text" placeholder="우편번호" class="orderer_input orderer_post">
-                            <button class="find_address_btn bold">주소 찾기</button>
+                            <input type="text" placeholder="우편번호" class="orderer_input orderer_post" id="sample6_postcode">
+                            <button class="find_address_btn bold" onclick="sample6_execDaumPostcode()">주소 찾기</button>
                         </div>
                         <!-- 도로명 주소 -->
                         <div>
-                            <input type="text" placeholder="도로명 주소" class="orderer_input orderer_address">
+                            <input type="text" placeholder="도로명 주소" id="sample6_address" class="orderer_input orderer_address">
                         </div>
                         <!-- 상세주소 -->
                         <div>
-                            <input type="text" placeholder="상세 주소" class="orderer_input orderer_detail_address">
+                            <input type="text" placeholder="상세 주소" id="sample6_detailAddress" class="orderer_input orderer_detail_address">
                         </div>
                     </div>
                 </div>
@@ -102,7 +85,7 @@
                 <div class="order_product_container">
                     <!-- 왼쪽 영역 (상품 이미지) -->
                     <div>
-                        <img src="../../static/images/cart/mock_book1.png" alt="">
+                        <img th:src="@{/images/cart/mock_book1.png}" alt="">
                     </div>
     
                     <!-- 오른쪽 영역 (상품 정보) -->
@@ -122,7 +105,7 @@
                 <div class="order_product_container">
                     <!-- 왼쪽 영역 (상품 이미지) -->
                     <div>
-                        <img src="../../static/images/cart/mock_book2.png" alt="">
+                        <img th:src="@{/images/cart/mock_book2.png}" alt="">
                     </div>
     
                     <!-- 오른쪽 영역 (상품 정보) -->
@@ -148,12 +131,12 @@
                 <div class="payment_container">
                     <div class="payment">
                         <div>
-                            <input type="radio" name="payments" value="simple" id="simple">
-                            <label for="simple">간편 결제</label> 
+                            <input type="radio" name="payments" value="simple" id="simplePay">
+                            <label for="simplePay">간편 결제</label> 
                         </div>
                         <div>
-                            <input type="radio" name="payments" value="card" id="card">
-                            <label for="card">카드 결제</label>
+                            <input type="radio" name="payments" value="card" id="cardPay">
+                            <label for="cardPay">카드 결제</label>
                         </div>
                     </div>
                 </div>
@@ -167,85 +150,37 @@
         </div>
     </div>
 
+    <th:block th:replace="~{common/footer}">footer.html</th:block>
 
 
+    <!-- 주소 검색 api -->
+    <script th:src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+        function sample6_execDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
-<footer class="footer">
-  <div class="footer-in">
+                    // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                    var addr = ''; // 주소 변수
 
-    <!-- 상단 링크 -->
-    <nav class="ft-toplinks" aria-label="Ft links">
-      <a href="#">회사소개</a>
-      <span class="sep">|</span>
-      <a href="#">서비스 소개</a>
-      <span class="sep">|</span>
-      <a href="#">이용약관</a>
-      <span class="sep">|</span>
-      <a href="#">개인정보처리방침</a>
-      <span class="sep">|</span>
-      <a href="#">청소년보호정책</a>
-      <span class="sep">|</span>
-      <a href="#">채용정보</a>
-      <span class="sep">|</span>
-      <a href="#">광고문의</a>
-    </nav>
+                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                        addr = data.roadAddress;
+                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                        addr = data.jibunAddress;
+                    }
 
-    <div class="footer-main">
-      <!-- 좌측 로고 -->
-      <div class="footer-brand" aria-label="BOOGIMOVIE">
-        <img src="../../static/images/common/logo_white.png" alt="">
-      </div>
-
-      <!-- 회사 정보 -->
-      <div class="footer-info">
-        <div class="info-row">
-          <span class="info-title">(주)BOOGIMOVIE</span>
-        </div>
-
-        <div class="info-row">
-          <span>서울특별시 종로구 우정국로2길 21 9층, 903호</span>
-        </div>
-
-        <div class="info-row">
-          <span>대표자: (발신자부담) 1544-0000(부기문고) · 1661-1112(핫트랙스)</span>
-        </div>
-
-        <div class="info-row">
-          <span>이메일: boogi@naver.com</span>
-        </div>
-
-        <div class="info-row">
-          <span>대표 FAX: 2025-012-0801</span>
-        </div>
-
-        <div class="info-row">
-          <span>사업자등록번호: 102-81-11670</span>
-        </div>
-
-        <div class="info-row">
-          <span>통신판매업신고: 0000 - 서울 종로구 - 00000</span>
-        </div>
-
-        <div class="info-row">
-          <span>개인정보관리 책임자: 김무비</span>
-        </div>
-
-        <div class="info-row copyright">
-          © BOOGIMOVIE CENTRE
-        </div>
-      </div>
-
-      <!-- 우측 SNS -->
-      <div class="footer-sns" aria-label="Social links">
-        <a class="sns-btn" href="#" aria-label="KakaoTalk"><img src="../../static/svg/footer-kakao.svg" alt=""></a>
-        <a class="sns-btn" href="#" aria-label="Facebook"><img src="../../static/svg/footer-facebook.svg" alt=""></a>
-        <a class="sns-btn" href="https://www.instagram.com/dog___foooot?igsh=MTlyc3lpc3Y3c3FqMA==" aria-label="Instagram"><img src="../../static/svg/footer-instagram.svg" alt=""></a>
-        <a class="sns-btn" href="#" aria-label="YouTube"><img src="../../static/svg/footer-youtube.svg" alt=""></a>
-      </div>
-    </div>
-  </div>
-</footer>
-<link rel="stylesheet" href="../../static/css/common/footer.css">
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById('sample6_postcode').value = data.zonecode;
+                    document.getElementById("sample6_address").value = addr;
+                    // 커서를 상세주소 필드로 이동한다.
+                    document.getElementById("sample6_detailAddress").focus();
+                }
+            }).open();
+        }
+    </script>
 </body>
 
 </html>

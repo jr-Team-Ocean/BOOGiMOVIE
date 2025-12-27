@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 
 import com.bm.project.jwt.model.dao.RedisDao;
 import com.bm.project.jwt.model.dto.JwtToken;
-import com.bm.project.jwt.model.service.AdminService;
+import com.bm.project.jwt.model.service.JwtService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
