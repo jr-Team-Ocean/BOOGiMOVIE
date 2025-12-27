@@ -8,6 +8,10 @@
     text-decoration: none;
 }
 
+.header_login a {
+    text-decoration: none;
+}
+
 .category_a {
     text-decoration: none;
     color: black;
@@ -194,9 +198,5 @@
 .header_active div,
 .header_category a:hover div {
     background-color: #5170B0;
-    cursor: pointer;
-}
-
-.header_login a {
     cursor: pointer;
 }
