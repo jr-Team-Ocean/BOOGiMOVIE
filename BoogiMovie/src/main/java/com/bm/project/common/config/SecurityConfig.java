@@ -35,8 +35,8 @@ public class SecurityConfig {
 	SecurityFilterChain adminFilterChain(HttpSecurity http) throws Exception {
 		http
 			.formLogin(form -> form.disable())
-			.securityMatcher("/admin/**") // "/admin" 으로 시작하는 요첨만 받을 것
-			.csrf(csrf -> csrf.disable()) // Cross-Site Request Forgery (사이트 간 요청 위조)
+			.securityMatcher("/admin/**") // "/admin" 으로 시작하는 요청만 받을 것
+			.csrf(csrf -> csrf.disable()) // Cross-Site Request Forgery (사이트 간 요청 위조) 방지
 			
 			// 관리자는 세션 사용 X
 			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -74,7 +74,7 @@ public class SecurityConfig {
             				).authenticated()
             		
             		.anyRequest().permitAll() // 위 경로 제외 다른 곳들은 자유롭게 접근 가능
-        		);
+        		)
 //            .formLogin(form -> form
 //    				.loginPage("/member/login")       // 커스텀 로그인 페이지
 //    				.loginProcessingUrl("/member/login") // 로그인 처리 URL
@@ -84,6 +84,8 @@ public class SecurityConfig {
 //    				.failureUrl("/member/login?error")
 //    				.permitAll()
 //    			);
+            
+            .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
         
