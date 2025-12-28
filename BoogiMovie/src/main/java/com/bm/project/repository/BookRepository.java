@@ -16,4 +16,6 @@ public interface BookRepository {
 	// 저자조회용
 	List<Object[]> selectWritersByProductNos(List<Long> productNos);
 
+	Page<Product> searchBookList(Map<String, Object> paramMap, Pageable pageable);
+
 }
