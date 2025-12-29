@@ -1,6 +1,8 @@
 package com.bm.project.dto;
 
 import com.bm.project.entity.Member;
+import com.bm.project.entity.MemberSocial;
+import com.bm.project.enums.CommonEnums.SocialProvider;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -63,6 +65,18 @@ public class MemberDto {
 	        dto.setMemberNickName(m.getMemberNickName());
 	        return dto;
 	    }
+		
+	}
+	
+	// 소셜 로그인
+	@Getter
+	@ToString
+	public static class SocialLogin{
+		private SocialProvider provider;
+		private String providerId;
+		private String memberEmail;
+		private String memberNickName;
+		private String profilePath;
 		
 	}
 	

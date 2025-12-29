@@ -8,7 +8,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.bm.project.jwt.provider.JwtTokenProvider;
@@ -22,6 +27,8 @@ public class SecurityConfig {
 	
 //	private final JwtTokenProvider jwtTokenProvider;
 	private final JwtFilter filter;
+	
+	private final OAuth2UserService<OidcUserRequest, OidcUser> customOidcUserService;
 	
 	/* filterChain 두 개인 이유
 	 * 1. 관리자는 JWT 사용으로 인해 세션을 사용하지 않는다.
@@ -68,6 +75,11 @@ public class SecurityConfig {
             // 일반 회원은 세션 사용
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
             .authorizeHttpRequests(auth -> auth
+            		// 로그인 안해도 접근 가능함
+            		.requestMatchers(
+                            "/", "/member/login/**",
+                            "/css/**", "/js/**", "/images/**"
+                        ).permitAll()
             		
             		// 로그인 해야만 접근할 수 있는 곳 (글쓰기 등 경로 더 작성하면 됨)
             		.requestMatchers("/home/**"
@@ -75,15 +87,25 @@ public class SecurityConfig {
             		
             		.anyRequest().permitAll() // 위 경로 제외 다른 곳들은 자유롭게 접근 가능
         		)
+            
+            // 일반 로그인
 //            .formLogin(form -> form
 //    				.loginPage("/member/login")       // 커스텀 로그인 페이지
 //    				.loginProcessingUrl("/member/login") // 로그인 처리 URL
 //    				.usernameParameter("memberId")
 //    			    .passwordParameter("memberPw")
-//    				.defaultSuccessUrl("/")           // 성공 시 메인으로
-//    				.failureUrl("/member/login?error")
+//    				.defaultSuccessUrl("/", true)           // 성공 시 메인으로
+//    				.failureUrl("/member/login/error")
 //    				.permitAll()
-//    			);
+//    			)
+            
+            // 구글 로그인
+//            .oauth2Login(oauth -> oauth
+//            		.loginPage("/member/login")
+//            		.userInfoEndpoint(u -> u.oidcUserService(customOidcUserService))
+//            		.defaultSuccessUrl("/", true)
+//                    .failureUrl("/member/login/error")
+//            		)
             
             .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 

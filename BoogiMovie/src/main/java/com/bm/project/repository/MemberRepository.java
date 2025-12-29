@@ -20,8 +20,8 @@ public interface MemberRepository extends JpaRepository<Member, Long>{
 
 	// 로그인
 	Optional<Member> findByMemberId(String memberId);
-
 	
-
+	// 소셜 로그인
+	Optional<Member> findByEmail(String memberEmail);
 
 }

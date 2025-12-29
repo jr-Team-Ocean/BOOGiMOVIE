@@ -1,12 +1,14 @@
 package com.bm.project.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,6 +16,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -86,5 +89,21 @@ public class Member {
 	@Enumerated(EnumType.STRING)
 	@ColumnDefault("'N'")
 	private IsYN isAdmin;
+	
+	
+	// Member : MemberSocial (1 : N)
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<MemberSocial> socials = new ArrayList<>();
+	
+	// 연관관계 편의 메소드
+	public void addSocial(MemberSocial social) {
+        socials.add(social);
+        social.setMember(this); // FK 주인 쪽 세팅
+    }
+
+    public void removeSocial(MemberSocial social) {
+        socials.remove(social);
+        social.setMember(null); 
+    }
 	
 }
