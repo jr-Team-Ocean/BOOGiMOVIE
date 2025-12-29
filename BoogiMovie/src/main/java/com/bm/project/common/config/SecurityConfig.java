@@ -29,7 +29,7 @@ public class SecurityConfig {
 //	private final JwtTokenProvider jwtTokenProvider;
 	private final JwtFilter filter;
 	
-	private final OAuth2UserService<OidcUserRequest, OidcUser> customOidcUserService;
+//	private final OAuth2UserService<OidcUserRequest, OidcUser> customOidcUserService;
 	
 	/* filterChain 두 개인 이유
 	 * 1. 관리자는 JWT 사용으로 인해 세션을 사용하지 않는다.
