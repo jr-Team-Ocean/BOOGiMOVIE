@@ -1,10 +1,9 @@
-package com.bm.project.entity.pay;
+package com.bm.project.payment.entity;
 
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.bm.project.entity.Member;
 import com.bm.project.entity.Product;
 
 import jakarta.persistence.Column;
@@ -21,39 +20,37 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Builder
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @DynamicInsert // INSERT 시 작성한 값만 SQL에 포함, 나머지 default 활용
 @DynamicUpdate // UPDATE 시 변경된 필드만 SQL에 포함
-public class Cart {
-	// 장바구니 엔티티
-
+public class OrdersDetail {
+	
 	@Id
-	@Column(name = "CART_NO", nullable = false)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CART_NO")
-	@SequenceGenerator(name = "SEQ_CART_NO", 
-					   sequenceName = "SEQ_CART_NO",
+	@Column(name = "ORDER_ITEM_ID")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ITEM_NO")
+	@SequenceGenerator(name = "SEQ_ITEM_NO", 
+					   sequenceName = "SEQ_ITEM_NO",
 					   initialValue = 1,
 					   allocationSize = 1)
-	private Long cartNo;
+	private Long orderItemId;
 	
-	@Column(name = "QUANTITY", nullable = false)
-	private Integer quantity;
-	
-	// Cart: 연관관계 주인
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MEMBER_NO", nullable = false)
-	private Member member;
+	@JoinColumn(name = "ORDER_NO", nullable = false)
+	private Orders orders; // 주문 번호
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "PRODUCT_NO")
+	private Product product; // 상품 번호
+	
+	private Integer itemPrice; // 구매 당시 판매가
+	
+	private Integer itemQuantity; // 주문 상품 개별 수량
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PRODUCT_NO", nullable = false)
-	private Product product;
-	
-	
-	
-	
 }

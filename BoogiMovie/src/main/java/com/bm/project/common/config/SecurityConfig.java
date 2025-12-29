@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.bm.project.common.filter.JwtFilter;
 import com.bm.project.jwt.provider.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
