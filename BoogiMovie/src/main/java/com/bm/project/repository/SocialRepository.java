@@ -9,6 +9,6 @@ import com.bm.project.enums.CommonEnums.SocialProvider;
 
 public interface SocialRepository extends JpaRepository<MemberSocial, Long>{
 
-	Optional<MemberSocial> findByProviderAndSocialId(SocialProvider provider, String socialId);
-    boolean existsByMember_MemberNoAndProvider(Long memberNo, SocialProvider provider);
+//	Optional<MemberSocial> findByProviderAndSocialId(SocialProvider provider, String socialId);
+//    boolean existsByMember_MemberNoAndProvider(Long memberNo, SocialProvider provider);
 }
