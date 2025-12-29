@@ -2,12 +2,14 @@ package com.bm.project.repository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import com.bm.project.entity.Book;
 import com.bm.project.entity.Product;
 
 import jakarta.persistence.EntityManager;
@@ -281,6 +283,46 @@ public class BookRepositoryImpl implements BookRepository{
 		
 		
 		return new PageImpl<>(books, pageable, total);
+	}
+
+
+
+	// 도서 상세 정보 조회
+	@Override
+	public Optional<Book> selectBookDetailByProductNo(Long productNo) {
+		
+		String query = "select b " +
+					   "from Book b " +
+					   "join b.product p " +
+					   "where p.productNo = :productNo " +
+					   "and p.productDelFl = 'N' " +
+					   "and p.productType.typeCode = 1 " +
+					   "and b.bookCount > 0";
+		
+		List<Book> book = em.createQuery(query, Book.class)
+                		    .setParameter("productNo", productNo)
+                            .getResultList();
+		
+		if (book.isEmpty()) return Optional.empty();
+
+		return Optional.of(book.get(0));
+	}
+
+
+
+	// 도서 상세정보 저자 조회
+	@Override
+	public List<String> selectWritersByProductNo(Long productNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	// 도서 상세정보 출판사 조회
+	@Override
+	public List<String> selectPublishersByProductNo(Long productNo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

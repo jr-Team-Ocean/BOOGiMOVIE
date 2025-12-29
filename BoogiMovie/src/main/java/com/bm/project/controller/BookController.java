@@ -73,13 +73,18 @@ public class BookController {
 	}
 	
 	
+	// 도서 상세 조회
 	@GetMapping("/{productNo}")
 	public String selectBookDetail(
 			@PathVariable("productNo") Long productNo,
 			Model model
-			
 			) {
-		return null;
+		BookDto.Response book = bookService.selectBookDetail(productNo);
+		
+		model.addAttribute("book", book);
+		
+		
+		return "book/bookDetail";
 	}
 	
 	
