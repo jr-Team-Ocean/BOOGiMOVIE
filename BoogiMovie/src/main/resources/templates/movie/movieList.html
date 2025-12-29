@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../static/css/common/header.css">
-    <link rel="stylesheet" href="../../static/css/common/footer.css">
-    <link rel="stylesheet" href="../../static/css/movie/movie-list.css">
+    <link rel="stylesheet" th:href="@{/css/common/header.css}">
+    <link rel="stylesheet" th:href="@{/css/common/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/movie/movie-list.css}">
     <title>영화List</title>
     
     <!-- 폰트 -->
@@ -16,46 +16,7 @@
 </head>
 <body>
     <!-- 헤더 -->
-    <div class="header_container">
-        <div class="blue_background">
-            <div class="header_inner">
-                <div class="header_category">
-                    <!-- 선택에 따른 효과 - 타임리프(경로에 따른 효과 주기로 변경 예정) -->
-                    <div class="header_active"><a href="#" class="white font-18px">홈</a></div>
-                    <div><a href="#" class="white font-18px">도서</a></div>
-                    <div><a href="#" class="white font-18px">중고도서</a></div>
-                    <div><a href="#" class="white font-18px">영화</a></div>
-                </div>
-
-                <div class="header_login">
-                    <div><a href="#" class="white font-18px">로그인</a></div>
-                    <div><a href="#" class="white font-18px">회원가입</a></div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- 로고 및 검색바 -->
-    <div class="logo_search_container">
-        <!-- 로고 -->
-        <div class="logo_container">
-            <a href="#"><img src="../../static/images/common/logo_basic.png" alt=""></a>
-        </div>
-
-        <!-- 검색바 전체 자리 -->
-        <div class="search_container">
-            <!-- 검색 아이콘 -->
-            <div class="search_icon">
-                <img src="../../static/svg/search_icon.svg" alt="">
-            </div>
-
-            <!-- 검색란 -->
-            <div class="search_input">
-                <input type="text" placeholder="원하는 작품을 검색해 보세요!">
-            </div>
-        </div>
-    </div>
+    <th:block th:replace="~{common/header}">header.html</th:block>
 
     <!-- 영화 목록 1페이지 -->
     <div class="movie-container">
@@ -115,198 +76,61 @@
             <!-- 카드 이미지 그룹(1줄)-->
             <div class="card-group">
                 <!-- 카드 이미지 1개 -->
-                 <a href="#" id="movie-a">
-                     <div class="card">
-                         <img src="../../static/images/movie/movie_sample_img.png" class="card-img-top">
-                         <div class="card-body">
-                             <p class="card-title">아바타:불과재</p>
-                             평점<span class="card-rating">9.5</span> <br>
-                             개봉<span class="card-date">2025.12.17</span> <br>
-                             판매가<span class="card-money">12,000</span>원
-                         </div>
-                     </div>
-                 </a>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
+                <a th:href="@{#}" class="movie-a">
+                    <div class="card">
+                        <img th:src="@{/images/movie/movie_sample_img.png}" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-title">아바타:불과재</p>
+                            평점<span class="card-rating">9.5</span> <br>
+                            개봉<span class="card-date">2025.12.17</span> <br>
+                            판매가<span class="card-money">12,000</span>원
+                        </div>
                     </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
+                </a>
+                <a th:href="@{#}" class="movie-a">
+                    <div class="card">
+                        <img th:src="@{/images/movie/movie_sample_img.png}" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-title">아바타:불과재</p>
+                            평점<span class="card-rating">9.5</span> <br>
+                            개봉<span class="card-date">2025.12.17</span> <br>
+                            판매가<span class="card-money">12,000</span>원
+                        </div>
                     </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
+                </a>
+                <a th:href="@{#}" class="movie-a">
+                    <div class="card">
+                        <img th:src="@{/images/movie/movie_sample_img.png}" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-title">아바타:불과재</p>
+                            평점<span class="card-rating">9.5</span> <br>
+                            개봉<span class="card-date">2025.12.17</span> <br>
+                            판매가<span class="card-money">12,000</span>원
+                        </div>
                     </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
+                </a>
+                <a th:href="@{#}" class="movie-a">
+                    <div class="card">
+                        <img th:src="@{/images/movie/movie_sample_img.png}" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-title">아바타:불과재</p>
+                            평점<span class="card-rating">9.5</span> <br>
+                            개봉<span class="card-date">2025.12.17</span> <br>
+                            판매가<span class="card-money">12,000</span>원
+                        </div>
                     </div>
-                </div>
-                
-            </div>
-            <div class="card-group">
-                <!-- 카드 이미지 1개 -->
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
+                </a>
+                <a th:href="@{#}" class="movie-a">
+                    <div class="card">
+                        <img th:src="@{/images/movie/movie_sample_img.png}" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-title">아바타:불과재</p>
+                            평점<span class="card-rating">9.5</span> <br>
+                            개봉<span class="card-date">2025.12.17</span> <br>
+                            판매가<span class="card-money">12,000</span>원
+                        </div>
                     </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-            </div>
-            <div class="card-group">
-                <!-- 카드 이미지 1개 -->
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-            </div>
-            <div class="card-group">
-                <!-- 카드 이미지 1개 -->
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
+                </a>
             </div>
         </div>
 
@@ -315,196 +139,61 @@
             <!-- 영화 포스터 -->
             <div class="card-group">
                 <!-- 카드 이미지 1개 -->
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img2.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
+                <a th:href="@{#}" class="movie-a">
+                    <div class="card">
+                        <img th:src="@{/images/movie/movie_sample_img2.png}" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-title">아바타:불과재</p>
+                            평점<span class="card-rating">9.5</span> <br>
+                            개봉<span class="card-date">2025.12.17</span> <br>
+                            판매가<span class="card-money">12,000</span>원
+                        </div>
                     </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img2.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
+                </a>
+                <a th:href="@{#}" class="movie-a">
+                    <div class="card">
+                        <img th:src="@{/images/movie/movie_sample_img2.png}" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-title">아바타:불과재</p>
+                            평점<span class="card-rating">9.5</span> <br>
+                            개봉<span class="card-date">2025.12.17</span> <br>
+                            판매가<span class="card-money">12,000</span>원
+                        </div>
                     </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img2.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
+                </a>
+                <a th:href="@{#}" class="movie-a">
+                    <div class="card">
+                        <img th:src="@{/images/movie/movie_sample_img2.png}" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-title">아바타:불과재</p>
+                            평점<span class="card-rating">9.5</span> <br>
+                            개봉<span class="card-date">2025.12.17</span> <br>
+                            판매가<span class="card-money">12,000</span>원
+                        </div>
                     </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img2.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
+                </a>
+                <a th:href="@{#}" class="movie-a">
+                    <div class="card">
+                        <img th:src="@{/images/movie/movie_sample_img2.png}" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-title">아바타:불과재</p>
+                            평점<span class="card-rating">9.5</span> <br>
+                            개봉<span class="card-date">2025.12.17</span> <br>
+                            판매가<span class="card-money">12,000</span>원
+                        </div>
                     </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img2.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
+                </a>
+                <a th:href="@{#}" class="movie-a">
+                    <div class="card">
+                        <img th:src="@{/images/movie/movie_sample_img2.png}" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-title">아바타:불과재</p>
+                            평점<span class="card-rating">9.5</span> <br>
+                            개봉<span class="card-date">2025.12.17</span> <br>
+                            판매가<span class="card-money">12,000</span>원
+                        </div>
                     </div>
-                </div>
-                
-            </div>
-            <div class="card-group">
-                <!-- 카드 이미지 1개 -->
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img2.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img2.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img2.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img2.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img2.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-            </div>
-            <div class="card-group">
-                <!-- 카드 이미지 1개 -->
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img2.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img2.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img2.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img2.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img2.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-            </div>
-            <div class="card-group">
-                <!-- 카드 이미지 1개 -->
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img2.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img2.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img2.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img2.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img2.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
+                </a>
             </div>
         </div>
 
@@ -512,196 +201,58 @@
         <div class="movie-list" id="foreign">
             <div class="card-group">
                 <!-- 카드 이미지 1개 -->
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img3.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
+                <a th:href="@{#}" class="movie-a">
+                    <div class="card">
+                        <img th:src="@{/images/movie/movie_sample_img3.png}" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-title">아바타:불과재</p>
+                            평점<span class="card-rating">9.5</span> <br>
+                            개봉<span class="card-date">2025.12.17</span> <br>
+                            판매가<span class="card-money">12,000</span>원
+                        </div>
                     </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img3.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
+                </a>
+                <a th:href="@{#}" class="movie-a">
+                    <div class="card">
+                        <img th:src="@{/images/movie/movie_sample_img3.png}" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-title">아바타:불과재</p>
+                            평점<span class="card-rating">9.5</span> <br>
+                            개봉<span class="card-date">2025.12.17</span> <br>
+                            판매가<span class="card-money">12,000</span>원
+                        </div>
                     </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img3.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
+                </a><a th:href="@{#}" class="movie-a">
+                    <div class="card">
+                        <img th:src="@{/images/movie/movie_sample_img3.png}" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-title">아바타:불과재</p>
+                            평점<span class="card-rating">9.5</span> <br>
+                            개봉<span class="card-date">2025.12.17</span> <br>
+                            판매가<span class="card-money">12,000</span>원
+                        </div>
                     </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img3.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
+                </a><a th:href="@{#}" class="movie-a">
+                    <div class="card">
+                        <img th:src="@{/images/movie/movie_sample_img3.png}" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-title">아바타:불과재</p>
+                            평점<span class="card-rating">9.5</span> <br>
+                            개봉<span class="card-date">2025.12.17</span> <br>
+                            판매가<span class="card-money">12,000</span>원
+                        </div>
                     </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img3.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
+                </a><a th:href="@{#}" class="movie-a">
+                    <div class="card">
+                        <img th:src="@{/images/movie/movie_sample_img3.png}" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-title">아바타:불과재</p>
+                            평점<span class="card-rating">9.5</span> <br>
+                            개봉<span class="card-date">2025.12.17</span> <br>
+                            판매가<span class="card-money">12,000</span>원
+                        </div>
                     </div>
-                </div>
-                
-            </div>
-            <div class="card-group">
-                <!-- 카드 이미지 1개 -->
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img3.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img3.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img3.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img3.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img3.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-            </div>
-            <div class="card-group">
-                <!-- 카드 이미지 1개 -->
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img3.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img3.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img3.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img3.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img3.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-            </div>
-            <div class="card-group">
-                <!-- 카드 이미지 1개 -->
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img3.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img3.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img3.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img3.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../../static/images/movie/movie_sample_img3.png" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-title">아바타:불과재</p>
-                        평점<span class="card-rating">9.5</span> <br>
-                        개봉<span class="card-date">2025.12.17</span> <br>
-                        판매가<span class="card-money">12,000</span>원
-                    </div>
-                </div>
+                </a>
             </div>
         </div>
 
@@ -712,120 +263,11 @@
     </div>
 
     <!-- 페이지네이션 -->
-    <nav class="pagination" aria-label="페이지네이션">
-        <ul class="pagination-list">
-            <li class="pagination-item">
-                <a class="pagination-link" href="#" aria-label="첫 페이지" rel="first">&#60;&#60;</a>
-            </li>
-            <li class="pagination-item">
-                <a class="pagination-link" href="#" aria-label="이전 페이지" rel="prev">&#60;</a>
-            </li>
-
-            <li class="pagination-item"><a class="pagination-link is-active" href="#" aria-current="page">1</a></li>
-            <li class="pagination-item"><a class="pagination-link" href="#">2</a></li>
-            <li class="pagination-item"><a class="pagination-link" href="#">3</a></li>
-            <li class="pagination-item"><a class="pagination-link" href="#">4</a></li>
-            <li class="pagination-item"><a class="pagination-link" href="#">5</a></li>
-            <li class="pagination-item"><a class="pagination-link" href="#">6</a></li>
-            <li class="pagination-item"><a class="pagination-link" href="#">7</a></li>
-            <li class="pagination-item"><a class="pagination-link" href="#">8</a></li>
-            <li class="pagination-item"><a class="pagination-link" href="#">9</a></li>
-            <li class="pagination-item"><a class="pagination-link" href="#">10</a></li>
-
-            <li class="pagination-item">
-            <a class="pagination-link" href="#" aria-label="다음 페이지" rel="next">&#62;</a>
-            </li>
-            <li class="pagination-item">
-            <a class="pagination-link" href="#" aria-label="마지막 페이지" rel="last">&#62;&#62;</a>
-            </li>
-        </ul>
-    </nav>
+    <th:block th:replace="~{common/pagination}">pagination.html</th:block>
 
     <!-- 푸터 -->
-    <footer class="footer">
-        <div class="footer-in">
-            <!-- 상단 링크 -->
-            <nav class="ft-toplinks" aria-label="Ft links">
-            <a href="#">회사소개</a>
-            <span class="sep">|</span>
-            <a href="#">서비스 소개</a>
-            <span class="sep">|</span>
-            <a href="#">이용약관</a>
-            <span class="sep">|</span>
-            <a href="#">개인정보처리방침</a>
-            <span class="sep">|</span>
-            <a href="#">청소년보호정책</a>
-            <span class="sep">|</span>
-            <a href="#">채용정보</a>
-            <span class="sep">|</span>
-            <a href="#">광고문의</a>
-            </nav>
+    <th:block th:replace="~{common/footer}">footer.html</th:block>
 
-            <div class="footer-main">
-            <!-- 좌측 로고 -->
-            <div class="footer-brand" aria-label="BOOGIMOVIE">
-                <img src="../../static/images/common/logo_white.png" alt="">
-                <div class="brand-text">BOOGIMOVIE</div>
-            </div>
-
-            <!-- 회사 정보 -->
-            <div class="footer-info">
-                <div class="info-row">
-                <span class="info-title">(주)BOOGIMOVIE</span>
-                </div>
-
-                <div class="info-row">
-                <span>서울특별시 종로구 우정국로2길 21 9층, 903호</span>
-                </div>
-
-                <div class="info-row">
-                <span>대표자: (발신자부담) 1544-0000(부기문고) · 1661-1112(핫트랙스)</span>
-                </div>
-
-                <div class="info-row">
-                <span>이메일: boogi@naver.com</span>
-                </div>
-
-                <div class="info-row">
-                <span>대표 FAX: 2025-012-0801</span>
-                </div>
-
-                <div class="info-row">
-                <span>사업자등록번호: 102-81-11670</span>
-                </div>
-
-                <div class="info-row">
-                <span>통신판매업신고: 0000 - 서울 종로구 - 00000</span>
-                </div>
-
-                <div class="info-row">
-                <span>개인정보관리 책임자: 김무비</span>
-                </div>
-
-                <div class="info-row copyright">
-                © BOOGIMOVIE CENTRE
-                </div>
-            </div>
-
-            <!-- 우측 SNS -->
-            <div class="footer-sns" aria-label="Social links">
-                <a class="sns-btn" href="#" aria-label="KakaoTalk">
-                <img src="../../static/images/common/footer-kakao.png">
-                </a>
-                <a class="sns-btn" href="#" aria-label="Facebook">
-                <img src="../../static/images/common/footer-facebook.png">
-                </a>
-                <a class="sns-btn" href="#" aria-label="Instagram">
-                <img src="../../static/images/common/footer-instagram.png">
-                </a>
-                <a class="sns-btn" href="#" aria-label="YouTube">
-                <img src="../../static/images/common/footer-youtube.png">
-                </a>
-            </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="../../static/js/movie/movie-list.js"></script>
+    <script th:src="@{/js/movie/movie-list.js}"></script>
 </body>
 </html>
