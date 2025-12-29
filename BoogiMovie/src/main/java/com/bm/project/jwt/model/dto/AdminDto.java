@@ -20,6 +20,7 @@ public class AdminDto {
 		private String adminNickName; // "관리자"
 		private IsYN isAdmin;		  // 관리자 여부
 		
+		// 관리자 로그인
 		public static AdminResponse toDto(Member member) {
 			return AdminResponse.builder()
 					.adminNo(member.getMemberNo())
