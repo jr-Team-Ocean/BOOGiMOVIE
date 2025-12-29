@@ -14,4 +14,10 @@ public interface PaymentService {
 	PayResponse prePaymentValidation(PayValidationDto.PayRequest payValidation);
 
 
+	/** 결제 진행 중 취소 또는 실패시
+	 * @param orderNo
+	 */
+	void failPayment(String orderNo, String reason);
+
+
 }

@@ -4,15 +4,19 @@ import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 public class PayValidationDto {
 	
 	// 결제 요청 DTO (js -> 스프링)
-	@Data
+	@Getter
+	@Setter
 	@NoArgsConstructor
+	@AllArgsConstructor
+	@ToString
 	public static class PayRequest {
 		private Long memberNo; // 주문하려는 회원 번호
 		
@@ -21,8 +25,10 @@ public class PayValidationDto {
 	
 	
 	// 결제 요청 안에 들어가는 아이템 정보
-	@Data
+	@Getter
+	@Setter
 	@NoArgsConstructor
+	@AllArgsConstructor
 	public static class OrderItemDto {
 		private Long productNo; // 상품 번호
 		private Integer quantity; // 주문 수량

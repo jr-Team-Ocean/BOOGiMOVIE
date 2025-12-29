@@ -36,6 +36,7 @@ public class PaymentServiceImpl implements PaymentService {
 	public PayResponse prePaymentValidation(PayValidationDto.PayRequest payValidation) {
 		Member member = memberRepo.findById(payValidation.getMemberNo())
 				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+
 		
 		
 		// 주문 번호 난수 (20251229-UUID 8자리)
@@ -104,6 +105,18 @@ public class PaymentServiceImpl implements PaymentService {
 				.recipientPhone(member.getMemberPhone())
 				.build();
 		
+	}
+
+
+
+	// 결제 진행 중 취소 또는 실패시
+	@Override
+	@Transactional // 변경 감지
+	public void failPayment(String orderNo, String reason) {
+		Orders orders = ordersRepo.findById(orderNo)
+				.orElseThrow(() -> new IllegalArgumentException("해당 주문건이 존재하지 않습니다."));
+		
+		orders.setPayStatus(reason);
 	}
 
 }

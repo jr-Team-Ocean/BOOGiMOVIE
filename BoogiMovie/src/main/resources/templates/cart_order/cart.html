@@ -9,6 +9,9 @@
     <link rel="stylesheet" th:href="@{/css/common/font.css}">
     <link rel="stylesheet" th:href="@{/css/common/header.css}">
     <link rel="stylesheet" th:href="@{/css/common/font.css}">
+
+    <script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
+
 </head>
 
 <body>
@@ -145,14 +148,15 @@
 
                 <!-- 주문하기 버튼 -->
                 <div class="order_btn">
-                    <button class="font-18px bold">주문하기</button>
+                    <button type="button" class="font-18px bold">주문하기</button>
                 </div>
             </div>
 
         </div>
     </div>
 
-    <script th:src="@{/js/cart/cart.js}"></script>
+    <!-- <script th:src="@{/js/pay/cart.js}"></script> -->
+    <script th:src="@{/js/pay/productPayment.js}"></script>
 </body>
 
 </html>
