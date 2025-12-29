@@ -51,7 +51,7 @@ public class BookServiceImpl  implements BookService {
         }
 		
 		Map<Long, List<String>> writersList =
-				// entrySet(): Map 안에 K:V 를 Set으로 꺼냄
+				// entrySet(): Map 안에 K:V 를 Set 으로 꺼냄
 		        writersMap.entrySet().stream()
                           .collect(Collectors.toMap(
                         		  Map.Entry::getKey, e -> List.of(e.getValue())
@@ -77,8 +77,40 @@ public class BookServiceImpl  implements BookService {
 	
 	@Override
 	public Page<Response> searchBookList(Map<String, Object> paramMap, Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		
+		Page<Product> page = bookRepository.searchBookList(paramMap, pageable);
+		
+		List<Long> productNos = page.getContent()
+                 					.stream()
+                 					.map(Product::getProductNo)
+             						.toList();
+		
+		List<Object[]> rows = bookRepository.selectWritersByProductNos(productNos);
+		
+		Map<Long, String> writersMap = new HashMap<>();
+		
+		for (Object[] r : rows) {
+	        Long productNo = (Long) r[0];
+	        String writer = (String) r[1];
+	        writersMap.putIfAbsent(productNo, writer); // 저자 1명만
+	    }
+		
+		
+		Map<Long, List<String>> writersList =
+	            writersMap.entrySet().stream()
+	                      .collect(Collectors.toMap(
+	                              Map.Entry::getKey,
+	                              e -> List.of(e.getValue())));
+		
+		List<BookDto.Response> dtoList = page.getContent()
+	                						 .stream()
+	                						 .map(p -> BookDto.Response.toListDto(
+	                							  p, writersList.getOrDefault(p.getProductNo(), List.of())
+	                						 ))
+	                						 .toList();
+		
+		return new PageImpl<>(dtoList, pageable, page.getTotalElements());
 	}
 	
 }
