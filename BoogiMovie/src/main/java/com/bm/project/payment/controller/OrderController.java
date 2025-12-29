@@ -25,8 +25,9 @@ public class OrderController {
 	
 	// 결제 전 총금액 사전 검증
 	@PostMapping("/validation")
-	public ResponseEntity<PayValidationDto> prePaymentValidation(@RequestBody PayValidationDto payValidation) {
-		PayValidationDto dto = paymentService.prePaymentValidation(payValidation);
+	public ResponseEntity<PayValidationDto.PayResponse> prePaymentValidation(@RequestBody PayValidationDto.PayRequest payValidation) {
+		// js에서 보낸 회원 번호, 상품 리스트(각 상품의 상품 번호와 주문 수량 담겨서 옴)
+		PayValidationDto.PayResponse dto = paymentService.prePaymentValidation(payValidation);
 		
 		return ResponseEntity.ok(dto);
 	}
