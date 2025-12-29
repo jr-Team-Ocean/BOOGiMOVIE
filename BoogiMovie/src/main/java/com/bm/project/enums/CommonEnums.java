@@ -6,5 +6,9 @@ public class CommonEnums {
 		Y, N
 	}
 	
+	// 소셜로그인, 일반회원 구분
+	public enum SocialProvider{
+		LOCAL, GOOGLE, KAKAO
+	}
 	
 }
