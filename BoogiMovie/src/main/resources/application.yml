@@ -43,6 +43,19 @@ spring:
       file-size-threshold: 50MB    # 52,428,800 bytes
       max-file-size: 10MB          # 10,485,760 bytes
       max-request-size: 50MB       # 52,428,800 bytes
+  
+  # 구글 로그인  
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - openid
+              - profile
+              - email
 
 logging:
   level:
