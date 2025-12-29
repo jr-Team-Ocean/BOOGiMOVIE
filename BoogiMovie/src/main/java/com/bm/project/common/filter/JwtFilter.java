@@ -1,4 +1,4 @@
-package com.bm.project.common.config;
+package com.bm.project.common.filter;
 
 import java.io.IOException;
 
