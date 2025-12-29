@@ -14,7 +14,7 @@ import com.bm.project.entity.Member;
 import com.bm.project.jwt.model.dto.AdminDto;
 import com.bm.project.jwt.model.dto.JwtToken;
 import com.bm.project.jwt.provider.JwtTokenProvider;
-import com.bm.project.jwt.repository.AdminRepository;
+import com.bm.project.jwt.repository.JwtRepository;
 import com.nimbusds.jose.Option;
 
 import lombok.RequiredArgsConstructor;
@@ -22,8 +22,8 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AdminServiceImpl implements AdminService {
-	private final AdminRepository adminRepository;
+public class JwtServiceImpl implements JwtService {
+	private final JwtRepository adminRepository;
 	private final BCryptPasswordEncoder bcrypt;
 	private final JwtTokenProvider jwtTokenProvider;
 	
@@ -33,7 +33,7 @@ public class AdminServiceImpl implements AdminService {
 	public JwtToken adminLogin(AdminDto.AdminResponse adminDto) {
 		// 1. 로그인 정보가 일치하는지 DB에서 조회
 		Member admin = adminRepository.findByMemberId(adminDto.getAdminId())
-						.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+						.orElseThrow(() -> new IllegalArgumentException("아이디 또는 비밀번호가 일치하지 않습니다."));
 									
 		
 		// 회원 정보를 가져온 경우
@@ -42,10 +42,16 @@ public class AdminServiceImpl implements AdminService {
 			throw new IllegalArgumentException("관리자 권한이 없습니다.");
 		}
 		
+		// ======================================================================
+		// ***** 회원가입 완성 후 (암호화) 변경해야 함 *****
 		// 비밀번호 검증
 //		if(!bcrypt.matches(adminDto.getAdminPw(), admin.getMemberPw())) {
 //			throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
 //		}
+		if(!adminDto.getAdminPw().equals(admin.getMemberPw())) {
+			throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+		}
+		// ======================================================================
 		
 		// 관리자 인증
 		Authentication authentication = new UsernamePasswordAuthenticationToken(admin.getMemberId(), 
@@ -53,6 +59,7 @@ public class AdminServiceImpl implements AdminService {
 																				List.of(new SimpleGrantedAuthority("ROLE_ADMIN")));
 																				// 권한이 여러 개일 수도 있으므로 List로 담아 보냄
 		
+		// AccessToken 및 RefreshToken 생성
 		return jwtTokenProvider.createToken(authentication);
 	}
 

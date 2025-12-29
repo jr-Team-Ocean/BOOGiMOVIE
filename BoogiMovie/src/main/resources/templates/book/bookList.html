@@ -27,6 +27,7 @@
     <!-- 도서 목록 1페이지 -->
     <div class="book-container">
 
+        <input type="color">
 
         <div th:each="book : ${page.content}">
             <p th:text="${book.productTitle}"></p>
@@ -85,12 +86,15 @@
         
             <div class="list-top-area">
                 <select name="sort" id="list-sort">
-                    <option value="최신순">최신순</option>
+                    <option value="latest"
+                            th:selected="${paramMap.sort == 'latest'}">최신순</option>
+                    <option value="title"
+                            th:selected="${paramMap.sort == 'title'}">가나다순</option>
                     <option value="인기순">인기순</option>
                 </select>
         
                 <div>
-                    <input type="text" id="mini-search-input" placeholder="제목, 작가 검색">
+                    <input type="text" id="mini-search-input" placeholder="제목, 작가 검색" th:value="${paramMap.query}">
                     <button id="mini-search-btn">검색</button>
                 </div>
             </div>
@@ -265,121 +269,64 @@
     </div>
 
     <!-- 페이지네이션 -->
-    <nav class="pagination" aria-label="페이지네이션">
+
+    <nav class="pagination" th:if="${page.totalPages > 0}" aria-label="페이지네이션">
+        
         <ul class="pagination-list">
+
+            <!-- 처음으로 -->
             <li class="pagination-item">
-                <a class="pagination-link" href="#" aria-label="첫 페이지" rel="first">&#60;&#60;</a>
-            </li>
-            <li class="pagination-item">
-                <a class="pagination-link" href="#" aria-label="이전 페이지" rel="prev">&#60;</a>
+                <a href="#" class="pagination-link" th:attr="data-page=1">
+                    &lt;&lt;
+                </a>
             </li>
 
-            <li class="pagination-item"><a class="pagination-link is-active" href="#" aria-current="page">1</a></li>
-            <li class="pagination-item"><a class="pagination-link" href="#">2</a></li>
-            <li class="pagination-item"><a class="pagination-link" href="#">3</a></li>
-            <li class="pagination-item"><a class="pagination-link" href="#">4</a></li>
-            <li class="pagination-item"><a class="pagination-link" href="#">5</a></li>
-            <li class="pagination-item"><a class="pagination-link" href="#">6</a></li>
-            <li class="pagination-item"><a class="pagination-link" href="#">7</a></li>
-            <li class="pagination-item"><a class="pagination-link" href="#">8</a></li>
-            <li class="pagination-item"><a class="pagination-link" href="#">9</a></li>
-            <li class="pagination-item"><a class="pagination-link" href="#">10</a></li>
+            <!-- 이전 -->
+            <li class="pagination-item">
+                <a href="#" class="pagination-link" th:attr="data-page=${pageDto.prevPage}">
+                    &lt;
+                </a>
+            </li>
 
+            <!-- 페이지 번호 -->
+            <th:block th:each="i : ${#numbers.sequence(pageDto.blockStart, pageDto.blockEnd)}">
+
+                
+                <!-- 현재 페이지 -->
+                <li class="pagination-item" th:if="${i == pageDto.currentPage}">
+                    <a href="#" class="pagination-link active" th:text="${i}">
+                    </a>
+                </li>
+                
+                <!--  나머지 페이지 -->
+                <li class="pagination-item" th:unless="${i == pageDto.currentPage}">
+                    <a href="#" class="pagination-link" th:attr="data-page=${i}" th:text="${i}">
+                    </a>
+                </li>
+            
+            </th:block>
+
+            <!-- 다음 -->
             <li class="pagination-item">
-            <a class="pagination-link" href="#" aria-label="다음 페이지" rel="next">&#62;</a>
+                <a href="#" class="pagination-link" th:attr="data-page=${pageDto.nextPage}">
+                    &gt;
+                </a>
             </li>
+
+            <!-- 끝 -->
             <li class="pagination-item">
-            <a class="pagination-link" href="#" aria-label="마지막 페이지" rel="last">&#62;&#62;</a>
+                <a href="#" class="pagination-link" th:attr="data-page=${pageDto.endPage}">
+                    &gt;&gt;
+                </a>
             </li>
+
         </ul>
+
     </nav>
 
 
     <!-- 푸터 -->
-    <footer class="footer">
-        <div class="footer-in">
-
-            <!-- 상단 링크 -->
-            <nav class="ft-toplinks" aria-label="Ft links">
-            <a href="#">회사소개</a>
-            <span class="sep">|</span>
-            <a href="#">서비스 소개</a>
-            <span class="sep">|</span>
-            <a href="#">이용약관</a>
-            <span class="sep">|</span>
-            <a href="#">개인정보처리방침</a>
-            <span class="sep">|</span>
-            <a href="#">청소년보호정책</a>
-            <span class="sep">|</span>
-            <a href="#">채용정보</a>
-            <span class="sep">|</span>
-            <a href="#">광고문의</a>
-            </nav>
-
-            <div class="footer-main">
-            <!-- 좌측 로고 -->
-            <div class="footer-brand" aria-label="BOOGIbook">
-                <img src="../../static/images/common/logo_white.png" alt="">
-                <div class="brand-text">BOOGIbook</div>
-            </div>
-
-            <!-- 회사 정보 -->
-            <div class="footer-info">
-                <div class="info-row">
-                <span class="info-title">(주)BOOGIbook</span>
-                </div>
-
-                <div class="info-row">
-                <span>서울특별시 종로구 우정국로2길 21 9층, 903호</span>
-                </div>
-
-                <div class="info-row">
-                <span>대표자: (발신자부담) 1544-0000(부기문고) · 1661-1112(핫트랙스)</span>
-                </div>
-
-                <div class="info-row">
-                <span>이메일: boogi@naver.com</span>
-                </div>
-
-                <div class="info-row">
-                <span>대표 FAX: 2025-012-0801</span>
-                </div>
-
-                <div class="info-row">
-                <span>사업자등록번호: 102-81-11670</span>
-                </div>
-
-                <div class="info-row">
-                <span>통신판매업신고: 0000 - 서울 종로구 - 00000</span>
-                </div>
-
-                <div class="info-row">
-                <span>개인정보관리 책임자: 김무비</span>
-                </div>
-
-                <div class="info-row copyright">
-                © BOOGIbook CENTRE
-                </div>
-            </div>
-
-            <!-- 우측 SNS -->
-            <div class="footer-sns" aria-label="Social links">
-                <a class="sns-btn" href="#" aria-label="KakaoTalk">
-                <img src="../../static/images/common/footer-kakao.png">
-                </a>
-                <a class="sns-btn" href="#" aria-label="Facebook">
-                <img src="../../static/images/common/footer-facebook.png">
-                </a>
-                <a class="sns-btn" href="#" aria-label="Instagram">
-                <img src="../../static/images/common/footer-instagram.png">
-                </a>
-                <a class="sns-btn" href="#" aria-label="YouTube">
-                <img src="../../static/images/common/footer-youtube.png">
-                </a>
-            </div>
-            </div>
-        </div>
-    </footer>
+    <th:block th:replace="~{common/footer}"></th:block>
 
 
     <script  th:src="@{/js/book/bookList.js}"></script>
