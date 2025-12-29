@@ -50,7 +50,7 @@ public class BookRepositoryImpl implements BookRepository{
 			//  소설/희곡 탭
 			if (categoryId == 11 ) {
 				query += " and (p.category.categoryId = :categoryId "
-	                   + "or p.category.pCategoryId = :categoryId)";
+	                   + "or p.category.pCategoryId.categoryId = :categoryId)";
 			
 			} else { // 나머지
 				query += " and p.category.categoryId = :categoryId";
@@ -100,7 +100,7 @@ public class BookRepositoryImpl implements BookRepository{
 			
 			if (categoryId == 11) {
 				countQuery += " and (p.category.categoryId = :categoryId "
-						    + "or p.category.pCategoryId = :categoryId)";
+						    + "or p.category.pCategoryId.categoryId = :categoryId)";
 			} else {				
 				countQuery += " and p.category.categoryId = :categoryId";
 			}
@@ -184,7 +184,7 @@ public class BookRepositoryImpl implements BookRepository{
 			//  소설/희곡 탭
 			if (categoryId == 11 ) {
 				query += " and (p.category.categoryId = :categoryId "
-	                   + "or p.category.pCategoryId = :categoryId)";
+	                   + "or p.category.pCategoryId.categoryId = :categoryId)";
 			
 			} else { // 나머지
 				query += " and p.category.categoryId = :categoryId";
@@ -249,7 +249,7 @@ public class BookRepositoryImpl implements BookRepository{
 			
 			if (categoryId == 11) {
 				countQuery += " and (p.category.categoryId = :categoryId "
-						    + "or p.category.pCategoryId = :categoryId)";
+						    + "or p.category.pCategoryId.categoryId = :categoryId)";
 			} else {				
 				countQuery += " and p.category.categoryId = :categoryId ";
 			}

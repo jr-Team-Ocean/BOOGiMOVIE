@@ -27,22 +27,13 @@
     <!-- 도서 목록 1페이지 -->
     <div class="book-container">
 
-        <input type="color">
-
-        <div th:each="book : ${page.content}">
-            <p th:text="${book.productTitle}"></p>
-            <p th:text="${book.productPrice}"></p>
-        </div>
-
-
-
         <div class="book-header">
             
             <!-- 네비게이션 -->
             <div class="nav-container">
                 <ul class="nav nav-tabs">
                     <li class="nav-item active">
-                        <a class="nav-link active" aria-current="page" href="#">도서</a>
+                        <a class="nav-link active" aria-current="page" th:href="@{/books}">도서</a>
                     </li>
                 </ul>
             </div>
@@ -87,14 +78,14 @@
             <div class="list-top-area">
                 <select name="sort" id="list-sort">
                     <option value="latest"
-                            th:selected="${paramMap.sort == 'latest'}">최신순</option>
+                            th:selected="${paramMap['sort'] == 'latest'}">최신순</option>
                     <option value="title"
-                            th:selected="${paramMap.sort == 'title'}">가나다순</option>
+                            th:selected="${paramMap['sort'] == 'title'}">가나다순</option>
                     <option value="인기순">인기순</option>
                 </select>
         
                 <div>
-                    <input type="text" id="mini-search-input" placeholder="제목, 작가 검색" th:value="${paramMap.query}">
+                    <input type="text" id="mini-search-input" placeholder="제목, 작가 검색" th:value="${paramMap['query']}">
                     <button id="mini-search-btn">검색</button>
                 </div>
             </div>
@@ -121,145 +112,6 @@
                 </a>
                 
             </div>
-
-            <div class="card-group">
-
-                <!-- 상품 1개 -->
-                <a class="book-product" href="#">
-                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
-                    <div class="book-maker">백종원</div>
-                    <div class="book-com">용감한 까치</div>
-                    <div class="book-price">20,000 원</div>
-                    <div class="book-rating">평점 4.5</div>
-                </a>
-                <a class="book-product" href="#">
-                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
-                    <div class="book-maker">백종원</div>
-                    <div class="book-com">용감한 까치</div>
-                    <div class="book-price">20,000 원</div>
-                    <div class="book-rating">평점 4.5</div>
-                </a>
-                <a class="book-product" href="#">
-                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
-                    <div class="book-maker">백종원</div>
-                    <div class="book-com">용감한 까치</div>
-                    <div class="book-price">20,000 원</div>
-                    <div class="book-rating">4.5</div>
-                </a>
-                <a class="book-product" href="#">
-                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
-                    <div class="book-maker">백종원</div>
-                    <div class="book-com">용감한 까치</div>
-                    <div class="book-price">20,000 원</div>
-                    <div class="book-rating">4.5</div>
-                </a>
-                <a class="book-product" href="#">
-                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
-                    <div class="book-maker">백종원</div>
-                    <div class="book-com">용감한 까치</div>
-                    <div class="book-price">20,000 원</div>
-                    <div class="book-rating">4.5</div>
-                </a>
-                
-            </div>
-
-            <div class="card-group">
-
-                <!-- 상품 1개 -->
-                <a class="book-product" href="#">
-                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
-                    <div class="book-maker">백종원</div>
-                    <div class="book-com">용감한 까치</div>
-                    <div class="book-price">20,000 원</div>
-                    <div class="book-rating">평점 4.5</div>
-                </a>
-                <a class="book-product" href="#">
-                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
-                    <div class="book-maker">백종원</div>
-                    <div class="book-com">용감한 까치</div>
-                    <div class="book-price">20,000 원</div>
-                    <div class="book-rating">평점 4.5</div>
-                </a>
-                <a class="book-product" href="#">
-                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
-                    <div class="book-maker">백종원</div>
-                    <div class="book-com">용감한 까치</div>
-                    <div class="book-price">20,000 원</div>
-                    <div class="book-rating">4.5</div>
-                </a>
-                <a class="book-product" href="#">
-                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
-                    <div class="book-maker">백종원</div>
-                    <div class="book-com">용감한 까치</div>
-                    <div class="book-price">20,000 원</div>
-                    <div class="book-rating">4.5</div>
-                </a>
-                <a class="book-product" href="#">
-                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
-                    <div class="book-maker">백종원</div>
-                    <div class="book-com">용감한 까치</div>
-                    <div class="book-price">20,000 원</div>
-                    <div class="book-rating">4.5</div>
-                </a>
-                
-            </div>
-
-            <div class="card-group">
-
-                <!-- 상품 1개 -->
-                <a class="book-product" href="#">
-                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
-                    <div class="book-maker">백종원</div>
-                    <div class="book-com">용감한 까치</div>
-                    <div class="book-price">20,000 원</div>
-                    <div class="book-rating">평점 4.5</div>
-                </a>
-                <a class="book-product" href="#">
-                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
-                    <div class="book-maker">백종원</div>
-                    <div class="book-com">용감한 까치</div>
-                    <div class="book-price">20,000 원</div>
-                    <div class="book-rating">평점 4.5</div>
-                </a>
-                <a class="book-product" href="#">
-                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
-                    <div class="book-maker">백종원</div>
-                    <div class="book-com">용감한 까치</div>
-                    <div class="book-price">20,000 원</div>
-                    <div class="book-rating">4.5</div>
-                </a>
-                <a class="book-product" href="#">
-                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
-                    <div class="book-maker">백종원</div>
-                    <div class="book-com">용감한 까치</div>
-                    <div class="book-price">20,000 원</div>
-                    <div class="book-rating">4.5</div>
-                </a>
-                <a class="book-product" href="#">
-                    <img class="book-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                    <div class="book-title">나폴리탄 맛피아의 맛있는 레시피</div>
-                    <div class="book-maker">백종원</div>
-                    <div class="book-com">용감한 까치</div>
-                    <div class="book-price">20,000 원</div>
-                    <div class="book-rating">4.5</div>
-                </a>
-                
-            </div>
-
         </div>
 
 

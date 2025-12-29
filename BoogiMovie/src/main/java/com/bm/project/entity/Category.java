@@ -33,11 +33,11 @@ public class Category {
 	// 부모
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "P_CATEGORY_ID")
-    private Category parentCategory;
+    private Category pCategoryId;
 	
 	
 	// 자식
-	@OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "pCategoryId", fetch = FetchType.LAZY)
     private List<Category> children = new ArrayList<>();
 	
 	
