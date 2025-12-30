@@ -66,7 +66,7 @@ public class BookController {
 		model.addAttribute("page", pageResp);
 		model.addAttribute("pageDto", pageDto);
 		model.addAttribute("paramMap", paramMap);
-		
+		model.addAttribute("url", "books");
 		
 		
 		return "book/bookList";
@@ -82,7 +82,7 @@ public class BookController {
 		BookDto.Response book = bookService.selectBookDetail(productNo);
 		
 		model.addAttribute("book", book);
-		
+		model.addAttribute("url", "books");
 		
 		return "book/bookDetail";
 	}

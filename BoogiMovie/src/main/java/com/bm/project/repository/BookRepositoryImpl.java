@@ -313,16 +313,37 @@ public class BookRepositoryImpl implements BookRepository{
 	// 도서 상세정보 저자 조회
 	@Override
 	public List<String> selectWritersByProductNo(Long productNo) {
-		// TODO Auto-generated method stub
-		return null;
+
+		String query = "select t.tagName " +
+					   "from ProductTagConnect ptc " +
+					   "join ptc.product p " +
+					   "join ptc.productTag t " +
+					   "join t.tagCode tc " +
+					   "where p.productNo in :productNo " +
+					   "and tc.tagCode = 1";
+		
+		
+		return em.createQuery(query, String.class)
+	             .setParameter("productNo", productNo)
+	             .getResultList();
 	}
 
 
 	// 도서 상세정보 출판사 조회
 	@Override
 	public List<String> selectPublishersByProductNo(Long productNo) {
-		// TODO Auto-generated method stub
-		return null;
+		String query = "select t.tagName " +
+				   "from ProductTagConnect ptc " +
+				   "join ptc.product p " +
+				   "join ptc.productTag t " +
+				   "join t.tagCode tc " +
+				   "where p.productNo in :productNo " +
+				   "and tc.tagCode = 3";
+	
+	
+		return em.createQuery(query, String.class)
+				 .setParameter("productNo", productNo)
+				 .getResultList();
 	}
 	
 	
