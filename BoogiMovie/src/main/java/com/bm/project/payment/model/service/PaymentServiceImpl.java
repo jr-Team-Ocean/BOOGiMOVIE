@@ -10,11 +10,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bm.project.entity.Member;
 import com.bm.project.entity.Product;
+import com.bm.project.payment.entity.Delivery;
 import com.bm.project.payment.entity.Orders;
 import com.bm.project.payment.entity.OrdersDetail;
+import com.bm.project.payment.entity.Payment;
 import com.bm.project.payment.model.dto.PayValidationDto;
 import com.bm.project.payment.model.dto.PayValidationDto.PayResponse;
+import com.bm.project.payment.model.dto.PayValidationDto.PaySuccessDto;
+import com.bm.project.payment.repository.DeliveryRepository;
+import com.bm.project.payment.repository.OrdersDetailRepository;
 import com.bm.project.payment.repository.OrdersRepository;
+import com.bm.project.payment.repository.PaymentRepository;
 import com.bm.project.payment.repository.ProductRepository;
 import com.bm.project.repository.MemberRepository;
 
@@ -27,6 +33,9 @@ public class PaymentServiceImpl implements PaymentService {
 	private final OrdersRepository ordersRepo;
 	private final MemberRepository memberRepo;
 	private final ProductRepository productRepo;
+	private final OrdersDetailRepository ordersDetailRepo;
+	private final PaymentRepository paymentRepo;
+	private final DeliveryRepository deliveryRepo;
 	
 
 
@@ -113,10 +122,50 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	@Transactional // 변경 감지
 	public void failPayment(String orderNo, String reason) {
+		System.out.println("주문 번호 : " + orderNo);
 		Orders orders = ordersRepo.findById(orderNo)
 				.orElseThrow(() -> new IllegalArgumentException("해당 주문건이 존재하지 않습니다."));
 		
-		orders.setPayStatus(reason);
+		orders.setPayStatus(reason); // "FAIL"
+		ordersRepo.save(orders);
+	}
+
+
+
+	// 결제 사후 검증
+	@Override
+	@Transactional
+	public void successPayment(PaySuccessDto successDto) {
+		// 1. 결제 사후 검증 먼저
+		Orders orders = ordersRepo.findById(successDto.getOrderNo())
+				.orElseThrow(() -> new IllegalArgumentException("해당 주문건이 존재하지 않습니다."));
+		
+		int totalPrice = 0; // 총계산 다시 검증해서 넣기
+		
+		// 주문 상세 내역에서 하나씩 합산
+		for(OrdersDetail detail : orders.getDetails()) {
+			totalPrice += (detail.getItemPrice() * detail.getItemQuantity());
+		}
+		
+		System.out.println("검증 금액 : " + totalPrice);
+		System.out.println("결제 금액 : " + successDto.getPayPrice());
+		
+		// 금액 불일치 시 결제 취소
+		if(totalPrice != successDto.getPayPrice()) {
+			throw new IllegalArgumentException("결제 금액이 일치하지 않습니다.");
+		}
+		
+		// 검증에 성공했을 경우 DB에 각각 저장
+		Payment payment = successDto.toPaymentEntity(orders);
+		
+		
+		Delivery delivery = successDto.toDeliveryEntity(orders);
+		deliveryRepo.save(delivery);
+		
+		orders.setPayStatus("PAID");
+		orders.setPayment(paymentRepo.save(payment));
+		
+		ordersRepo.save(orders);
 	}
 
 }
