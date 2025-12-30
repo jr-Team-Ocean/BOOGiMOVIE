@@ -1,5 +1,7 @@
 package com.bm.project.jwt.contoller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,7 @@ import com.bm.project.jwt.model.dto.JwtToken;
 import com.bm.project.jwt.model.service.JwtService;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
@@ -54,6 +57,7 @@ public class JwtController {
 			refreshCookie.setMaxAge(60 * 60);
 			response.addCookie(refreshCookie);
 			
+			ra.addFlashAttribute("message", "관리자 페이지 로그인 성공");
 			return "redirect:/admin/statistics";
 			
 		} catch (IllegalArgumentException e) {
@@ -64,10 +68,31 @@ public class JwtController {
 	}
 	
 	// 관리자 로그아웃
-//	@GetMapping("/logout")
-//	public String adminLogout() {
-//		
-//	}
+	@GetMapping("/logout")
+	public String adminLogout(HttpServletResponse response, HttpServletRequest request) {
+		// 현재 로그인한 관리자 정보 가져오기
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		if(auth != null && auth.isAuthenticated()) {
+			adminService.deleteRefreshToken(auth.getName());
+			
+			// 시큐리티 컨텍스트 비워주기
+			SecurityContextHolder.clearContext();
+			
+			// 쿠키도 삭제
+			deleteCookie(response, "accessToken");
+		    deleteCookie(response, "refreshToken");
+		}
+	}
+	
+	// 쿠키 삭제
+	private void deleteCookie(HttpServletResponse response, String cookieName) {
+	    Cookie cookie = new Cookie(cookieName, null);
+	    cookie.setPath("/");
+	    cookie.setMaxAge(0); // 즉시 만료
+	    cookie.setHttpOnly(true);
+	    response.addCookie(cookie);
+	}
 	
 
 }

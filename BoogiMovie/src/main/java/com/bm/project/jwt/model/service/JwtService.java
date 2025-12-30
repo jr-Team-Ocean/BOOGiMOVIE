@@ -11,6 +11,11 @@ public interface JwtService {
 	 */
 	JwtToken adminLogin(AdminDto.AdminResponse adminDto);
 
+	/** 관리자 로그아웃
+	 * @param name
+	 */
+	void deleteRefreshToken(String name);
+
 
 
 }
