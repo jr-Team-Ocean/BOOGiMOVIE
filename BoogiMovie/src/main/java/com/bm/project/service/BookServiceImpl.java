@@ -13,9 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bm.project.dto.BookDto;
 import com.bm.project.dto.BookDto.Response;
+import com.bm.project.entity.Book;
+import com.bm.project.entity.Category;
 import com.bm.project.entity.Product;
 import com.bm.project.repository.BookRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -74,7 +77,7 @@ public class BookServiceImpl  implements BookService {
 	
 	
 	
-	
+	// 도서 검색 조회
 	@Override
 	public Page<Response> searchBookList(Map<String, Object> paramMap, Pageable pageable) {
 		
@@ -111,6 +114,33 @@ public class BookServiceImpl  implements BookService {
 	                						 .toList();
 		
 		return new PageImpl<>(dtoList, pageable, page.getTotalElements());
+	}
+
+
+
+
+
+	// 도서 상세 조회
+	@Override
+	public Response selectBookDetail(Long productNo) {
+		
+		// 상품번호로 도서 상세 정보 조회
+		Book book = bookRepository.selectBookDetailByProductNo(productNo)
+				.orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품입니다."));
+		
+		// 도서와 연결된 상품 정보 가져오기
+		Product product = book.getProduct();
+		
+		Category category = product.getCategory();
+		Category pcategory = category.getPCategoryId();
+		
+		// 저자 불러오기
+		List<String> writers = bookRepository.selectWritersByProductNo(productNo);
+		
+		// 출판사 불러오기 
+		List<String> publishers = bookRepository.selectPublishersByProductNo(productNo);
+		
+		return Response.toDetailDto(product, book, category, pcategory, writers, publishers);
 	}
 	
 }

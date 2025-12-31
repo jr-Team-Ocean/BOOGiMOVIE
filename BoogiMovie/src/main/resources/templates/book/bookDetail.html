@@ -1,23 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <link rel="stylesheet" href="../../static/css/common/font.css">
-    <link rel="stylesheet" href="../../static/css/common/header.css">
-    <link rel="stylesheet" href="../../static/css/common/footer.css">
-    <link rel="stylesheet" href="../../static/css/book/bookDetail-style.css">
-    <link rel="stylesheet" href="../../static/css/common/bot-nav-btn.css">
-
-
+    <link rel="stylesheet" th:href="@{/css/common/font.css}">
+    <!-- <link rel="stylesheet" href="../../static/css/common/header.css"> -->
+    <!-- <link rel="stylesheet" href="../../static/css/common/footer.css"> -->
+    <!-- <link rel="stylesheet" th:href="@{/css/common/bot-nav-btn.css}"> -->
+    
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
+    
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
     
     <script src="https://kit.fontawesome.com/f7459b8054.js" crossorigin="anonymous"></script>
@@ -26,71 +25,38 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-
-
+    <link rel="stylesheet" th:href="@{/css/book/bookDetail-style.css}">
+    
+    
     <title>도서 상세 페이지</title>
 </head>
 <body>
+    
     <!-- 헤더 -->
-    <header>
-        <div class="header_container">
-
-            <div class="blue_background">
-
-                <div class="header_inner">
-
-                    <div class="header_category">
-                        <!-- 선택에 따른 효과 - 타임리프(경로에 따른 효과 주기로 변경 예정) -->
-                        <div class="header_active"><a href="#" class="white font-18px">홈</a></div>
-                        <div><a href="#" class="white font-18px">도서</a></div>
-                        <div><a href="#" class="white font-18px">중고도서</a></div>
-                        <div><a href="#" class="white font-18px">영화</a></div>
-                    </div>
-    
-                    <div class="header_login">
-                        <div><a href="#" class="white font-18px">로그인</a></div>
-                        <div><a href="#" class="white font-18px">회원가입</a></div>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-    
-        <!-- 로고 및 검색바 -->
-        <div class="logo_search_container">
-
-            <!-- 로고 -->
-            <div class="logo_container">
-                <a href="#"><img src="../../static/images/common/logo_basic.png" alt=""></a>
-            </div>
-    
-            <!-- 검색바 전체 자리 -->
-            <div class="search_container">
-
-                <!-- 검색 아이콘 -->
-                <div class="search_icon">
-                    <img src="../../static/svg/search_icon.svg" alt="">
-                </div>
-    
-                <!-- 검색란 -->
-                <div class="search_input">
-                    <input type="text" placeholder="원하는 작품을 검색해 보세요!">
-                </div>
-
-            </div>
-            
-        </div>
-
-    </header>
+    <th:block th:replace="~{common/header}"></th:block>
 
 
 
     <main class="main">
+
         <section class="book-category-path">
             <!-- 도서 경로 -->
-            <span>도서 &gt; <span class="category-name">가정/요리/살림</span></span>
+            <span>
+                도서 &gt; 
+
+                <!-- 부모카테고리 있을때만 -->
+                <a th:if="${book.pCategoryId != null}"
+                   th:href="@{/books(category=${book.pCategoryId})}"
+                   th:text="${book.pCategoryName}">
+                </a>
+                <span th:if="${book.pCategoryId != null}"> &gt; </span>
+
+                <!-- 카테고리 -->
+                <a th:href="@{/books(category=${book.categoryId})}"
+                   th:text="${book.categoryName}">
+                </a>
+
+            </span>
 
             <!-- 관리자용 수정 삭제 -->
             <div class="book-edit">
@@ -103,20 +69,20 @@
         <section class="book-detail-main">
             <!-- 도서 이미지 -->
             <div class="img-area">
-                <img class="book-cover" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg" alt="">
+                <img class="book-cover" th:src="${book.imgPath}">
             </div>
 
             <div class="detail-area">
                 <!-- 책 제목 -->
-                <h1 class="book-title">나폴리 맛피아 시크릿 레시피</h1>
+                <h1 class="book-title" th:text="${book.productTitle}">제목</h1>
 
                 <!-- 책 기본 정보 -->
                 <div class="book-info">
-                    <span>권성준</span>
+                    <span th:each="w : ${book.writers}" th:text="${w}">작가</span>
                     <span>|</span>
-                    <span>용감한 까치</span>
+                    <span th:each="p : ${book.publishers}" th:text="${p}">출판사</span>
                     <span>|</span>
-                    <span>2025.11.25</span>
+                    <span th:text="${#temporals.format(book.productDate, 'yyyy.MM.dd')}">출간일</span>
                 </div>
 
                 <div class="book-rating">
@@ -135,7 +101,7 @@
                         개
                     </label>
 
-                    <label class="sell-price">판매가 <b>23,400원</b></label>
+                    <label class="sell-price">판매가 <b th:text="${book.productPrice}">가격</b>원</label>
                 </div>
                 
                 <div class="book-buy">
@@ -171,150 +137,7 @@
                     role="tabpanel" aria-labelledby="info-tab" tabindex="0">
                     
                     <!-- 정보 + 연관상품 페이지 -->
-
-                    <!-- 도서 소개 -->
-                    <div class="detail-text-area">
-                        
-                        <pre class="detail-text closed">
-책 소개
-                        
-흑백요리사 1등 셰프 권성준이 ALMA와 미슐랭 레스토랑을 거쳐 오너 셰프가 되기까지의 여정과 레시피를 담았다. 꿈 없던 학생이 ‘마이 파우라’를 외치며 버틴 이야기와 나폴리 소울 푸드부터 시크릿 레시피까지 공개하며 누구나 요리할 수 있다는 메시지를 전한다.
-                        
-〈흑백요리사〉 1등 셰프 권성준의 드디어 공개되는 이야기, 그리고 레시피
-칼질조차 제대로 못하는 평범한 고등학생이 요리사를 꿈꾸며 이탈리아 최고의 요리 학교 ALMA의 학생이 되고, 미슐랭 2, 3 스타 레스토랑을 거쳐 오너 셰프가 되기까지 그가 겪고 느낀 무수한 경험과 그의 손을 거쳐 간 레시피 이야기. 넷플릭스 프로그램 〈흑백요리사〉에서 '흑수저 셰프'로 시작한 그는 '백수저 셰프'들을 제치고 100명의 셰프 중에서 당당히 1등을 거머쥐며 프로그램의 스포트라이트를 자기 것으로 만들었다. 꿈이 없어 무기력하기만 하던 평범한 고등학생이 내로라 하는 유명 셰프들을 이기고 '1등 셰프'가 되기까지, '마이 파우라(겁먹지 마라)'를 수없이 외치며 버텨온 그의 이야기를 통해 진짜 이탈리아 요리와 셰프들의 세계, 그리고 열정의 아름다움을 다시 한번 되새긴다.
-                        </pre>
-                        <button class="open-toggle">더보기 ▼</button>
-                    </div>
-
-                    <!-- 연관상품 구역 -->
-                    <hr>
-                    <!-- 영화 -->
-                    <section class="same-box" id="movie">
-                        
-                        <h2 class="same-type">연관 영화 추천</h2>
-                        <div class="same-product-row">
-
-                            <a class="same-product" href="#">
-                                <img class="same-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                                <div class="same-title">흑백요리사 1</div>
-                                <div class="same-maker">백종원</div>
-                                <div class="same-price">20,000 원</div>
-                            </a>
-                            <a class="same-product" href="#">
-                                <img class="same-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                                <div class="same-title">흑백요리사 1</div>
-                                <div class="same-maker">백종원</div>
-                                <div class="same-price">20,000 원</div>
-                            </a>
-                            <a class="same-product" href="#">
-                                <img class="same-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                                <div class="same-title">흑백요리사 1</div>
-                                <div class="same-maker">백종원</div>
-                                <div class="same-price">20,000 원</div>
-                            </a>
-                            <a class="same-product" href="#">
-                                <img class="same-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                                <div class="same-title">흑백요리사 1</div>
-                                <div class="same-maker">백종원</div>
-                                <div class="same-price">20,000 원</div>
-                            </a>
-                            <a class="same-product" href="#">
-                                <img class="same-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                                <div class="same-title">흑백요리사 1</div>
-                                <div class="same-maker">백종원</div>
-                                <div class="same-price">20,000 원</div>
-                            </a>
-
-                        </div>
-
-                    </section>
-
-                    <hr>
-
-                    <!-- 작가 -->
-                    <section class="same-box" id="maker">
-                        
-                        <h2 class="same-type">이 작가의 다른 작품</h2>
-                        <div class="same-product-row">
-
-                            <a class="same-product" href="#">
-                                <img class="same-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                                <div class="same-title">흑백요리사 1</div>
-                                <div class="same-maker">백종원</div>
-                                <div class="same-price">20,000 원</div>
-                            </a>
-                            <a class="same-product" href="#">
-                                <img class="same-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                                <div class="same-title">흑백요리사 1</div>
-                                <div class="same-maker">백종원</div>
-                                <div class="same-price">20,000 원</div>
-                            </a>
-                            <a class="same-product" href="#">
-                                <img class="same-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                                <div class="same-title">흑백요리사 1</div>
-                                <div class="same-maker">백종원</div>
-                                <div class="same-price">20,000 원</div>
-                            </a>
-                            <a class="same-product" href="#">
-                                <img class="same-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                                <div class="same-title">흑백요리사 1</div>
-                                <div class="same-maker">백종원</div>
-                                <div class="same-price">20,000 원</div>
-                            </a>
-                            <a class="same-product" href="#">
-                                <img class="same-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                                <div class="same-title">흑백요리사 1</div>
-                                <div class="same-maker">백종원</div>
-                                <div class="same-price">20,000 원</div>
-                            </a>
-
-                        </div>
-
-                    </section>
-
-                    <hr>
-
-                    <!-- 카테고리 -->
-                    <section class="same-box" id="type">
-                        
-                        <h2 class="same-type">카테고리 인기 도서</h2>
-                        <div class="same-product-row">
-
-                            <a class="same-product" href="#">
-                                <img class="same-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                                <div class="same-title">흑백요리사 1</div>
-                                <div class="same-maker">백종원</div>
-                                <div class="same-price">20,000 원</div>
-                            </a>
-                            <a class="same-product" href="#">
-                                <img class="same-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                                <div class="same-title">흑백요리사 1</div>
-                                <div class="same-maker">백종원</div>
-                                <div class="same-price">20,000 원</div>
-                            </a>
-                            <a class="same-product" href="#">
-                                <img class="same-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                                <div class="same-title">흑백요리사 1</div>
-                                <div class="same-maker">백종원</div>
-                                <div class="same-price">20,000 원</div>
-                            </a>
-                            <a class="same-product" href="#">
-                                <img class="same-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                                <div class="same-title">흑백요리사 1</div>
-                                <div class="same-maker">백종원</div>
-                                <div class="same-price">20,000 원</div>
-                            </a>
-                            <a class="same-product" href="#">
-                                <img class="same-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-                                <div class="same-title">흑백요리사 1</div>
-                                <div class="same-maker">백종원</div>
-                                <div class="same-price">20,000 원</div>
-                            </a>
-
-                        </div>
-
-                    </section>
-
+                    <th:block th:replace="~{book/bookDetailSub}"></th:block>
                 </div>
                 
 
@@ -323,196 +146,7 @@
                     role="tabpanel" aria-labelledby="review-tab" tabindex="0">
                     
                     <!-- 후기 페이지 -->
-                    <section class="review-area">
-
-
-                        
-                        <!-- 후기 작성 화면 구역 -->
-                        <section class="review-write-area">
-                            
-                            <!-- 상단 -->
-                            <div class="review-write-top">
-                                <button class="review-write-btn">후기 작성</button>
-
-                                <div class="review-star write-star">
-                                    <label class="review-star-label" for="star-01">
-                                        <input type="radio" class="review-star-input" name="star" id="star-01">
-                                        <span class="star-icon"></span>
-                                    </label>
-                                    <label class="review-star-label" for="star-02">
-                                        <input type="radio" class="review-star-input" name="star" id="star-02">
-                                        <span class="star-icon"></span>
-                                    </label>
-                                    <label class="review-star-label" for="star-03">
-                                        <input type="radio" class="review-star-input" name="star" id="star-03">
-                                        <span class="star-icon"></span>
-                                    </label>
-                                    <label class="review-star-label" for="star-04">
-                                        <input type="radio" class="review-star-input" name="star" id="star-04">
-                                        <span class="star-icon"></span>
-                                    </label>
-                                    <label class="review-star-label" for="star-05">
-                                        <input type="radio" class="review-star-input" name="star" id="star-05">
-                                        <span class="star-icon"></span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- 작성 내용 -->
-                            <div class="review-write-box">
-                                <input type="text" 
-                                       class="review-write-input"
-                                       placeholder="후기를 작성해주세요!"
-                                >
-                            </div>
-
-                            <!-- 등록 취소 -->
-                            <div class="review-write-controller">
-                                <button class="review-write-submit">등록</button>
-                                <button class="review-write-cancel">취소</button>
-                            </div>
-
-                        </section>
-                        
-
-
-
-
-
-
-                        <!-- 작성된 후기가 없는 경우 -->
-                        <div class="no-review">
-                            <hr>
-                            <span>작성된 도서 후기가 없습니다.</span>
-                            <hr>
-                        </div>
-
-                        <!-- 후기 있는 경우 -->
-                        <div class="yes-review">
-                            <hr>
-
-                            <!-- 후기 박스 -->
-                            <section class="review-box">
-                                <!-- 후기 남긴 유저 -->
-                                <section class="review-user">
-                                    <img class="review-user-profile" src="../../static/svg/person.svg">
-                                    <span class="review-user-name">유저일</span>
-                                </section>
-
-
-    
-                                <!-- 후기 본문 -->
-                                <section class="review-detail">
-                                    
-                                    <!-- 별점 -->
-                                    <div class="review-star readonly">
-                                        <span class="star-icon filled"></span>
-                                        <span class="star-icon filled"></span>
-                                        <span class="star-icon filled"></span>
-                                        <span class="star-icon"></span>
-                                        <span class="star-icon"></span>
-                                    </div>
-    
-                                    <!-- 내용 -->
-                                    <div class="review-text">
-                                        <span>대충 여기 공백포함 40자 정도 들어갈 수 있는 후기 글 뭐시기 입니다.</span>
-                                    </div>
-    
-                                    <!-- 작성 시각 -->
-                                    <div class="review-time">
-                                        <span>10분전</span>
-                                    </div>
-                                </section>
-    
-                                <!-- 버튼들 -->
-                                <section class="review-controll">
-                                    <div class="review-report">
-                                        <span class="report-btn">신고</span>
-                                    </div>
-    
-                                    <div class="review-edit">
-                                        <span class="review-edit-btn">수정</span>
-                                        <span>|</span>
-                                        <span class="review-delete-btn">삭제</span>
-                                    </div>
-    
-                                </section>
-                                <hr>
-                            
-                            </section>
-
-                            <!-- 후기 박스 -->
-                            <section class="review-box">
-                                <!-- 후기 남긴 유저 -->
-                                <section class="review-user">
-                                    <img class="review-user-profile" src="">
-                                    <span class="review-user-name">유저김이박최구강</span>
-                                </section>
-                                
-                                <!-- 후기 본문 -->
-                                <section class="review-detail">
-
-                                    <!-- 별점 -->
-                                    <div class="review-star readonly">
-                                        <span class="star-icon filled"></span>
-                                        <span class="star-icon filled"></span>
-                                        <span class="star-icon filled"></span>
-                                        <span class="star-icon"></span>
-                                        <span class="star-icon"></span>
-                                    </div>
-
-                                    <!-- 내용 -->
-                                    <div class="review-text">
-                                        <span>대충 여기 공백포함 40자 정도 들어갈 수 있는 후기 글 뭐시기 입니다.</span>
-                                    </div>
-    
-                                    <!-- 작성 시각 -->
-                                    <div class="review-time">
-                                        <span>10분전</span>
-                                    </div>
-                                </section>
-    
-                                <!-- 버튼들 -->
-                                <section class="review-controll">
-                                    <div class="review-report">
-                                        <span class="report-btn">신고</span>
-                                    </div>
-    
-                                    <div class="review-edit">
-                                        <span class="review-edit-btn">수정</span>
-                                        <span>|</span>
-                                        <span class="review-delete-btn">삭제</span>
-                                    </div>
-    
-                                </section>
-                                <hr>
-                            
-                            </section>
-                            
-
-                            <!-- 후기 수정 화면 -->
-                            <section class="review-edit-area">
-                                <!-- 작성 내용 -->
-                                <div class="review-edit-box">
-                                    <input type="text" 
-                                           class="review-edit-input"
-                                           value="이건 아마 기존 후기글일껄요?"
-                                    >
-                                </div>
-                                
-                                <!-- 등록 취소 -->
-                                <div class="review-edit-controller">
-                                    <button class="review-edit-submit">수정</button>
-                                    <button class="review-edit-cancel">취소</button>
-                                </div>
-
-                            </section>
-
-
-                        </div>
-
-
-                    </section>
+                    <th:block th:replace="~{book/bookDetailComment}"></th:block>
 
                 </div>
 
@@ -522,90 +156,13 @@
 
     </main>
 
-    <footer class="footer">
-    <div class="footer-in">
-
-        <!-- 상단 링크 -->
-        <nav class="ft-toplinks" aria-label="Ft links">
-        <a href="#">회사소개</a>
-        <span class="sep">|</span>
-        <a href="#">서비스 소개</a>
-        <span class="sep">|</span>
-        <a href="#">이용약관</a>
-        <span class="sep">|</span>
-        <a href="#">개인정보처리방침</a>
-        <span class="sep">|</span>
-        <a href="#">청소년보호정책</a>
-        <span class="sep">|</span>
-        <a href="#">채용정보</a>
-        <span class="sep">|</span>
-        <a href="#">광고문의</a>
-        </nav>
-
-        <div class="footer-main">
-        <!-- 좌측 로고 -->
-        <div class="footer-brand" aria-label="BOOGIMOVIE">
-            <img src="../../static/images/common/logo_white.png" alt="">
-        </div>
-
-        <!-- 회사 정보 -->
-        <div class="footer-info">
-            <div class="info-row">
-            <span class="info-title">(주)BOOGIMOVIE</span>
-            </div>
-
-            <div class="info-row">
-            <span>서울특별시 종로구 우정국로2길 21 9층, 903호</span>
-            </div>
-
-            <div class="info-row">
-            <span>대표자: (발신자부담) 1544-0000(부기문고) · 1661-1112(핫트랙스)</span>
-            </div>
-
-            <div class="info-row">
-            <span>이메일: boogi@naver.com</span>
-            </div>
-
-            <div class="info-row">
-            <span>대표 FAX: 2025-012-0801</span>
-            </div>
-
-            <div class="info-row">
-            <span>사업자등록번호: 102-81-11670</span>
-            </div>
-
-            <div class="info-row">
-            <span>통신판매업신고: 0000 - 서울 종로구 - 00000</span>
-            </div>
-
-            <div class="info-row">
-            <span>개인정보관리 책임자: 김무비</span>
-            </div>
-
-            <div class="info-row copyright">
-            © BOOGIMOVIE CENTRE
-            </div>
-        </div>
-
-        <!-- 우측 SNS -->
-        <div class="footer-sns" aria-label="Social links">
-            <a class="sns-btn" href="#" aria-label="KakaoTalk"><img src="../../static/svg/footer-kakao.svg" alt=""></a>
-            <a class="sns-btn" href="#" aria-label="Facebook"><img src="../../static/svg/footer-facebook.svg" alt=""></a>
-            <a class="sns-btn" href="https://www.instagram.com/dog___foooot?igsh=MTlyc3lpc3Y3c3FqMA==" aria-label="Instagram"><img src="../../static/svg/footer-instagram.svg" alt=""></a>
-            <a class="sns-btn" href="#" aria-label="YouTube"><img src="../../static/svg/footer-youtube.svg" alt=""></a>
-        </div>
-        </div>
-    </div>
-    </footer>
+    <!-- 푸터 -->
+    <th:block th:replace="~{common/footer}"></th:block>
 
     <!-- 우측하단 -->
-    <div class="floating-ui">
-      <button class="floating-btn"><span class="icon-drawer"></span></button>
-      <button class="floating-btn"><img class="ft-bt2" src="../../static/images/common/only-logo.png" alt=""></button>
-      <button class="floating-btn"><i class="fa-solid fa-caret-up"><br>맨 위로</i></button>
-    </div>
+    <th:block th:replace="~{common/bot-nav-btn}"></th:block>
 
-    <script src="../../static/js/book/bookDetail.js"></script>
+    <script th:src="@{/js/book/bookDetail.js}"></script>
 </body>
 </html> 
 
