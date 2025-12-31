@@ -23,38 +23,7 @@
     <div class="body_container">
 
     <!-- side Menu -->
-
-        <!-- 전체 사이드 영역 -->
-    <div class="admin_page_side_container">
-
-        <!-- 대시보드 -->
-        <!-- 타임리프로 변경시 아래 코드 추가 예정 (JS 사용 X) -->
-        <!-- th:classappend="${activeMenu == 'profile'} ? 'active_admin_page'" -->
-        <div class="admin_profile_setting_container active_admin_page">
-            <img th:src="../../static/svg/dashBoard_icon.svg" alt="">
-            <div class="admin_page_menu bold">대시보드</div>
-        </div>
-
-        <!-- 신고 관리 -->
-        <div class="admin_wish_list_container">
-            <img th:src="../../static/svg/reportManage_icon.svg" alt="">
-            <div class="admin_page_menu bold">신고 관리</div>
-        </div>
-
-        <!-- 1:1 문의 -->
-        <div class="user_secession_container">
-            <img th:src="../../static/svg/inquiry_icon.svg" alt="">
-            <div class="admin_page_menu bold">1:1 문의</div>
-        </div>
-
-        <!-- 홈페이지 -->
-        <div class="user_secession_container">
-            <img th:src="../../static/svg/homePage_icon.svg" alt="">
-            <div class="admin_page_menu bold">홈페이지</div>
-        </div>
-    </div>
-
-    <!-- side Menu -->
+    <th:block th:replace="~{admin/adminPage_sideBar}">adminPage_sideBar.html</th:block>
 
     <main>
         <div class="section_header">
@@ -70,14 +39,14 @@
             <div class="date">
                 <div class="date_wrapper">
                     <div class="front_date">2025.09.01</div>
-                    <img th:src="../../static/svg/calender.svg" class="calender_icon" alt="">
+                    <img th:src="@{/svg/calender.svg}" class="calender_icon" alt="">
                 </div>
 
                 <div>-</div>
 
                 <div class="date_wrapper">
                     <div class="rear_date">2025.09.21</div>
-                    <img th:src="../../static/svg/calender.svg" class="calender_icon" alt="">
+                    <img th:src="@{/svg/calender.svg}" class="calender_icon" alt="">
                 </div>
             </div>
             <button>검색</button>
@@ -104,7 +73,7 @@
                     <td><input type="checkbox"></td>
                     <td>43901</td>
                     <td>광화문 집회에 나와주세요</td>                    
-                    <td><a th:href="" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
+                    <td><a th:href="@{#}" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
                     <td>james</td>
                     <td>1</td>
                     <td>2025.12.17</td>
@@ -119,7 +88,7 @@
                     <td><input type="checkbox"></td>
                     <td>43901</td>
                     <td>광화문 집회에 나와주세요</td>
-                    <td><a th:href="" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
+                    <td><a th:href="@{#}" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
                     <td>james</td>
                     <td>1</td>
                     <td>2025.12.17</td>
@@ -134,7 +103,7 @@
                     <td><input type="checkbox"></td>
                     <td>43901</td>
                     <td>광화문 집회에 나와주세요</td>
-                    <td><a th:href="" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
+                    <td><a th:href="@{#}" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
                     <td>james</td>
                     <td>1</td>
                     <td>2025.12.17</td>
@@ -149,7 +118,7 @@
                     <td><input type="checkbox"></td>
                     <td>43901</td>
                     <td>광화문 집회에 나와주세요</td>
-                    <td><a th:href="" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
+                    <td><a th:href="@{#}" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
                     <td>james</td>
                     <td>1</td>
                     <td>2025.12.17</td>
@@ -163,7 +132,7 @@
                     <td><input type="checkbox"></td>
                     <td>43901</td>
                     <td>광화문 집회에 나와주세요</td>
-                    <td><a th:href="" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
+                    <td><a th:href="@{#}" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
                     <td>james</td>
                     <td>1</td>
                     <td>2025.12.17</td>
@@ -177,7 +146,7 @@
                     <td><input type="checkbox"></td>
                     <td>43901</td>
                     <td>광화문 집회에 나와주세요</td>
-                    <td><a th:href="" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
+                    <td><a th:href="@{#}" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
                     <td>james</td>
                     <td>1</td>
                     <td>2025.12.17</td>
@@ -191,7 +160,7 @@
                     <td><input type="checkbox"></td>
                     <td>43901</td>
                     <td>광화문 집회에 나와주세요</td>
-                    <td><a th:href="" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
+                    <td><a th:href="@{#}" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
                     <td>james</td>
                     <td>1</td>
                     <td>2025.12.17</td>
@@ -205,22 +174,7 @@
                     <td><input type="checkbox"></td>
                     <td>43901</td>
                     <td>광화문 집회에 나와주세요</td>
-                    <td><a th:href="" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
-                    <td>james</td>
-                    <td>1</td>
-                    <td>2025.12.17</td>
-                    <td>Y</td>
-                    <td>
-                        <button>삭제</button>
-                        <button>유지</button>
-                    </td>
-                </tr>
-
-                                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>43901</td>
-                    <td>광화문 집회에 나와주세요</td>
-                    <td><a th:href="" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
+                    <td><a th:href="@{#}" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
                     <td>james</td>
                     <td>1</td>
                     <td>2025.12.17</td>
@@ -235,7 +189,22 @@
                     <td><input type="checkbox"></td>
                     <td>43901</td>
                     <td>광화문 집회에 나와주세요</td>
-                    <td><a th:href="" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
+                    <td><a th:href="@{#}" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
+                    <td>james</td>
+                    <td>1</td>
+                    <td>2025.12.17</td>
+                    <td>Y</td>
+                    <td>
+                        <button>삭제</button>
+                        <button>유지</button>
+                    </td>
+                </tr>
+
+                                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>43901</td>
+                    <td>광화문 집회에 나와주세요</td>
+                    <td><a th:href="@{#}" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
                     <td>james</td>
                     <td>1</td>
                     <td>2025.12.17</td>
@@ -252,20 +221,20 @@
 
         <div class="pagination">
             <ul>
-                <a th:href="">&laquo;</a>
-                <a th:href="">&lt</a>
-                <a th:href="" class="active">1</a>
-                <a th:href="">2</a>
-                <a th:href="">3</a>
-                <a th:href="">4</a>
-                <a th:href="">5</a>
-                <a th:href="">6</a>
-                <a th:href="">7</a>
-                <a th:href="">8</a>
-                <a th:href="">9</a>
-                <a th:href="">10</a>
-                <a th:href="">&gt</a>
-                <a th:href="">&raquo;</a>
+                <a th:href="@{#}">&laquo;</a>
+                <a th:href="@{#}">&lt</a>
+                <a th:href="@{#}" class="active">1</a>
+                <a th:href="@{#}">2</a>
+                <a th:href="@{#}">3</a>
+                <a th:href="@{#}">4</a>
+                <a th:href="@{#}">5</a>
+                <a th:href="@{#}">6</a>
+                <a th:href="@{#}">7</a>
+                <a th:href="@{#}">8</a>
+                <a th:href="@{#}">9</a>
+                <a th:href="@{#}">10</a>
+                <a th:href="@{#}">&gt</a>
+                <a th:href="@{#}">&raquo;</a>
             </ul>
 
         </div>
