@@ -83,6 +83,7 @@ public class JwtController {
 			deleteCookie(response, "accessToken");
 		    deleteCookie(response, "refreshToken");
 		}
+		return "redirect:/admin/login";
 	}
 	
 	// 쿠키 삭제
