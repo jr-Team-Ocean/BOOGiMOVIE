@@ -15,28 +15,36 @@
         <!-- 대시보드 -->
         <!-- 타임리프로 변경시 아래 코드 추가 예정 (JS 사용 X) -->
         <!-- th:classappend="${activeMenu == 'profile'} ? 'active_admin_page'" -->
-        <div class="admin_profile_setting_container active_admin_page">
-            <img th:src="@{/svg/dashBoard_icon.svg}" alt="">
-            <div class="admin_page_menu bold">대시보드</div>
-        </div>
+        <a th:href="@{/admin/statistics}">
+            <div class="admin_profile_setting_container" th:classappend="${activeMenu == 'statistics'} ? 'active_admin_page'">
+                <img th:src="@{/svg/dashBoard_icon.svg}" alt="">
+                <div class="admin_page_menu bold">대시보드</div>
+            </div>
+        </a>
 
         <!-- 신고 관리 -->
-        <div class="admin_wish_list_container">
-            <img th:src="@{/svg/reportManage_icon.svg}" alt="">
-            <div class="admin_page_menu bold">신고 관리</div>
-        </div>
+        <a th:href="@{/admin/report}">
+            <div class="admin_wish_list_container" th:classappend="${activeMenu == 'report'} ? 'active_admin_page'">
+                <img th:src="@{/svg/reportManage_icon.svg}" alt="">
+                <div class="admin_page_menu bold">신고 관리</div>
+            </div>
+        </a>
 
         <!-- 1:1 문의 -->
-        <div class="user_secession_container">
-            <img th:src="@{/svg/inquiry_icon.svg}" alt="">
-            <div class="admin_page_menu bold">1:1 문의</div>
-        </div>
+        <a th:href="@{#}">
+            <div class="user_secession_container" th:classappend="${activeMenu == 'adminChatting'} ? 'active_admin_page'">
+                <img th:src="@{/svg/inquiry_icon.svg}" alt="">
+                <div class="admin_page_menu bold">1:1 문의</div>
+            </div>
+        </a>
 
         <!-- 홈페이지 -->
-        <div class="user_secession_container">
-            <img th:src="@{/svg/homePage_icon.svg}" alt="">
-            <div class="admin_page_menu bold">홈페이지</div>
-        </div>
+        <a th:href="@{/}">
+            <div class="user_secession_container">
+                <img th:src="@{/svg/homePage_icon.svg}" alt="">
+                <div class="admin_page_menu bold">홈페이지</div>
+            </div>
+        </a>
     </div>
 
 </body>
