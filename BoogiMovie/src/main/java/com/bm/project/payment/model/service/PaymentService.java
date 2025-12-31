@@ -1,9 +1,8 @@
 package com.bm.project.payment.model.service;
 
-import com.bm.project.dto.MemberDto;
-import com.bm.project.payment.model.dto.OrderRequestDto;
 import com.bm.project.payment.model.dto.PayValidationDto;
 import com.bm.project.payment.model.dto.PayValidationDto.PayResponse;
+import com.bm.project.payment.model.dto.PayValidationDto.PaySuccessDto;
 
 public interface PaymentService {
 
@@ -18,6 +17,12 @@ public interface PaymentService {
 	 * @param orderNo
 	 */
 	void failPayment(String orderNo, String reason);
+
+
+	/** 결제 사후 검증
+	 * @param successDto
+	 */
+	void successPayment(PaySuccessDto successDto);
 
 
 }

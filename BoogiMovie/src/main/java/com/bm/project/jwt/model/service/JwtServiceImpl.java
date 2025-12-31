@@ -45,12 +45,12 @@ public class JwtServiceImpl implements JwtService {
 		// ======================================================================
 		// ***** 회원가입 완성 후 (암호화) 변경해야 함 *****
 		// 비밀번호 검증
-//		if(!bcrypt.matches(adminDto.getAdminPw(), admin.getMemberPw())) {
-//			throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-//		}
-		if(!adminDto.getAdminPw().equals(admin.getMemberPw())) {
+		if(!bcrypt.matches(adminDto.getAdminPw(), admin.getMemberPw())) {
 			throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
 		}
+//		if(!adminDto.getAdminPw().equals(admin.getMemberPw())) {
+//			throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+//		}
 		// ======================================================================
 		
 		// 관리자 인증
@@ -61,6 +61,14 @@ public class JwtServiceImpl implements JwtService {
 		
 		// AccessToken 및 RefreshToken 생성
 		return jwtTokenProvider.createToken(authentication);
+	}
+
+
+	// 관리자 로그아웃
+	@Override
+	public void deleteRefreshToken(String name) {
+		jwtTokenProvider.deleteRefreshToken(name);
+		
 	}
 
 }

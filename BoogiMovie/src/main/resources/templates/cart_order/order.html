@@ -150,6 +150,10 @@
         </div>
     </div>
 
+    <!-- 포트원 시크릿키 -->
+    <input type="hidden" id="portone-store-id" th:value="${storeId}">
+    <input type="hidden" id="portone-channel-key" th:value="${channelKey}">
+
     <th:block th:replace="~{common/footer}">footer.html</th:block>
 
 
@@ -181,6 +185,8 @@
             }).open();
         }
     </script>
+
+    <!-- <script th:src="@{/js/pay/productPayment.js}"></script> -->
 </body>
 
 </html>
