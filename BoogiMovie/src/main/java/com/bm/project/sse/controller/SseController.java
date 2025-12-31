@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import com.bm.project.chatting.model.dto.Member;
+import com.bm.project.dto.MemberDto.LoginResult;
 import com.bm.project.sse.model.dto.Notification;
 import com.bm.project.sse.model.service.SseService;
 
@@ -28,7 +28,7 @@ public class SseController {
 	
 	// 클라이언트 연결 요청 처리
 	@GetMapping("/sse/connect")
-	public SseEmitter sseConnect(@SessionAttribute("loginMember") Member loginMember) {
+	public SseEmitter sseConnect(@SessionAttribute("loginMember") LoginResult loginMember) {
 		
 		String clientId = loginMember.getMemberNo() + "";
 		
@@ -45,11 +45,11 @@ public class SseController {
 	
 	// 현재 로그인한 회원이 받은 알림 중 읽지 않은 알림 개수 조회
 	@GetMapping("notification/notReadCheck")
-	public int notReadCheck(@SessionAttribute("loginMember") Member loginMember) {
+	public int notReadCheck(@SessionAttribute("loginMember") LoginResult loginMember) {
 		
-		int memberNo = loginMember.getMemberNo();
+		long memberNo = loginMember.getMemberNo();
 		
-		return service.notReadCheck(memberNo);
+		return service.notReadCheck((int)memberNo);
 	}
 	
 	// 알림 삭제
@@ -68,25 +68,31 @@ public class SseController {
 	
 	@PostMapping("/sse/send")
 	public void insertNotification(@RequestBody Notification notification, 
-			@SessionAttribute("loginMember") Member loginMember) {
-		
-		notification.setSendMemberNo(loginMember.getMemberNo());
-		
-		Map<String, Object> map = service.insertNotification(notification);
-		
-		String clientId = map.get("receiveMemberNo").toString();
-		
-		SseEmitter emitter = emitters.get(clientId);
-		
-		if(emitter != null) {
-			try {
-				emitter.send(map);
-			}catch(Exception e) {
-				emitters.remove(clientId);
-			}
-			
-		}
-		
-	}	
+	        @SessionAttribute(value="loginMember", required=false) LoginResult loginMember) {
+	    
+	    // 1. 세션 체크
+	    if(loginMember == null) return;
+
+	    // 2. 형변환 및 세팅
+	    notification.setSendMemberNo(loginMember.getMemberNo().intValue());
+	    
+	    // 3. 서비스 호출
+	    Map<String, Object> map = service.insertNotification(notification);
+	    
+	    // 4. 수신자 번호 가져오기 (null 체크 포함)
+	    if(map != null && map.get("receiveMemberNo") != null) {
+	        String clientId = String.valueOf(map.get("receiveMemberNo"));
+	        
+	        SseEmitter emitter = emitters.get(clientId);
+	        
+	        if(emitter != null) {
+	            try {
+	                emitter.send(map); // 알림 전송
+	            } catch(Exception e) {
+	                emitters.remove(clientId);
+	            }
+	        }
+	    }
+	}
 	
 }
