@@ -9,12 +9,9 @@ import lombok.ToString;
 @ToString
 public class ChattingRoom {
 	
-	private int chattingNo;
-	private String lastMessage;
-	private String sendTime;
-	private int targetNo;
-	private String targetNickName;
-	private String targetProfile;
-	private int notReadCount;
+	private int chattingRoomId;
+	private String createdAt;	
+	private int adminMemberNo;
+	private int userMemberNo; 
 	
 }
