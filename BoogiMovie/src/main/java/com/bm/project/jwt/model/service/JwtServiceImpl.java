@@ -35,23 +35,16 @@ public class JwtServiceImpl implements JwtService {
 		Member admin = adminRepository.findByMemberId(adminDto.getAdminId())
 						.orElseThrow(() -> new IllegalArgumentException("아이디 또는 비밀번호가 일치하지 않습니다."));
 									
-		
 		// 회원 정보를 가져온 경우
 		// 만약 일반 회원이라면
-		if(admin.getIsAdmin().equals("N")) {
-			throw new IllegalArgumentException("관리자 권한이 없습니다.");
+		if (admin.getIsAdmin() == Member.IsYN.N) { 
+		    throw new IllegalArgumentException("관리자 권한이 없습니다.");
 		}
 		
-		// ======================================================================
-		// ***** 회원가입 완성 후 (암호화) 변경해야 함 *****
 		// 비밀번호 검증
 		if(!bcrypt.matches(adminDto.getAdminPw(), admin.getMemberPw())) {
 			throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
 		}
-//		if(!adminDto.getAdminPw().equals(admin.getMemberPw())) {
-//			throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-//		}
-		// ======================================================================
 		
 		// 관리자 인증
 		Authentication authentication = new UsernamePasswordAuthenticationToken(admin.getMemberId(), 

@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+.admin_page_side_container a {
+    text-decoration: none;
+}
+
 /* 사이드 바 전체 컨테이너 */
 .admin_page_side_container {
     width: 320px;
