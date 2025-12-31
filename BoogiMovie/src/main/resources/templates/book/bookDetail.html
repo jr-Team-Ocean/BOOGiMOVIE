@@ -39,15 +39,6 @@
 
     <main class="main">
 
-        <div>
-            <p th:text="${book.productTitle}"></p>
-            <p th:text="${book.productPrice}"></p>
-            <p th:text="${book.isbn}"></p>
-            <img th:src="${book.imgPath}" alt="">
-
-
-        </div>
-
         <section class="book-category-path">
             <!-- 도서 경로 -->
             <span>
@@ -65,7 +56,6 @@
                    th:text="${book.categoryName}">
                 </a>
 
-                <!-- <span class="category-name" th:text="${book.categoryName}">가정/요리/살림</span> -->
             </span>
 
             <!-- 관리자용 수정 삭제 -->

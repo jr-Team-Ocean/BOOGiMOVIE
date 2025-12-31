@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.bm.project.dto.BookDto;
+import com.bm.project.dto.MemberDto.LoginResult;
 import com.bm.project.dto.PageDto;
 import com.bm.project.service.BookService;
 
@@ -30,7 +32,7 @@ public class BookController {
 	public String selectBookList(
 			@RequestParam Map<String, Object> paramMap,
 			@RequestParam(name = "page", defaultValue = "1") int page,
-			
+			@SessionAttribute(value = "loginMember", required = false) LoginResult loginMember,
 			Model model
 			) {
 		Page<BookDto.Response> pageResp;
