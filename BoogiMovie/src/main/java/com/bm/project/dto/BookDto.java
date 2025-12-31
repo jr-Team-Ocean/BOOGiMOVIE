@@ -3,6 +3,8 @@ package com.bm.project.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.bm.project.entity.Book;
+import com.bm.project.entity.Category;
 import com.bm.project.entity.Product;
 
 import lombok.Builder;
@@ -31,6 +33,11 @@ public class BookDto {
         private String isbn; // isbn
         
         private Long categoryId; // 카테고리
+        private String categoryName;
+        
+        private Long pCategoryId;
+        private String pCategoryName;
+        
         
         private List<String> writers; // 작가
         private List<String> publishers; // 출판사
@@ -48,6 +55,37 @@ public class BookDto {
         					.categoryId(product.getCategory().getCategoryId())
         					
         					.build();
+        }
+        
+        // 도서 상세 조회용 DTO
+        public static Response toDetailDto(
+        		Product product,
+        		Book book,
+        		Category category,
+        		Category pCategory,
+        		List<String> writers, 
+        		List<String> publishers
+        		) {
+        	
+        	return Response.builder()
+        				   .productNo(product.getProductNo())
+        				   .productTitle(product.getProductTitle())
+        				   .productPrice(product.getProductPrice())
+        				   .productDate(product.getProductDate())
+        				   .productContent(product.getProductContent())
+        				   .imgPath(product.getImgPath())
+        				   
+        				   .categoryId(category.getCategoryId())
+        				   .categoryName(category.getCategoryName())
+        				   .pCategoryId(pCategory != null ? pCategory.getCategoryId() : null)
+        				   .pCategoryName(pCategory != null ? pCategory.getCategoryName() : null)
+        				   
+        				   .isbn(book.getIsbn())
+        				   .writers(writers)
+        				   .publishers(publishers)
+        				   
+        			
+        				   .build();
         }
         
         

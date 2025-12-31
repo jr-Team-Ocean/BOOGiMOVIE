@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.bm.project.dto.BookDto;
+import com.bm.project.dto.MemberDto.LoginResult;
 import com.bm.project.dto.PageDto;
 import com.bm.project.service.BookService;
 
@@ -25,11 +27,12 @@ public class BookController {
 	
 	private final BookService bookService;
 	
+	// 도서 목록 조회
 	@GetMapping
 	public String selectBookList(
 			@RequestParam Map<String, Object> paramMap,
 			@RequestParam(name = "page", defaultValue = "1") int page,
-			
+			@SessionAttribute(value = "loginMember", required = false) LoginResult loginMember,
 			Model model
 			) {
 		Page<BookDto.Response> pageResp;
@@ -66,20 +69,25 @@ public class BookController {
 		model.addAttribute("page", pageResp);
 		model.addAttribute("pageDto", pageDto);
 		model.addAttribute("paramMap", paramMap);
-		
+		model.addAttribute("url", "books");
 		
 		
 		return "book/bookList";
 	}
 	
 	
+	// 도서 상세 조회
 	@GetMapping("/{productNo}")
 	public String selectBookDetail(
 			@PathVariable("productNo") Long productNo,
 			Model model
-			
 			) {
-		return null;
+		BookDto.Response book = bookService.selectBookDetail(productNo);
+		
+		model.addAttribute("book", book);
+		model.addAttribute("url", "books");
+		
+		return "book/bookDetail";
 	}
 	
 	

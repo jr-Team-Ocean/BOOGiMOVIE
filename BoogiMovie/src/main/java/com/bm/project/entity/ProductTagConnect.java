@@ -27,7 +27,7 @@ public class ProductTagConnect {
 	@Id
 	@Column(name = "PRODUCT_TAG_NO", nullable = false)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tag_connect_seq")
-	@SequenceGenerator(name = "tag_connect_seq", sequenceName = "seq_tag_connect_no", allocationSize = 1)
+	@SequenceGenerator(name = "tag_connect_seq", sequenceName = "seq_tag_connect_no", initialValue = 1, allocationSize = 1)
 	private Long productTagNo;
 	
 	

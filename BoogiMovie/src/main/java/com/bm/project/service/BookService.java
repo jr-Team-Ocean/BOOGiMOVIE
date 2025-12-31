@@ -15,4 +15,7 @@ public interface BookService {
 	// 검색용 도서 목록 조회
 	Page<BookDto.Response> searchBookList(Map<String, Object> paramMap, Pageable pageable);
 
+	// 도서 상세 조회
+	BookDto.Response selectBookDetail(Long productNo);
+
 }
