@@ -25,6 +25,7 @@ public class BookController {
 	
 	private final BookService bookService;
 	
+	// 도서 목록 조회
 	@GetMapping
 	public String selectBookList(
 			@RequestParam Map<String, Object> paramMap,

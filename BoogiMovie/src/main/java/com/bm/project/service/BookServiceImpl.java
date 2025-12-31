@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bm.project.dto.BookDto;
 import com.bm.project.dto.BookDto.Response;
 import com.bm.project.entity.Book;
+import com.bm.project.entity.Category;
 import com.bm.project.entity.Product;
 import com.bm.project.repository.BookRepository;
 
@@ -130,13 +131,16 @@ public class BookServiceImpl  implements BookService {
 		// 도서와 연결된 상품 정보 가져오기
 		Product product = book.getProduct();
 		
+		Category category = product.getCategory();
+		Category pcategory = category.getPCategoryId();
+		
 		// 저자 불러오기
 		List<String> writers = bookRepository.selectWritersByProductNo(productNo);
 		
 		// 출판사 불러오기 
 		List<String> publishers = bookRepository.selectPublishersByProductNo(productNo);
 		
-		return Response.toDetailDto(product, book, writers, publishers);
+		return Response.toDetailDto(product, book, category, pcategory, writers, publishers);
 	}
 	
 }

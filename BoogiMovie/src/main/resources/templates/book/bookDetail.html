@@ -50,7 +50,23 @@
 
         <section class="book-category-path">
             <!-- 도서 경로 -->
-            <span>도서 &gt; <span class="category-name" th:text="${book.categoryName}">가정/요리/살림</span></span>
+            <span>
+                도서 &gt; 
+
+                <!-- 부모카테고리 있을때만 -->
+                <a th:if="${book.pCategoryId != null}"
+                   th:href="@{/books(category=${book.pCategoryId})}"
+                   th:text="${book.pCategoryName}">
+                </a>
+                <span th:if="${book.pCategoryId != null}"> &gt; </span>
+
+                <!-- 카테고리 -->
+                <a th:href="@{/books(category=${book.categoryId})}"
+                   th:text="${book.categoryName}">
+                </a>
+
+                <!-- <span class="category-name" th:text="${book.categoryName}">가정/요리/살림</span> -->
+            </span>
 
             <!-- 관리자용 수정 삭제 -->
             <div class="book-edit">

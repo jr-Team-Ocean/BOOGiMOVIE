@@ -293,7 +293,9 @@ public class BookRepositoryImpl implements BookRepository{
 		
 		String query = "select b " +
 					   "from Book b " +
-					   "join b.product p " +
+					   "join fetch b.product p " +
+					   "join fetch p.category c " +
+					   "left join fetch c.pCategoryId pc " +
 					   "where p.productNo = :productNo " +
 					   "and p.productDelFl = 'N' " +
 					   "and p.productType.typeCode = 1 " +
@@ -319,7 +321,7 @@ public class BookRepositoryImpl implements BookRepository{
 					   "join ptc.product p " +
 					   "join ptc.productTag t " +
 					   "join t.tagCode tc " +
-					   "where p.productNo in :productNo " +
+					   "where p.productNo = :productNo " +
 					   "and tc.tagCode = 1";
 		
 		
