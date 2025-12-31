@@ -14,8 +14,9 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import com.bm.project.chatting.model.dto.Member;
-import com.bm.project.chatting.model.dto.Message;
+import com.bm.project.chatting.model.dto.ChattingMessage;
+import com.bm.project.chatting.model.dto.ChattingRoom;
+import com.bm.project.chatting.model.dto.Member_C;
 import com.bm.project.chatting.model.service.ChattingService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -43,7 +44,7 @@ public class ChattingWebsocketHandler extends TextWebSocketHandler{
 		log.info("전달받은 내용 : {}", message.getPayload());
 		
 		ObjectMapper objectMapper = new ObjectMapper();
-		Message msg = objectMapper.readValue(message.getPayload(), Message.class);
+		ChattingMessage msg = objectMapper.readValue(message.getPayload(), ChattingMessage.class);
 		
 		log.info("Message : {}", msg);
 		
@@ -51,16 +52,18 @@ public class ChattingWebsocketHandler extends TextWebSocketHandler{
 		
 		if (result > 0) {
 			
+			ChattingRoom room = service.selectChattingRoom(msg.getChattingRoomId());
+			
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM.dd hh:mm");
-			msg.setSendTime(sdf.format(new Date()));
+			msg.setSentAt(sdf.format(new Date()));
 			
 			for (WebSocketSession s : sessions) {
 				
 				HttpSession temp = (HttpSession)s.getAttributes().get("session");
 				
-				int loginMemberNo = ((Member)temp.getAttribute("loginMember")).getMemberNo();				 
+				int loginMemberNo = ((Member_C)temp.getAttribute("loginMember")).getMemberNo();				 
 			
-				if(loginMemberNo == msg.getTargetNo() || loginMemberNo == msg.getSenderNo()) {
+				if(loginMemberNo == room.getAdminMemberNo() || loginMemberNo == room.getUserMemberNo()) {
 					
 					s.sendMessage(new TextMessage(new Gson().toJson(msg)));
 				}
