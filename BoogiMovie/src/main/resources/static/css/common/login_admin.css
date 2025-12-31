@@ -27,7 +27,7 @@ body {
     display: flex;
     align-items: center;
     flex-direction: column;
-    margin-top: 100px;
+    margin-top: 200px;
 }
 
 /* 관리자 로그인 텍스트 */

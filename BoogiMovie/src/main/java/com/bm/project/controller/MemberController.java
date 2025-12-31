@@ -38,7 +38,7 @@ public class MemberController {
 	
 	
 	// 로그인 
-	@PostMapping("login")
+	@PostMapping("/login")
 	public String login(Model model, MemberDto.Login loginDto
 			, @RequestHeader(value = "referer", required = false) String referer
 			, @RequestParam(value = "saveId", required = false) String saveId
@@ -114,7 +114,7 @@ public class MemberController {
 		
 		}else {
 			path += "/member/signUp";
-			message = "회원 가입의 실패했습니다.";
+			message = "회원가입에 실패했습니다.";
 		}
 		     
 		ra.addFlashAttribute("message", message);
