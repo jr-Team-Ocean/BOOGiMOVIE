@@ -1,5 +1,13 @@
 package com.bm.project.controller;
 
+import java.util.List;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +27,7 @@ import com.bm.project.entity.Member;
 import com.bm.project.service.member.MemberService;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +38,8 @@ import lombok.RequiredArgsConstructor;
 public class MemberController {
 	
 	private final MemberService memberService;
+	
+	private final HttpSessionSecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
 	
 	// 로그인 화면 이동
 	@GetMapping("/login")
@@ -43,6 +54,7 @@ public class MemberController {
 			, @RequestHeader(value = "referer", required = false) String referer
 			, @RequestParam(value = "saveId", required = false) String saveId
 			, HttpServletResponse response
+			, HttpServletRequest request
 			, RedirectAttributes ra) {
 		
 		LoginResult loginMember = memberService.login(loginDto);
@@ -53,6 +65,20 @@ public class MemberController {
 			path += "/";
 			
 			model.addAttribute("loginMember", loginMember);
+			
+			// 시큐리티 추가: 일반 회원 권한 부여
+			SecurityContext context = SecurityContextHolder.createEmptyContext();
+	        
+			// 인증 객체 생성
+			Authentication authentication = new UsernamePasswordAuthenticationToken(
+	                loginMember.getMemberId(), null, List.of(new SimpleGrantedAuthority("ROLE_USER")));
+	        
+	        // 컨텍스트에 인증 정보 설정
+	        context.setAuthentication(authentication);
+	        SecurityContextHolder.setContext(context);
+	        
+	        // 세션에 컨텍스트 영구 저장 (리다이렉트 시에도 유지함)
+	        securityContextRepository.saveContext(context, request, response);
 			
 			// 쿠키 생성
 			Cookie cookie = new Cookie("saveId", loginMember.getMemberId());
@@ -80,6 +106,7 @@ public class MemberController {
 	@GetMapping("logout")
 	public String logout(SessionStatus status, RedirectAttributes ra) {
 		status.setComplete();
+		SecurityContextHolder.clearContext(); // 컨텍스트에서도 제거
 		return "redirect:/";
 	}
 	
