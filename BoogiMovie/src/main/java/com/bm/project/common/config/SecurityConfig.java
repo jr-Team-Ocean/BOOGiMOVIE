@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -23,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity // Spring Security 활성화 어노테이션
+@EnableMethodSecurity // 메소드 어노테이션 활성화
 @RequiredArgsConstructor
 public class SecurityConfig {
 	
