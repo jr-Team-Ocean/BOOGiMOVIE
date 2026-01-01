@@ -22,4 +22,8 @@ tabs.forEach(tab => {
     })
 })
 
-
+// 글쓰기 버튼 클릭시 영화 등록 화면으로 이동
+const writeBtn = document.getElementById('write-btn')
+writeBtn.addEventListener('click', ()=>{
+    location.href = '/movies/write';
+})

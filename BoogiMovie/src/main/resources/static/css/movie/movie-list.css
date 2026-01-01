@@ -46,11 +46,11 @@
 }
 
 .nav-item.active {
-  border-color: #5170B0;
-  color: #5170B0;
-  font-weight: bold;
-  position: relative;
-  top: 2px; /* 아래 라인이랑 자연스럽게 연결 */
+    border-color: #5170B0;
+    color: #5170B0;
+    font-weight: bold;
+    position: relative;
+    top: 2px; /* 아래 라인이랑 자연스럽게 연결 */
 }
 
 .nav-item:hover{
@@ -116,7 +116,7 @@
 
 /* 전체/국내영화/해외영화 리스트 부분 */
 .movie-list {
-  display: none;
+    display: none;
 }
 
 .movie-list.active {
@@ -144,6 +144,8 @@
 .card-img-top{
     border: 1px solid #b2b2b2;
     border-radius: 10px;
+    width: 180px;
+    height: 260px;
 }
 
 .card-body{
