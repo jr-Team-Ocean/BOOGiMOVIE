@@ -60,7 +60,7 @@ public class JwtFilter extends OncePerRequestFilter {
 					Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
 					
 					SecurityContextHolder.getContext().setAuthentication(authentication);
-					System.out.println(authentication);
+//					System.out.println(authentication);
 					// => 현재 실행 중인 Thread에 인증 정보 저장
 				}
 				
