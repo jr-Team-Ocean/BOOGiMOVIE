@@ -1,5 +1,11 @@
 package com.bm.project.controller;
 
+import java.util.List;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,6 +59,15 @@ public class MemberController {
 			path += "/";
 			
 			model.addAttribute("loginMember", loginMember);
+			
+			// 시큐리티 추가: 일반 회원 권한 부여
+			Authentication authentication = new UsernamePasswordAuthenticationToken(
+		            loginMember.getMemberId(), 
+		            null, 
+		            List.of(new SimpleGrantedAuthority("ROLE_USER"))
+		    );
+
+		    SecurityContextHolder.getContext().setAuthentication(authentication);
 			
 			// 쿠키 생성
 			Cookie cookie = new Cookie("saveId", loginMember.getMemberId());
