@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.bm.project.chatting.model.dao.ChattingMapper;
 import com.bm.project.chatting.model.dto.ChattingRoom;
-import com.bm.project.chatting.model.dto.Member;
-import com.bm.project.chatting.model.dto.Message;
+import com.bm.project.chatting.model.dto.Member_C;
+import com.bm.project.chatting.model.dto.ChattingMessage;
 import com.bm.project.common.utility.Util;
 
 @Service
@@ -20,26 +20,26 @@ public class ChattingServiceImpl implements ChattingService{
 	
 	// 채팅방 목록 조회
 	@Override
-	public List<ChattingRoom> selectRoomList(int memberNo) {
+	public List<ChattingRoom> selectRoomList(Long memberNo) {
 		return mapper.selectRoomList(memberNo);
 	}
 
 	// 채팅 상대 조회
 	@Override
-	public List<Member> selectTarget(Map<String, Object> map) {
+	public List<Member_C> selectTarget(Map<String, Object> map) {
 		return mapper.selectTarget(map);
 	}
 
 	// 채팅방 입장 (없으면 생성)
 	@Override
-	public int checkChattingNo(Map<String, Integer> map) {
+	public int checkChattingNo(Map<String, Object> map) {
 		
 		int chattingNo = mapper.checkChattingNo(map);
 		
 		if(chattingNo == 0) {
 			chattingNo = mapper.createChattingRoom(map);
 			
-			if(chattingNo > 0) chattingNo = map.get("chattingNo");
+			if(chattingNo > 0) chattingNo = (int)map.get("chattingNo");
 		}
 		return chattingNo;
 	}
@@ -52,9 +52,9 @@ public class ChattingServiceImpl implements ChattingService{
 
 	// 채팅방 메세지 목록 조회
 	@Override
-	public List<Message> selectMessageList(Map<String, Object> paramMap) {
+	public List<ChattingMessage> selectMessageList(Map<String, Object> paramMap) {
 		
-		List<Message> messageList = mapper.selectMessageList(Integer.parseInt(String.valueOf(paramMap.get("chattingNo"))));
+		List<ChattingMessage> messageList = mapper.selectMessageList(Integer.parseInt(String.valueOf(paramMap.get("chattingNo"))));
 
 		if(!messageList.isEmpty()) mapper.updateReadFlag(paramMap);
 		
@@ -63,10 +63,16 @@ public class ChattingServiceImpl implements ChattingService{
 
 	// 메세지 삽입
 	@Override
-	public int insertMessage(Message msg) {
+	public int insertMessage(ChattingMessage msg) {
 		
 		msg.setMessageContent(Util.XSSHandling(msg.getMessageContent()));
 		return mapper.insertMessage(msg);
+	}
+
+	@Override
+	public ChattingRoom selectChattingRoom(int chattingRoomId) {
+		
+		return mapper.selectChattingRoom(chattingRoomId);
 	}
 
 	
