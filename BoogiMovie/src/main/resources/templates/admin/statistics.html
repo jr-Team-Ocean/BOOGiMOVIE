@@ -26,6 +26,8 @@
 
 
     <main>
+        <p>현재 권한: <span sec:authentication="principal.authorities">권한목록</span></p>
+        <p>인증 여부: <span sec:authorize="isAuthenticated()">인증됨</span></p>
         <div class="section_header">
             <h2>연령대별 콘텐츠 구매 통계 분석</h2>
         </div>

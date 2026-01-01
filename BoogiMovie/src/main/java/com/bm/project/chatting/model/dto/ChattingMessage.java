@@ -7,14 +7,13 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Message {
+public class ChattingMessage {
 	
-	private int messageNo;
+	private int messageId;
 	private String messageContent;
-	private String readFlag;
-	private int senderNo;
-	private int targetNo;
-	private int chattingNo;
-	private String sendTime;
+	private String sentAt;
+	private int chattingRoomId;
+	private String readYn;
+	private int senderId;	
 
 }
