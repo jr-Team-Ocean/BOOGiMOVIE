@@ -111,5 +111,6 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
     `;
     }
+
 });
 

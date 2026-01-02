@@ -1,73 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원 탈퇴</title>
-    <link rel="stylesheet" href="../../static/css/myPage/secession.css">
-    <link rel="stylesheet" href="../../static/css/common/font.css">
-    <link rel="stylesheet" href="../../static/css/myPage/myPage_sideBar.css">
+    <link rel="stylesheet" th:href="@{/css/myPage/secession.css}">
+    <link rel="stylesheet" th:href="@{/css/common/font.css}">
+    <link rel="stylesheet" th:href="@{/css/myPage/myPage_sideBar.css}">
 </head>
 
 <body>
 
+    <th:block th:replace="~{common/header_no_search}">header_no_search.html</th:block>
+
     <div class="secession">
 
-        <div class="my_page_side_container">
-
-            <!-- 프로필 관리 -->
-            <!-- 타임리프로 변경시 아래 코드 추가 예정 (JS 사용 X) -->
-            <!-- th:classappend="${activeMenu == 'profile'} ? 'active_my_page'" -->
-            <div class="my_profile_setting_container active_my_page">
-                <img src="../../static/svg/myPage_user_icon.svg" alt="" class="sideBar_icon">
-                <div class="my_page_menu bold">프로필 관리</div>
-            </div>
-
-            <!-- 내가 찜한 상품 -->
-            <div class="my_wish_list_container">
-                <img src="../../static/svg/heart_icon.svg" alt="" class="sideBar_icon">
-                <div class="my_page_menu bold">내가 찜한 상품</div>
-            </div>
-
-            <!-- 회원 탈퇴 -->
-            <div class="user_secession_container">
-                <img src="../../static/svg/myPage_secession_icon.svg" alt="" class="sideBar_icon">
-                <div class="my_page_menu bold">회원 탈퇴</div>
-            </div>
-        </div>
-
+        <th:block th:replace="~{myPage/myPage_sideBar}">myPage_sideBar.html</th:block>
 
         <div class="secession_container">
 
             <div class="center_logo">
-                <img src="../../static/images/common/logo_basic.png" alt="">
+                <img th:src="@{/common/logo_basic.png}" alt="">
             </div>
 
-            <!-- 회원 탈퇴 약관 박스 -->
-            <div class="secession_text_box">
-                <div class="secession_title">회원 탈퇴 약관</div>
-                <div class="font-18px">1. 회원은 언제든지 서비스 내에서 회원 탈퇴를 요청할 수 있습니다.</div>
-                <div class="font-18px">2. 회원 탈퇴 시, 회원의 개인정보는 관련 법령 및 개인정보처리방침에 따라 처리됩니다.</div>
-                <div class="font-18px">3. 회원 탈퇴 후에는 해당 계정으로 서비스 이용이 불가능합니다.</div>
-                <div class="font-18px">4. 회원 탈퇴로 인해 발생하는 불이익에 대해 회사는 책임을 지지 않습니다.</div>
-            </div>
+            <form th:action="@{/myPage/secession}" method="POST" onsubmit="return secessionValidate()">
 
-            <!-- 회원 탈퇴 동의 -->
-            <div class="secession_agree">
-                <input type="checkbox" id="secession_check">
-                <label for="secession_check">[필수] 회원 탈퇴에 따른 개인정보 처리 및 서비스 이용 제한 사항을 확인하였으며, 이에 동의합니다.</label>
-            </div>
+                <!-- 회원 탈퇴 약관 박스 -->
+                <div class="secession_text_box">
+                    <div class="secession_title">회원 탈퇴 약관</div>
+                    <div class="font-18px">1. 회원은 언제든지 서비스 내에서 회원 탈퇴를 요청할 수 있습니다.</div>
+                    <div class="font-18px">2. 회원 탈퇴 시, 회원의 개인정보는 관련 법령 및 개인정보처리방침에 따라 처리됩니다.</div>
+                    <div class="font-18px">3. 회원 탈퇴 후에는 해당 계정으로 서비스 이용이 불가능합니다.</div>
+                    <div class="font-18px">4. 회원 탈퇴로 인해 발생하는 불이익에 대해 회사는 책임을 지지 않습니다.</div>
+                </div>
 
-            <!-- 탈퇴 버튼 -->
-            <div class="secession_btn">
-                <button>회원 탈퇴</button>
-            </div>
+                <!-- 회원 탈퇴 동의 -->
+                <div class="secession_agree">
+                    <input type="checkbox" id="secession_check">
+                    <label for="secession_check">[필수] 회원 탈퇴에 따른 개인정보 처리 및 서비스 이용 제한 사항을 확인하였으며, 이에 동의합니다.</label>
+                </div>
+
+                <!-- 탈퇴 버튼 -->
+                <div class="secession_btn">
+                    <button>회원 탈퇴</button>
+                </div>
+            </form>
         </div>
 
-    </div>
+        <script>
+            function secessionValidate() {
+                const checkBox = document.getElementById("secession_check");
 
+                // 1. 체크박스 체크 여부 확인
+                if (!checkBox.checked) {
+                    alert("약관에 동의해주세요.");
+                    return false; // 전송 막기
+                }
 
+                return confirm("정말로 탈퇴하시겠습니까? 탈퇴 후 복구할 수 없습니다.");
+            }
+        </script>
 </body>
 
 </html>

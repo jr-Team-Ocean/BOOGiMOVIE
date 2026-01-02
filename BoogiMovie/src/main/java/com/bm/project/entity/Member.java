@@ -23,10 +23,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Builder
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // JPA 스펙상 필수
 @AllArgsConstructor
 @DynamicInsert // INSERT 시 작성한 값만 SQL에 포함, 나머지 default 활용

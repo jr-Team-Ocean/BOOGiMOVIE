@@ -44,6 +44,11 @@ body {
 
 }
 
+.user_info_container div > img {
+    width: 130px;
+    height: 130px;
+}
+
 /* 정보 간격 */
 .user_info_container div {
     padding: 1px 0 1px 0;

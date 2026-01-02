@@ -23,5 +23,6 @@ public interface MemberRepository extends JpaRepository<Member, Long>{
 	
 //	// 소셜 로그인
 //	Optional<Member> findByEmail(String memberEmail);
+	
 
 }

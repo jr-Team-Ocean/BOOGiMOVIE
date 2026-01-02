@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -23,10 +23,10 @@
             <!-- 사용자 정보 -->
             <div class="user_info_container">
                 <div class="font-24px bold">내 정보</div>
-                <div><img th:src="@{/images/myPage/curvy.png}" alt=""></div>
-                <div class="font-20px bold">하멍멍</div>
-                <div class="gray font-18px">hameong</div>
-                <div class="gray font-14px">2025-12-10 가입</div>
+                <div><img th:src="${memberInfo.profilePath}" alt=""></div>
+                <div class="font-20px bold" th:text="${memberInfo.memberNickName}">하멍멍</div>
+                <div class="gray font-18px" th:text="${memberInfo.getMemberId}">hameong</div>
+                <div class="gray font-14px" th:text="${memberInfo.enrollDate}">2025-12-10 가입</div>
                 <button class="profile_update_btn bold font-16px">프로필 수정</button>
             </div>
 
