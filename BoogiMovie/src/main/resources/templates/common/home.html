@@ -159,6 +159,13 @@
     <th:block th:replace="~{common/footer}">footer.html</th:block>
 
     <script th:src="@{/js/common/home.js}"></script>
+    <script th:inline="javascript">
+        var message = /*[[${message}]]*/ null;
+
+        if (message) {
+            alert(message);
+        }
+    </script>
 
 </body>
 
