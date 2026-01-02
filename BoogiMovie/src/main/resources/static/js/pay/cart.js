@@ -204,4 +204,13 @@ document.addEventListener("DOMContentLoaded", () => {
             location.href = "/books"; 
         });
     }
+
+    /* 장바구니에 상품이 없는 경우 홈으로 버튼 */
+    const goHome = document.querySelector(".go_home");
+
+    if (goHome) {
+        goHome.addEventListener("click", function() {
+            location.href = "/"; 
+        });
+    }
 });
