@@ -1,10 +1,14 @@
 package com.bm.project.dto;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import com.bm.project.entity.Member;
 import com.bm.project.entity.MemberSocial;
 import com.bm.project.enums.CommonEnums.SocialProvider;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -77,6 +81,30 @@ public class MemberDto {
 		private String memberEmail;
 		private String memberNickName;
 		private String profilePath;
+		
+	}
+	
+	// 마이페이지에서 보여줄 회원 정보
+	@Getter @Builder @ToString
+	public static class MemberInfo {
+		private Long memberNo;
+		private String memberId;
+		private String memberNickName;
+		private String enrollDate;
+		private String memberPhone;
+		private String profilePath;
+		
+		// Entity -> DTO
+		public static MemberInfo infoToDto(Member member) {
+			return MemberInfo.builder()
+			.memberNo(member.getMemberNo())
+			.memberId(member.getMemberId())
+			.memberNickName(member.getMemberNickName())
+			.enrollDate(member.getEnrollDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd 가입"))) // 2026-01-01 가입
+			.memberPhone(member.getMemberPhone())
+			.profilePath(member.getProfilePath())
+			.build();
+		}
 		
 	}
 	

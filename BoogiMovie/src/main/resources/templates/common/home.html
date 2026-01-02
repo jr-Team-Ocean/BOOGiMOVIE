@@ -43,86 +43,22 @@
                     <!-- 슬라이드 할 영역 -->
                     <div class="slide_area">
                         <!-- 상품 카드 (상품 하나) -->
-                        <a th:href="@{#}" class="a_deco">
-                            <div class="product_card">
-                                <div><img th:src="@{/images/cart/mock_book1.png}"></div>
-                                <div class="product_title">개발자 생존법</div>
-                                <div class="info_gray">저자</div>
-                                <div class="info_gray">출판사</div>
-                            </div>
-                        </a>
-                        <a th:href="@{#}" class="a_deco">
-                            <div class="product_card">
-                                <div><img th:src="@{/images/cart/mock_book1.png}"></div>
-                                <div class="product_title">개발자 생존법</div>
-                                <div class="info_gray">저자</div>
-                                <div class="info_gray">출판사</div>
-                            </div>
-                        </a>
-                        <a th:href="@{#}" class="a_deco">
-                            <div class="product_card">
-                                <div><img th:src="@{/images/cart/mock_book1.png}"></div>
-                                <div class="product_title">개발자 생존법</div>
-                                <div class="info_gray">저자</div>
-                                <div class="info_gray">출판사</div>
-                            </div>
-                        </a>
-                        <a th:href="@{#}" class="a_deco">
-                            <div class="product_card">
-                                <div><img th:src="@{/images/cart/mock_book1.png}"></div>
-                                <div class="product_title">개발자 생존법</div>
-                                <div class="info_gray">저자</div>
-                                <div class="info_gray">출판사</div>
-                            </div>
-                        </a>
-                        <a th:href="@{#}" class="a_deco">
-                            <div class="product_card">
-                                <div><img th:src="@{/images/cart/mock_book1.png}"></div>
-                                <div class="product_title">개발자 생존법</div>
-                                <div class="info_gray">저자</div>
-                                <div class="info_gray">출판사</div>
-                            </div>
-                        </a>
-                        <a th:href="@{#}" class="a_deco">
-                            <div class="product_card">
-                                <div><img th:src="@{/images/cart/mock_book1.png}"></div>
-                                <div class="product_title">개발자 생존법</div>
-                                <div class="info_gray">저자</div>
-                                <div class="info_gray">출판사</div>
-                            </div>
-                        </a>
-                        <a th:href="@{#}" class="a_deco">
-                            <div class="product_card">
-                                <div><img th:src="@{/images/cart/mock_book1.png}"></div>
-                                <div class="product_title">개발자 생존법</div>
-                                <div class="info_gray">저자</div>
-                                <div class="info_gray">출판사</div>
-                            </div>
-                        </a>
-                        <a th:href="@{#}" class="a_deco">
-                            <div class="product_card">
-                                <div><img th:src="@{/images/cart/mock_book1.png}"></div>
-                                <div class="product_title">개발자 생존법</div>
-                                <div class="info_gray">저자</div>
-                                <div class="info_gray">출판사</div>
-                            </div>
-                        </a>
-                        <a th:href="@{#}" class="a_deco">
-                            <div class="product_card">
-                                <div><img th:src="@{/images/cart/mock_book1.png}"></div>
-                                <div class="product_title">개발자 생존법</div>
-                                <div class="info_gray">저자</div>
-                                <div class="info_gray">출판사</div>
-                            </div>
-                        </a>
-                        <a th:href="@{#}" class="a_deco">
-                            <div class="product_card">
-                                <div><img th:src="@{/images/cart/mock_book1.png}"></div>
-                                <div class="product_title">개발자 생존법</div>
-                                <div class="info_gray">저자</div>
-                                <div class="info_gray">출판사</div>
-                            </div>
-                        </a>
+
+                        <th:block th:if="${#lists.size(topOrderProducts) > 0}">
+
+                            <th:block th:each="orders : ${topOrderProducts}">
+                                <!-- 도서/영화에 따라 url 주소 나누기 -->
+                                <a th:href="@{|/${orders.typeCode == 1 ? 'books' : 'movies'}/${orders.productNo}|}" class="a_deco">
+                                    <div class="product_card">
+                                        <div><img th:src="${orders.imgPath}"></div>
+                                        <div class="product_title" th:text="${orders.productTitle}">제품명</div>
+                                        <div class="info_gray" th:text="${orders.creator}">저자 또는 감독</div>
+                                        <div class="info_gray" th:text="${orders.company}">출판사 또는 제작사</div>
+                                    </div>
+                                </a>
+                            </th:block>
+
+                        </th:block>
 
                     </div>
                 </div>
@@ -150,47 +86,22 @@
                     <!-- 슬라이드 할 영역 -->
                     <div class="slide_area">
                         <!-- 상품 카드 (상품 하나) -->
-                        <a th:href="@{#}" class="a_deco">
-                            <div class="product_card">
-                                <div><img th:src="@{/images/cart/mock_book1.png}"></div>
-                                <div class="product_title">개발자 생존법</div>
-                                <div class="info_gray">저자</div>
-                                <div class="info_gray">출판사</div>
-                            </div>
-                        </a>
-                        <a th:href="@{#}" class="a_deco">
-                            <div class="product_card">
-                                <div><img th:src="@{/images/cart/mock_book1.png}"></div>
-                                <div class="product_title">개발자 생존법</div>
-                                <div class="info_gray">저자</div>
-                                <div class="info_gray">출판사</div>
-                            </div>
-                        </a>
-                        <a th:href="@{#}" class="a_deco">
-                            <div class="product_card">
-                                <div><img th:src="@{/images/cart/mock_book1.png}"></div>
-                                <div class="product_title">개발자 생존법</div>
-                                <div class="info_gray">저자</div>
-                                <div class="info_gray">출판사</div>
-                            </div>
-                        </a>
-                        <a th:href="@{#}" class="a_deco">
-                            <div class="product_card">
-                                <div><img th:src="@{/images/cart/mock_book1.png}"></div>
-                                <div class="product_title">개발자 생존법</div>
-                                <div class="info_gray">저자</div>
-                                <div class="info_gray">출판사</div>
-                            </div>
-                        </a>
-                        <a th:href="@{#}" class="a_deco">
-                            <div class="product_card">
-                                <div><img th:src="@{/images/cart/mock_book1.png}"></div>
-                                <div class="product_title">개발자 생존법</div>
-                                <div class="info_gray">저자</div>
-                                <div class="info_gray">출판사</div>
-                            </div>
-                        </a>
+                        
+                        <th:block th:if="${#lists.size(topBooks) > 0}">
+                            <th:block th:each="books : ${topBooks}">
 
+                                <a th:href="@{/books/{productNo}(productNo=${books.productNo})}" class="a_deco">
+                                    <div class="product_card">
+                                        <div><img th:src="${books.imgPath}"></div>
+                                        <div class="product_title" th:text="${books.productTitle}">도서명</div>
+                                        <div class="info_gray" th:text="${books.creator}">저자</div>
+                                        <div class="info_gray" th:text="${books.company}">출판사</div>
+                                    </div>
+                                </a>
+
+                            </th:block>
+
+                        </th:block>
                     </div>
                 </div>
 
@@ -217,47 +128,21 @@
                     <!-- 슬라이드 할 영역 -->
                     <div class="slide_area">
                         <!-- 상품 카드 (상품 하나) -->
-                        <a th:href="@{#}" class="a_deco">
-                            <div class="product_card">
-                                <div><img th:src="@{/images/cart/mock_book1.png}"></div>
-                                <div class="product_title">개발자 생존법</div>
-                                <div class="info_gray">저자</div>
-                                <div class="info_gray">출판사</div>
-                            </div>
-                        </a>
-                        <a th:href="@{#}" class="a_deco">
-                            <div class="product_card">
-                                <div><img th:src="@{/images/cart/mock_book1.png}"></div>
-                                <div class="product_title">개발자 생존법</div>
-                                <div class="info_gray">저자</div>
-                                <div class="info_gray">출판사</div>
-                            </div>
-                        </a>
-                        <a th:href="@{#}" class="a_deco">
-                            <div class="product_card">
-                                <div><img th:src="@{/images/cart/mock_book1.png}"></div>
-                                <div class="product_title">개발자 생존법</div>
-                                <div class="info_gray">저자</div>
-                                <div class="info_gray">출판사</div>
-                            </div>
-                        </a>
-                        <a th:href="@{#}" class="a_deco">
-                            <div class="product_card">
-                                <div><img th:src="@{/images/cart/mock_book1.png}"></div>
-                                <div class="product_title">개발자 생존법</div>
-                                <div class="info_gray">저자</div>
-                                <div class="info_gray">출판사</div>
-                            </div>
-                        </a>
-                        <a th:href="@{#}" class="a_deco">
-                            <div class="product_card">
-                                <div><img th:src="@{/images/cart/mock_book1.png}"></div>
-                                <div class="product_title">개발자 생존법</div>
-                                <div class="info_gray">저자</div>
-                                <div class="info_gray">출판사</div>
-                            </div>
-                        </a>
 
+                        <th:block th:if="${#lists.size(topMovies) > 0}">
+                            <th:block th:each="movies : ${topMovies}">
+                        
+                                <a th:href="@{/movies/{productNo}(productNo=${movies.productNo})}" class="a_deco">
+                                    <div class="product_card">
+                                        <div><img th:src="${movies.imgPath}"></div>
+                                        <div class="product_title" th:text="${movies.productTitle}">영화명</div>
+                                        <div class="info_gray" th:text="${movies.creator}">감독</div>
+                                        <div class="info_gray" th:text="${movies.company}">제작사</div>
+                                    </div>
+                                </a>
+                        
+                            </th:block>
+                        </th:block>
                     </div>
                 </div>
 
@@ -274,6 +159,13 @@
     <th:block th:replace="~{common/footer}">footer.html</th:block>
 
     <script th:src="@{/js/common/home.js}"></script>
+    <script th:inline="javascript">
+        var message = /*[[${message}]]*/ null;
+
+        if (message) {
+            alert(message);
+        }
+    </script>
 
 </body>
 

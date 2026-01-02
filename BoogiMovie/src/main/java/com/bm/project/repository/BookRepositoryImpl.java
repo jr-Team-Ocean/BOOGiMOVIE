@@ -149,7 +149,7 @@ public class BookRepositoryImpl implements BookRepository{
 	}
 
 
-
+	// 도서 검색 조회
 	@Override
 	public Page<Product> searchBookList(Map<String, Object> paramMap, Pageable pageable) {
 		
