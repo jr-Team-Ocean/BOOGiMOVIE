@@ -576,3 +576,44 @@ main {
 #resultArea::-webkit-scrollbar-thumb:hover {
     background: #a8a8a8;
 }
+
+.header_nav_search {
+    position: relative; /* 자식 요소인 resultArea의 기준점 */
+}
+
+#resultArea {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    z-index: 999; /* 다른 요소보다 앞에 표시 */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.result-row {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.result-row:hover {
+    background-color: #f5f5f5;
+}
+
+.result-row img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+}

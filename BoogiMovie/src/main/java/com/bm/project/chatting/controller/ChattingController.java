@@ -53,14 +53,17 @@ public class ChattingController {
 			
 	}
 			
-	// 채팅방 입장 (없으면 생성)
+	// 채팅방 입장 (해당 채팅방 번호 반환)
 	@GetMapping("/chatting/enter")
 	@ResponseBody
-	public int chattingEnter(int targetNo, @SessionAttribute("loginMember") LoginResult loginMember) {
+	public int chattingEnter(
+			int targetNo,
+			@SessionAttribute("loginMember") LoginResult loginMember) {
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("targetNo", targetNo);
-		map.put("loginMember", loginMember.getMemberNo());
+		// ✅ 수정: loginMember → loginMemberNo (XML과 일치)
+		map.put("loginMemberNo", loginMember.getMemberNo());
 		
 		return service.checkChattingNo(map);
 	}
@@ -81,7 +84,7 @@ public class ChattingController {
 	}
 	
 	// 채팅방 메세지 목록 조회
-	@GetMapping(value="/chatting/selectMessageLIst", produces="application/json; charset=UTF-8")
+	@GetMapping(value="/chatting/selectMessageList", produces="application/json; charset=UTF-8")
 	@ResponseBody
 	public List<ChattingMessage> selectMessageList(@RequestParam Map<String, Object> paramMap){
 		return service.selectMessageList(paramMap);
