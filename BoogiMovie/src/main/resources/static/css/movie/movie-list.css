@@ -115,11 +115,7 @@
 }
 
 /* 전체/국내영화/해외영화 리스트 부분 */
-.movie-list {
-    display: none;
-}
-
-.movie-list.active {
+.movie-list{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -197,5 +193,13 @@
     color: #5170B0;
     font-weight: bold;
     font-size: 20px;
+    text-decoration: none;
+}
+
+.pagination-link.active{
+    color: #082A71;
+    font-weight: bold;
+    font-size: 20px;
+    text-decoration: none;
 }
 
