@@ -42,87 +42,67 @@
                 </div>
 
                 <!-- 아이템 없는 경우 -->
-                <!-- <div class="no_item_container hide">
-                     <div class="no_item_icon">
-                         <img th:src="@{/svg/danger_icon.svg}" alt="">
+                <th:block th:if="${#lists.size(cartList) == 0}">
+                    <div class="no_item_container hide">
+                         <div class="no_item_icon">
+                             <img th:src="@{/svg/danger_icon.svg}" alt="">
+                         </div>
+             
+                         <div class="no_item_text font-18px">장바구니에 담긴 상품이 없습니다.</div>
+             
+                         <button class="go_home bold font-18px">홈으로</button>
                      </div>
-         
-                     <div class="no_item_text font-18px">장바구니에 담긴 상품이 없습니다.</div>
-         
-                     <button class="go_home bold font-18px">홈으로</button>
-                 </div> -->
+                </th:block>
 
                 <!-- 아이템 있는 경우 -->
                 <!-- 아이템 하나 -->
-                <div class="cart-item">
-                    <div class="check-area">
-                        <!-- 개별 아이템 선택 체크박스 -->
-                        <input type="checkbox" class="product_del_checkbox">
-                    </div>
+                <th:block th:if="${#lists.size(cartList) > 0}">
 
-                    <div class="image-area">
-                        <img th:src="@{/images/cart/mock_book1.png}" alt="상품 이미지">
-                    </div>
+                    <th:block th:each="item : ${cartList}">
 
-                    <div class="info-area">
-
-                        <div class="item-header">
-                            <!-- [도서 / 영화 / 중고도서] 조건 나눠서 대괄호 안에 넣어줘야 함 -->
-                            <h3 class="product_title">[도서] 개발자 생존법</h3>
-                            <button class="delete_btn">삭제</button>
-                        </div>
-
-                        <div class="product_price">18,200원</div>
-
-                        <div class="quantity-control">
-                            <span>수량</span>
-                            <div class="inputs">
-                                <button class="quantity_minus">-</button>
-                                <input type="text" value="1" readonly class="quantity_input">
-                                <button class="quantity_plus">+</button>
+                        <div class="cart-item">
+                            <div class="check-area">
+                                <!-- 개별 아이템 선택 체크박스 -->
+                                <input type="checkbox" class="product_del_checkbox">
                             </div>
-                            <span>개</span>
-                        </div>
 
-                    </div>
-                </div>
-
-                <div class="cart-item">
-                    <div class="check-area">
-                        <input type="checkbox" class="product_del_checkbox">
-                    </div>
-
-                    <div class="image-area">
-                        <img th:src="@{/images/cart/mock_book2.png}" alt="상품 이미지">
-                    </div>
-
-                    <div class="info-area">
-
-                        <div class="item-header">
-                            <!-- [도서 / 영화 / 중고도서] 조건 나눠서 대괄호 안에 넣어줘야 함 -->
-                            <h3 class="product_title">[영화] 루퍼</h3>
-                            <button class="delete_btn">삭제</button>
-                        </div>
-
-                        <div class="product_price">7,000원</div>
-
-                        <div class="quantity-control">
-                            <span>수량</span>
-                            <div class="inputs">
-                                <button class="quantity_minus">-</button>
-                                <input type="text" value="1" readonly class="quantity_input">
-                                <button class="quantity_plus">+</button>
+                            <div class="image-area">
+                                <img th:src="${item.imgPath}" alt="상품 이미지">
                             </div>
-                            <span>개</span>
+
+                            <div class="info-area">
+
+                                <div class="item-header">
+                                    <!-- [도서 / 영화 / 중고도서] 조건 나눠서 대괄호 안에 넣어줘야 함 -->
+                                    <h3 class="product_title" th:text="${item.productTitle}">상품명</h3>
+                                    <button class="delete_btn">삭제</button>
+                                </div>
+
+                                <div class="product_price" th:text="|${#numbers.formatInteger(item.productPrice, 1, 'COMMA')}원|">가격</div>
+
+                                <div class="quantity-control">
+                                    <span>수량</span>
+                                    <div class="inputs">
+                                        <button class="quantity_minus">-</button>
+                                        <input type="text" th:value="${item.quantity}" class="quantity_input">
+                                        <button class="quantity_plus">+</button>
+                                    </div>
+                                    <span>개</span>
+                                </div>
+
+                            </div>
                         </div>
 
-                    </div>
-                </div>
+                    </th:block>
+                </th:block>
+
 
                 <!-- 쇼핑 계속하기 -->
-                 <div class="continue_shopping_area">
-                     <button class="continue_shopping_btn bold font-18px">쇼핑 계속하기</button>
-                 </div>
+                <th:block th:if="${#lists.size(cartList) > 0}">
+                    <div class="continue_shopping_area">
+                        <button class="continue_shopping_btn bold font-18px">쇼핑 계속하기</button>
+                    </div>
+                </th:block>
             </div>
 
             <!-- 오른쪽 상품 금액 및 주문하기 영역 -->
@@ -159,12 +139,10 @@
 
     <th:block th:replace="~{common/footer}">footer.html</th:block>
 
-    <!-- 포트원 시크릿키 -->
-    <input type="hidden" id="portone-store-id" th:value="${storeId}">
-    <input type="hidden" id="portone-channel-key" th:value="${channelKey}">
-    
-    <!-- <script th:src="@{/js/pay/cart.js}"></script> -->
-    <script th:src="@{/js/pay/productPayment.js}"></script>
+
+
+    <script th:src="@{/js/pay/cart.js}"></script>
+    <!-- <script th:src="@{/js/pay/productPayment.js}"></script> -->
 </body>
 
 </html>

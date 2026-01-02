@@ -26,7 +26,7 @@ public class HomeDto {
 		private Long likeCount; // 좋아요 수
 		
 		// 인터페이스 -> DTO
-		public static HomeLike convertToLikeDto(HomeLikeDto raw) {
+		public static HomeLike convertToLikeDto(IHomeLikeDto raw) {
 	        return HomeLike.builder()
 	                .productNo(raw.getProductNo())
 	                .productTitle(raw.getProductTitle())
@@ -55,7 +55,7 @@ public class HomeDto {
 		private Long orderCount; // 주문 건수
 		
 		// 인터페이스 -> DTO
-		public static HomeOrder convertToOrderDto(HomeOrderDto raw) {
+		public static HomeOrder convertToOrderDto(IHomeOrderDto raw) {
 	        return HomeOrder.builder()
 	                .productNo(raw.getProductNo())
 	                .productTitle(raw.getProductTitle())

@@ -1,7 +1,7 @@
 package com.bm.project.dto;
 
 // 네이티브 쿼리 사용시 필요
-public interface HomeOrderDto {
+public interface IHomeOrderDto {
 	Long getProductNo();
     String getProductTitle();
     String getImgPath();
