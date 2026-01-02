@@ -85,10 +85,11 @@ public class SecurityConfig {
                         ).permitAll()
             		
             		// 로그인 해야만 접근할 수 있는 곳 (글쓰기 등 경로 더 작성하면 됨)
-            		.requestMatchers("/home/**"
+            		.requestMatchers("/myPage/**", "/cart"
             				).authenticated()
             		
             		.anyRequest().permitAll() // 위 경로 제외 다른 곳들은 자유롭게 접근 가능
+            		// .authenticated()로 변경 해야할 듯
         		)
             
             // 일반 로그인

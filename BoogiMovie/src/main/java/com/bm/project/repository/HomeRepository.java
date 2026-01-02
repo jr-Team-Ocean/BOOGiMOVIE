@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.bm.project.dto.HomeLikeDto;
-import com.bm.project.dto.HomeOrderDto;
+import com.bm.project.dto.IHomeLikeDto;
+import com.bm.project.dto.IHomeOrderDto;
 import com.bm.project.entity.Product;
 
 public interface HomeRepository extends JpaRepository<Product, Long> {
@@ -43,7 +43,7 @@ public interface HomeRepository extends JpaRepository<Product, Long> {
 	        "ORDER BY orderCount DESC, productNo DESC " +
 	        "FETCH FIRST 10 ROWS ONLY",
 	        nativeQuery = true)
-	List<HomeOrderDto> getPopularProducts();
+	List<IHomeOrderDto> getPopularProducts();
 	
  
 	// 인기 도서 및 영화 조회 (좋아요 개수 기준)
@@ -69,7 +69,7 @@ public interface HomeRepository extends JpaRepository<Product, Long> {
 	        "ORDER BY likeCount DESC, p.PRODUCT_NO DESC " +
 	        "FETCH FIRST 5 ROWS ONLY", 
 	        nativeQuery = true)
-	List<HomeLikeDto> findTop5Products(@Param("typeCode") Long typeCode,
+	List<IHomeLikeDto> findTop5Products(@Param("typeCode") Long typeCode,
 									@Param("creatorCode") Long creatorCode,
 									@Param("companyCode") Long companyCode);
 

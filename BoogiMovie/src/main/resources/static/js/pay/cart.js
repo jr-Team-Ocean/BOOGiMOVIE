@@ -192,4 +192,25 @@ document.addEventListener("DOMContentLoaded", () => {
         finalPrice.innerText = lastTotal.toLocaleString() + "원";
 
     }
+
+    /* ===================================================================== */
+    /* ===================================================================== */
+
+    /* 쇼핑 계속하기 버튼 */
+    const continueBtn = document.querySelector(".continue_shopping_btn");
+
+    if (continueBtn) {
+        continueBtn.addEventListener("click", function() {
+            location.href = "/books"; 
+        });
+    }
+
+    /* 장바구니에 상품이 없는 경우 홈으로 버튼 */
+    const goHome = document.querySelector(".go_home");
+
+    if (goHome) {
+        goHome.addEventListener("click", function() {
+            location.href = "/"; 
+        });
+    }
 });
