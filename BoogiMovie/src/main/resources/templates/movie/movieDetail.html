@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../static/css/common/header.css">
-    <link rel="stylesheet" href="../../static/css/common/footer.css">
-    <link rel="stylesheet" href="../../static/css/movie/movie-detail.css">
+    <link rel="stylesheet" th:href="@{/css/common/header.css}">
+    <link rel="stylesheet" th:href="@{/css/common/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/movie/movie-detail.css}">
 
     <!-- 폰트 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,46 +19,7 @@
 </head>
 <body>
     <!-- 헤더 -->
-    <div class="header_container">
-        <div class="blue_background">
-            <div class="header_inner">
-                <div class="header_category">
-                    <!-- 선택에 따른 효과 - 타임리프(경로에 따른 효과 주기로 변경 예정) -->
-                    <div class="header_active"><a href="#" class="white font-18px">홈</a></div>
-                    <div><a href="#" class="white font-18px">도서</a></div>
-                    <div><a href="#" class="white font-18px">중고도서</a></div>
-                    <div><a href="#" class="white font-18px">영화</a></div>
-                </div>
-
-                <div class="header_login">
-                    <div><a href="#" class="white font-18px">로그인</a></div>
-                    <div><a href="#" class="white font-18px">회원가입</a></div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- 로고 및 검색바 -->
-    <div class="logo_search_container">
-        <!-- 로고 -->
-        <div class="logo_container">
-            <a href="#"><img src="../../static/images/common/logo_basic.png" alt=""></a>
-        </div>
-
-        <!-- 검색바 전체 자리 -->
-        <div class="search_container">
-            <!-- 검색 아이콘 -->
-            <div class="search_icon">
-                <img src="../../static/svg/search_icon.svg" alt="">
-            </div>
-
-            <!-- 검색란 -->
-            <div class="search_input">
-                <input type="text" placeholder="원하는 작품을 검색해 보세요!">
-            </div>
-        </div>
-    </div>
+    <th:block th:replace="~{common/header}">header.html</th:block>
 
     <main class="main">
         <section class="movie-category-path">
@@ -76,7 +37,7 @@
         <section class="movie-detail-main">
             <!-- 영화 대표 이미지 -->
             <div class="img-area">
-                <img class="movie-cover" src="../../static/images/movie/movie_sample_img2.png">
+                <img class="movie-cover" th:src="@{/images/movie/movie_sample_img2.png}">
             </div>
 
             <div class="detail-area">
@@ -155,31 +116,31 @@
                     <section id="book">
                         <h4>연관 도서 추천</h4>
                         <div class="book-row">
-                            <a href="#" class="related">
+                            <a th:href="@{#}" class="related">
                                 <img src="https://cf.lottecinema.co.kr//Media/MovieFile/MovieImg/202512/23712_201_1.jpg">
                                 <p>오늘밤, 세계에서 이 사랑이 사라진다 해도</p>
                                 <p>김혜영</p>
                                 <p>18,000원</p>
                             </a>
-                            <a href="#" class="related">
+                            <a th:href="@{#}" class="related">
                                 <img src="https://cf.lottecinema.co.kr//Media/MovieFile/MovieImg/202512/23712_201_1.jpg">
                                 <p>오늘밤, 세계에서 이 사랑이 사라진다 해도</p>
                                 <p>김혜영</p>
                                 <p>18,000원</p>
                             </a>
-                            <a href="#" class="related">
+                            <a th:href="@{#}" class="related">
                                 <img src="https://cf.lottecinema.co.kr//Media/MovieFile/MovieImg/202512/23712_201_1.jpg">
                                 <p>오늘밤, 세계에서 이 사랑이 사라진다 해도</p>
                                 <p>김혜영</p>
                                 <p>18,000원</p>
                             </a>
-                            <a href="#" class="related">
+                            <a th:href="@{#}" class="related">
                                 <img src="https://cf.lottecinema.co.kr//Media/MovieFile/MovieImg/202512/23712_201_1.jpg">
                                 <p>오늘밤, 세계에서 이 사랑이 사라진다 해도</p>
                                 <p>김혜영</p>
                                 <p>18,000원</p>
                             </a>
-                            <a href="#" class="related">
+                            <a th:href="@{#}" class="related">
                                 <img src="https://cf.lottecinema.co.kr//Media/MovieFile/MovieImg/202512/23712_201_1.jpg">
                                 <p>오늘밤, 세계에서 이 사랑이 사라진다 해도</p>
                                 <p>김혜영</p>
@@ -194,31 +155,31 @@
                     <section id="actor">
                         <h4>출연배우 작품 추천</h4>
                         <div class="book-row">
-                            <a href="#" class="related">
+                            <a th:href="@{#}" class="related">
                                 <img src="https://cf.lottecinema.co.kr//Media/MovieFile/MovieImg/202512/23712_201_1.jpg">
                                 <p>오늘밤, 세계에서 이 사랑이 사라진다 해도</p>
                                 <p>김혜영</p>
                                 <p>18,000원</p>
                             </a>
-                            <a href="#" class="related">
+                            <a th:href="@{#}" class="related">
                                 <img src="https://cf.lottecinema.co.kr//Media/MovieFile/MovieImg/202512/23712_201_1.jpg">
                                 <p>오늘밤, 세계에서 이 사랑이 사라진다 해도</p>
                                 <p>김혜영</p>
                                 <p>18,000원</p>
                             </a>
-                            <a href="#" class="related">
+                            <a th:href="@{#}" class="related">
                                 <img src="https://cf.lottecinema.co.kr//Media/MovieFile/MovieImg/202512/23712_201_1.jpg">
                                 <p>오늘밤, 세계에서 이 사랑이 사라진다 해도</p>
                                 <p>김혜영</p>
                                 <p>18,000원</p>
                             </a>
-                            <a href="#" class="related">
+                            <a th:href="@{#}" class="related">
                                 <img src="https://cf.lottecinema.co.kr//Media/MovieFile/MovieImg/202512/23712_201_1.jpg">
                                 <p>오늘밤, 세계에서 이 사랑이 사라진다 해도</p>
                                 <p>김혜영</p>
                                 <p>18,000원</p>
                             </a>
-                            <a href="#" class="related">
+                            <a th:href="@{#}" class="related">
                                 <img src="https://cf.lottecinema.co.kr//Media/MovieFile/MovieImg/202512/23712_201_1.jpg">
                                 <p>오늘밤, 세계에서 이 사랑이 사라진다 해도</p>
                                 <p>김혜영</p>
@@ -233,31 +194,31 @@
                     <section id="creator">
                         <h4>감독 작품 추천</h4>
                         <div class="book-row">
-                            <a href="#" class="related">
+                            <a th:href="@{#}" class="related">
                                 <img src="https://cf.lottecinema.co.kr//Media/MovieFile/MovieImg/202512/23712_201_1.jpg">
                                 <p>오늘밤, 세계에서 이 사랑이 사라진다 해도</p>
                                 <p>김혜영</p>
                                 <p>18,000원</p>
                             </a>
-                            <a href="#" class="related">
+                            <a th:href="@{#}" class="related">
                                 <img src="https://cf.lottecinema.co.kr//Media/MovieFile/MovieImg/202512/23712_201_1.jpg">
                                 <p>오늘밤, 세계에서 이 사랑이 사라진다 해도</p>
                                 <p>김혜영</p>
                                 <p>18,000원</p>
                             </a>
-                            <a href="#" class="related">
+                            <a th:href="@{#}" class="related">
                                 <img src="https://cf.lottecinema.co.kr//Media/MovieFile/MovieImg/202512/23712_201_1.jpg">
                                 <p>오늘밤, 세계에서 이 사랑이 사라진다 해도</p>
                                 <p>김혜영</p>
                                 <p>18,000원</p>
                             </a>
-                            <a href="#" class="related">
+                            <a th:href="@{#}" class="related">
                                 <img src="https://cf.lottecinema.co.kr//Media/MovieFile/MovieImg/202512/23712_201_1.jpg">
                                 <p>오늘밤, 세계에서 이 사랑이 사라진다 해도</p>
                                 <p>김혜영</p>
                                 <p>18,000원</p>
                             </a>
-                            <a href="#" class="related">
+                            <a th:href="@{#}" class="related">
                                 <img src="https://cf.lottecinema.co.kr//Media/MovieFile/MovieImg/202512/23712_201_1.jpg">
                                 <p>오늘밤, 세계에서 이 사랑이 사라진다 해도</p>
                                 <p>김혜영</p>
@@ -305,7 +266,7 @@
                         <input type="text" placeholder="재미있게 보셨나요? 영화의 어떤 점이 좋았는지 이야기해주세요." class="review-input">
                     </div>
 
-                     <!-- 등록/취소 버튼 -->
+                    <!-- 등록/취소 버튼 -->
                     <div class="btn-area colsed">
                         <button type="submit" class="submit-btn basic">등록</button>   
                         <button type="reset" class="reset-btn basic">취소</button>
@@ -319,7 +280,7 @@
                     <section class="review-box hidden">
                         <div class="yes-review">
                             <div class="review-profile">
-                                <img src="../../static/svg/person.svg">
+                                <img th:src="@{/svg/person.svg}">
                                 <p class="review-name">유저일</p>
                             </div>
                             <div class="review-content">
@@ -352,7 +313,7 @@
     
                         <div class="yes-review">
                             <div class="review-profile">
-                                <img src="../../static/svg/person.svg">
+                                <img th:src="@{/svg/person.svg}">
                                 <p class="review-name">유저일</p>
                             </div>
                             <div class="review-content">
@@ -385,7 +346,7 @@
     
                         <div class="yes-review">
                             <div class="review-profile">
-                                <img src="../../static/svg/person.svg">
+                                <img th:src="@{/svg/person.svg}">
                                 <p class="review-name">유저일</p>
                             </div>
                             <div class="review-content">
@@ -418,7 +379,7 @@
 
                         <div class="yes-review">
                             <div class="review-profile">
-                                <img src="../../static/svg/person.svg">
+                                <img th:src="@{/svg/person.svg}">
                                 <p class="review-name">유저일</p>
                             </div>
                             <div class="review-content">
@@ -451,7 +412,7 @@
 
                         <div class="yes-review">
                             <div class="review-profile">
-                                <img src="../../static/svg/person.svg">
+                                <img th:src="@{/svg/person.svg}">
                                 <p class="review-name">유저일</p>
                             </div>
                             <div class="review-content">
@@ -493,7 +454,7 @@
                             <input type="text" value="정말 재미있네요!!" class="review-input" data-mode="edit">
                         </div>
     
-                         <!-- 등록/취소 버튼 -->
+                        <!-- 등록/취소 버튼 -->
                         <div class="btn-area">
                             <button type="submit" class="submit-btn basic">수정</button>   
                             <button type="reset" class="reset-btn basic">취소</button>
@@ -506,82 +467,8 @@
     </main>
 
     <!-- 푸터 -->
-    <footer class="footer">
-        <div class="footer-in">
+    <th:block th:replace="~{common/footer}">footer.html</th:block>
 
-            <!-- 상단 링크 -->
-            <nav class="ft-toplinks" aria-label="Ft links">
-            <a href="#">회사소개</a>
-            <span class="sep">|</span>
-            <a href="#">서비스 소개</a>
-            <span class="sep">|</span>
-            <a href="#">이용약관</a>
-            <span class="sep">|</span>
-            <a href="#">개인정보처리방침</a>
-            <span class="sep">|</span>
-            <a href="#">청소년보호정책</a>
-            <span class="sep">|</span>
-            <a href="#">채용정보</a>
-            <span class="sep">|</span>
-            <a href="#">광고문의</a>
-            </nav>
-
-            <div class="footer-main">
-            <!-- 좌측 로고 -->
-            <div class="footer-brand" aria-label="BOOGIMOVIE">
-                <img src="../../static/images/common/logo_white.png">
-            </div>
-
-            <!-- 회사 정보 -->
-            <div class="footer-info">
-                <div class="info-row">
-                <span class="info-title">(주)BOOGIMOVIE</span>
-                </div>
-
-                <div class="info-row">
-                <span>서울특별시 종로구 우정국로2길 21 9층, 903호</span>
-                </div>
-
-                <div class="info-row">
-                <span>대표자: (발신자부담) 1544-0000(부기문고) · 1661-1112(핫트랙스)</span>
-                </div>
-
-                <div class="info-row">
-                <span>이메일: boogi@naver.com</span>
-                </div>
-
-                <div class="info-row">
-                <span>대표 FAX: 2025-012-0801</span>
-                </div>
-
-                <div class="info-row">
-                <span>사업자등록번호: 102-81-11670</span>
-                </div>
-
-                <div class="info-row">
-                <span>통신판매업신고: 0000 - 서울 종로구 - 00000</span>
-                </div>
-
-                <div class="info-row">
-                <span>개인정보관리 책임자: 김무비</span>
-                </div>
-
-                <div class="info-row copyright">
-                © BOOGIMOVIE CENTRE
-                </div>
-            </div>
-
-            <!-- 우측 SNS -->
-            <div class="footer-sns" aria-label="Social links">
-                <a class="sns-btn" href="#" aria-label="KakaoTalk"><img src="../../static/svg/footer-kakao.svg" alt=""></a>
-                <a class="sns-btn" href="#" aria-label="Facebook"><img src="../../static/svg/footer-facebook.svg" alt=""></a>
-                <a class="sns-btn" href="https://www.instagram.com/dog___foooot?igsh=MTlyc3lpc3Y3c3FqMA==" aria-label="Instagram"><img src="../../static/svg/footer-instagram.svg" alt=""></a>
-                <a class="sns-btn" href="#" aria-label="YouTube"><img src="../../static/svg/footer-youtube.svg" alt=""></a>
-            </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="../../static/js/movie/movie-detail.js"></script>
+    <script th:src="@{/js/movie/movie-detail.js}"></script>
 </body>
 </html>

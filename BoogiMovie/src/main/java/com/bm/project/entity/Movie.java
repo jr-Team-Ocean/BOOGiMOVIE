@@ -27,11 +27,11 @@ import lombok.NoArgsConstructor;
 public class Movie {
 
 	@Id
-	@Column(name = "PRODCUT_NO")
-	private Long prodcutNo;
+	@Column(name = "PRODUCT_NO")
+	private Long productNo;
 	
-	@OneToOne(fetch = FetchType.LAZY)
 	@MapsId // FK 이면서 기본키(PK)로 사용
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PRODUCT_NO")
 	private Product product;
 	
