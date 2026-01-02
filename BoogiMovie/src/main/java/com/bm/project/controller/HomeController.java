@@ -22,18 +22,17 @@ public class HomeController {
 	public String homeList(Model model) {
 		
 		// 결제 많은 도서/영화 목록 조회
-		List<HomeDto> popularProducts = service.getPopularProducts();
+		List<HomeDto.HomeOrder> popularProducts = service.getPopularProducts();
 		
 		// 인기 도서 목록 조회
-		List<HomeDto> topBooks = service.getTopBooks();
-		
-		System.out.println("=== 인기 도서 목록 ===\n" + topBooks);
+		List<HomeDto.HomeLike> topBooks = service.getTopBooks();
+//		System.out.println("=== 인기 도서 목록 ===\n" + topBooks);
 		
 		// 인기 영화 목록 조회
-		List<HomeDto> topMovies = service.getTopMovies();
+		List<HomeDto.HomeLike> topMovies = service.getTopMovies();
+//		System.out.println("=== 인기 영화 목록 ===\n" + topMovies);
 		
-		System.out.println("=== 인기 영화 목록 ===\n" + topMovies);
-		
+		model.addAttribute("topOrderProducts", popularProducts);
 		model.addAttribute("topBooks", topBooks);
         model.addAttribute("topMovies", topMovies);
 		
