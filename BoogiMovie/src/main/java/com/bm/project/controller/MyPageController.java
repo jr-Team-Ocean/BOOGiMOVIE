@@ -53,7 +53,10 @@ public class MyPageController {
 	
 	// 회원 탈퇴 창으로 이동
 	@GetMapping("/secession")
-	public String secession() {
+	public String secession(Model model) {
+		
+		// 사이드바 선택 효과
+		model.addAttribute("sideBar", "secession");
 		return "myPage/secession";
 	}
 	

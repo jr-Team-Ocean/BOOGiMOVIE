@@ -22,6 +22,7 @@ a {
     align-items: flex-start;
     justify-content: center;
     width: 1200px;
+    margin-bottom: 100px;
 }
 
 /* ================================== */
@@ -140,6 +141,9 @@ a {
 .product_title {
     margin: 0;
     font-size: 16px;
+    width: 350px;
+    height: 50px;
+    line-height: 25px;
 }
 
 .delete_btn {
@@ -175,7 +179,7 @@ a {
 
 /* 쇼핑 계속하기 버튼 */
 .continue_shopping_area {
-    margin-top: 20px;
+    margin-top: 30px;
     display: flex;
     justify-content: end;
 }

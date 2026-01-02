@@ -192,4 +192,16 @@ document.addEventListener("DOMContentLoaded", () => {
         finalPrice.innerText = lastTotal.toLocaleString() + "원";
 
     }
+
+    /* ===================================================================== */
+    /* ===================================================================== */
+
+    /* 쇼핑 계속하기 버튼 */
+    const continueBtn = document.querySelector(".continue_shopping_btn");
+
+    if (continueBtn) {
+        continueBtn.addEventListener("click", function() {
+            location.href = "/books"; 
+        });
+    }
 });
