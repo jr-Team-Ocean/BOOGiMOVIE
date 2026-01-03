@@ -16,58 +16,153 @@
 	     <result property="chattingRoomId" column="CHATTING_ROOM_ID" />
 	     <result property="readYn" column="READ_YN" />
 	     <result property="senderId" column="SENDER_ID" />
-	</resultMap>
+	     <result property="imgPath" column="IMG_PATH" /> </resultMap>
 	
-	<resultMap type="com.bm.project.chatting.model.dto.ChattingImage" id="image_rm">
-	     <id property="chattingImageNo" column="CHATTING_IMAGE_NO" />
-	     <result property="messageId" column="MESSAGE_ID" />
-	     <result property="chattingImagePath" column="CHATTING_IMAGE_PATH" />	     
-	</resultMap>	
-
 	<resultMap type="com.bm.project.chatting.model.dto.ChattingRoom" id="chattingRoom_rm">
 	    <id property="chattingRoomId" column="CHATTING_ROOM_ID" />
 	    <result property="targetNo" column="TARGET_NO"/>
-	    <result property="targetNickName" column="TARGET_NICKNAME"/> <result property="targetProfile" column="TARGET_PROFILE"/>
+	    <result property="targetNickName" column="TARGET_NICKNAME"/> 
+	    <result property="targetProfile" column="TARGET_PROFILE"/>
 	    <result property="lastMessage" column="LAST_MESSAGE"/>
 	    <result property="sendTime" column="SEND_TIME"/>
 	    <result property="notReadCount" column="NOT_READ_COUNT"/>
+	    <result property="targetName" column="TARGET_NAME"/>
 	</resultMap>
 
 	<select id="selectRoomList" resultMap="chattingRoom_rm">
-    SELECT 
-        R.CHATTING_ROOM_ID, 
-        (SELECT MESSAGE_CONTENT FROM (
-            SELECT M.MESSAGE_CONTENT FROM CHATTING_MESSAGE M
-            WHERE M.CHATTING_ROOM_ID = R.CHATTING_ROOM_ID
-            ORDER BY M.MESSAGE_ID DESC) 
-            WHERE ROWNUM = 1
-        ) AS LAST_MESSAGE, 
-        (SELECT TO_CHAR(MAX(SENT_AT), 'YYYY.MM.DD') 
-         FROM CHATTING_MESSAGE M
-         WHERE M.CHATTING_ROOM_ID = R.CHATTING_ROOM_ID) AS SEND_TIME,
-        
-        CASE 
-            WHEN ADMIN_MEMBER_NO = #{loginMemberNo} THEN USER_MEMBER_NO
-            ELSE ADMIN_MEMBER_NO
-        END AS TARGET_NO,
-        
-        (SELECT MEMBER_NICKNAME FROM MEMBER 
-         WHERE MEMBER_NO = (CASE WHEN ADMIN_MEMBER_NO = #{loginMemberNo} THEN USER_MEMBER_NO ELSE ADMIN_MEMBER_NO END)
-        ) AS TARGET_NICKNAME,
-        
-        (SELECT PROFILE_PATH FROM MEMBER 
-         WHERE MEMBER_NO = (CASE WHEN ADMIN_MEMBER_NO = #{loginMemberNo} THEN USER_MEMBER_NO ELSE ADMIN_MEMBER_NO END)
-        ) AS TARGET_PROFILE,
-        
-        (SELECT COUNT(*) FROM CHATTING_MESSAGE M
-         WHERE READ_YN = 'N'
-         AND M.CHATTING_ROOM_ID = R.CHATTING_ROOM_ID
-         AND SENDER_ID != #{loginMemberNo}) AS NOT_READ_COUNT
-     
+	    SELECT
+	        R.CHATTING_ROOM_ID,
+	        (SELECT MESSAGE_CONTENT FROM (
+	            SELECT M.MESSAGE_CONTENT FROM CHATTING_MESSAGE M
+	            WHERE M.CHATTING_ROOM_ID = R.CHATTING_ROOM_ID
+	            ORDER BY M.MESSAGE_ID DESC)
+	            WHERE ROWNUM = 1
+	        ) AS LAST_MESSAGE,
+	        (SELECT TO_CHAR(MAX(SENT_AT), 'YYYY.MM.DD')
+	         FROM CHATTING_MESSAGE M
+	         WHERE M.CHATTING_ROOM_ID = R.CHATTING_ROOM_ID) AS SEND_TIME,
+	
+	        CASE
+	            WHEN ADMIN_MEMBER_NO = #{loginMemberNo} THEN USER_MEMBER_NO
+	            ELSE ADMIN_MEMBER_NO
+	        END AS TARGET_NO,
+	
+	        (SELECT MEMBER_NAME FROM MEMBER
+	         WHERE MEMBER_NO = (CASE WHEN ADMIN_MEMBER_NO = #{loginMemberNo} THEN USER_MEMBER_NO ELSE ADMIN_MEMBER_NO END)
+	        ) AS TARGET_NAME,
+	
+	        (SELECT MEMBER_NICKNAME FROM MEMBER
+	         WHERE MEMBER_NO = (CASE WHEN ADMIN_MEMBER_NO = #{loginMemberNo} THEN USER_MEMBER_NO ELSE ADMIN_MEMBER_NO END)
+	        ) AS TARGET_NICKNAME,
+	
+	        (SELECT PROFILE_PATH FROM MEMBER
+	         WHERE MEMBER_NO = (CASE WHEN ADMIN_MEMBER_NO = #{loginMemberNo} THEN USER_MEMBER_NO ELSE ADMIN_MEMBER_NO END)
+	        ) AS TARGET_PROFILE,
+	
+	        (SELECT COUNT(*) FROM CHATTING_MESSAGE M
+	         WHERE READ_YN = 'N'
+	         AND M.CHATTING_ROOM_ID = R.CHATTING_ROOM_ID
+	         AND SENDER_ID != #{loginMemberNo}) AS NOT_READ_COUNT
+	
 	    FROM CHATTING_ROOM R
 	    WHERE ADMIN_MEMBER_NO = #{loginMemberNo}
 	    OR USER_MEMBER_NO = #{loginMemberNo}
-	    ORDER BY CHATTING_ROOM_ID DESC 
+	    ORDER BY CHATTING_ROOM_ID DESC
+	</select>
+
+	<select id="checkChattingNo" resultType="_int">
+	    SELECT NVL(MAX(CHATTING_ROOM_ID), 0) 
+	    FROM CHATTING_ROOM
+	    WHERE (USER_MEMBER_NO = #{memberNo} AND ADMIN_MEMBER_NO = #{targetNo})
+        OR (USER_MEMBER_NO = #{targetNo} AND ADMIN_MEMBER_NO = #{memberNo})
+	</select>
+	
+	<insert id="createChattingRoom" parameterType="map" useGeneratedKeys="true">
+	    <selectKey order="BEFORE" resultType="_int" keyProperty="chattingNo">
+	        SELECT SEQ_ROOM_NO.NEXTVAL FROM DUAL
+	    </selectKey>
+
+	    INSERT INTO CHATTING_ROOM (CHATTING_ROOM_ID, CREATED_AT, USER_MEMBER_NO, ADMIN_MEMBER_NO)
+	    VALUES(#{chattingNo}, DEFAULT, #{memberNo}, #{targetNo})
+	</insert>
+
+	<select id="selectChattingRoom" resultMap="chattingRoom_rm">
+		SELECT CHATTING_ROOM_ID, 
+				TO_CHAR(CREATED_AT, 'YYYY-MM-DD HH24:MI:SS') AS CREATED_AT, 
+				ADMIN_MEMBER_NO,
+				USER_MEMBER_NO
+		FROM CHATTING_ROOM
+		WHERE CHATTING_ROOM_ID = #{chattingRoomId}		
+	</select>
+
+	<select id="selectMessageList" resultMap="message_rm">
+	    SELECT M.MESSAGE_ID, M.MESSAGE_CONTENT, M.READ_YN, 
+	        TO_CHAR(M.SENT_AT, 'YYYY.MM.DD HH24:MI') SENT_AT, M.SENDER_ID, M.CHATTING_ROOM_ID,
+	        I.C_IMG_PATH AS IMG_PATH
+	    FROM CHATTING_MESSAGE M
+	    LEFT JOIN CHATTING_IMG I ON (M.MESSAGE_ID = I.MESSAGE_ID)
+	    WHERE M.CHATTING_ROOM_ID = #{chattingNo} 
+	    ORDER BY M.MESSAGE_ID
+	</select>
+	
+	<insert id="insertMessage" parameterType="com.bm.project.chatting.model.dto.ChattingMessage">
+		
+	    <selectKey keyProperty="messageId" resultType="_int" order="BEFORE">
+	        SELECT SEQ_MESSAGE_NO.NEXTVAL FROM DUAL
+	    </selectKey>
+	
+		    INSERT INTO CHATTING_MESSAGE (
+		        MESSAGE_ID, 
+		        MESSAGE_CONTENT, 
+		        SENT_AT, 
+		        CHATTING_ROOM_ID, 
+		        READ_YN, 
+		        SENDER_ID
+		    )
+		    VALUES (
+		        #{messageId}, 
+		        #{messageContent}, 
+		        DEFAULT, 
+		        #{chattingRoomId}, DEFAULT, 
+		        #{senderId}        )
+	</insert>
+	
+	<insert id="insertChattingImg" parameterType="com.bm.project.chatting.model.dto.ChattingImage">
+	    INSERT INTO CHATTING_IMG (
+	        C_IMG_NO, 
+	        MESSAGE_ID, 
+	        C_IMG_PATH
+	    )
+	    VALUES (
+	        SEQ_C_IMG_NO.NEXTVAL, 
+	        #{messageId}, 
+	        #{chattingImagePath} )
+	</insert>
+	
+	<select id="getUnreadCount" resultType="_int">
+	    SELECT COUNT(*) 
+	    FROM CHATTING_MESSAGE
+	    WHERE CHATTING_ROOM_ID = #{chattingNo}
+	    AND SENDER_ID != #{memberNo}
+	    AND READ_YN = 'N'
+	</select>
+
+	<update id="updateReadFlag">
+	    UPDATE CHATTING_MESSAGE 
+	    SET READ_YN = 'Y'
+	    WHERE CHATTING_ROOM_ID = #{chattingNo}  AND SENDER_ID != #{memberNo}           
+    </update>
+
+	<select id="searchChatting" resultMap="message_rm">
+	    SELECT MESSAGE_ID, MESSAGE_CONTENT, CHATTING_ROOM_ID, SENDER_ID,
+	           TO_CHAR(SENT_AT, 'YYYY.MM.DD HH24:MI') AS SENT_AT,
+	           (SELECT COUNT(*) FROM CHATTING_MESSAGE M2 
+	            WHERE M2.CHATTING_ROOM_ID = M1.CHATTING_ROOM_ID 
+	            AND M2.MESSAGE_ID &lt;= M1.MESSAGE_ID) AS messageIndex
+	    FROM CHATTING_MESSAGE M1
+	    WHERE CHATTING_ROOM_ID = #{chattingNo}
+	    AND MESSAGE_CONTENT LIKE '%' || #{query} || '%'
+	    ORDER BY MESSAGE_ID ASC
 	</select>
 
 	<select id="selectTarget" resultMap="member_rm">
@@ -78,47 +173,23 @@
 		AND MEMBER_NO != #{memberNo}
 	</select>
 	
-	<select id="checkChattingNo" resultType="_int">
-		SELECT NVL(MAX(CHATTING_ROOM_ID), 0) FROM CHATTING_ROOM
-		WHERE (ADMIN_MEMBER_NO = #{targetNo} AND USER_MEMBER_NO = #{loginMemberNo})
-		OR (ADMIN_MEMBER_NO = #{loginMemberNo} AND USER_MEMBER_NO = #{targetNo})
+	<select id="enterAdminChat" resultType="_int">
+	    SELECT MEMBER_NO
+	    FROM "MEMBER"
+	    WHERE IS_ADMIN = 'Y' AND SECESSION_FL = 'N' ORDER BY MEMBER_NO ASC
 	</select>
 	
-	<insert id="createChattingRoom" parameterType="map" useGeneratedKeys="true">
-    	<selectKey order="BEFORE" resultType="_int" keyProperty="chattingNo">
-        	SELECT SEQ_ROOM_NO.NEXTVAL FROM DUAL
-    	</selectKey>
+	<!-- 전체 안읽음 개수 조회 (해당 회원의 모든 채팅방 합계) -->
+	<select id="getTotalUnreadCount" resultType="_int">
+	    SELECT COUNT(*) 
+	    FROM CHATTING_MESSAGE M
+	    WHERE M.CHATTING_ROOM_ID IN (
+	        SELECT CHATTING_ROOM_ID 
+	        FROM CHATTING_ROOM 
+	        WHERE ADMIN_MEMBER_NO = #{memberNo} OR USER_MEMBER_NO = #{memberNo}
+	    )
+	    AND M.SENDER_ID != #{memberNo}
+	    AND M.READ_YN = 'N'
+	</select>
 
-    	INSERT INTO CHATTING_ROOM
-   		VALUES(#{chattingNo}, DEFAULT, #{loginMemberNo}, #{targetNo})
-	</insert>
-	
-	<update id="updateReadFlag">
-		UPDATE CHATTING_MESSAGE SET
-		READ_YN = 'Y'
-		WHERE CHATTING_ROOM_ID = #{chattingNo}
-		AND SENDER_ID != #{memberNo}
-	</update>
-	
-	<select id="selectMessageList" resultMap="message_rm">
-	    SELECT MESSAGE_ID, MESSAGE_CONTENT, READ_YN, 
-	        TO_CHAR(SENT_AT, 'YYYY.MM.DD HH24:MI') SENT_AT, SENDER_ID, CHATTING_ROOM_ID
-	    FROM CHATTING_MESSAGE
-	    WHERE CHATTING_ROOM_ID = #{chattingNo} ORDER BY MESSAGE_ID
-	</select>
-	
-	<insert id="insertMessage">
-	    INSERT INTO CHATTING_MESSAGE
-	    VALUES(SEQ_MESSAGE_NO.NEXTVAL, #{messageContent}, DEFAULT, #{chattingRoomId}, DEFAULT, #{senderId})
-	</insert>
-	
-	<select id="selectChattingRoom" resultMap="chattingRoom_rm">
-		SELECT CHATTING_ROOM_ID, 
-				TO_CHAR(CREATED_AT, 'YYYY-MM-DD HH24:MI:SS') AS CREATED_AT, 
-				ADMIN_MEMBER_NO,
-				USER_MEMBER_NO
-		FROM CHATTING_ROOM
-		WHERE CHATTING_ROOM_ID = #{chattingRoomId}		
-	</select>
-	
 </mapper>
