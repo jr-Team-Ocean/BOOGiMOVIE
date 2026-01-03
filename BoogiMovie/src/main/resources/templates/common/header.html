@@ -15,22 +15,30 @@
                         <a th:href="@{/ubooks}" th:classappend="${url == 'ubooks' ? 'header_active' : ''}"><div class="white font-18px">중고도서</div></a>
                         <a th:href="@{/movies}" th:classappend="${url == 'movies' ? 'header_active' : ''}"><div class="white font-18px">영화</div></a>
                 </div>
-                    <!-- 로그인X -->
-                    <div th:unless="${session.loginMember}" class="header_login">
-                        <a th:href="@{/member/login}"><div class="white font-18px">로그인</div></a>
-                        <a th:href="@{/member/signUp}"><div class="white font-18px">회원가입</div></a>
-                    </div>
 
-                    <!-- 로그인O -->
-                    <div th:if="${session.loginMember}" class="header_login">
-                        <a th:href="@{/cart}"><div class="white font-18px">장바구니</div></a>
-                        <a th:href="@{/myPage}"><div class="white font-18px">마이페이지</div></a>
-                        <a th:href="@{/chatting}"><div class="white font-18px">1:1 문의</div></a>
-                        <a th:href="@{/member/logout}"><div class="white font-18px">로그아웃</div></a>
-                    </div>
-
+                <!-- 로그인 X -->
+                <div sec:authorize="isAnonymous()" class="header_login">
+                    <a th:href="@{/member/login}"><div class="white font-18px">로그인</div></a>
+                    <a th:href="@{/member/signUp}"><div class="white font-18px">회원가입</div></a>
                 </div>
+
+                <!-- 유저 로그인 -->
+                <div sec:authorize="hasRole('USER')" class="header_login">
+                    <a th:href="@{/cart}"><div class="white font-18px">장바구니</div></a>
+                    <a th:href="@{/myPage}"><div class="white font-18px">마이페이지</div></a>
+                    <a th:href="@{/chatting}"><div class="white font-18px">1:1 문의</div></a>
+                    <a th:href="@{/member/logout}"><div class="white font-18px">로그아웃</div></a>
+                </div>
+
+                <!-- 관리자 로그인 -->
+                <div sec:authorize="hasRole('ADMIN')" class="header_login">
+                    <a th:href="@{/admin/statistics}"><div class="white font-18px">관리자 페이지</div></a>
+                    <a th:href="@{/admin/inquiry}"><div class="white font-18px">1:1 문의</div></a>
+                    <a th:href="@{/admin/logout}"><div class="white font-18px">로그아웃</div></a>
+                </div>
+
             </div>
+        </div>
 
             <!-- 로고 및 검색바 -->
             <div class="logo_search_container">
