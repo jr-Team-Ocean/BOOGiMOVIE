@@ -8,7 +8,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.bm.project.entity.Book;
+import com.bm.project.entity.Category;
 import com.bm.project.entity.Product;
+import com.bm.project.entity.ProductTag;
+import com.bm.project.entity.ProductType;
+import com.bm.project.entity.TagCode;
 
 public interface BookRepository {
 
@@ -31,7 +35,15 @@ public interface BookRepository {
 	// 도서 상세정보 출판사 조회용
 	List<String> selectPublishersByProductNo(Long productNo);
 
-	
-	
-	
+	// 도서 카테고리 얻어오기
+	Category getReference(Class<Category> categoryEntityClass, Long categoryId);
+
+	// 도서 분류 얻어오기
+	ProductType getReference(Class<ProductType> pTypeEntityClass, long typeCode);
+
+	// 작가 출판사 번호
+	TagCode getTagCodeRef(long code);
+
+	// 상품에 태그 연결
+	void saveProductTagConnect(Product product, ProductTag tag);
 }

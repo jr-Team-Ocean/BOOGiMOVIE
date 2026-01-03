@@ -2,8 +2,6 @@ package com.bm.project.common.utility;
 
 import java.text.SimpleDateFormat;
 
-import org.jspecify.annotations.Nullable;
-
 public class Util {
 
 	public static String XSSHandling(String content) {

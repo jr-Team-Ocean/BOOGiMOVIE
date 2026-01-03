@@ -1,18 +1,23 @@
 package com.bm.project.controller;
 
+import java.io.IOException;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bm.project.dto.BookDto;
 import com.bm.project.dto.MemberDto.LoginResult;
@@ -94,12 +99,43 @@ public class BookController {
 	
 	
 	// 도서 등록 화면 전환
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/write")
 	public String bookInsert() {
 		return "book/bookWrite";
 	}
 	
-//	@PostMapping
+	// 도서 등록
+	@PostMapping("/write")
+	public String bookInsert(
+			@ModelAttribute BookDto.Create bookCreate,
+			// @RequestParam(value = "bookImage", required = true) MultipartFile image,
+			RedirectAttributes ra
+			) throws IllegalStateException, IOException {
+		
+		Long productNo = bookService.bookWrite(bookCreate);
+		
+		String message = null;
+		String path = "redirect:";
+		if (productNo > 0) {
+			// 게시글 삽입 성공 시
+			// -> 방금 삽입한 게시글의 상세 조회 페이지로 리다이렉트	
+			path += "/books/" + productNo; 
+			message = "도서 상품이 등록되었습니다.";
+			
+		} else {
+			// 게시글 삽입 실패 시
+			// -> 게시글 작성 페이지로 리다이렉트
+
+			// ==> 작성하는 요청 주소와 리다이렉트 할 주소가 똑같음 = 상대주소로 
+			path += "write";
+			message = "도서 등록에 실패하였습니다.";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		return path;
+		
+	}
 	
 	
 	

@@ -2,7 +2,6 @@ package com.bm.project.jwt.model.service;
 
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,7 +14,6 @@ import com.bm.project.jwt.model.dto.AdminDto;
 import com.bm.project.jwt.model.dto.JwtToken;
 import com.bm.project.jwt.provider.JwtTokenProvider;
 import com.bm.project.jwt.repository.JwtRepository;
-import com.nimbusds.jose.Option;
 
 import lombok.RequiredArgsConstructor;
 

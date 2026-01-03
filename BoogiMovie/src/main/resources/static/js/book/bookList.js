@@ -121,3 +121,8 @@ document.querySelectorAll('.pagination-link[data-page]').forEach(link => {
         location.href = '/books?' + params.toString();
     });
 });
+
+// 글쓰기 버튼 동작
+document.getElementById("write-btn")?.addEventListener("click", () => {
+    location.href = `${location.pathname}/write`;
+});
