@@ -1,12 +1,16 @@
 package com.bm.project.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bm.project.entity.Category;
 import com.bm.project.entity.Movie;
 import com.bm.project.entity.Product;
+import com.bm.project.entity.ProductTag;
 import com.bm.project.entity.ProductTagConnect;
 import com.bm.project.enums.CommonEnums.MovieRating;
 
@@ -33,10 +37,10 @@ public class MovieDto {
 		private Integer movieTime; // 상영시간
 		private MovieRating filmRating; // 관람등급
 		
-		private List<String> director; // 감독
-		private List<String> company; // 제작사
-		private String nation; // 국가
-		private List<String> actor; // 출연배우
+		private List<String> directors; // 감독
+		private List<String> companies; // 제작사
+		private List<String> nation; // 국가
+		private List<String> actors; // 출연배우
 		
 		private Long categoryId;
 		private String categoryName;
@@ -55,7 +59,31 @@ public class MovieDto {
 					.categoryId(product.getCategory().getCategoryId())
 					.imgPath(product.getImgPath())
 					.build();
+		}
+		
+		// 영화 상세 조회용
+		public static Response toDto(Movie movie) {
+			Product product = movie.getProduct();
+			Category category = product.getCategory();
+			List<ProductTagConnect> ptcList = product.getProductTagConnects();
+			
+			return Response.builder()
+					.productNo(movie.getProductNo())
+					.productTitle(product.getProductTitle())
+					.imgPath(product.getImgPath())
+					.productContent(product.getProductContent())
+					.productDate(product.getProductDate())
+					.productPrice(product.getProductPrice())
 					
+					.movieTime(movie.getMovieTime())
+					.filmRating(movie.getFilmRating())
+					.categoryName(category.getCategoryName())
+					
+					.actors(getTagsByCode(ptcList, 5))
+					.directors(getTagsByCode(ptcList, 2))
+					.companies(getTagsByCode(ptcList, 4))
+					.nation(getTagsByCode(ptcList, 6))
+					.build();
 		}
 		
 	}
@@ -97,5 +125,41 @@ public class MovieDto {
 					.build();
 		}
 		
+	}
+	
+	private static List<String> getTagsByCode(List<ProductTagConnect> ptcList, int targetCode) {
+	    if (ptcList == null) {
+	        return new ArrayList<>();
+	    }
+
+	    return ptcList.stream()
+	            // 1. Connect 엔티티에서 실제 Tag 엔티티를 꺼냄
+	            .map(ProductTagConnect::getProductTag)
+	            
+	            // 2. 해당 Tag의 코드가 우리가 찾는 코드(예: 5번 배우)인지 확인
+	            .filter(tag -> {
+	                // 1. null 체크
+	                if (tag == null || tag.getTagCode() == null) return false;
+	                
+	                // 2. 숫자로 변환하여 비교 (엔티티 구조에 맞춰 호출)
+	                // 만약 tag.getTagCode() 자체가 숫자(int)라면 .getTagCode()를 한 번만 쓰세요.
+	                Object codeObj = tag.getTagCode();
+	                Long code;
+	                
+	                if (codeObj instanceof Long) {
+	                    code = (Long) codeObj;
+	                } else {
+	                    // TagCode가 엔티티 객체라면 그 안의 ID값을 꺼냄
+	                    code = tag.getTagCode().getTagCode(); 
+	                }
+	                
+	                return code == targetCode;
+	            })
+	            
+	            // 3. 조건에 맞으면 태그 이름(TagName)만 추출
+	            .map(ProductTag::getTagName)
+	            
+	            // 4. 리스트로 수집
+	            .collect(Collectors.toList());
 	}
 }

@@ -152,14 +152,14 @@
         </ul>
     </nav>
 
-    <div style="background: #333; color: #fff; padding: 15px; margin-top: 50px; font-size: 12px;">
+    <!-- <div style="background: #333; color: #fff; padding: 15px; margin-top: 50px; font-size: 12px;">
         <h3>Debug Info</h3>
         <p>현재 페이지 데이터 개수: [[${pageDto.content.size()}]]</p>
         <p>전체 페이지 수: [[${pageDto.totalPage}]]</p>
         <p th:if="${!pageDto.content.isEmpty()}">
             첫 번째 아이템 제목: [[${pageDto.content[0].productTitle}]]
         </p>
-    </div>
+    </div> -->
 
     <!-- 푸터 -->
     <th:block th:replace="~{common/footer}">footer.html</th:block>
