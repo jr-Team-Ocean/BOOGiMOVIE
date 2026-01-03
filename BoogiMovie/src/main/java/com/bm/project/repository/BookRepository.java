@@ -46,4 +46,7 @@ public interface BookRepository {
 
 	// 상품에 태그 연결
 	void saveProductTagConnect(Product product, ProductTag tag);
+
+	// 태그 연결 초기화
+	void deleteConnect(Long productNo);
 }

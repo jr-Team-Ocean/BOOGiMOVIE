@@ -119,3 +119,14 @@ function initStars() {
     }
     
 }
+
+
+
+// 글쓰기 버튼 동작
+document.getElementById("update-btn")?.addEventListener("click", () => {
+    location.href = `${location.pathname}/update`;
+});
+document.getElementById("delete-btn")?.addEventListener("click", () => {
+    location.href = `${location.pathname}/delete`;
+});
+
