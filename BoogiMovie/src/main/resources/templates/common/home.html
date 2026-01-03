@@ -160,10 +160,10 @@
 
     <script th:src="@{/js/common/home.js}"></script>
     <script th:inline="javascript">
-        var message = /*[[${message}]]*/ null;
+        const homeMessage = /*[[${message}]]*/ null;
 
-        if (message) {
-            alert(message);
+        if (homeMessage) {
+            alert(homeMessage);
         }
     </script>
 

@@ -13,4 +13,15 @@ public interface CartService {
 	 */
 	List<CartRespDto> findCartListByMemberNo(LoginResult loginMember);
 
+	/** 장바구니 아이템 삭제
+	 * @param itemList
+	 */
+	void deleteCartItem(List<Long> itemList);
+
+	/** 장바구니 아이템 수량 변경
+	 * @param itemNo
+	 * @param quantity
+	 */
+	void updateQuantity(Long itemNo, Integer quantity);
+
 }
