@@ -1,294 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>내가 찜한 상품</title>
-    <link rel="stylesheet" href="../../static/css/myPage/myFavorite.css">
-    <link rel="stylesheet" href="../../static/css/common/header.css">
-    <link rel="stylesheet" href="../../static/css/common/font.css">
-    <link rel="stylesheet" href="../../static/css/common/footer.css">    
-    <link rel="stylesheet" href="../../static/css/myPage/myPage_sideBar.css">  
+    <link rel="stylesheet" th:href="@{/css/myPage/myFavorite.css}">
+    <link rel="stylesheet" th:href="@{/css/common/header.css}">
+    <link rel="stylesheet" th:href="@{/css/common/font.css}">
+    <link rel="stylesheet" th:href="@{/css/common/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/myPage/myPage_sideBar.css}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link th:href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 
 </head>
+
 <body>
-    
+
     <!-- header -->
-    
-    <div class="header_container">
-        <div class="blue_background">
-            <div class="header_inner">
-                <div class="header_category">
-                    <div class="header_active"><a href="#" class="white font-18px">홈</a></div>
-                    <div><a href="#" class="white font-18px">도서</a></div>
-                    <div><a href="#" class="white font-18px">중고도서</a></div>
-                    <div><a href="#" class="white font-18px">영화</a></div>
-                </div>
-
-                <div class="header_login">
-                    <div><a href="#" class="white font-18px">로그인</a></div>
-                    <div><a href="#" class="white font-18px">회원가입</a></div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- 로고 및 검색바 -->
-    <div class="logo_search_container">
-        <!-- 로고 -->
-        <div class="logo_container">
-            <a href="#"><img src="../../static/images/common/logo_basic.png" alt=""></a>
-        </div>
-
-        <!-- 검색바 전체 자리 -->
-        <div class="search_container">
-            <!-- 검색 아이콘 -->
-            <div class="search_icon">
-                <img src="../../static/svg/search_icon.svg" alt="">
-            </div>
-
-            <!-- 검색란 -->
-            <div class="search_input">
-                <input type="text" placeholder="원하는 작품을 검색해 보세요!">
-            </div>
-        </div>
-    </div>
-
-    <!-- header -->   
+    <th:block th:replace="~{common/header_no_search}">header_no_search.html</th:block>
 
     <div class="body_container">
 
-    <!-- side-Menu -->
+        <!-- side-Menu -->
+        <th:block th:replace="~{myPage/myPage_sideBar}">myPage_sideBar.html</th:block>
 
-    <!-- 전체 사이드 영역 -->    
+        <main>
+            <header class="section_header">
+                <h1>내가 찜한 상품</h1>
+            </header>
 
-    <div class="my_page_side_container">
-
-        <!-- 프로필 관리 -->
-        <div class="my_profile_setting_container">
-            <img src="../../static/svg/myPage_user_icon.svg" alt="">
-            <div class="my_page_menu bold">프로필 관리</div>
-        </div>
-
-        <!-- 내가 찜한 상품 -->
-        <div class="my_wish_list_container active_my_page">
-            <img src="../../static/svg/heart_icon.svg" alt="">
-            <div class="my_page_menu bold">내가 찜한 상품</div>
-        </div>
-
-        <!-- 회원 탈퇴 -->
-        <div class="user_secession_container">
-            <img src="../../static/svg/myPage_secession_icon.svg" alt="">
-            <div class="my_page_menu bold">회원 탈퇴</div>
-        </div>
-    </div>
-
-    <!-- side-Menu -->
-    <main>
-        <header class="section_header">
-            <h1>내가 찜한 상품</h1>
-        </header>
-
-        <div class="select_container">
-            <select class="search_order">
-                <option value="recent">찜한순</option>
-                <option value="name">가나다순</option>
-                <option value="price">가격순</option>
-            </select>
-        </div>
-
-        <section class="search_content">
-            
-            <div class="search_box_menu">
-                <h3>검색 결과</h3>
+            <div class="select_container">
+                <select class="search_order">
+                    <option value="recent">찜한순</option>
+                    <option value="name">가나다순</option>
+                    <option value="price">가격순</option>
+                </select>
             </div>
 
-            <!-- 타임리프로 초기 데이터 렌더링 -->
-            <th:block th:each="favorite : ${favorites}">
-                <div class="search_box_results">   
-                    <div class="search_box_pic"> 
-                        <a href="#"><img th:src="${favorite.productImage}" th:alt="${favorite.productTitle}"></a>
+            <section class="search_content">
+
+                <div class="search_box_menu">
+                    <h3>검색 결과</h3>
+                </div>
+
+                <!-- 타임리프로 초기 데이터 렌더링 -->
+                <th:block th:each="favorite : ${favorites}">
+                    <div class="search_box_results">
+                        <div class="search_box_pic">
+                            <a th:href="#"><img th:src="${favorite.productImage}" th:alt="${favorite.productTitle}"></a>
+                        </div>
+
+                        <div class="search_box_detail">
+                            <div class="title" th:text="${favorite.productTitle}"></div>
+                            <div class="writer" th:text="'지은이 : ' + ${favorite.productAuthor}"></div>
+                            <div class="price"
+                                th:text="'상품상태(' + ${favorite.productStatus} + ')/판매가격(' + ${#numbers.formatInteger(favorite.productPrice, 3, 'COMMA')} + '원)'">
+                            </div>
+                        </div>
+
+                        <div class="search_box_like">
+                            <a th:href="#" th:onclick="removeFavorite([[${favorite.favoriteNo}]]); return false;"><img
+                                    src="../../static/svg/heart_filled.svg" alt=""></a>
+                            <div th:text="${#dates.format(favorite.favoriteDate, 'yyyy년 MM월 dd일')}"></div>
+                        </div>
+
+                    </div>
+                </th:block>
+
+                <!-- 찜한 상품이 없을 때 메시지 (개발용: 백엔드 완성 후 th:if 활성화) -->
+                <th:block th:if="${#lists.isEmpty(favorites)}">
+                    <div style="text-align: center; padding: 60px 20px; color: #999;">
+                        <p style="font-size: 16px; margin-bottom: 10px;">찜한 상품이 없습니다.</p>
+                        <p style="font-size: 14px;">마음에 드는 상품을 찜해보세요!</p>
+                    </div>
+                </th:block>
+
+                <!-- 개발용 샘플 데이터 (백엔드 완성 후 삭제) -->
+                <div class="search_box_results"
+                    style="border-bottom: 1px solid black; margin: 20px 0; padding: 20px 0;">
+                    <div class="search_box_pic">
+                        <a th:href="#"><img src="../../static/images/sample_book.png" alt=""></a>
                     </div>
 
-                    <div class="search_box_detail">                   
-                        <div class="title" th:text="${favorite.productTitle}"></div>
-                        <div class="writer" th:text="'지은이 : ' + ${favorite.productAuthor}"></div>
-                        <div class="price" th:text="'상품상태(' + ${favorite.productStatus} + ')/판매가격(' + ${#numbers.formatInteger(favorite.productPrice, 3, 'COMMA')} + '원)'"></div>
-                    </div>            
-                        
+                    <div class="search_box_detail">
+                        <div class="title">[중고]유튜브, 이제 나도! 유튜버다</div>
+                        <div class="writer">지은이 : 김춘추</div>
+                        <div class="price">상품상태(중)/판매가격(12,000원)</div>
+                    </div>
+
                     <div class="search_box_like">
-                        <a href="#" th:onclick="removeFavorite([[${favorite.favoriteNo}]]); return false;"><img src="../../static/svg/heart_filled.svg" alt=""></a>                 
-                        <div th:text="${#dates.format(favorite.favoriteDate, 'yyyy년 MM월 dd일')}"></div>
-                    </div>     
-                        
-                </div>
-            </th:block>
+                        <a th:href="#"><img src="../../static/svg/heart_filled.svg" alt=""></a>
+                        <div>2026년 1월 1일</div>
+                    </div>
 
-            <!-- 찜한 상품이 없을 때 메시지 (개발용: 백엔드 완성 후 th:if 활성화) -->
-            <th:block th:if="${#lists.isEmpty(favorites)}">
-                <div style="text-align: center; padding: 60px 20px; color: #999;">
-                    <p style="font-size: 16px; margin-bottom: 10px;">찜한 상품이 없습니다.</p>
-                    <p style="font-size: 14px;">마음에 드는 상품을 찜해보세요!</p>
-                </div>
-            </th:block>
-
-            <!-- 개발용 샘플 데이터 (백엔드 완성 후 삭제) -->
-            <div class="search_box_results" style="border-bottom: 1px solid black; margin: 20px 0; padding: 20px 0;">   
-                <div class="search_box_pic"> 
-                    <a href="#"><img src="../../static/images/sample_book.png" alt=""></a>
                 </div>
 
-                <div class="search_box_detail">                   
-                    <div class="title">[중고]유튜브, 이제 나도! 유튜버다</div>
-                    <div class="writer">지은이 : 김춘추</div>
-                    <div class="price">상품상태(중)/판매가격(12,000원)</div>
-                </div>            
-                    
-                <div class="search_box_like">
-                    <a href="#"><img src="../../static/svg/heart_filled.svg" alt=""></a>                 
-                    <div>2026년 1월 1일</div>
-                </div>     
-                    
+                <div class="search_box_results"
+                    style="border-bottom: 1px solid black; margin: 20px 0; padding: 20px 0;">
+                    <div class="search_box_pic">
+                        <a th:href="#"><img src="../../static/images/sample_book.png" alt=""></a>
+                    </div>
+
+                    <div class="search_box_detail">
+                        <div class="title">[중고]파이썬 완벽 가이드</div>
+                        <div class="writer">지은이 : 이순신</div>
+                        <div class="price">상품상태(중)/판매가격(15,000원)</div>
+                    </div>
+
+                    <div class="search_box_like">
+                        <a th:href="#"><img src="../../static/svg/heart_filled.svg" alt=""></a>
+                        <div>2026년 1월 2일</div>
+                    </div>
+
+                </div>
+
+                <div class="search_box_results"
+                    style="border-bottom: 1px solid black; margin: 20px 0; padding: 20px 0;">
+                    <div class="search_box_pic">
+                        <a th:href="#"><img src="../../static/images/sample_book.png" alt=""></a>
+                    </div>
+
+                    <div class="search_box_detail">
+                        <div class="title">[중고]JavaScript 마스터하기</div>
+                        <div class="writer">지은이 : 세종대왕</div>
+                        <div class="price">상품상태(상)/판매가격(18,000원)</div>
+                    </div>
+
+                    <div class="search_box_like">
+                        <a th:href="#"><img src="../../static/svg/heart_filled.svg" alt=""></a>
+                        <div>2026년 1월 3일</div>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <div class="pagination">
+                <a th:href="#">&laquo;</a>
+                <a th:href="#">&lt;</a>
+                <a th:href="#" class="active">1</a>
+                <a th:href="#">2</a>
+                <a th:href="#">3</a>
+                <a th:href="#">4</a>
+                <a th:href="#">5</a>
+                <a th:href="#">6</a>
+                <a th:href="#">7</a>
+                <a th:href="#">8</a>
+                <a th:href="#">9</a>
+                <a th:href="#">10</a>
+                <a th:href="#">&gt;</a>
+                <a th:href="#">&raquo;</a>
             </div>
-
-            <div class="search_box_results" style="border-bottom: 1px solid black; margin: 20px 0; padding: 20px 0;">   
-                <div class="search_box_pic"> 
-                    <a href="#"><img src="../../static/images/sample_book.png" alt=""></a>
-                </div>
-
-                <div class="search_box_detail">                   
-                    <div class="title">[중고]파이썬 완벽 가이드</div>
-                    <div class="writer">지은이 : 이순신</div>
-                    <div class="price">상품상태(중)/판매가격(15,000원)</div>
-                </div>            
-                    
-                <div class="search_box_like">
-                    <a href="#"><img src="../../static/svg/heart_filled.svg" alt=""></a>                 
-                    <div>2026년 1월 2일</div>
-                </div>     
-                    
-            </div>
-
-            <div class="search_box_results" style="border-bottom: 1px solid black; margin: 20px 0; padding: 20px 0;">   
-                <div class="search_box_pic"> 
-                    <a href="#"><img src="../../static/images/sample_book.png" alt=""></a>
-                </div>
-
-                <div class="search_box_detail">                   
-                    <div class="title">[중고]JavaScript 마스터하기</div>
-                    <div class="writer">지은이 : 세종대왕</div>
-                    <div class="price">상품상태(상)/판매가격(18,000원)</div>
-                </div>            
-                    
-                <div class="search_box_like">
-                    <a href="#"><img src="../../static/svg/heart_filled.svg" alt=""></a>                 
-                    <div>2026년 1월 3일</div>
-                </div>     
-                    
-            </div>
-            
-        </section>
-
-        <div class="pagination">
-            <a href="#">&laquo;</a>
-            <a href="#">&lt;</a>
-            <a href="#" class="active">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">5</a>
-            <a href="#">6</a>
-            <a href="#">7</a>
-            <a href="#">8</a>
-            <a href="#">9</a>
-            <a href="#">10</a>
-            <a href="#">&gt;</a>
-            <a href="#">&raquo;</a>
-        </div>
-    </main>
+        </main>
 
     </div>
 
 
     <!-- footer -->
+    <th:block th:replace="~{common/footer}">footer.html</th:block>
+</body>
 
-    <footer class="footer">
-        <div class="footer-in">
-
-            <!-- 상단 링크 -->
-            <nav class="ft-toplinks" aria-label="Ft links">
-                <a href="#">회사소개</a>
-                <span class="sep">|</span>
-                <a href="#">서비스 소개</a>
-                <span class="sep">|</span>
-                <a href="#">이용약관</a>
-                <span class="sep">|</span>
-                <a href="#">개인정보처리방침</a>
-                <span class="sep">|</span>
-                <a href="#">청소년보호정책</a>
-                <span class="sep">|</span>
-                <a href="#">채용정보</a>
-                <span class="sep">|</span>
-                <a href="#">광고문의</a>
-            </nav>
-
-            <div class="footer-main">
-                <!-- 좌측 로고 -->
-                <div class="footer-brand" aria-label="BOOGIMOVIE">
-                    <img src="../../static/images/common/logo_white.png" alt="">
-                <div class="brand-text">BOOGIMOVIE</div>
-            </div>
-
-            <!-- 회사 정보 -->
-            <div class="footer-info">
-                <div class="info-row">
-                    <span class="info-title">(주)BOOGIMOVIE</span>
-                </div>
-
-                <div class="info-row">
-                    <span>서울특별시 종로구 우정국로2길 21 9층, 903호</span>
-                </div>
-
-                <div class="info-row">
-                    <span>대표자: (발신자부담) 1544-0000(부기문고) · 1661-1112(핫트랙스)</span>
-                </div>
-
-                <div class="info-row">
-                    <span>이메일: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="86e4e9e9e1efc6e8e7f0e3f4a8e5e9eb">[email&#160;protected]</a></span>
-                </div>
-
-                <div class="info-row">
-                    <span>대표 FAX: 2025-012-0801</span>
-                </div>
-
-                <div class="info-row">
-                    <span>사업자등록번호: 102-81-11670</span>
-                </div>
-
-                <div class="info-row">
-                    <span>통신판매업신고: 0000 - 서울 종로구 - 00000</span>
-                </div>
-
-                <div class="info-row">
-                    <span>개인정보관리 책임자: 김무비</span>
-                </div>
-
-                <div class="info-row copyright">
-                    © BOOGIMOVIE CENTRE
-                </div>
-            </div>
-
-            <!-- 우측 SNS -->
-            <div class="footer-sns" aria-label="Social links">
-                <a class="sns-btn" href="#" aria-label="KakaoTalk">카톡</a>
-                <a class="sns-btn" href="#" aria-label="Facebook">페북</a>
-                <a class="sns-btn" href="#" aria-label="Instagram">인스타</a>
-                <a class="sns-btn" href="#" aria-label="YouTube">유튜브</a>
-            </div>
-            </div>
-        </div>
+</html>
