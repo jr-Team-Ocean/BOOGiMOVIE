@@ -1,11 +1,16 @@
 package com.bm.project.service.myPage;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bm.project.dto.IMyPageDto;
 import com.bm.project.dto.MemberDto.MemberInfo;
 import com.bm.project.entity.Member;
 import com.bm.project.entity.Member.IsYN;
+import com.bm.project.payment.repository.ProductRepository;
 import com.bm.project.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -15,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class MyPageServiceImpl implements MyPageService {
 	
 	private final MemberRepository memberRepo;
+	private final ProductRepository productRepo;
 
 	// 회원 정보 가져오기
 	@Override
@@ -23,7 +29,11 @@ public class MyPageServiceImpl implements MyPageService {
 		Member member = memberRepo.findById(memberNo)
 				.orElseThrow(() -> new IllegalArgumentException("회원 정보를 찾을 수 없습니다."));
 		
-		return MemberInfo.infoToDto(member);
+		// 소장한 영화 목록 조회
+		List<IMyPageDto> myMovies = productRepo.getPurchasedMovie(memberNo);
+		
+		
+		return MemberInfo.infoToDto(member, myMovies);
 	}
 
 	// 회원 탈퇴 처리

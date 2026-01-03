@@ -2,11 +2,15 @@ package com.bm.project.dto;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.bm.project.entity.Member;
 import com.bm.project.entity.MemberSocial;
+import com.bm.project.entity.Product;
 import com.bm.project.entity.Member.IsYN;
 import com.bm.project.enums.CommonEnums.SocialProvider;
+import com.bm.project.payment.entity.Orders;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -90,6 +94,7 @@ public class MemberDto {
 	// 마이페이지에서 보여줄 회원 정보
 	@Getter @Builder @ToString
 	public static class MemberInfo {
+		// 회원 정보
 		private Long memberNo;
 		private String memberId;
 		private String memberNickName;
@@ -97,8 +102,26 @@ public class MemberDto {
 		private String memberPhone;
 		private String profilePath;
 		
+		// 내가 소장한 영화
+		private List<PurchasedMovie> myMovies;
+		
+		@Getter @Builder @ToString
+	    public static class PurchasedMovie {
+	        private Long productNo;
+	        private String productTitle;
+	        private String imgPath;
+	    }
+		
 		// Entity -> DTO
-		public static MemberInfo infoToDto(Member member) {
+		public static MemberInfo infoToDto(Member member, List<IMyPageDto> myMovies) {
+			List<PurchasedMovie> movieDtos = myMovies.stream()
+		            .map(product -> PurchasedMovie.builder()
+		                .productNo(product.getProductNo())
+		                .productTitle(product.getProductTitle())
+		                .imgPath(product.getImgPath())
+		                .build())
+		            .collect(Collectors.toList());
+			
 			return MemberInfo.builder()
 			.memberNo(member.getMemberNo())
 			.memberId(member.getMemberId())
@@ -106,6 +129,7 @@ public class MemberDto {
 			.enrollDate(member.getEnrollDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd 가입"))) // 2026-01-01 가입
 			.memberPhone(member.getMemberPhone())
 			.profilePath(member.getProfilePath())
+			.myMovies(movieDtos) // 내가 소장한 영화
 			.build();
 		}
 		

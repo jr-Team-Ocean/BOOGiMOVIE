@@ -31,9 +31,9 @@ public class MyPageController {
 	public String myInfo(@SessionAttribute("loginMember") MemberDto.LoginResult loginMember,
 						 Model model) {
 		
-		// 현재 로그인된 회원의 정보 가져오기
+		// 현재 로그인된 회원의 정보 및 소장한 영화 가져오기
 		MemberDto.MemberInfo memberInfo = service.getMemberInfo(loginMember.getMemberNo());
-//		System.out.println("회원 정보\n" + memberInfo);
+		System.out.println("회원 정보\n" + memberInfo);
 		model.addAttribute("memberInfo", memberInfo);
 		
 		// 사이드바 선택 효과

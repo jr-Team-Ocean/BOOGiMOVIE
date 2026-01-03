@@ -38,83 +38,22 @@
             <div class="my_movies_container">
                 <!-- 상품 영역 -->
                 <div class="movie_container">
-                    <!-- 상품 하나 -->
-                    <a th:href="@{#}" class="my_movie_a">
-                        <div class="my_movie">
-                            <div><img th:src="@{/images/myPage/myPage_movie1.png}" alt=""></div>
-                            <div class="font-18px bold">TOY STORY</div>
-                        </div>
-                    </a>
 
-                    <a th:href="@{#}" class="my_movie_a">
-                        <div class="my_movie">
-                            <div><img th:src="@{/images/myPage/myPage_movie1.png}" alt=""></div>
-                            <div class="font-18px bold">TOY STORY</div>
-                        </div>
-                    </a>
+                    <th:block th:if="${#lists.size(memberInfo.myMovies) > 0}">
+                        
+                        <!-- 상품 하나 -->
+                        <th:block th:each="movie : ${memberInfo.myMovies}">
+                            <a th:href="@{|/movies/${movie.productNo}|}" class="my_movie_a">
+                                <div class="my_movie">
+                                    <div><img th:src="${movie.imgPath}" alt=""></div>
+                                    <div class="font-18px bold" th:text="${movie.productTitle}"></div>
+                                </div>
+                            </a>
 
-                    <a th:href="@{#}" class="my_movie_a">
-                        <div class="my_movie">
-                            <div><img th:src="@{/images/myPage/myPage_movie1.png}" alt=""></div>
-                            <div class="font-18px bold">TOY STORY</div>
-                        </div>
-                    </a>
-
-                    <a th:href="@{#}" class="my_movie_a">
-                        <div class="my_movie">
-                            <div><img th:src="@{/images/myPage/myPage_movie1.png}" alt=""></div>
-                            <div class="font-18px bold">TOY STORY</div>
-                        </div>
-                    </a>
-
-                    <a th:href="@{#}" class="my_movie_a">
-                        <div class="my_movie">
-                            <div><img th:src="@{/images/myPage/myPage_movie1.png}" alt=""></div>
-                            <div class="font-18px bold">TOY STORY</div>
-                        </div>
-                    </a>
-
-
+                        </th:block>
+                    </th:block>
                 </div>
 
-                <!-- 상품 영역 -->
-                <div class="movie_container">
-                    <!-- 상품 하나 -->
-                    <a th:href="@{#}" class="my_movie_a">
-                        <div class="my_movie">
-                            <div><img th:src="@{/images/myPage/myPage_movie1.png}" alt=""></div>
-                            <div class="font-18px bold">TOY STORY</div>
-                        </div>
-                    </a>
-
-                    <a th:href="@{#}" class="my_movie_a">
-                        <div class="my_movie">
-                            <div><img th:src="@{/images/myPage/myPage_movie1.png}" alt=""></div>
-                            <div class="font-18px bold">TOY STORY</div>
-                        </div>
-                    </a>
-
-                    <a th:href="@{#}" class="my_movie_a">
-                        <div class="my_movie">
-                            <div><img th:src="@{/images/myPage/myPage_movie1.png}" alt=""></div>
-                            <div class="font-18px bold">TOY STORY</div>
-                        </div>
-                    </a>
-
-                    <a th:href="@{#}" class="my_movie_a">
-                        <div class="my_movie">
-                            <div><img th:src="@{/images/myPage/myPage_movie1.png}" alt=""></div>
-                            <div class="font-18px bold">TOY STORY</div>
-                        </div>
-                    </a>
-
-                    <a th:href="@{#}" class="my_movie_a">
-                        <div class="my_movie">
-                            <div><img th:src="@{/images/myPage/myPage_movie1.png}" alt=""></div>
-                            <div class="font-18px bold">TOY STORY</div>
-                        </div>
-                    </a>
-                </div>
             </div>
         </div>
     </div>
