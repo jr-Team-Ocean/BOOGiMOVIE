@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,7 +70,13 @@ public class MovieController {
 	
 	// 영화 상세정보
 	@GetMapping("/{productNo}")
-	public String movieDetail() {
+	public String getMovieDetail(@PathVariable("productNo") Long productNo, Model model) {
+		
+		MovieDto.Response movie = movieService.getMovieDetail(productNo);
+		
+		model.addAttribute("movie", movie);
+		model.addAttribute("url", "movies");
+		
 		return "movie/movieDetail";
 	}
 	

@@ -18,6 +18,9 @@ public interface MovieService {
 	// 검색 + 영화 목록 조회
 	PageDto<MovieDto.Response> searchMovieList(Map<String, Object> paramMap, Pageable pageable);
 
+	// 영화 상세정보
+	Response getMovieDetail(Long productNo);
+
 
 
 }

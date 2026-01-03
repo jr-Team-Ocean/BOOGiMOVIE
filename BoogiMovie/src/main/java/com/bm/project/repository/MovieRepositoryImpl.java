@@ -10,9 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.bm.project.entity.Movie;
-import com.bm.project.entity.Product;
 import com.bm.project.enums.CommonEnums;
-import com.bm.project.enums.CommonEnums.ProductDelFl;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -196,7 +194,7 @@ public class MovieRepositoryImpl implements MovieRepositoryCustom{
         
         // System.out.println("category=" + paramMap.get("category"));
         // System.out.println("categoryIds=" + paramMap.get("categoryIds"));
-        System.out.println("result size=" + movies.size() + ", total=" + total);
+        // System.out.println("result size=" + movies.size() + ", total=" + total);
 
         
 		return new PageImpl<>(movies, pageable, total);

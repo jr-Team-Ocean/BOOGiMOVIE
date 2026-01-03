@@ -18,13 +18,28 @@
     <title>영화 상세정보</title>
 </head>
 <body>
+    <div style="background: #333; color: #fff; padding: 15px; margin-top: 50px; font-size: 12px;">
+        <h3>Debug Info</h3>
+        <p>영화 제목: [[${movie.productTitle}]]</p>
+        <p>상품번호: [[${movie.productNo}]]</p>
+        <p th:if="${movie != null}">
+            배우 이름: [[${#strings.listJoin(movie.actors, ', ')}]]
+            감독 이름: [[${#strings.listJoin(movie.directors, ', ')}]]
+            제작사 이름: [[${#strings.listJoin(movie.companies, ', ')}]]
+            국가 이름: [[${#strings.listJoin(movie.nation, ', ')}]]
+        </p>
+        <p>ACTORS: <span th:text="${movie.actors}"></span></p>
+        <p>DIRECTORS: <span th:text="${movie.directors}"></span></p>
+        <p>NATION: <span th:text="${movie.nation}"></span></p>
+        <p>Creator: <span th:text="${movie.companies}"></span></p>
+    </div>
     <!-- 헤더 -->
     <th:block th:replace="~{common/header}">header.html</th:block>
 
     <main class="main">
         <section class="movie-category-path">
             <!-- 영화 경로 -->
-            <span>해외영화 &gt; <span class="category-name">애니메이션</span></span>
+            <span>해외영화 &gt; <span class="category-name" th:text="${movie.categoryName}">애니메이션</span></span>
 
             <!-- 관리자용 수정 삭제 -->
             <div class="edit">
@@ -37,22 +52,22 @@
         <section class="movie-detail-main">
             <!-- 영화 대표 이미지 -->
             <div class="img-area">
-                <img class="movie-cover" th:src="@{/images/movie/movie_sample_img2.png}">
+                <img class="movie-cover" th:src="${movie.imgPath}">
             </div>
 
             <div class="detail-area">
                 <!-- 영화 제목 -->
-                <h2 class="movie-title">주토피아2</h2>
+                <h2 class="movie-title" th:text="${movie.productTitle}">주토피아2</h2>
 
                 <!-- 영화 기본 정보 -->
                 <div class="movie-info">
-                    <span>2025.11.26 개봉</span>
+                    <span th:text="${#temporals.format(movie.productDate, 'yyyy.MM.dd')} + ' 개봉'">2025.11.26 개봉</span>
                     <span>|</span>
-                    <span>108분</span>
+                    <span th:text="${movie.movieTime} + '분'">108분</span>
                     <span>|</span>
-                    <span>미국</span>
+                    <span th:text="${#strings.listJoin(movie.nation, ', ')}">미국</span>
                     <span>|</span>
-                    <span>전체관람가</span>
+                    <span th:text="${movie.filmRating}">전체관람가</span>
                 </div>
 
                 <button class="movie-heart">
@@ -64,7 +79,7 @@
                 <div class="movie-price">
                     <div>평점 <b class="rate-value">4.8</b></div>
 
-                    <label class="sell-price">판매가 <b>23,400원</b></label>
+                    <label class="sell-price">판매가 <b th:text="${#numbers.formatInteger(movie.productPrice, 3, 'COMMA')} + '원'">23,400원</b></label>
                 </div>
                 
                 <div class="movie-buy">
@@ -86,7 +101,7 @@
                 <!-- 상세정보 -->
                 <div class="tab-content active" id="detail">
                     <p>영화소개</p>
-                    <pre class="movie-pre hidden">더 화려해진 세계, 더 넓어진 주토피아!
+                    <pre class="movie-pre hidden" th:text="${movie.productContent}">더 화려해진 세계, 더 넓어진 주토피아!
 디즈니의 가~~장 사랑스러운 콤비 '주디'와 '닉'이 돌아온다! 
 
 미스터리한 뱀 ‘게리’가 나타난 순간,
@@ -104,9 +119,13 @@
 
                     <p>영화정보</p>
                     <ul class="movie-text">
-                        <li>장르 : <span>애니메이션</span><span> / </span><span>미국</span></li>
-                        <li>감독 : <span>바이론 하워드, 재러드 부시</span></li>
-                        <li>출연 : <span>지니퍼 굿원, 제이슨 베이트먼, 키 호이 관</span></li>
+                        <li>장르 : <span th:text="${movie.categoryName}">애니메이션</span>
+                            <span> / </span>
+                            <span th:text="${#strings.listJoin(movie.nation, ', ')}">미국</span>
+                        </li>
+                        <li>감독 : <span th:text="${#strings.listJoin(movie.directors, ', ')}">바이론 하워드, 재러드 부시</span></li>
+                        <li>출연 : <span th:text="${#strings.listJoin(movie.actors, ', ')}">지니퍼 굿원, 제이슨 베이트먼, 키 호이 관</span></li>
+                        <li>제작사 : <span th:text="${#strings.listJoin(movie.companies, ', ')}">월트 디즈니 픽처스, 월트 디즈니 애니메이션 스튜디오</span></li>
                     </ul>
 
                     <hr>
