@@ -28,9 +28,8 @@
 
             <section class="section_nav"> 
                 <div class="header_nav_button">
-                    <button class="active">전체</button>
                     <button class="notread">안읽음</button>
-                    <img th:src="@{/svg/count.svg}" class="notread_img" alt="안읽은 메시지 수">
+                    <span class="notread_img" alt="안읽은 메시지 수">3 </span>
                 </div> 
 
                 <div class="header_nav_search">
@@ -68,7 +67,13 @@
                                     <div>
                                         <p class="recent-message" th:text="${room.lastMessage}">마지막 메시지 내용</p>
                                         <p th:if="${room.notReadCount > 0}" class="not-read-count" th:text="${room.notReadCount}"></p>
+                                        <button class="delete-room-btn" 
+                                                th:onclick="|deleteChattingRoom('${room.chattingRoomId}', event)|">
+                                            &times;
+                                        </button>
+
                                     </div>
+
                                 </div>
                             </li>
                         </th:block>

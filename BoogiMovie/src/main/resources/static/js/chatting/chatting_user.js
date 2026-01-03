@@ -1,384 +1,224 @@
-console.log('chatting_user.js')
+console.log('chatting_user.js 로드됨 (사용자용)');
 
-// 페이지네이션 관련 변수
-let currentPage = 1;
-let totalPages = 1;
+let chattingSock; 
+let selectChattingNo;      // 채팅방 번호
+let selectTargetNo;        // 관리자 번호
+let unreadCount = 0;
+let isInitialLoad = true; 
+let isAutoScroll = true; 
+
+if (typeof SockJS !== 'undefined') {
+    chattingSock = new SockJS("/chattingSock"); 
+
+    chattingSock.onmessage = function(e) {
+        try {
+            const msg = JSON.parse(e.data);
+            const receivedNo = msg.chattingNo || msg.chatting_no || msg.chattingRoomId;
+            
+            if (selectChattingNo && Number(selectChattingNo) === Number(receivedNo)) {
+                selectMessageList(); 
+            } else {
+                unreadCount++;
+                updateUnreadUI();
+            }
+        } catch(err) {
+            console.error("수신 데이터 파싱 오류:", err);
+        }
+    };
+
+    chattingSock.onopen = () => console.log("웹소켓 서버 연결 성공");
+}
+
+// ========== 안읽음 UI 업데이트 ==========
+function updateUnreadUI() {
+    const badge = document.querySelector('.notread_img');
+    if (badge) {
+        badge.innerText = unreadCount;
+        badge.style.display = unreadCount > 0 ? 'inline-block' : 'none';
+    }
+}
+
+// 창을 다시 볼 때 처리
+window.onfocus = function() {
+    if (!isInitialLoad && selectChattingNo && unreadCount > 0 && isAutoScroll) {
+        updateReadFlag();
+        getUnreadCount();
+    }
+};
 
 document.addEventListener('DOMContentLoaded', () => {
+    enterAdminChat(); // 관리자 채팅방 입장
+    setTimeout(() => { isInitialLoad = false; }, 1500);
 
-    // 버튼 이벤트용 변수 
+    // 1. 기존 로직들
     const sendBtn = document.getElementById('sendBtn');
+    if (sendBtn) sendBtn.addEventListener('click', sendMessage);
+
     const chattingInput = document.getElementById('chattingInput');
-
-    // 전송 버튼 클릭 시에도 전송
-    sendBtn.addEventListener('click', sendMessage);
-
-    // 페이지네이션 이벤트 (상단)
-    const headerNavPages = document.querySelectorAll('.header_nav_page a');
-    headerNavPages.forEach(link => {
-        link.addEventListener('click', handlePagination);
-    });
-
-    // 엔터 입력 시 전송 로직
-    chattingInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            if (e.isComposing) return;
-            if (!e.shiftKey) {
+    if (chattingInput) {
+        chattingInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.isComposing && !e.shiftKey) {
                 e.preventDefault();
                 sendMessage();
             }
-        }
-    });
-
-    // 파일 첨부 버튼
-    const attachButton = document.querySelector('.attach_button');
-    attachButton.addEventListener('click', triggerFileInput);
-
-    // 초기 페이지 상태 표시
-    updatePageStatus();
-    
-    // 초기 메시지 목록 로드
-    selectMessageList();
-
-    return;
-})
-
-// 전역변수 선언 
-let adminNo;
-let adminName = '관리자';
-let adminProfile = '/resources/images/user.png';
-
-
-// ========== 페이지네이션 ==========
-
-/**
- * 페이지네이션 처리
- */
-function handlePagination(e) {
-    e.preventDefault();
-    
-    const text = e.target.textContent;
-    
-    if(text === '«') {
-        currentPage = 1;
-    } else if(text === '<') {
-        if(currentPage > 1) currentPage--;
-    } else if(text === '>') {
-        if(currentPage < totalPages) currentPage++;
-    } else if(text === '»') {
-        currentPage = totalPages;
-    }
-    
-    // 페이지 상태 업데이트 및 목록 재조회
-    updatePageStatus();
-    selectMessageList();
-}
-
-/**
- * 페이지 상태 업데이트 함수
- */
-function updatePageStatus() {
-    const pageStatus = document.querySelector('.page_status');
-    if(pageStatus) {
-        pageStatus.innerText = ` ${currentPage} / ${totalPages}`;
-    }
-}
-
-
-// ========== 파일 첨부 기능 ==========
-
-/**
- * 파일 첨부 버튼 클릭 - 파일 선택 다이얼로그 열기
- */
-function triggerFileInput() {
-    let fileInput = document.getElementById('hiddenFileInput');
-    
-    // 파일 입력 요소가 없으면 동적으로 생성
-    if(!fileInput) {
-        fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.id = 'hiddenFileInput';
-        fileInput.accept = 'image/*';
-        fileInput.style.display = 'none';
-        fileInput.addEventListener('change', handleFileSelect);
-        document.body.appendChild(fileInput);
-    }
-    
-    fileInput.click();
-}
-
-/**
- * 파일 선택 처리
- */
-function handleFileSelect(e) {
-    const file = e.target.files[0];
-    
-    if(!file) return;
-    
-    // 이미지 파일인지 확인
-    if(!file.type.startsWith('image/')) {
-        alert('이미지 파일만 선택 가능합니다.');
-        return;
-    }
-    
-    // 파일 크기 확인 (10MB 이상이면 거절)
-    if(file.size > 10 * 1024 * 1024) {
-        alert('파일 크기는 10MB 이하여야 합니다.');
-        return;
-    }
-    
-    // 파일을 읽어서 전송
-    const reader = new FileReader();
-    reader.onload = (event) => {
-        sendFileMessage(file.name, event.target.result);
-    };
-    reader.readAsDataURL(file);
-    
-    // 파일 입력 초기화
-    e.target.value = '';
-}
-
-/**
- * 파일 메시지 전송
- */
-function sendFileMessage(fileName, fileData) {
-    const obj = {
-        senderNo: loginMemberNo,
-        messageContent: '[이미지: ' + fileName + ']',
-        fileData: fileData,
-        isFile: true
-    };
-    
-    chattingSock.send(JSON.stringify(obj));
-}
-
-
-// ========== 메세지 관리 ==========
-
-/**
- * 비동기로 메세지 목록을 조회하는 함수
- */
-function selectMessageList() {
-    if(!loginMemberNo) {
-        console.log('로그인 정보가 없습니다.');
-        return;
-    }
-    
-    // 페이지 파라미터만 추가 (필터 없음)
-    let url = "/chatting/userMessageList?memberNo=" + loginMemberNo + "&page=" + currentPage;
-    
-    fetch(url)
-        .then(resp => resp.json())
-        .then(data => {
-            // totalPages 업데이트
-            if(data.totalPages) {
-                totalPages = data.totalPages;
-            }
-            
-            const messageList = data.messageList || data;
-            const ul = document.querySelector('.display-chatting')  
-            ul.innerHTML = '';
-
-            for (let msg of messageList) {
-                const li = document.createElement('li')
-
-                // 보낸 시간 
-                const span = document.createElement('span') 
-                span.classList.add('chatDate')
-                span.innerText = msg.sendTime
-
-                // 메시지 내용
-                const p = document.createElement('p')
-                p.classList.add('chat')
-                p.innerText = msg.messageContent;
-
-                // 누구 발송인지 확인
-                if (loginMemberNo == msg.senderNo) {
-                    li.classList.add('my-chat')
-                    li.appendChild(span);
-                    li.appendChild(p);
-                } else {
-                    li.classList.add('target-chat')
-
-                    // 관리자 프로필 
-                    const img = document.createElement('img')
-                    img.setAttribute('src', adminProfile)
-
-                    const div = document.createElement('div')
-
-                    // 관리자 이름 
-                    const b = document.createElement('b')
-                    b.innerText = adminName
-                    
-                    // 메시지와 시간을 감싸는 컨테이너
-                    const msgContainer = document.createElement('div');
-                    msgContainer.style.display = 'flex';
-                    msgContainer.style.gap = '8px';
-                    msgContainer.style.alignItems = 'flex-end';
-                    
-                    msgContainer.appendChild(p);
-                    msgContainer.appendChild(span);
-
-                    div.appendChild(b)
-                    div.appendChild(msgContainer)
-                    li.appendChild(img)
-                    li.appendChild(div)
-                }
-                
-                ul.appendChild(li);
-            }
-            
-            // 페이지 상태 최종 업데이트
-            updatePageStatus();
-            
-            // 읽음 처리
-            if(messageList.length > 0) {
-                setTimeout(() => {
-                    updateReadFlag();
-                }, 200)
-            }
-            
-            // 스크롤 맨 아래로 이동
-            scrollToBottom();
-        })
-        .catch(err => console.log(err))
-}
-
-/**
- * 읽음 상태 업데이트
- */
-function updateReadFlag() {
-    if(!loginMemberNo) return;
-    
-    fetch('/chatting/updateUserReadFlag', {
-        method: 'PUT',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            'memberNo': loginMemberNo
-        })
-    })
-        .then(resp => resp.text())
-        .then(result => {
-            console.log('읽음 처리:', result)
-        })
-        .catch(err => console.log(err))
-}
-
-/**
- * 스크롤을 메시지 맨 아래로 이동
- */
-function scrollToBottom() {
-    const ul = document.querySelector('.display-chatting');
-    if(ul) {
-        requestAnimationFrame(() => {
-            ul.scrollTop = ul.scrollHeight;
         });
     }
+
+    const attachButton = document.querySelector('.attach_button');
+    if (attachButton) attachButton.addEventListener('click', triggerFileInput);
+
+    const chatDisplay = document.querySelector('.display-chatting');
+    if (chatDisplay) {
+        // 클릭 시 읽음 처리
+        chatDisplay.addEventListener('click', () => {
+            if (unreadCount > 0) {
+                updateReadFlag();
+                unreadCount = 0;
+                updateUnreadUI();
+                isAutoScroll = true;
+            }
+        });
+
+        // 스크롤 감지
+        chatDisplay.addEventListener('scroll', () => {
+            const isAtBottom = chatDisplay.scrollHeight - chatDisplay.scrollTop <= chatDisplay.clientHeight + 50;
+            if (isAtBottom) {
+                isAutoScroll = true; 
+            } else {
+                isAutoScroll = false;
+            }
+        });
+    }
+});
+
+// ========== 관리자 채팅방 입장 ==========
+function enterAdminChat() {
+    fetch("/chatting/senter") 
+        .then(resp => resp.json())
+        .then(data => {
+            if (data.chattingNo > 0) {
+                selectChattingNo = data.chattingNo;
+                selectTargetNo = data.targetNo; 
+                selectMessageList();
+                getUnreadCount();
+            }
+        });
 }
 
-
-// ========== WebSocket 설정 ==========
-
-let chattingSock;
-
-if (typeof loginMemberNo !== 'undefined' && loginMemberNo !== '') {
-    chattingSock = new SockJS("/chattingSock")
+// ========== 안읽음 개수 가져오기 ==========
+function getUnreadCount() {
+    if (!selectChattingNo) return;
+    
+    fetch(`/chatting/unreadCount?chattingNo=${selectChattingNo}`)
+        .then(resp => resp.text())
+        .then(count => {
+            unreadCount = Number(count);
+            updateUnreadUI();
+        })
+        .catch(err => console.error("안읽음 개수 조회 실패:", err));
 }
 
+// ========== 메시지 목록 조회 (방어 코드 추가) ==========
+function selectMessageList() {
+    if (!selectChattingNo || selectChattingNo === 'undefined') return;
+    
+    fetch(`/chatting/selectMessageList?chattingNo=${selectChattingNo}`)
+        .then(resp => {
+            if(!resp.ok) throw new Error("메시지 조회 실패");
+            return resp.json();
+        })
+        .then(messageList => {
+            const ul = document.querySelector('.display-chatting');
+            if (!ul) return;
+            ul.innerHTML = '';
+            
+            // messageList가 배열인지 확인
+            if(!Array.isArray(messageList)) return;
+
+            messageList.forEach(msg => {
+                const sNo = msg.senderId || msg.senderNo || msg.sender_no;
+                const content = msg.messageContent || msg.message_content || "";
+                const sentAt = msg.sendTime || msg.send_time || msg.sentAt || "";
+
+                const li = document.createElement('li');
+                const isMyMessage = Number(sNo) === Number(loginMemberNo);
+                li.classList.add(isMyMessage ? 'my-chat' : 'target-chat');
+                
+                if (isMyMessage) {
+                    li.innerHTML = `<p class="chat">${content}</p><span class="chatDate">${sentAt}</span>`;
+                } else {
+                    li.innerHTML = `
+                        <img src="/svg/person.svg">
+                        <div>
+                            <b>관리자</b>
+                            <div style="display:flex; gap:8px; align-items:flex-end;">
+                                <p class="chat">${content}</p>
+                                <span class="chatDate">${sentAt}</span>
+                            </div>
+                        </div>`;
+                }
+                ul.appendChild(li);
+            });
+            ul.scrollTop = ul.scrollHeight;
+        })
+        .catch(err => console.error(err));
+}
 
 // ========== 메시지 전송 ==========
-
-/**
- * 메시지 전송 함수
- */
-const sendMessage = () => {
-    const chattingInput = document.getElementById('chattingInput');
+function sendMessage() {
+    const input = document.getElementById('chattingInput');
+    if (!input?.value.trim() || !selectChattingNo || !selectTargetNo) return;
     
-    if(chattingInput.value.trim().length == 0) {
-        alert('채팅을 입력해주세요')
-        return;
-    }
+    const obj = { 
+        senderNo: loginMemberNo, 
+        targetNo: selectTargetNo, 
+        chattingNo: selectChattingNo, 
+        messageContent: input.value.trim() 
+    };
 
-    if(chattingInput.value.trim().length > 0) {
-        const messageContent = chattingInput.value;
-        
-        const obj = {
-            senderNo: loginMemberNo,
-            messageContent: messageContent
-        }
-
+    if (chattingSock?.readyState === 1) {
         chattingSock.send(JSON.stringify(obj));
-
-        // 입력창 초기화 및 포커스
-        chattingInput.value = '';
-        chattingInput.focus();
+        input.value = '';
+        input.focus();
     }
 }
 
+// ========== 읽음 처리 (방어 코드 추가) ==========
+function updateReadFlag() {
+    if(!selectChattingNo || selectChattingNo === 'undefined') return;
 
-// ========== WebSocket 메시지 수신 ==========
+    fetch('/chatting/updateReadFlag', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+            memberNo: loginMemberNo, 
+            chattingNo: Number(selectChattingNo)
+        })
+    }).catch(err => console.error("읽음 처리 중 오류:", err));
+}
 
-/**
- * 서버에서 메세지 전달 받으면 자동실행 콜백 함수 (채팅창에 표시)
- */
-chattingSock.onmessage = e => {
-
-    const msg = JSON.parse(e.data)
-
-    // 큰틀 
-    const ul = document.querySelector('.display-chatting')
-
-    // 개별 메시지 틀 
-    const li = document.createElement('li');
-
-    // 개별 메시지 내용 
-    const p = document.createElement('p')
-    p.innerHTML = msg.messageContent
-    p.classList.add('chat')
-
-    // 보낸 시간 
-    const span = document.createElement('span')
-    span.innerText = msg.sendTime;
-    span.classList.add('chatDate');
+function triggerFileInput() {
+    const fileInput = document.getElementById('imageInput');
+    if (!fileInput) return;
     
-    // 내가 작성한 메시지의 경우 
-    if (loginMemberNo == msg.senderNo) {
-        li.classList.add('my-chat')
-        li.appendChild(span);
-        li.appendChild(p);
-    } else {
-        li.classList.add('target-chat')
-
-        // 관리자 프로필
-        const img = document.createElement('img');
-        img.setAttribute('src', adminProfile)
-
-        const div = document.createElement('div')
-
-        // 관리자 이름 
-        const b = document.createElement('b')
-        b.innerText = adminName;
-
-        // 메시지와 시간을 감싸는 컨테이너
-        const msgContainer = document.createElement('div');
-        msgContainer.style.display = 'flex';
-        msgContainer.style.gap = '8px';
-        msgContainer.style.alignItems = 'flex-end';
+    fileInput.onchange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
         
-        msgContainer.appendChild(p);
-        msgContainer.appendChild(span);
-
-        div.appendChild(b)
-        div.appendChild(msgContainer)
-        li.appendChild(img)
-        li.appendChild(div)
-    }
-
-    ul.appendChild(li)
-
-    // 스크롤 맨 아래로 이동
-    scrollToBottom();
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            const obj = { 
+                senderNo: loginMemberNo, 
+                targetNo: selectTargetNo, 
+                chattingNo: selectChattingNo, 
+                messageContent: '[이미지]', 
+                fileData: ev.target.result, 
+                isFile: true 
+            };
+            if (chattingSock?.readyState === 1) chattingSock.send(JSON.stringify(obj));
+        };
+        reader.readAsDataURL(file);
+    };
     
-    // 목록 업데이트
-    selectMessageList();
+    fileInput.click();
 }

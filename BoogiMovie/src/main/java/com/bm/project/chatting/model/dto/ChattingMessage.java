@@ -25,5 +25,7 @@ public class ChattingMessage {
 	
 	@JsonProperty("senderNo")
 	private int senderId;	
+	
+	private String imgPath;
 
 }
