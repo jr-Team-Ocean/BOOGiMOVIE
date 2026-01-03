@@ -59,27 +59,30 @@
                 <th:block th:if="${#lists.size(cartList) > 0}">
 
                     <th:block th:each="item : ${cartList}">
-
+                        
                         <div class="cart-item">
                             <div class="check-area">
                                 <!-- 개별 아이템 선택 체크박스 -->
                                 <input type="checkbox" class="product_del_checkbox">
                             </div>
-
+                            
                             <div class="image-area">
                                 <img th:src="${item.imgPath}" alt="상품 이미지">
                             </div>
-
+                            
                             <div class="info-area">
-
+                                
                                 <div class="item-header">
-                                    <!-- [도서 / 영화 / 중고도서] 조건 나눠서 대괄호 안에 넣어줘야 함 -->
-                                    <h3 class="product_title" th:text="${item.productTitle}">상품명</h3>
+                                    <!-- 아이템 삭제 할 때 필요한 값 -->
+                                    <input type="hidden" th:value="${item.cartNo}" class="itemNo">
+                                    
+                                    <!-- 상품이 도서면 [도서] 상품명, 영화면 [영화] 상품명 -->
+                                    <h3 class="product_title" th:text="|${item.typeCode == 1 ? '[도서]' : '[영화]'} ${item.productTitle}|">상품명</h3>
                                     <button class="delete_btn">삭제</button>
                                 </div>
-
+                                
                                 <div class="product_price" th:text="|${#numbers.formatInteger(item.productPrice, 1, 'COMMA')}원|">가격</div>
-
+                                
                                 <div class="quantity-control">
                                     <span>수량</span>
                                     <div class="inputs">
@@ -89,7 +92,7 @@
                                     </div>
                                     <span>개</span>
                                 </div>
-
+                                
                             </div>
                         </div>
 

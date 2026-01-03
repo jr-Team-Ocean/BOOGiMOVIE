@@ -21,6 +21,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Builder
@@ -43,6 +44,15 @@ public class Cart {
 	
 	@Column(name = "QUANTITY", nullable = false)
 	private Integer quantity;
+	
+	// 수량만 변경할 수 있도록
+	public void updateQuantity(Integer quantity) {
+		if(quantity < 1) {
+			throw new IllegalArgumentException("수량은 1개 이상이어야 합니다.");
+		}
+		
+		this.quantity = quantity;
+	}
 	
 	// Cart: 연관관계 주인
 	@ManyToOne(fetch = FetchType.LAZY)
