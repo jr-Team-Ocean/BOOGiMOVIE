@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 import com.bm.project.entity.Member;
 import com.bm.project.entity.MemberSocial;
+import com.bm.project.entity.Member.IsYN;
 import com.bm.project.enums.CommonEnums.SocialProvider;
 
 import lombok.AllArgsConstructor;
@@ -60,6 +61,7 @@ public class MemberDto {
 		private Long memberNo;
 		private String memberId;
 		private String memberNickName;
+		private IsYN isAdmin;
 		
 		
 		public static LoginResult fromEntity(Member m) {
@@ -67,6 +69,7 @@ public class MemberDto {
 	        dto.setMemberNo(m.getMemberNo());
 	        dto.setMemberId(m.getMemberId());
 	        dto.setMemberNickName(m.getMemberNickName());
+	        dto.setIsAdmin(m.getIsAdmin());
 	        return dto;
 	    }
 		
