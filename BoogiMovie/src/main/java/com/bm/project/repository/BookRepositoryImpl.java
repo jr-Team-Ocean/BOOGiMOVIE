@@ -10,7 +10,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.bm.project.entity.Book;
+import com.bm.project.entity.Category;
 import com.bm.project.entity.Product;
+import com.bm.project.entity.ProductTag;
+import com.bm.project.entity.ProductTagConnect;
+import com.bm.project.entity.ProductType;
+import com.bm.project.entity.TagCode;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -346,6 +351,34 @@ public class BookRepositoryImpl implements BookRepository{
 		return em.createQuery(query, String.class)
 				 .setParameter("productNo", productNo)
 				 .getResultList();
+	}
+
+
+
+	@Override
+	public Category getReference(Class<Category> categoryEntityClass, Long categoryId) {
+		return em.getReference(categoryEntityClass, categoryId);
+	}
+
+	@Override
+	public ProductType getReference(Class<ProductType> pTypeEntityClass, long typeCode) {
+		return em.getReference(pTypeEntityClass, typeCode);
+	}
+
+	@Override
+	public TagCode getTagCodeRef(long code) {
+		return em.getReference(TagCode.class, code);
+	}
+
+	
+	@Override
+	public void saveProductTagConnect(Product product, ProductTag tag) {
+		
+		ProductTagConnect con = ProductTagConnect.builder()
+												 .product(product)
+												 .productTag(tag)
+												 .build();
+		em.persist(con);
 	}
 	
 	

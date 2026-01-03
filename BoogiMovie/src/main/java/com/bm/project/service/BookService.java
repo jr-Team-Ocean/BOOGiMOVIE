@@ -1,11 +1,13 @@
 package com.bm.project.service;
 
+import java.io.IOException;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.bm.project.dto.BookDto;
+import com.bm.project.dto.BookDto.Create;
 
 public interface BookService {
 
@@ -17,5 +19,8 @@ public interface BookService {
 
 	// 도서 상세 조회
 	BookDto.Response selectBookDetail(Long productNo);
+
+	// 도서 등록 (상품 번호 반환)
+	Long bookWrite(Create bookCreate) throws IllegalStateException, IOException;
 
 }
