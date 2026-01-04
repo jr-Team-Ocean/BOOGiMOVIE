@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -13,7 +13,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link th:href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 
 </head>
 
@@ -33,7 +33,7 @@
             </header>
 
             <div class="select_container">
-                <select class="search_order">
+                <select class="search_order" id="search_order">
                     <option value="recent">찜한순</option>
                     <option value="name">가나다순</option>
                     <option value="price">가격순</option>
@@ -42,29 +42,35 @@
 
             <section class="search_content">
 
-                <div class="search_box_menu">
+                <div class="search_box_menu" id="search_box_menu">
                     <h3>검색 결과</h3>
                 </div>
 
                 <!-- 타임리프로 초기 데이터 렌더링 -->
                 <th:block th:each="favorite : ${favorites}">
                     <div class="search_box_results">
+                        
                         <div class="search_box_pic">
-                            <a th:href="#"><img th:src="${favorite.productImage}" th:alt="${favorite.productTitle}"></a>
+                            <a th:href="@{/product/detail/{id}(id=${favorite.productNo})}">
+                                <img th:src="${favorite.productImage}" th:alt="${favorite.productTitle}">
+                            </a>
                         </div>
 
                         <div class="search_box_detail">
-                            <div class="title" th:text="${favorite.productTitle}"></div>
-                            <div class="writer" th:text="'지은이 : ' + ${favorite.productAuthor}"></div>
+                            <div class="title" th:text="${favorite.productTitle}">상품명</div>
+                            
+                            <div th:text="${favorite.favoriteDate}">2026년 01월 01일</div>
+                            
                             <div class="price"
                                 th:text="'상품상태(' + ${favorite.productStatus} + ')/판매가격(' + ${#numbers.formatInteger(favorite.productPrice, 3, 'COMMA')} + '원)'">
                             </div>
                         </div>
 
                         <div class="search_box_like">
-                            <a th:href="#" th:onclick="removeFavorite([[${favorite.favoriteNo}]]); return false;"><img
-                                    src="../../static/svg/heart_filled.svg" alt=""></a>
-                            <div th:text="${#dates.format(favorite.favoriteDate, 'yyyy년 MM월 dd일')}"></div>
+                            <a th:href="@{#}" th:onclick="'removeFavorite(' + ${favorite.productNo} + '); return false;'">
+                                <img th:src="@{/svg/heart_filled.svg}" alt="찜 해제">
+                            </a>
+                            <div th:text="${favorite.favoriteDate}"></div>
                         </div>
 
                     </div>
@@ -76,91 +82,42 @@
                         <p style="font-size: 16px; margin-bottom: 10px;">찜한 상품이 없습니다.</p>
                         <p style="font-size: 14px;">마음에 드는 상품을 찜해보세요!</p>
                     </div>
-                </th:block>
-
-                <!-- 개발용 샘플 데이터 (백엔드 완성 후 삭제) -->
-                <div class="search_box_results"
-                    style="border-bottom: 1px solid black; margin: 20px 0; padding: 20px 0;">
-                    <div class="search_box_pic">
-                        <a th:href="#"><img src="../../static/images/sample_book.png" alt=""></a>
-                    </div>
-
-                    <div class="search_box_detail">
-                        <div class="title">[중고]유튜브, 이제 나도! 유튜버다</div>
-                        <div class="writer">지은이 : 김춘추</div>
-                        <div class="price">상품상태(중)/판매가격(12,000원)</div>
-                    </div>
-
-                    <div class="search_box_like">
-                        <a th:href="#"><img src="../../static/svg/heart_filled.svg" alt=""></a>
-                        <div>2026년 1월 1일</div>
-                    </div>
-
-                </div>
-
-                <div class="search_box_results"
-                    style="border-bottom: 1px solid black; margin: 20px 0; padding: 20px 0;">
-                    <div class="search_box_pic">
-                        <a th:href="#"><img src="../../static/images/sample_book.png" alt=""></a>
-                    </div>
-
-                    <div class="search_box_detail">
-                        <div class="title">[중고]파이썬 완벽 가이드</div>
-                        <div class="writer">지은이 : 이순신</div>
-                        <div class="price">상품상태(중)/판매가격(15,000원)</div>
-                    </div>
-
-                    <div class="search_box_like">
-                        <a th:href="#"><img src="../../static/svg/heart_filled.svg" alt=""></a>
-                        <div>2026년 1월 2일</div>
-                    </div>
-
-                </div>
-
-                <div class="search_box_results"
-                    style="border-bottom: 1px solid black; margin: 20px 0; padding: 20px 0;">
-                    <div class="search_box_pic">
-                        <a th:href="#"><img src="../../static/images/sample_book.png" alt=""></a>
-                    </div>
-
-                    <div class="search_box_detail">
-                        <div class="title">[중고]JavaScript 마스터하기</div>
-                        <div class="writer">지은이 : 세종대왕</div>
-                        <div class="price">상품상태(상)/판매가격(18,000원)</div>
-                    </div>
-
-                    <div class="search_box_like">
-                        <a th:href="#"><img src="../../static/svg/heart_filled.svg" alt=""></a>
-                        <div>2026년 1월 3일</div>
-                    </div>
-
-                </div>
+                </th:block>                
 
             </section>
 
-            <div class="pagination">
-                <a th:href="#">&laquo;</a>
-                <a th:href="#">&lt;</a>
-                <a th:href="#" class="active">1</a>
-                <a th:href="#">2</a>
-                <a th:href="#">3</a>
-                <a th:href="#">4</a>
-                <a th:href="#">5</a>
-                <a th:href="#">6</a>
-                <a th:href="#">7</a>
-                <a th:href="#">8</a>
-                <a th:href="#">9</a>
-                <a th:href="#">10</a>
-                <a th:href="#">&gt;</a>
-                <a th:href="#">&raquo;</a>
+            <div class="pagination" th:if="${pageDto != null and pageDto.totalCount > 0}">
+    
+                <a th:href="@{/myPage/likedList(page=${pageDto.prevPage})}" 
+                th:if="${pageDto.blockStart > 1}">&lt;</a>
+
+                <th:block th:each="pageNumber : ${#numbers.sequence(pageDto.blockStart, pageDto.blockEnd)}">
+                    <a th:href="@{/myPage/likedList(page=${pageNumber})}"
+                    th:text="${pageNumber}"
+                    th:classappend="${pageNumber == pageDto.currentPage} ? 'active' : ''">
+                    </a>
+                </th:block>
+
+                <a th:href="@{/myPage/likedList(page=${pageDto.nextPage})}" 
+                th:if="${pageDto.blockEnd < pageDto.totalPage}">&gt;</a>
+                
             </div>
         </main>
 
     </div>
 
-
+    
     <!-- footer -->
     <th:block th:replace="~{common/footer}">footer.html</th:block>
+ 
+    <script th:src="@{/js/myPage/myFavorite.js}"></script>
+
 </body>
 
 </html>
+
+
+
+
+
+
