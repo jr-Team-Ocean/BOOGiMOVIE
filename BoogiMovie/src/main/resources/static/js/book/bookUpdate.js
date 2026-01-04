@@ -36,6 +36,17 @@ document.addEventListener("DOMContentLoaded", function () {
     // 실제 전달될 부분
     const categoryId = document.getElementById("categoryId");
 
+
+    (function initCategory() {
+        if (mainCategory.value === "11") {
+            subCategory.style.display = "inline-block";
+        } else {
+            subCategory.style.display = "none";
+        }
+    })();
+
+
+
     // 이미지 처리
     imageInput.addEventListener("change", function (e) {
         
@@ -166,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // 이미지 필수
-        if (imageInput.files.length === 0) {
+        if (imageInput.files.length === 0 && !imagePreview.getAttribute("src")) {
             alert("대표 이미지를 등록해주세요.");
             e.preventDefault();
             return;

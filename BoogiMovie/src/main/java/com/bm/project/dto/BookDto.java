@@ -85,6 +85,7 @@ public class BookDto {
         				   .pCategoryName(pCategory != null ? pCategory.getCategoryName() : null)
         				   
         				   .isbn(book.getIsbn())
+        				   .bookCount(book.getBookCount())
         				   .writers(writers)
         				   .publishers(publishers)
         				   
@@ -137,5 +138,21 @@ public class BookDto {
 		
 	}
 	
+	@Builder
+	@Getter
+	@Setter
+	public static class Update {
+		private String isbn;
+	    private String productTitle;
+	    private MultipartFile bookImage;
+	    private String writers;
+	    private String publishers;
+	    private LocalDate productDate;
+	    private Integer productPrice;
+	    private Long categoryId;
+	    private Integer bookCount;
+	    private String productContent;
+	}
 	
+
 }

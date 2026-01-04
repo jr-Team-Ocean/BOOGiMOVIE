@@ -59,10 +59,10 @@
             </span>
 
             <!-- 관리자용 수정 삭제 -->
-            <div class="book-edit">
-                <span class="go-edit">수정</span>
+            <div class="book-edit" sec:authorize="hasRole('ADMIN')">
+                <span class="go-update" id="update-btn">수정</span>
                 <span>|</span>
-                <span class="go-delete">삭제</span>
+                <span class="go-delete"  id="delete-btn">삭제</span>
             </div>
         </section>
 
