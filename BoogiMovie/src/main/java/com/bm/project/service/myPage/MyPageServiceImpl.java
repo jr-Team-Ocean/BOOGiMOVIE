@@ -15,12 +15,19 @@ import com.bm.project.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import com.bm.project.dto.MemberDto;
+import com.bm.project.entity.Product;
+import com.bm.project.repository.MyPageRepository;
+
 @Service
 @RequiredArgsConstructor
 public class MyPageServiceImpl implements MyPageService {
 	
 	private final MemberRepository memberRepo;
 	private final ProductRepository productRepo;
+	private final MyPageRepository repository;
 
 	// 회원 정보 가져오기
 	@Override
@@ -54,5 +61,15 @@ public class MyPageServiceImpl implements MyPageService {
 		
 		return 1;
 	}
+	
+	// 내가 찜한 상품
+	@Override
+    @Transactional(readOnly = true)
+    public Page<MemberDto.FavoriteResponse> getFavoriteList(Long memberNo, String order, Pageable pageable) {
+        
+        Page<Product> productPage = repository.findByMemberNo(memberNo, order, pageable);
+        
+        return productPage.map(MemberDto.FavoriteResponse::toDto);
+    }
 
 }
