@@ -167,8 +167,8 @@ document.addEventListener("click", (e) => {
  * 6) 글쓰기 버튼 이동 (기존)
  * ========================= */
 const writeBtn = document.getElementById('write-btn');
-    if (writeBtn) {
-        writeBtn.addEventListener('click', () => {
-        location.href = '/movies/write';
-    });
-}
+    
+writeBtn.addEventListener('click', () => {
+    location.href = '/movies/write';
+});
+

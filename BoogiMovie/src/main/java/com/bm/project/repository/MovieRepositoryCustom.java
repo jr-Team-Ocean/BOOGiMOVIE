@@ -4,10 +4,11 @@ import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bm.project.entity.Movie;
 import com.bm.project.entity.Product;
+import com.bm.project.entity.ProductTag;
+import com.bm.project.entity.TagCode;
 
 public interface MovieRepositoryCustom{
 
@@ -16,6 +17,11 @@ public interface MovieRepositoryCustom{
 
 	// 영화 검색 조회
 	Page<Movie> searchMovieList(Map<String, Object> paramMap, Pageable pageable);
+	
+	boolean existsProductTagConnect(Long productNo, Long tagNo);
 
+	void saveProductTagConnect(Product product, ProductTag tag);
 
+	TagCode getTagCodeRef(long tagCode);
+	
 }
