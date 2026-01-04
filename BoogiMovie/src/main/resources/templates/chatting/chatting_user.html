@@ -1,215 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1대1 문의 채팅</title>
-    <link rel="stylesheet" href="../../static/css/chatting/chatting_user.css">
-    <link rel="stylesheet" href="../../static/css/common/header.css">
-    <link rel="stylesheet" href="../../static/css/common/font.css">
-    <link rel="stylesheet" href="../../static/css/common/footer.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
-
+    <title>1:1 문의</title>
+    <link rel="stylesheet" th:href="@{/css/chatting/chatting_user.css}">
+    <link rel="stylesheet" th:href="@{/css/common/font.css}">
+    <link rel="stylesheet" th:href="@{/css/common/header.css}">
+    <link rel="stylesheet" th:href="@{/css/common/footer.css}">
 </head>
 <body>
-    
-    <!-- header -->
-    
-    <div class="header_container">
+
+    <th:block th:replace="~{/common/header}"></th:block>
+        
+    <!-- <div class="header_container">
         <div class="blue_background">
             <div class="header_inner">
                 <div class="header_category">
-                    <div class="header_active"><a href="#" class="white font-18px">홈</a></div>
-                    <div><a href="#" class="white font-18px">도서</a></div>
-                    <div><a href="#" class="white font-18px">중고도서</a></div>
-                    <div><a href="#" class="white font-18px">영화</a></div>
+                    <a th:href="@{/}"> <div class="white font-18px">홈</div> </a>
+                    <a th:href="@{/books}"> <div class="white font-18px">도서</div> </a>
+                    <a th:href="@{/ubooks}"> <div class="white font-18px">중고도서</div> </a>
+                    <a th:href="@{/movies}"> <div class="white font-18px">영화</div> </a>
                 </div>
-
                 <div class="header_login">
-                    <div><a href="#" class="white font-18px">로그인</a></div>
-                    <div><a href="#" class="white font-18px">회원가입</a></div>
+                    <a th:href="@{/myPage/myCart}"><div class="white font-18px">장바구니</div></a>
+                    <a th:href="@{/myPage}"><div class="white font-18px">마이페이지</div></a>
+    
+                    <a th:href="@{/chatting}" style="text-decoration: none; display: flex; align-items: center; gap: 8px;">
+                        <div class="white font-18px">1:1 문의</div>
+                        <span class="notread_img" style="display: none;">0</span>
+                    </a>
+
+                    <a th:href="@{/member/logout}"><div class="white font-18px">로그아웃</div></a>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- 로고 및 검색바 -->
-    <div class="logo_search_container">
-        <!-- 로고 -->
-        <div class="logo_container">
-            <a href="#"><img src="../../static/images/common/logo_basic.png" alt=""></a>
-        </div>
-
-        <!-- 검색바 전체 자리 -->
-        <div class="search_container">
-            <!-- 검색 아이콘 -->
-            <div class="search_icon">
-                <img src="../../static/svg/search_icon.svg" alt="">
-            </div>
-
-            <!-- 검색란 -->
-            <div class="search_input">
-                <input type="text" placeholder="원하는 작품을 검색해 보세요!">
-            </div>
-        </div>
-    </div>
-
-    <!-- header -->   
+    </div> -->
 
     <main>
         <header class="section_header">
             <h1>1대1 문의</h1>
         </header>
 
+        <div class="header_nav_button">
+                    <button class="notread">안읽음
+                    <span class="notread_img" alt="안읽은 메시지 수">3 </span>
+                    </button>
+        </div> 
+
         <section class="section_nav"> 
             <div class="header_nav_search">
-                <img src="../../static/svg/magnifier.svg" alt="검색 아이콘">
-                <input id="targetInput" type="text" placeholder="관리자와의 대화를 검색하세요">
-                <ul id="resultArea"></ul>
+                <img th:src="@{/svg/magnifier.svg}" alt="검색">
+                <input id="targetInput" type="text" placeholder="관리자와의 대화를 검색하세요" onkeyup="if(window.event.keyCode==13){searchMessage()}">
             </div> 
-            
             <nav class="header_nav_page"> 
-                <a href="#">&laquo;</a>
-                <a href="#">&lt;</a>
-                <span class="page_status"> 1 / 1</span>
-                <a href="#">&gt;</a>
-                <a href="#">&raquo;</a>
+                <button type="button" class="search-nav-btn" onclick="prevSearchResult()">&lt;</button>
+                <span id="searchCount">0 / 0</span>
+                <button type="button" class="search-nav-btn" onclick="nextSearchResult()">&gt;</button>
             </nav>
-        </section>            
+        </section>          
 
         <section class="right_panel" id="rightChatBox">
-            <ul class="display-chatting">
-                <li class="target-chat">
-                    <img src="../../static/svg/person.svg" alt="프로필">
-                    <div>
-                        <b>관리자</b>
-                        <div style="display: flex; gap: 8px; align-items: flex-end;">
-                            <p class="chat">장바구니를 눌렀는데, 아무 반응이 없어요. 아무 반응이 없어요. 아무 반응이 없어요. 아무 반응이 없어요. 아무 반응이 없어요. 아무 반응이 없어요. 아무 반응이 없어요. 아무 반응이 없어요.</p>
-                            <span class="chatDate">14:20</span>
-                        </div>
-                    </div>
-                </li>
-                <li class="my-chat">
-                    <span class="chatDate">14:25</span>
-                    <p class="chat">확인중입니다. 확인중입니다. 확인중입니다. 확인중입니다. 확인중입니다. 확인중입니다. 확인중입니다. 확인중입니다. 확인중입니다. 확인중입니다.</p>
-                </li>
-                <li class="target-chat">
-                    <img src="../../static/svg/person.svg" alt="프로필">
-                    <div>
-                        <b>관리자</b>
-                        <div style="display: flex; gap: 8px; align-items: flex-end;">
-                            <p class="chat">언제쯤 확인이 가능할까요?</p>
-                            <span class="chatDate">14:28</span>
-                        </div>
-                    </div>
-                </li>
-                <li class="my-chat">
-                    <span class="chatDate">14:30</span>
-                    <p class="chat">잠시만 기다려주시면 정확한 확인 후 답변드리겠습니다.</p>
-                </li>
-            </ul>
+            <ul class="display-chatting"></ul>
         </section>
         
         <section class="bottom_control_row">
             <div class="chat_input_section">
                 <div class="bottom_input_container">
                     <input type="text" placeholder="메세지를 입력하세요" class="chat_input" id="chattingInput">
-                    <button class="attach_button">
-                        <img src="../../static/svg/camera.svg" class="bottom_img2" alt="파일 첨부 버튼"> 
+                    
+                    <button class="attach_button" type="button" onclick="document.getElementById('imageInput').click()">
+                        <img th:src="@{/svg/camera.svg}" class="bottom_img2" alt="파일 첨부 버튼"> 
                     </button>
+                    <input type="file" id="imageInput" style="display:none;" accept="image/*">
+                    
                     <button class="send_button" id="sendBtn">
-                        <img src="../../static/svg/enter.svg" class="bottom_img1" alt="전송 버튼"> 
+                        <img th:src="@{/svg/enter.svg}" class="bottom_img1" alt="전송 버튼"> 
                     </button>
                 </div>
             </div>
         </section>
-        
     </main>
 
-    <!-- footer -->
+    <th:block th:replace="~{/common/footer}"></th:block>
 
-    <footer class="footer">
-        <div class="footer-in">
-
-            <!-- 상단 링크 -->
-            <nav class="ft-toplinks" aria-label="Ft links">
-                <a href="#">회사소개</a>
-                <span class="sep">|</span>
-                <a href="#">서비스 소개</a>
-                <span class="sep">|</span>
-                <a href="#">이용약관</a>
-                <span class="sep">|</span>
-                <a href="#">개인정보처리방침</a>
-                <span class="sep">|</span>
-                <a href="#">청소년보호정책</a>
-                <span class="sep">|</span>
-                <a href="#">채용정보</a>
-                <span class="sep">|</span>
-                <a href="#">광고문의</a>
-            </nav>
-
-            <div class="footer-main">
-                <!-- 좌측 로고 -->
-                <div class="footer-brand" aria-label="BOOGIMOVIE">
-                    <img src="../../static/images/common/logo_white.png" alt="">
-                <div class="brand-text">BOOGIMOVIE</div>
-            </div>
-
-            <!-- 회사 정보 -->
-            <div class="footer-info">
-                <div class="info-row">
-                    <span class="info-title">(주)BOOGIMOVIE</span>
-                </div>
-
-                <div class="info-row">
-                    <span>서울특별시 종로구 우정국로2길 21 9층, 903호</span>
-                </div>
-
-                <div class="info-row">
-                    <span>대표자: (발신자부담) 1544-0000(부기문고) · 1661-1112(핫트랙스)</span>
-                </div>
-
-                <div class="info-row">
-                    <span>이메일: boogi@naver.com</span>
-                </div>
-
-                <div class="info-row">
-                    <span>대표 FAX: 2025-012-0801</span>
-                </div>
-
-                <div class="info-row">
-                    <span>사업자등록번호: 102-81-11670</span>
-                </div>
-
-                <div class="info-row">
-                    <span>통신판매업신고: 0000 - 서울 종로구 - 00000</span>
-                </div>
-
-                <div class="info-row">
-                    <span>개인정보관리 책임자: 김무비</span>
-                </div>
-
-                <div class="info-row copyright">
-                    © BOOGIMOVIE CENTRE
-                </div>
-            </div>
-
-            <!-- 우측 SNS -->
-            <div class="footer-sns" aria-label="Social links">
-                <a class="sns-btn" href="#" aria-label="KakaoTalk">카톡</a>
-                <a class="sns-btn" href="#" aria-label="Facebook">페북</a>
-                <a class="sns-btn" href="#" aria-label="Instagram">인스타</a>
-                <a class="sns-btn" href="#" aria-label="YouTube">유튜브</a>
-            </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- footer -->
-
-    <script src="../../static/js/chatting/chatting_user.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script th:inline="javascript">
+        const loginMemberNo = /*[[${session.loginMember?.memberNo}]]*/ 0;
+    </script>
+    <script th:src="@{/js/chatting/chatting_user.js}"></script>
 </body>
 </html>

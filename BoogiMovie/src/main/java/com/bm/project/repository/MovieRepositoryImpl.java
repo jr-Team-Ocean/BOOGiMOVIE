@@ -1,0 +1,204 @@
+package com.bm.project.repository;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
+
+import com.bm.project.entity.Movie;
+import com.bm.project.enums.CommonEnums;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+
+@Repository
+public class MovieRepositoryImpl implements MovieRepositoryCustom{
+	
+	@PersistenceContext
+	private EntityManager em;
+
+	// 영화 목록 조회
+	@Override
+	public Page<Movie> selectMovieList(Map<String, Object> paramMap, Pageable pageable) {
+		return runListQuery(paramMap, pageable, false);
+	}
+
+	// 영화 검색 조회
+	@Override
+	public Page<Movie> searchMovieList(Map<String, Object> paramMap, Pageable pageable) {
+		return runListQuery(paramMap, pageable, true);
+	}
+	
+	private Page<Movie> runListQuery(Map<String, Object> paramMap, Pageable pageable, boolean isSearch){
+		
+		// 카테고리(단일) 
+		Long categoryId = null;
+		if (paramMap.get("category") != null && !paramMap.get("category").toString().isBlank()) {
+            categoryId = Long.valueOf(paramMap.get("category").toString());
+        }
+		
+		// 카테고리(복수: 전체 탭에서 장르를 국내+해외 둘 다 검색)
+		List<Long> categoryIds = null;
+        if (paramMap.get("categoryIds") != null && !paramMap.get("categoryIds").toString().isBlank()) {
+            String[] arr = paramMap.get("categoryIds").toString().split(",");
+            categoryIds = Arrays.stream(arr)
+                    .map(String::trim)
+                    .filter(s -> !s.isEmpty())
+                    .map(Long::valueOf)
+                    .toList();
+        }
+        
+        boolean hasCategory = (categoryId != null && categoryId != 0);
+        boolean hasCategoryIds = (categoryIds != null && !categoryIds.isEmpty());
+
+        // categoryIds만 들어오는 경우도 카테고리 필터를 적용해야 함
+        boolean hasAnyCategoryFilter = hasCategory || hasCategoryIds;
+
+        // 정렬
+        String sort = String.valueOf(paramMap.getOrDefault("sort", "latest"));
+        boolean popular = "popular".equals(sort);
+
+        // 검색 키워드
+        String keyword = String.valueOf(paramMap.getOrDefault("query", "")).trim();
+        boolean hasKeyword = !keyword.isBlank();
+        
+
+        // 목록 쿼리
+        StringBuilder sb = new StringBuilder();
+        sb.append("select m from Movie m ")
+          .append(" join fetch m.product p ")
+          .append(" where p.productDelFl = :delFl ")
+          .append(" and p.productType.typeCode = :typeCode ");
+        
+       // System.out.println("LIST JPQL = " + sb);
+
+
+        // 검색 조건 (제목 OR 감독/배우 태그명)
+        if (isSearch && hasKeyword) {
+            sb.append(" and (")
+              .append(" lower(p.productTitle) like :kw ")
+              .append(" or exists (")
+              .append("     select 1 ")
+              .append("     from ProductTagConnect ptc ")
+              .append("     join ptc.productTag pt ")
+              .append("     where ptc.product.productNo = p.productNo ")
+              .append("       and pt.tagCode.tagCode in (2, 5) ") // 감독(2), 배우(5)
+              .append("       and lower(pt.tagName) like :kw ")
+              .append(" )")
+              .append(" ) ");
+        }
+        
+        // 카테고리 조건
+    	// 전체 탭에서 "장르"를 누른 경우: 국내/해외 장르 2개를 함께 검색
+    	if (hasCategoryIds) {
+            sb.append(" and p.category.categoryId in :categoryIds ");
+        }
+
+    	else if (hasCategory) {
+    		// 국내/해외 탭 자체(부모 100/200)를 누른 경우
+    		if (categoryId == 100L || categoryId == 200L) {
+    	        sb.append(" and (p.category.categoryId = :categoryId ")
+    	          .append(" or p.category.pCategoryId.categoryId = :categoryId) ");
+    	    
+    		} else {
+    	        sb.append(" and p.category.categoryId = :categoryId ");
+    	    }
+    	}
+    	
+        // 정렬
+        if ("popular".equals(sort)) {
+            sb.append(" order by (select count(l) from Likes l where l.product = p) desc, p.productDate desc ");
+        
+        } else {
+            sb.append(" order by p.productDate desc ");
+        }
+        
+        TypedQuery<Movie> q = em.createQuery(sb.toString(), Movie.class)
+                .setParameter("delFl", CommonEnums.ProductDelFl.N)
+                .setParameter("typeCode", 2);
+
+        if (isSearch && hasKeyword) {
+            q.setParameter("kw", "%" + keyword.toLowerCase() + "%");
+        }
+        
+        if (hasCategoryIds) {
+            q.setParameter("categoryIds", categoryIds);
+            
+        } else if (hasCategory) {
+            q.setParameter("categoryId", categoryId);
+        }
+        
+        List<Movie> movies = q
+                .setFirstResult((int) pageable.getOffset())
+                .setMaxResults(pageable.getPageSize())
+                .getResultList();
+        
+        
+        // count 쿼리
+        StringBuilder csb = new StringBuilder();
+        csb.append("select count(m) from Movie m ")
+           .append(" join m.product p ")
+           .append(" where p.productDelFl = :delFl ")
+           .append(" and p.productType.typeCode = :typeCode ");
+
+        if (isSearch && hasKeyword) {
+            csb.append(" and (")
+               .append(" lower(p.productTitle) like :kw ")
+               .append(" or exists (")
+               .append("     select 1 ")
+               .append("     from ProductTagConnect ptc ")
+               .append("     join ptc.productTag pt ")
+               .append("     where ptc.product.productNo = p.productNo ")
+               .append("       and pt.tagCode.tagCode in (2, 5) ")
+               .append("       and lower(pt.tagName) like :kw ")
+               .append(" )")
+               .append(" ) ");
+        }
+        
+        if (hasCategoryIds) {
+        	csb.append(" and p.category.categoryId in :categoryIds ");
+        }
+
+    	else if (hasCategory) {
+    		// 국내/해외 탭 자체(부모 100/200)를 누른 경우
+    		if (categoryId == 100L || categoryId == 200L) {
+    			csb.append(" and (p.category.categoryId = :categoryId ")
+    	          .append(" or p.category.pCategoryId.categoryId = :categoryId) ");
+    	    
+    		} else {
+    			csb.append(" and p.category.categoryId = :categoryId ");
+    	    }
+    	}
+
+        TypedQuery<Long> cq = em.createQuery(csb.toString(), Long.class)
+                .setParameter("delFl", CommonEnums.ProductDelFl.N)
+                .setParameter("typeCode", 2);
+
+        if (isSearch && hasKeyword) {
+            cq.setParameter("kw", "%" + keyword.toLowerCase() + "%");
+        }
+        
+        if (hasCategoryIds) {
+            cq.setParameter("categoryIds", categoryIds);
+            
+        } else if (hasCategory) {
+            cq.setParameter("categoryId", categoryId);
+        }
+
+        Long total = cq.getSingleResult();
+        
+        // System.out.println("category=" + paramMap.get("category"));
+        // System.out.println("categoryIds=" + paramMap.get("categoryIds"));
+        // System.out.println("result size=" + movies.size() + ", total=" + total);
+
+        
+		return new PageImpl<>(movies, pageable, total);
+	}
+	
+	
+}

@@ -1,6 +1,6 @@
 	plugins {
 	id 'java'
-	id 'org.springframework.boot' version '4.0.0'
+	id 'org.springframework.boot' version '3.5.6'
 	id 'io.spring.dependency-management' version '1.1.7'
 }
 
@@ -29,9 +29,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-security-oauth2-client'
+	// implementation 'org.springframework.boot:spring-boot-starter-security-oauth2-client'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -44,7 +44,7 @@ dependencies {
     implementation 'net.logstash.logback:logstash-logback-encoder:7.4'
     
     // 웹소켓
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-websocket', version: '3.1.0'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
     
     //GSON
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.10.1'

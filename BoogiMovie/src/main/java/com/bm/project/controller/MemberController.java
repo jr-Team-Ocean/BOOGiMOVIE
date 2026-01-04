@@ -29,6 +29,7 @@ import com.bm.project.service.member.MemberService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -77,7 +78,7 @@ public class MemberController {
 	        context.setAuthentication(authentication);
 	        SecurityContextHolder.setContext(context);
 	        
-	        // 세션에 컨텍스트 영구 저장 (리다이렉트 시에도 유지함)
+	        // 시큐리티 세션에 컨텍스트 영구 저장 (리다이렉트 시에도 유지함)
 	        securityContextRepository.saveContext(context, request, response);
 			
 			// 쿠키 생성
@@ -104,8 +105,15 @@ public class MemberController {
 	
 	// 로그아웃
 	@GetMapping("logout")
-	public String logout(SessionStatus status, RedirectAttributes ra) {
-		status.setComplete();
+	public String logout(SessionStatus status, RedirectAttributes ra, HttpSession session) {
+		status.setComplete(); // 등록된 세션 지우기
+		
+		if(session != null) {
+			session.invalidate();
+			// 시큐리티 인증 정보까지 다 지우기
+		}
+		
+		
 		SecurityContextHolder.clearContext(); // 컨텍스트에서도 제거
 		return "redirect:/";
 	}

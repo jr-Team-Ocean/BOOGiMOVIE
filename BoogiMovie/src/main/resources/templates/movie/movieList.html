@@ -23,247 +23,143 @@
         <div class="movie-header">
             <!-- 네비게이션 -->
             <div class="nav-container">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item active" data-type="all">전체</li>
-                    <li class="nav-item" data-type="domestic">국내영화</li>
-                    <li class="nav-item" data-type="foreign">해외영화</li>
+                <ul class="nav nav-tabs" th:with="c=${paramMap['category'] ?: '0'}">
+                    <li class="nav-item" data-type="all" data-nation="0"
+                        th:classappend="${c == '0'} ? ' active' : ''">전체</li>
+
+                    <li class="nav-item" data-type="domestic" data-nation="100"
+                        th:classappend="${c.startsWith('1')} ? ' active' : ''">국내영화</li>
+
+                    <li class="nav-item" data-type="foreign" data-nation="200"
+                        th:classappend="${c.startsWith('2')} ? ' active' : ''">해외영화</li>
                 </ul>
             </div>
 
             <!-- 카테고리(장르) -->
-            <div class="genre-list">
+            <div class="genre-list active"
+                th:with="c=${(paramMap['category'] ?: '0')}"
+                th:classappend="${c != 0} ? ' active' : ''">
                 <div class="genre-group">
-                    <button>액션</button>
-                    <button>모험</button>
-                    <button>애니메이션</button>
-                    <button>코미디</button>
-                    <button>범죄</button>
-                    <button>다큐멘터리</button>
-                    <button>드라마</button>
-                    <button>가족</button>
-                    <button>판타지</button>
-                    <button>역사</button>
+                    <button type="button" class="genre-btn" data-domestic="101" data-foreign="201">액션</button>
+                    <button type="button" class="genre-btn" data-domestic="102" data-foreign="202">모험</button>
+                    <button type="button" class="genre-btn" data-domestic="103" data-foreign="203">애니메이션</button>
+                    <button type="button" class="genre-btn" data-domestic="104" data-foreign="204">코미디</button>
+                    <button type="button" class="genre-btn" data-domestic="105" data-foreign="205">범죄</button>
+                    <button type="button" class="genre-btn" data-domestic="106" data-foreign="206">다큐멘터리</button>
+                    <button type="button" class="genre-btn" data-domestic="107" data-foreign="207">드라마</button>
+                    <button type="button" class="genre-btn" data-domestic="108" data-foreign="208">가족</button>
+                    <button type="button" class="genre-btn" data-domestic="109" data-foreign="209">판타지</button>
+                    <button type="button" class="genre-btn" data-domestic="110" data-foreign="210">역사</button>
                 </div>
 
                 <div class="genre-group">
-                    <button>공포</button>
-                    <button>음악</button>
-                    <button>미스터리</button>
-                    <button>로맨스</button>
-                    <button>SF</button>
-                    <button>TV 영화</button>
-                    <button>스릴러</button>
-                    <button>전쟁</button>
-                    <button>서부</button>
+                    <button type="button" class="genre-btn" data-domestic="111" data-foreign="211">공포</button>
+                    <button type="button" class="genre-btn" data-domestic="112" data-foreign="212">음악</button>
+                    <button type="button" class="genre-btn" data-domestic="113" data-foreign="213">미스터리</button>
+                    <button type="button" class="genre-btn" data-domestic="114" data-foreign="214">로맨스</button>
+                    <button type="button" class="genre-btn" data-domestic="115" data-foreign="215">SF</button>
+                    <button type="button" class="genre-btn" data-domestic="116" data-foreign="216">TV 영화</button>
+                    <button type="button" class="genre-btn" data-domestic="117" data-foreign="217">스릴러</button>
+                    <button type="button" class="genre-btn" data-domestic="118" data-foreign="218">전쟁</button>
+                    <button type="button" class="genre-btn" data-domestic="119" data-foreign="219">서부</button>
                 </div>
             </div>
         
+            <!-- 최신순, 인기순 정렬 -->
             <div class="list-top-area">
                 <select name="sort" id="list-sort">
-                    <option value="최신순">최신순</option>
-                    <option value="인기순">인기순</option>
+                    <option value="latest" th:selected="${sort == 'latest'}">최신순</option>
+                    <option value="popular" th:selected="${sort == 'popular'}">인기순</option>
                 </select>
         
+                <!-- 미니 검색 -->
                 <div>
-                    <input type="text" id="mini-search-input" placeholder="배우, 감독, 영화 제목으로 검색">
+                    <input type="text" id="mini-search-input" name="query"
+                        th:value="${paramMap['query'] ?: ''}"
+                        placeholder="배우, 감독, 영화 제목으로 검색">
                     <button id="mini-search-btn">검색</button>
                 </div>
             </div>
         </div>
 
-        <!-- 전체 -->
+        <!-- 전체/국내영화/해외영화 -->
         <div class="movie-list active" id="all">
             <!-- 카드 이미지 그룹(1줄)-->
-            <div class="card-group">
+            <div class="card-group" 
+                th:each="row : ${#numbers.sequence(0, pageDto.content.size() -1, 5)}">
                 <!-- 카드 이미지 1개 -->
-                <a th:href="@{#}" class="movie-a">
+                <a th:each="i : ${#numbers.sequence(row, row + 4)}" 
+                    th:if="${i < pageDto.content.size()}"
+                    th:with="m=${pageDto.content[i]}"
+                    th:href="@{/movies/{productNo}(productNo=${m.productNo})}" class="movie-a">
+
                     <div class="card">
-                        <img th:src="@{/images/movie/movie_sample_img.png}" class="card-img-top">
+                        <img th:src="${m.imgPath}" class="card-img-top" alt="영화 이미지">
                         <div class="card-body">
-                            <p class="card-title">아바타:불과재</p>
+                            <p class="card-title" th:text="${m.productTitle}">영화 제목</p>
                             평점<span class="card-rating">9.5</span> <br>
-                            개봉<span class="card-date">2025.12.17</span> <br>
-                            판매가<span class="card-money">12,000</span>원
-                        </div>
-                    </div>
-                </a>
-                <a th:href="@{#}" class="movie-a">
-                    <div class="card">
-                        <img th:src="@{/images/movie/movie_sample_img.png}" class="card-img-top">
-                        <div class="card-body">
-                            <p class="card-title">아바타:불과재</p>
-                            평점<span class="card-rating">9.5</span> <br>
-                            개봉<span class="card-date">2025.12.17</span> <br>
-                            판매가<span class="card-money">12,000</span>원
-                        </div>
-                    </div>
-                </a>
-                <a th:href="@{#}" class="movie-a">
-                    <div class="card">
-                        <img th:src="@{/images/movie/movie_sample_img.png}" class="card-img-top">
-                        <div class="card-body">
-                            <p class="card-title">아바타:불과재</p>
-                            평점<span class="card-rating">9.5</span> <br>
-                            개봉<span class="card-date">2025.12.17</span> <br>
-                            판매가<span class="card-money">12,000</span>원
-                        </div>
-                    </div>
-                </a>
-                <a th:href="@{#}" class="movie-a">
-                    <div class="card">
-                        <img th:src="@{/images/movie/movie_sample_img.png}" class="card-img-top">
-                        <div class="card-body">
-                            <p class="card-title">아바타:불과재</p>
-                            평점<span class="card-rating">9.5</span> <br>
-                            개봉<span class="card-date">2025.12.17</span> <br>
-                            판매가<span class="card-money">12,000</span>원
-                        </div>
-                    </div>
-                </a>
-                <a th:href="@{#}" class="movie-a">
-                    <div class="card">
-                        <img th:src="@{/images/movie/movie_sample_img.png}" class="card-img-top">
-                        <div class="card-body">
-                            <p class="card-title">아바타:불과재</p>
-                            평점<span class="card-rating">9.5</span> <br>
-                            개봉<span class="card-date">2025.12.17</span> <br>
-                            판매가<span class="card-money">12,000</span>원
+                            개봉<span class="card-date" th:text="${m.productDate}">2025.12.25</span> <br>
+                            판매가<span class="card-money" th:text="${#numbers.formatInteger(m.productPrice, 3, 'COMMA')} + '원' ">10.000 원</span>
                         </div>
                     </div>
                 </a>
             </div>
         </div>
-
-        <!-- 국내영화 -->
-        <div class="movie-list" id="domestic">
-            <!-- 영화 포스터 -->
-            <div class="card-group">
-                <!-- 카드 이미지 1개 -->
-                <a th:href="@{#}" class="movie-a">
-                    <div class="card">
-                        <img th:src="@{/images/movie/movie_sample_img2.png}" class="card-img-top">
-                        <div class="card-body">
-                            <p class="card-title">아바타:불과재</p>
-                            평점<span class="card-rating">9.5</span> <br>
-                            개봉<span class="card-date">2025.12.17</span> <br>
-                            판매가<span class="card-money">12,000</span>원
-                        </div>
-                    </div>
-                </a>
-                <a th:href="@{#}" class="movie-a">
-                    <div class="card">
-                        <img th:src="@{/images/movie/movie_sample_img2.png}" class="card-img-top">
-                        <div class="card-body">
-                            <p class="card-title">아바타:불과재</p>
-                            평점<span class="card-rating">9.5</span> <br>
-                            개봉<span class="card-date">2025.12.17</span> <br>
-                            판매가<span class="card-money">12,000</span>원
-                        </div>
-                    </div>
-                </a>
-                <a th:href="@{#}" class="movie-a">
-                    <div class="card">
-                        <img th:src="@{/images/movie/movie_sample_img2.png}" class="card-img-top">
-                        <div class="card-body">
-                            <p class="card-title">아바타:불과재</p>
-                            평점<span class="card-rating">9.5</span> <br>
-                            개봉<span class="card-date">2025.12.17</span> <br>
-                            판매가<span class="card-money">12,000</span>원
-                        </div>
-                    </div>
-                </a>
-                <a th:href="@{#}" class="movie-a">
-                    <div class="card">
-                        <img th:src="@{/images/movie/movie_sample_img2.png}" class="card-img-top">
-                        <div class="card-body">
-                            <p class="card-title">아바타:불과재</p>
-                            평점<span class="card-rating">9.5</span> <br>
-                            개봉<span class="card-date">2025.12.17</span> <br>
-                            판매가<span class="card-money">12,000</span>원
-                        </div>
-                    </div>
-                </a>
-                <a th:href="@{#}" class="movie-a">
-                    <div class="card">
-                        <img th:src="@{/images/movie/movie_sample_img2.png}" class="card-img-top">
-                        <div class="card-body">
-                            <p class="card-title">아바타:불과재</p>
-                            평점<span class="card-rating">9.5</span> <br>
-                            개봉<span class="card-date">2025.12.17</span> <br>
-                            판매가<span class="card-money">12,000</span>원
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-
-        <!-- 해외영화 -->
-        <div class="movie-list" id="foreign">
-            <div class="card-group">
-                <!-- 카드 이미지 1개 -->
-                <a th:href="@{#}" class="movie-a">
-                    <div class="card">
-                        <img th:src="@{/images/movie/movie_sample_img3.png}" class="card-img-top">
-                        <div class="card-body">
-                            <p class="card-title">아바타:불과재</p>
-                            평점<span class="card-rating">9.5</span> <br>
-                            개봉<span class="card-date">2025.12.17</span> <br>
-                            판매가<span class="card-money">12,000</span>원
-                        </div>
-                    </div>
-                </a>
-                <a th:href="@{#}" class="movie-a">
-                    <div class="card">
-                        <img th:src="@{/images/movie/movie_sample_img3.png}" class="card-img-top">
-                        <div class="card-body">
-                            <p class="card-title">아바타:불과재</p>
-                            평점<span class="card-rating">9.5</span> <br>
-                            개봉<span class="card-date">2025.12.17</span> <br>
-                            판매가<span class="card-money">12,000</span>원
-                        </div>
-                    </div>
-                </a><a th:href="@{#}" class="movie-a">
-                    <div class="card">
-                        <img th:src="@{/images/movie/movie_sample_img3.png}" class="card-img-top">
-                        <div class="card-body">
-                            <p class="card-title">아바타:불과재</p>
-                            평점<span class="card-rating">9.5</span> <br>
-                            개봉<span class="card-date">2025.12.17</span> <br>
-                            판매가<span class="card-money">12,000</span>원
-                        </div>
-                    </div>
-                </a><a th:href="@{#}" class="movie-a">
-                    <div class="card">
-                        <img th:src="@{/images/movie/movie_sample_img3.png}" class="card-img-top">
-                        <div class="card-body">
-                            <p class="card-title">아바타:불과재</p>
-                            평점<span class="card-rating">9.5</span> <br>
-                            개봉<span class="card-date">2025.12.17</span> <br>
-                            판매가<span class="card-money">12,000</span>원
-                        </div>
-                    </div>
-                </a><a th:href="@{#}" class="movie-a">
-                    <div class="card">
-                        <img th:src="@{/images/movie/movie_sample_img3.png}" class="card-img-top">
-                        <div class="card-body">
-                            <p class="card-title">아바타:불과재</p>
-                            평점<span class="card-rating">9.5</span> <br>
-                            개봉<span class="card-date">2025.12.17</span> <br>
-                            판매가<span class="card-money">12,000</span>원
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-
 
         <div class="btn-area">
             <button id="write-btn">글쓰기</button>
         </div>
     </div>
 
-    <!-- 페이지네이션 -->
-    <th:block th:replace="~{common/pagination}">pagination.html</th:block>
+    <!-- 페이지네이션 (조건 유지: category/sort/query) -->
+    <nav class="pagination" th:if="${pageDto.totalPage > 0}" aria-label="페이지네이션">
+
+        <ul class="pagination-list">
+
+            <!-- 처음 -->
+            <li class="pagination-item" th:if="${pageDto.currentPage > 1}">
+                <a class="pagination-link" th:data-page="1" href="#">&lt;&lt;</a>
+            </li>
+
+            <!-- 이전 -->
+            <li class="pagination-item" th:if="${pageDto.hasPrevious}">
+                <a class="pagination-link" th:data-page="${pageDto.prevPage}" href="#">&lt;</a>
+            </li>
+
+            <th:block th:each="i : ${#numbers.sequence(pageDto.blockStart, pageDto.blockEnd)}">
+            
+                <!-- 현재 페이지 -->
+                <li class="pagination-item" th:if="${i == pageDto.currentPage}">
+                    <a class="pagination-link active" href="#" th:text="${i}">1</a>
+                </li>
+                
+                <!-- 나머지 페이지 -->
+                <li class="pagination-item" th:unless="${i == pageDto.currentPage}">
+                    <a class="pagination-link" th:data-page="${i}" th:text="${i}" href="#">2</a>
+                </li>
+
+            </th:block>
+
+            <!-- 다음 -->
+            <li class="pagination-item" th:if="${pageDto.hasNext}">
+                <a class="pagination-link" th:data-page="${pageDto.nextPage}" href="#">&gt;</a>
+            </li>
+            
+            <!-- 마지막(끝) -->
+            <li class="pagination-item" th:if="${pageDto.currentPage < pageDto.totalPage}">
+                <a class="pagination-link" th:data-page="${pageDto.endPage}" href="#">&gt;&gt;</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- <div style="background: #333; color: #fff; padding: 15px; margin-top: 50px; font-size: 12px;">
+        <h3>Debug Info</h3>
+        <p>현재 페이지 데이터 개수: [[${pageDto.content.size()}]]</p>
+        <p>전체 페이지 수: [[${pageDto.totalPage}]]</p>
+        <p th:if="${!pageDto.content.isEmpty()}">
+            첫 번째 아이템 제목: [[${pageDto.content[0].productTitle}]]
+        </p>
+    </div> -->
 
     <!-- 푸터 -->
     <th:block th:replace="~{common/footer}">footer.html</th:block>

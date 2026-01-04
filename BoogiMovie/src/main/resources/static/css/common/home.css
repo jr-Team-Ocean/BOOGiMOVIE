@@ -126,6 +126,11 @@
     
 }
 
+.product_card > div > img {
+    width: 85px;
+    height: 120px;
+}
+
 .product_card:hover {
     transform: translateY(-10px);
     
@@ -134,5 +139,17 @@
 
 /* 상품명 */
 .product_title {
+    margin-top: 5px;
     font-weight: bold;
+    text-align: center;
+    width: 120px;
+    height: 40px;
+    line-height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;  /* 보여줄 줄 수 (2줄 넘어가면 ...) */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }

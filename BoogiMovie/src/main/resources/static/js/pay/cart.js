@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const deleteCheckBox = document.querySelectorAll(".product_del_checkbox"); // 개별 선택 체크박스
     const deleteBtn = document.querySelectorAll(".delete_btn"); // 개별 삭제 텍스트 버튼
 
+
     /* ======================================================================== */
     /* ======================================================================== */
 
@@ -48,8 +49,8 @@ document.addEventListener("DOMContentLoaded", () => {
             /* 체크 개수와 전체 개수 같은지 확인 */
             const totalCount = deleteCheckBox.length;
             const checkedCount = document.querySelectorAll(".product_del_checkbox:checked").length;
-            console.log(totalCount);
-            console.log(checkedCount);
+            // console.log(totalCount);
+            // console.log(checkedCount);
 
             /* 개별적으로 다 체크 되어있다면 전체 선택도 체크, 아니면 해제 */
             allDeleteCheckBox.checked = (totalCount == checkedCount);
@@ -68,6 +69,15 @@ document.addEventListener("DOMContentLoaded", () => {
             if(confirm("해당 상품을 삭제하시겠습니까?")) {
                 /* 화면에서 해당 상품 컨테이너 통째로 삭제 */
                 const itemBox = e.target.closest(".cart-item");
+                const inputItemNo = document.querySelector(".itemNo"); // 삭제할 아이템 번호
+                const itemNo = parseInt(inputItemNo.value);
+                console.log(itemNo);
+
+                /* 아이템 삭제 함수 호출 */
+                deleteCartItem([itemNo], function() {
+                    itemBox.remove(); // 성공 시 화면에서 지우기
+                });
+
                 itemBox.remove();
     
                 /* 삭제 후 가격 다시 계산 */
@@ -87,20 +97,53 @@ document.addEventListener("DOMContentLoaded", () => {
     /* 전체 삭제 */
     allDeleteItemBtn.addEventListener("click", e => {
         e.preventDefault(); // 기본 동작 막기
-        const allItems = document.querySelectorAll(".cart-item");
+        
+        const inputs = document.querySelectorAll(".itemNo");
+        const cartNoList = [];
+
+        inputs.forEach(input => cartNoList.push(parseInt(input.value)));
 
         if(confirm("장바구니를 비우시겠습니까?")) {
-
-            allItems.forEach(item => {
-                item.remove();
-            });
-
             /* 전체 선택 체크박스 해제 */
             allDeleteCheckBox.checked = false;
 
-            updateTotalPrice();
+            deleteCartItem(cartNoList, function() {
+                    inputs.forEach(input => input.closest(".cart-item").remove());
+                });
+
+
         }
     });
+
+    /* ======================================================================== */
+    /* ======================================================================== */
+
+    /* 삭제 비동기 요청 */
+    function deleteCartItem(itemNo, callback) {
+        console.log(itemNo);
+        fetch("/cart/delete", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ cartNoList: itemNo })
+            // "cartNoList": [1, 2, ...]
+        })
+        .then(resp => {
+            if (resp.ok) return resp.text();
+            throw new Error("장바구니 아이템 삭제 실패");
+        })
+        .then(msg => {
+            
+            if (callback) callback();
+            updateTotalPrice();
+            alert(msg);
+
+            // 아이템 없으면 새로고침
+            if (document.querySelectorAll(".cart-item").length === 0) {
+                location.reload();
+            }
+        })
+        .catch(e => console.log(e))
+    }
 
 
     /* ======================================================================== */
@@ -111,10 +154,15 @@ document.addEventListener("DOMContentLoaded", () => {
         up.addEventListener("click", e => {
             const itemBox = e.target.closest(".cart-item");
             const input = itemBox.querySelector(".quantity_input");
+            const inputItemNo = itemBox.querySelector(".itemNo"); // 수량 변경할 아이템 번호
+            const itemNo = parseInt(inputItemNo.value);
+
             let currentVal = parseInt(input.value);
             input.value = currentVal + 1;
 
-            updateTotalPrice();
+            let quantity = parseInt(input.value);
+            updateQuantity(itemNo, quantity);
+            // updateTotalPrice();
         });
     });
     
@@ -123,12 +171,17 @@ document.addEventListener("DOMContentLoaded", () => {
         down.addEventListener("click", e => {
             const itemBox = e.target.closest(".cart-item");
             const input = itemBox.querySelector(".quantity_input");
+            const inputItemNo = itemBox.querySelector(".itemNo"); // 수량 변경할 아이템 번호
+            const itemNo = parseInt(inputItemNo.value);
+
             let currentVal = parseInt(input.value);
 
             /* 수량이 1개 이상인 경우에만 감소 */
             if(currentVal > 1) {
                 input.value = currentVal - 1;
-                updateTotalPrice();
+                let quantity = parseInt(input.value);
+                updateQuantity(itemNo, quantity);
+                // updateTotalPrice();
             } else {
                 alert("최소 주문 수량은 1개입니다.");
             }
@@ -137,6 +190,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* ======================================================================== */
     /* ======================================================================== */
+
+    /* 수량 변경시 비동기 요청 */
+    function updateQuantity(itemNo, quantity) {
+        fetch("/cart/setQuantity", {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ itemNo: itemNo, quantity: quantity })
+        })
+        .then(resp => {
+            if (resp.ok) return resp.text();
+            throw new Error("수량 변경 세팅 실패");
+        })
+        .then(msg => {
+            updateTotalPrice(); // 가격 업데이트
+            console.log("수량 변경 완료!");
+        })
+        .catch(e => console.log(e))
+    }
+
+    /* ======================================================================== */
+    /* ======================================================================== */
+
 
     /* 가격 계산 함수 */
     function updateTotalPrice() {
@@ -191,5 +266,26 @@ document.addEventListener("DOMContentLoaded", () => {
         /* 배송비 포함 결제 예정 금액 */
         finalPrice.innerText = lastTotal.toLocaleString() + "원";
 
+    }
+
+    /* ===================================================================== */
+    /* ===================================================================== */
+
+    /* 쇼핑 계속하기 버튼 */
+    const continueBtn = document.querySelector(".continue_shopping_btn");
+
+    if (continueBtn) {
+        continueBtn.addEventListener("click", function() {
+            location.href = "/books"; 
+        });
+    }
+
+    /* 장바구니에 상품이 없는 경우 홈으로 버튼 */
+    const goHome = document.querySelector(".go_home");
+
+    if (goHome) {
+        goHome.addEventListener("click", function() {
+            location.href = "/"; 
+        });
     }
 });

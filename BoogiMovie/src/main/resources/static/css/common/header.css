@@ -200,3 +200,21 @@
     background-color: #5170B0;
     cursor: pointer;
 }
+
+/* ✅ 1:1 문의 알림 배지 (헤더용) */
+.header_login .notread_img {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    background-color: #ff4444;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    padding: 0 4px;
+    margin-left: 8px;
+    position: relative;
+    top: -2px;
+}
