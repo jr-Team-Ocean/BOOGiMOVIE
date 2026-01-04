@@ -1,19 +1,26 @@
 package com.bm.project.controller;
 
+import java.io.IOException;
 import java.util.Map;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bm.project.dto.MovieDto;
 import com.bm.project.dto.PageDto;
+import com.bm.project.entity.Product;
 import com.bm.project.service.MovieService;
 
 import lombok.RequiredArgsConstructor;
@@ -69,7 +76,7 @@ public class MovieController {
 		
 	
 	// 영화 상세정보
-	@GetMapping("/{productNo}")
+	@GetMapping("/{productNo:[0-9]+}")
 	public String getMovieDetail(@PathVariable("productNo") Long productNo, Model model) {
 		
 		MovieDto.Response movie = movieService.getMovieDetail(productNo);
@@ -81,8 +88,40 @@ public class MovieController {
 	}
 	
 	// 영화 등록 화면 이동
-	@PostMapping("/write")
-	public String movieWrite() {
+	// @PreAuthorize("hasRole('ADMIN')")
+	@GetMapping("/write")
+	public String createMovie() {
 		return "movie/movieWrite";
+	}
+	
+	// 영화 등록
+	@PostMapping("/write")
+	public String createMovie(
+			@ModelAttribute MovieDto.Create movieCreate,
+			@RequestParam("movieType") Long movieType,   // 100 or 200
+            @RequestParam("genreType") Long genreType,   // 1~19
+			RedirectAttributes ra) throws IllegalStateException, IOException {
+		
+		movieCreate.setCategoryId(movieType + genreType);
+		
+		Long productNo = movieService.createMovie(movieCreate);
+		
+		String message = null;
+		String path = "redirect:";
+		
+		if(productNo > 0) {
+			// 등록 성공시 -> 상세 조회 페이지로 이동
+			path += "/movies/" + productNo;
+			message = "영화 상품이 등록되었습니다.";
+			
+		}else {
+			// 등록 실패시 -> 작성 페이지로 리다이렉트
+			path += "write";
+			message = "영화 상품 등록에 실패하였습니다.";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		return path;
 	}
 }
