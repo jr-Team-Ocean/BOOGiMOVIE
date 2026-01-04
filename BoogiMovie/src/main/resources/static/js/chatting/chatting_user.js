@@ -7,35 +7,64 @@ let unreadCount = 0;
 let isInitialLoad = true; 
 let isAutoScroll = true; 
 
+let fixedLastReadIndex = null;
+
 if (typeof SockJS !== 'undefined') {
     chattingSock = new SockJS("/chattingSock"); 
 
+    // 1. 메시지 수신 시 처리 로직 수정
     chattingSock.onmessage = function(e) {
-        try {
-            const msg = JSON.parse(e.data);
-            const receivedNo = msg.chattingNo || msg.chatting_no || msg.chattingRoomId;
-            
-            if (selectChattingNo && Number(selectChattingNo) === Number(receivedNo)) {
-                selectMessageList(); 
-            } else {
+    try {
+        const msg = JSON.parse(e.data);
+        const receivedNo = msg.chattingNo || msg.chatting_no || msg.chattingRoomId;
+        
+        if (selectChattingNo && Number(selectChattingNo) === Number(receivedNo)) {
+            // 안 읽은 상태가 시작될 때 인덱스를 고정하기 위해 unreadCount 체크
+            if (document.visibilityState === 'hidden' || !document.hasFocus() || !isAutoScroll) {
                 unreadCount++;
                 updateUnreadUI();
             }
-        } catch(err) {
-            console.error("수신 데이터 파싱 오류:", err);
+            selectMessageList(); 
+        } else {
+            unreadCount++;
+            updateUnreadUI();
         }
-    };
+    } catch(err) { console.error(err); }
+};
+
 
     chattingSock.onopen = () => console.log("웹소켓 서버 연결 성공");
 }
 
-// ========== 안읽음 UI 업데이트 ==========
+// 2. UI 업데이트 함수 (기존과 동일하지만 다시 확인)
 function updateUnreadUI() {
-    const badge = document.querySelector('.notread_img');
-    if (badge) {
+    // ✅ 모든 .notread_img 요소를 다 찾음 (헤더 + 채팅방 내부)
+    const badges = document.querySelectorAll('.notread_img');
+    
+    badges.forEach(badge => {
         badge.innerText = unreadCount;
-        badge.style.display = unreadCount > 0 ? 'inline-block' : 'none';
-    }
+        
+        // 숫자가 0보다 크면 보이고, 0이면 숨김
+        badge.style.setProperty('display', unreadCount > 0 ? 'inline-block' : 'none', 'important');
+
+        // ✅ 만약 채팅방 내부의 '안읽음' 버튼 세트라면 클릭 이벤트 연결
+        const parentButton = badge.closest('.notread');
+        if (parentButton) {
+            parentButton.onclick = () => {
+                if (unreadCount > 0) {
+                    isAutoScroll = true;
+                    selectMessageList();
+                    setTimeout(() => {
+                        const line = document.querySelector('.unread-line');
+                        if (line) line.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        updateReadFlag();
+                        unreadCount = 0;
+                        updateUnreadUI();
+                    }, 150);
+                }
+            };
+        }
+    });
 }
 
 // 창을 다시 볼 때 처리
@@ -47,10 +76,9 @@ window.onfocus = function() {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    enterAdminChat(); // 관리자 채팅방 입장
+    enterAdminChat();
     setTimeout(() => { isInitialLoad = false; }, 1500);
 
-    // 1. 기존 로직들
     const sendBtn = document.getElementById('sendBtn');
     if (sendBtn) sendBtn.addEventListener('click', sendMessage);
 
@@ -69,24 +97,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const chatDisplay = document.querySelector('.display-chatting');
     if (chatDisplay) {
-        // 클릭 시 읽음 처리
+        // ✅ [수정] 클릭 시 읽음 처리 및 안내선 로직
         chatDisplay.addEventListener('click', () => {
             if (unreadCount > 0) {
+                // 1. 현재 목록 다시 그려서 "여기까지 읽었습니다" 선을 물리적으로 생성
+                selectMessageList(); 
+                
+                // 2. 서버 및 UI 읽음 처리
                 updateReadFlag();
+                
+                // 3. 카운트 초기화 (잠깐 유지 후 초기화하고 싶다면 순서 조절 가능)
                 unreadCount = 0;
                 updateUnreadUI();
+                
+                // 4. 이후 오는 메시지는 다시 자동 스크롤 되도록 설정
                 isAutoScroll = true;
             }
         });
 
-        // 스크롤 감지
+        // [유지] 스크롤 감지 (새 메시지 올 때 아래로 튕기지 않게 하는 기준점)
         chatDisplay.addEventListener('scroll', () => {
-            const isAtBottom = chatDisplay.scrollHeight - chatDisplay.scrollTop <= chatDisplay.clientHeight + 50;
-            if (isAtBottom) {
-                isAutoScroll = true; 
-            } else {
-                isAutoScroll = false;
-            }
+            const isAtBottom = chatDisplay.scrollHeight - chatDisplay.scrollTop <= chatDisplay.clientHeight + 80;
+            isAutoScroll = isAtBottom; 
         });
     }
 });
@@ -118,34 +150,55 @@ function getUnreadCount() {
         .catch(err => console.error("안읽음 개수 조회 실패:", err));
 }
 
-// ========== 메시지 목록 조회 (방어 코드 추가) ==========
+// ========== 메시지 목록 조회 (안내선 추가 및 10초 후 삭제) ==========
 function selectMessageList() {
     if (!selectChattingNo || selectChattingNo === 'undefined') return;
     
     fetch(`/chatting/selectMessageList?chattingNo=${selectChattingNo}`)
-        .then(resp => {
-            if(!resp.ok) throw new Error("메시지 조회 실패");
-            return resp.json();
-        })
+        .then(resp => resp.json())
         .then(messageList => {
             const ul = document.querySelector('.display-chatting');
             if (!ul) return;
-            ul.innerHTML = '';
-            
-            // messageList가 배열인지 확인
+
+            const currentScrollTop = ul.scrollTop;
+
+            if (unreadCount > 0 && fixedLastReadIndex === null) {
+                fixedLastReadIndex = messageList.length - unreadCount;
+            } else if (unreadCount === 0) {
+                fixedLastReadIndex = null;
+            }
+
+            ul.innerHTML = ''; 
             if(!Array.isArray(messageList)) return;
 
-            messageList.forEach(msg => {
-                const sNo = msg.senderId || msg.senderNo || msg.sender_no;
-                const content = msg.messageContent || msg.message_content || "";
-                const sentAt = msg.sendTime || msg.send_time || msg.sentAt || "";
+            messageList.forEach((msg, index) => {
+                if (unreadCount > 0 && index === fixedLastReadIndex && isAutoScroll) {
+                    const hr = document.createElement('li');
+                    hr.classList.add('unread-line'); 
+                    hr.innerHTML = `<span>여기까지 읽으셨습니다</span>`;
+                    ul.appendChild(hr);
 
+                    setTimeout(() => {
+                        hr.classList.add('fade-out');
+                        setTimeout(() => { if(hr.parentNode === ul) ul.removeChild(hr); }, 1000);
+                    }, 10000);
+                }
+
+                const sNo = msg.senderNo || msg.sender_no || msg.senderId; // 보낸 사람 번호
+                const content = msg.message_content || msg.messageContent || "";
+                
+                // ✅ 서버 데이터 키값인 'sent_at'을 사용하도록 수정
+                const sentAt = msg.sent_at || ""; 
+                
                 const li = document.createElement('li');
                 const isMyMessage = Number(sNo) === Number(loginMemberNo);
                 li.classList.add(isMyMessage ? 'my-chat' : 'target-chat');
-                
+
                 if (isMyMessage) {
-                    li.innerHTML = `<p class="chat">${content}</p><span class="chatDate">${sentAt}</span>`;
+                    li.innerHTML = `
+                        <span class="chatDate">${sentAt}</span>
+                        <p class="chat">${content}</p>
+                    `;
                 } else {
                     li.innerHTML = `
                         <img src="/svg/person.svg">
@@ -155,13 +208,18 @@ function selectMessageList() {
                                 <p class="chat">${content}</p>
                                 <span class="chatDate">${sentAt}</span>
                             </div>
-                        </div>`;
+                        </div>
+                    `;
                 }
                 ul.appendChild(li);
             });
-            ul.scrollTop = ul.scrollHeight;
-        })
-        .catch(err => console.error(err));
+            
+            if (isAutoScroll) {
+                ul.scrollTop = ul.scrollHeight;
+            } else {
+                ul.scrollTop = currentScrollTop;
+            }
+        });
 }
 
 // ========== 메시지 전송 ==========
@@ -221,4 +279,87 @@ function triggerFileInput() {
     };
     
     fileInput.click();
+}
+
+// 검색 
+// ========== 검색 관련 변수 ==========
+let searchResults = []; // 검색된 결과 요소들을 담을 배열
+let currentSearchIndex = -1; // 현재 보고 있는 검색 결과 위치
+
+// 1. 메시지 검색 함수
+function searchMessage() {
+    const input = document.getElementById('targetInput');
+    const keyword = input.value.trim();
+    const chatDisplay = document.querySelector('.display-chatting');
+    const searchCountSpan = document.getElementById('searchCount');
+
+    // 초기화
+    searchResults = [];
+    currentSearchIndex = -1;
+    
+    // 모든 메시지에서 기존 하이라이트 제거
+    const allMessages = chatDisplay.querySelectorAll('.chat');
+    allMessages.forEach(msg => msg.style.backgroundColor = '');
+
+    if (keyword === "") {
+        searchCountSpan.innerText = "0 / 0";
+        return;
+    }
+
+    // 키워드가 포함된 메시지 찾기
+    allMessages.forEach(msg => {
+        if (msg.innerText.includes(keyword)) {
+            searchResults.push(msg);
+        }
+    });
+
+    if (searchResults.length > 0) {
+        currentSearchIndex = searchResults.length - 1; // 가장 최근 메시지부터 표시
+        updateSearchUI();
+        scrollToSearchResult();
+    } else {
+        searchCountSpan.innerText = "0 / 0";
+        alert("검색 결과가 없습니다.");
+    }
+}
+
+// 2. 결과 위치 표시 업데이트
+function updateSearchUI() {
+    const searchCountSpan = document.getElementById('searchCount');
+    if (searchResults.length > 0) {
+        searchCountSpan.innerText = `${currentSearchIndex + 1} / ${searchResults.length}`;
+    }
+}
+
+// 3. 해당 위치로 스크롤 및 하이라이트
+function scrollToSearchResult() {
+    if (currentSearchIndex < 0 || currentSearchIndex >= searchResults.length) return;
+
+    // 전체 하이라이트 초기화 후 현재 결과만 표시
+    searchResults.forEach(el => el.style.backgroundColor = '');
+    const target = searchResults[currentSearchIndex];
+    target.style.backgroundColor = '#ffff00aa'; // 노란색 하이라이트
+    
+    // 부드럽게 이동
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    
+    // 검색 중에는 자동 스크롤 방지
+    isAutoScroll = false; 
+    updateSearchUI();
+}
+
+// 4. 이전 결과 (위로)
+function prevSearchResult() {
+    if (searchResults.length === 0) return;
+    currentSearchIndex--;
+    if (currentSearchIndex < 0) currentSearchIndex = searchResults.length - 1; // 순환
+    scrollToSearchResult();
+}
+
+// 5. 다음 결과 (아래로)
+function nextSearchResult() {
+    if (searchResults.length === 0) return;
+    currentSearchIndex++;
+    if (currentSearchIndex >= searchResults.length) currentSearchIndex = 0; // 순환
+    scrollToSearchResult();
 }

@@ -285,6 +285,22 @@ main {
 .my-chat .chat { background-color: #4a98f7; color: white; }
 .target-chat .chat { background-color: #eef2f5; color: #333; }
 
+/* 관리자(상대방) 채팅창 스타일 수정 */
+.target-chat .chat {
+    max-width: 70%;       /* 메시지가 너무 좁게 나오지 않도록 최대 너비 설정 */
+    width: fit-content;   /* 내용에 맞게 너비 조절 */
+    word-break: break-all; /* 긴 영문/숫자도 줄바꿈 허용 */
+    white-space: pre-wrap; /* 공백과 줄바꿈 유지하며 자동 줄바꿈 */
+    display: inline-block; /* 텍스트 너비만큼 배경색 적용 */
+}
+
+/* 관리자 레이아웃 구조 정렬 */
+.target-chat > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* 텍스트를 왼쪽 정렬 */
+}
+
 /* 헤더 */
 /* 헤더 */
 
@@ -602,4 +618,25 @@ main {
     cursor: pointer;    /* 클릭 가능 표시 */
     margin: 5px 0;
     display: block;
+}
+
+
+/* 헤더 배치  */
+/* 배지 기본 스타일 */
+.unread-badge {
+    position: absolute;
+    top: -5px;    /* 위쪽 위치 살짝 걸치게 */
+    right: -12px; /* 오른쪽 위치 조정 */
+    background-color: #ff4d4f; /* 약한 빨간색 */
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    min-width: 16px;
+    height: 16px;
+    line-height: 16px;
+    border-radius: 50%;
+    text-align: center;
+    padding: 0 4px;
+    display: none; /* 0일 때는 숨김 (JS에서 처리) */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }

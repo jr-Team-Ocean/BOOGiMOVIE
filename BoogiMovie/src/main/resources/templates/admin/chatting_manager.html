@@ -27,9 +27,10 @@
             </header>
 
             <section class="section_nav"> 
+    
                 <div class="header_nav_button">
                     <button class="notread">안읽음</button>
-                    <span class="notread_img" alt="안읽은 메시지 수">3 </span>
+                    <span class="notread_img">3</span>
                 </div> 
 
                 <div class="header_nav_search">
@@ -38,14 +39,19 @@
                     <ul id="resultArea"></ul>
                 </div> 
                 
-                <nav class="header_nav_page"> 
-                    <a href="#">&laquo;</a>
-                    <a href="#">&lt;</a>
-                    <span class="page_status"> 1 / 1</span>
-                    <a href="#">&gt;</a>
-                    <a href="#">&raquo;</a>
-                </nav>
-            </section>     
+                <div class="message_search_group">
+                    <div class="header_nav_search">
+                        <img th:src="@{/svg/magnifier.svg}" alt="검색">
+                        <input id="messageSearchInput" type="text" placeholder="대화 내용 검색" onkeyup="if(window.event.keyCode==13){searchMessage()}">
+                    </div> 
+                    <nav class="header_nav_page"> 
+                        <button type="button" class="search-nav-btn" onclick="prevSearchResult()">&lt;</button>
+                        <span id="searchCount">0 / 0</span>
+                        <button type="button" class="search-nav-btn" onclick="nextSearchResult()">&gt;</button>
+                    </nav>
+                </div>
+
+            </section>
 
             <section class="chat_container">
                 <aside class="side_list">
