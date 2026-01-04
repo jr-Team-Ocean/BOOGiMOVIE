@@ -23,6 +23,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Builder
@@ -32,6 +33,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @DynamicInsert // INSERT 시 작성한 값만 SQL에 포함, 나머지 default 활용
 @DynamicUpdate // UPDATE 시 변경된 필드만 SQL에 포함
+@ToString
 public class Orders {
 	// 주문 엔티티
 	

@@ -18,6 +18,8 @@
 
     <!-- 전체 컨테이너 -->
     <div class="order_container">
+        <!-- 회원 번호 -->
+        <input type="hidden" id="orderMemberNo" th:value="${orderMember.memberNo}">
 
         <!-- 배송 정보 -->
         <div class="order_info_container">
@@ -128,7 +130,7 @@
                 <div class="payment_container">
                     <div class="payment">
                         <div>
-                            <input type="radio" name="payments" value="simple" id="simplePay">
+                            <input type="radio" name="payments" value="CARD" id="simplePay">
                             <label for="simplePay">간편 결제</label> 
                         </div>
                         <!-- <div>
@@ -183,9 +185,7 @@
         }
     </script>
 
-    <script >
-
-    </script>
+    <script src="https://cdn.portone.io/v2/browser-sdk.js" async defer></script>
     <script th:src="@{/js/pay/productPayment.js}"></script>
 </body>
 

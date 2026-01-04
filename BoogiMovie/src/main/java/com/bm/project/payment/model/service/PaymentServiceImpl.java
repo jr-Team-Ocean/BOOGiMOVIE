@@ -163,8 +163,13 @@ public class PaymentServiceImpl implements PaymentService {
 		Payment payment = successDto.toPaymentEntity(orders);
 		
 		
-		Delivery delivery = successDto.toDeliveryEntity(orders);
-		deliveryRepo.save(delivery);
+		// 배송 정보가 들어온 경우에만 DB에 저장 (빈 값이 아닐 때)
+		if(successDto.getDetailAddress() != null && !successDto.getDetailAddress().isEmpty()) {
+			Delivery delivery = successDto.toDeliveryEntity(orders);
+			deliveryRepo.save(delivery);
+		} else {
+			System.out.println("배송 정보 없음! 건너뜀");
+		}
 		
 		orders.setPayStatus("PAID");
 		orders.setPayment(paymentRepo.save(payment));
@@ -191,6 +196,16 @@ public class PaymentServiceImpl implements PaymentService {
 			paymentList.add(dto);
 		}
 		return paymentList;
+	}
+
+
+
+	// 결제 조회
+	@Override
+	public Orders payComplete(String orderNo) {
+		Orders orders = ordersRepo.findById(orderNo)
+	            .orElseThrow(() -> new IllegalArgumentException("주문 정보가 없습니다."));
+		return orders;
 	}
 
 }

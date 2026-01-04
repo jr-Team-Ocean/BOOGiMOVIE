@@ -39,35 +39,44 @@ document.addEventListener("DOMContentLoaded", function () {
         if(deliveryInfoContainer) deliveryInfoContainer.style.display = "none";
     }
 
+    /* ================================================================================ */
+    /* ================================================================================ */
 
     // 결제 버튼 요소 찾아서 넣기
     // const paymentBtn = document.querySelector("#payment-btn");
     const paymentBtn = document.querySelector(".order_btn");
+    const orderMemberNo = document.querySelector("#orderMemberNo"); // 회원 번호
+    const payMethod = document.querySelector("#simplePay");
 
-    const memberNo = document.querySelector(".memberNo") // 주문하는 회원번호
 
     /* 주문하려는 아이템 값 */
+    const orderItems = [];
+        itemElements.forEach(item => {
+            orderItems.push({
+                product_no: parseInt(item.dataset.productNo),
+                quantity: parseInt(item.dataset.quantity)
+            });
+        });
 
-    /* 원래는 onclick 메소드 넣고, 해당 제품 정보 가져와서 넣어야 함 */
+
+    if(orderItems.length === 0) {
+            alert("주문할 상품이 없습니다.");
+            return;
+        }
+
     const validationData = {
-        // 주문자 회원 번호
-        member_no: 6,
-
-        // 주문할 아이템들
-        order_items: [
-            { product_no: 1001, quantity: 2 },
-            { product_no: 1002, quantity: 1 }
-        ]
+        member_no: orderMemberNo.value, // 회원 번호    
+        order_items: orderItems         // 상품 리스트
     };
 
     paymentBtn.addEventListener("click", e => {
         e.preventDefault();
-        payment(validationData);
+        payment(validationData, needsDelivery, payMethod);
     })
 
 })
 
-async function payment(validationData) {
+async function payment(validationData, needsDelivery, payMethod) {
 
     try {
         /* 결제 요청 전에 사전 검증 */
@@ -103,7 +112,7 @@ async function payment(validationData) {
             orderName: resp.order_name,
             totalAmount: resp.total_price,
             currency: "CURRENCY_KRW",
-            payMethod: "EASY_PAY",
+            payMethod: payMethod.value,
             customer: {
                 fullName: resp.recipient_name,
                 phoneNumber: resp.recipient_phone
@@ -127,21 +136,40 @@ async function payment(validationData) {
             /* 이때 delivery 테이블에도 배송 정보 저장 */
             console.log("결제 성공, 사후 검증 요청 : ", response.txId); // 결제 시도 고유 ID
 
+            /* 배송지 정보 */
+            const recipientName = document.querySelector(".orderer_name").value;
+            const recipientTel = document.querySelector(".orderer_phone").value;
+            let orderRequest = null;
+            let postCode = null;
+            let roadAddress = null;
+            let detailAddress = null;
+
+            /* 배송 정보가 필요한 경우에만 세팅 */
+            if (needsDelivery) {
+                postCode = document.querySelector("#sample6_postcode").value;
+                roadAddress = document.querySelector("#sample6_address").value;
+                detailAddress = document.querySelector("#sample6_detailAddress").value;
+                orderRequest = document.querySelector(".order_request").value;
+                
+                const reqInput = document.querySelector(".order_request");
+                if(reqInput) requestMsg = reqInput.value;
+            }
+
             /* 검증 및 결제수단/배송 테이블에 넣을 값들 담아서 보내주기 */
             const data = {
                 order_no: resp.order_no,
 
                 pay_no: response.txId, // 결제 시도 고유 ID
-                pay_method: "EASY_PAY",
+                pay_method: payMethod.value,
                 pay_price: resp.total_price, // 총 결제 금액
 
-                /* 여기는 배송 요청 부분 임의 데이터 */
-                recipient_name: "하멍멍",          // 주문자명
-                recipient_tel: "01012341234",   // 주문자 휴대폰번호
-                order_request: "빠른 배송 부탁",    // 요청사항
-                post_code: "01234",               // 우편번호
-                road_address: "서울 특별시 관철동",  // 도로명 주소
-                detail_address: "9층 903호"        // 상세 주소
+                /* delivery 테이블에 넣을 값들 */
+                recipient_name: recipientName,     // 주문자명
+                recipient_tel: recipientTel,       // 주문자 휴대폰번호
+                order_request: orderRequest,       // 요청사항
+                post_code: postCode,               // 우편번호
+                road_address: roadAddress,         // 도로명 주소
+                detail_address: detailAddress      // 상세 주소
             }
 
             const verifyResp = await fetch("/order/payment", {
@@ -152,6 +180,7 @@ async function payment(validationData) {
 
             if(verifyResp.ok) {
                 alert("결제 완료하였습니다.");
+                location.href = "/order/complete/" + resp.order_no;
             } else {
                 alert("결제 진행 중 문제 발생");
             }
