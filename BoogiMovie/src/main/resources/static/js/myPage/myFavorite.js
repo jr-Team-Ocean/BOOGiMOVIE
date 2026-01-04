@@ -36,17 +36,18 @@ searchOrder.addEventListener('change', () => {
 
             // 7. 받아온 리스트로 새로운 요소 생성
             list.forEach(favorite => {
-                // 콘솔(F12)에 찍힌 이름과 똑같이 매칭 (스네이크 케이스)
+                // 필드명 매칭 (서버 응답이 snake_case인 경우)
                 const pNo = favorite.product_no;
+                const pAuthor = favorite.product_author;
                 const pTitle = favorite.product_title;
                 const pImage = favorite.product_image;
-                const pAuthor = favorite.product_author;
                 const pStatus = favorite.product_status;
                 const pPrice = new Intl.NumberFormat().format(favorite.product_price || 0);
                 const fDate = favorite.favorite_date; 
 
                 const html = `
                     <div class="search_box_results">
+                        
                         <div class="search_box_pic">
                             <a href="/product/detail/${pNo}">
                                 <img src="${pImage}" alt="${pTitle}">
@@ -55,18 +56,21 @@ searchOrder.addEventListener('change', () => {
 
                         <div class="search_box_detail">
                             <div class="title">${pTitle}</div>
-                            <div class="writer">지은이 : ${pAuthor}</div>
+                            
+                            <div>지은이 :${pAuthor}</div>
+                            
                             <div class="price">
-                                상품상태(${pStatus}) / 판매가격(${pPrice}원)
+                                상품상태(${pStatus})/판매가격(${pPrice}원)
                             </div>
                         </div>
 
                         <div class="search_box_like">
-                        <a href="#" onclick="removeFavorite(${pNo}); return false;">
-                            <img src="/images/svg/heart_filled.svg" alt="찜해제" style="width:24px; height:24px;">
-                        </a>
-                        <div style="font-size: 13px; color: #666; margin-top: 5px;">${fDate}</div>
-                    </div>
+                            <a href="#" onclick="removeFavorite(${pNo}, this); return false;">
+                                <img src="/svg/heart_filled.svg" alt="찜 해제" style="width: 24px; height: 24px;">
+                            </a>
+                            <div>${fDate}</div>
+                        </div>
+
                     </div>
                 `;
                 
@@ -82,28 +86,26 @@ searchOrder.addEventListener('change', () => {
 
 
 /** 찜 삭제 함수 */
-function removeFavorite(productNo) {
+function removeFavorite(productNo, btn) { // 1. btn 매개변수 추가
     if(!confirm("찜 목록에서 삭제하시겠습니까?")) return;
     
-    // 1. 서버로 삭제 요청 보내기
-    fetch('/myPage/deleteFavorite', { // 컨트롤러의 삭제 매핑 주소 확인 필요
+    // fetch 실행 전, 삭제할 카드를 미리 변수에 담아두는 것이 안전합니다.
+    const productCard = btn.closest('.search_box_results'); 
+
+    fetch('/myPage/deleteFavorite', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ productNo: productNo })
+        body: JSON.stringify(productNo)
     })
     .then(response => {
         if (response.ok) {
-            // 2. 서버 삭제 성공 시 화면에서 해당 상품 박스 제거
-            // 현재 클릭된 요소(이벤트)를 기준으로 가장 가까운 상품 박스를 찾음
-            const targetButton = window.event.target;
-            const productCard = targetButton.closest('.search_box_results');
-            
+            // 2. 미리 찾아둔 카드를 삭제합니다.
             if (productCard) {
                 productCard.remove();
-                console.log(`${productNo}번 상품 삭제 완료`);
+                console.log(`${productNo}번 상품 화면 삭제 완료`);
             }
 
-            // 3. 만약 모든 상품이 삭제되었다면 "결과 없음" 메시지 표시
+            // 남은 아이템 확인 로직
             const remainingItems = document.querySelectorAll('.search_box_results');
             if (remainingItems.length === 0) {
                 searchContent.innerHTML = `
@@ -112,12 +114,11 @@ function removeFavorite(productNo) {
                     </div>`;
             }
         } else {
-            alert("삭제에 실패했습니다. 다시 시도해 주세요.");
+            alert("삭제에 실패했습니다.");
         }
     })
     .catch(err => {
         console.error("삭제 요청 중 오류 발생:", err);
-        alert("오류가 발생했습니다.");
     });
 }
 

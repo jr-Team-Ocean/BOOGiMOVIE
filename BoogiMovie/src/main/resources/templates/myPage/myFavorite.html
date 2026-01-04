@@ -59,7 +59,7 @@
                         <div class="search_box_detail">
                             <div class="title" th:text="${favorite.productTitle}">상품명</div>
                             
-                            <div th:text="${favorite.favoriteDate}">2026년 01월 01일</div>
+                            <div>지은이: [[${favorite.productAuthor}]]</div>
                             
                             <div class="price"
                                 th:text="'상품상태(' + ${favorite.productStatus} + ')/판매가격(' + ${#numbers.formatInteger(favorite.productPrice, 3, 'COMMA')} + '원)'">
@@ -67,7 +67,7 @@
                         </div>
 
                         <div class="search_box_like">
-                            <a th:href="@{#}" th:onclick="'removeFavorite(' + ${favorite.productNo} + '); return false;'">
+                            <a href="#" th:onclick="|removeFavorite(${favorite.productNo}, this); return false;|">
                                 <img th:src="@{/svg/heart_filled.svg}" alt="찜 해제">
                             </a>
                             <div th:text="${favorite.favoriteDate}"></div>

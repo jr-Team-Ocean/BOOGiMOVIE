@@ -54,7 +54,20 @@ main {
 }
 
 .search_box_pic img {
-    width: 60px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지가 찌그러지지 않게 채움 */
+}
+
+/* 찜 하트 이미지 사이즈 고정 */
+.search_box_like img {
+    width: 24px !important;
+    height: 24px !important;
+}
+
+/* 상세 정보 텍스트 간격 조정 */
+.search_box_detail div {
+    margin-bottom: 5px;
 }
 
 .search_box_detail {
@@ -68,6 +81,20 @@ main {
     align-items: center;
     margin-left: 60px;
     padding-top: 10px;
+    min-width: 100px;
+}
+
+.search_box_like div {
+    font-size: 13px;
+    color: #666;
+    margin-top: 5px;
+    white-space: nowrap; 
+}
+
+.search_box_detail .price {
+    white-space: nowrap;       /* 글자가 길어도 다음 줄로 넘어가지 않게 함 */
+    overflow: hidden;          /* 영역을 벗어나는 부분은 숨김 (필요 시) */
+    text-overflow: ellipsis;   /* 영역이 너무 좁으면 ...으로 표시 (필요 시) */
 }
 
 

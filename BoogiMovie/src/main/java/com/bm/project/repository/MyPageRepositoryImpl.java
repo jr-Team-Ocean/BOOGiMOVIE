@@ -48,4 +48,14 @@ public class MyPageRepositoryImpl implements MyPageRepository {
 
         return new PageImpl<>(content, pageable, total);
     }
+
+    @Override
+    public void deleteFavorite(int productNo, Long memberNo) {
+        // 1. "Like" -> "Likes"로 변경 (프로젝트의 엔티티 클래스명에 맞춰야 함)
+        // 2. l.product.productNo 필드명이 실제 Product 엔티티와 맞는지 확인
+        em.createQuery("DELETE FROM Likes l WHERE l.product.productNo = :pNo AND l.member.memberNo = :mNo")
+          .setParameter("pNo", (long)productNo) 
+          .setParameter("mNo", memberNo) // memberNo는 이미 Long이므로 바로 전달
+          .executeUpdate();
+    }
 }
