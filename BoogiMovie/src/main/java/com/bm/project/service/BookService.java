@@ -29,5 +29,15 @@ public interface BookService {
 
 	// 삭제
 	void bookDelete(Long productNo);
+	
+	// 기존 좋아요 여부
+	int bookLikeCheck(Long productNo, Long memberNo);
+	
+	// 좋아요 처리
+	int bookLike(Map<String, Long> paramMap);
+
+	// 좋아요 개수 확인
+	int bookLikeCount(Long productNo);
+	
 
 }

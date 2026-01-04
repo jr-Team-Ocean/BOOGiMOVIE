@@ -15,14 +15,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bm.project.dto.BookDto;
+import com.bm.project.dto.MemberDto;
 import com.bm.project.dto.MemberDto.LoginResult;
 import com.bm.project.dto.PageDto;
 import com.bm.project.service.BookService;
@@ -89,9 +92,29 @@ public class BookController {
 	@GetMapping("/{productNo}")
 	public String selectBookDetail(
 			@PathVariable("productNo") Long productNo,
+			@SessionAttribute(value = "loginMember", required = false) MemberDto.LoginResult loginMember,
 			Model model
 			) {
 		BookDto.Response book = bookService.selectBookDetail(productNo);
+		
+		// 좋아요 개수 확인
+		int likeCount = bookService.bookLikeCount(productNo);
+	    model.addAttribute("likeCount", likeCount);
+		
+		
+		
+		if (loginMember != null) {
+	        model.addAttribute("loginMember", loginMember);
+	    
+	        // 기존 좋아요 여부
+	        int result = bookService.bookLikeCheck(productNo, loginMember.getMemberNo());
+	        if (result > 0) {
+	        	model.addAttribute("likeCheck", true);
+	        }
+		
+		}
+		
+		
 		
 		model.addAttribute("book", book);
 		model.addAttribute("url", "books");
@@ -200,7 +223,13 @@ public class BookController {
 	}
 	
 	
-	
+	// 좋아요 처리
+	@PostMapping("/like")
+	@ResponseBody
+	public int bookLike(@RequestBody Map<String, Long> paramMap) {
+		
+		return bookService.bookLike(paramMap);
+	}
 	
 	
 	

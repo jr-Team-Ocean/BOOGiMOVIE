@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import com.bm.project.entity.Book;
 import com.bm.project.entity.Category;
+import com.bm.project.entity.Likes;
+import com.bm.project.entity.Member;
 import com.bm.project.entity.Product;
 import com.bm.project.entity.ProductTag;
 import com.bm.project.entity.ProductTagConnect;
@@ -393,6 +395,26 @@ public class BookRepositoryImpl implements BookRepository{
 		em.createQuery(query)
 		  .setParameter("productNo", productNo)
 		  .executeUpdate();
+	}
+
+
+
+	@Override
+	public int insertLike(Long productNo, Long memberNo) {
+		
+		Member memberRef = em.getReference(Member.class, memberNo);
+		Product productRef = em.getReference(Product.class, productNo);
+		
+		Likes likes = Likes.builder()
+						   .member(memberRef)
+						   .product(productRef)
+						   .build();
+		
+		em.persist(likes); // 단순 insert
+		em.flush(); // 즉시반영
+		
+		return 1;
+		
 	}
 	
 	
