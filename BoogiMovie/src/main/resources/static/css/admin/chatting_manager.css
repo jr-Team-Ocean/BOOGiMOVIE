@@ -41,18 +41,6 @@ main {
     padding-bottom: 10px;
 }
 
-/* ==============================================
-   네비게이션 섹션
-   ============================================== */
-.section_nav {
-    margin-bottom: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 0 10px;
-    gap: 180px;
-    flex-wrap: wrap;
-}
 
 /* 네비게이션 버튼 그룹 */
 .header_nav_button {
@@ -638,4 +626,127 @@ main {
     margin: 0;
     flex: 1;
     max-width: calc(100% - 60px);
+}
+
+
+/* 상단 네비게이션 전체 컨테이너 */
+.section_nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* ✅ 양쪽 끝으로 배치 */
+    gap: 15px;
+    padding: 10px 20px;
+    background: #f1f3f5;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    flex-wrap: nowrap;
+    overflow-x: visible; /* ✅ 스크롤 제거 */
+}
+
+/* 메시지 검색창 컨테이너 */
+.header_nav_search {
+    position: relative;
+    width: 350px;
+    flex-shrink: 0; /* ✅ 크기 고정 */
+}
+
+/* 검색창 내부 돋보기 아이콘 */
+.header_nav_search > img {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    opacity: 0.5;
+    z-index: 5;
+    pointer-events: none;
+}
+
+/* 실제 검색 입력창 */
+.header_nav_search > input {
+    width: 100%;
+    height: 38px;
+    padding: 0 15px 0 42px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 19px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.header_nav_search > input:focus {
+    border-color: #4a98f7;
+    box-shadow: 0 0 5px rgba(74, 152, 247, 0.2);
+}
+
+/* 검색 결과 네비게이션 (1 / 5 및 화살표 버튼) */
+.header_nav_page {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 검색 결과 숫자 표시 span */
+#searchCount {
+    background: #ffffff;
+    padding: 4px 12px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    color: #4a98f7;
+    font-size: 13px;
+    font-weight: bold;
+    min-width: 60px;
+    text-align: center;
+}
+
+/* 이전/다음 이동 버튼 */
+.search-nav-btn {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #555;
+    transition: all 0.2s;
+}
+
+.search-nav-btn:hover {
+    background-color: #4a98f7;
+    color: white;
+    border-color: #4a98f7;
+}
+
+/* ========== 메시지 검색 하이라이트 효과 ========== */
+/* JS에서 배경색을 직접 제어하므로, transition 정도만 추가해두면 부드럽습니다. */
+.chat {
+    transition: background-color 0.3s ease;
+}
+
+/* 안내선 디자인 (사용자용과 동일하게 적용) */
+.unread-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 30px 0;
+    width: 100%;
+}
+
+.unread-line span {
+    background-color: #e1e9f5;
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #4a6fa5;
+    font-weight: bold;
+}
+
+.unread-line::before, .unread-line::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: #c3d2e5;
+    margin: 0 15px;
 }
