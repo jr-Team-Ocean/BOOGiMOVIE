@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.bm.project.dto.BookDto;
 import com.bm.project.dto.BookDto.Create;
 import com.bm.project.dto.BookDto.Response;
+import com.bm.project.dto.BookDto.Update;
 import com.bm.project.entity.Book;
 import com.bm.project.entity.Category;
 import com.bm.project.entity.Product;
@@ -31,6 +32,7 @@ import com.bm.project.entity.TagCode;
 import com.bm.project.repository.BookRepository;
 import com.bm.project.repository.BookRepository2;
 import com.bm.project.repository.TagRepository;
+import com.bm.project.enums.CommonEnums;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -250,4 +252,131 @@ public class BookServiceImpl  implements BookService {
 	                 .distinct()
 	                 .toList();
 	}
+
+
+
+
+	// 도서 수정
+	@Transactional(readOnly = false)
+	@Override
+	public void bookUpdate(Long productNo, Update bookUpdate) throws IllegalStateException, IOException {
+		Book book = bookRepository2.findByProduct_ProductNo(productNo)
+	            .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 도서 입니다."));
+		
+		
+		Product product = book.getProduct();
+		
+		
+		product.setProductTitle(bookUpdate.getProductTitle());
+	    product.setProductContent(bookUpdate.getProductContent());
+	    product.setProductPrice(bookUpdate.getProductPrice());
+	    
+	    
+	    if (bookUpdate.getProductDate() != null) {
+	        product.setProductDate(bookUpdate.getProductDate().atStartOfDay());
+	    }
+		
+	    Category category =
+	            bookRepository.getReference(Category.class, bookUpdate.getCategoryId());
+        
+	    product.setCategory(category);
+		
+	    
+	    MultipartFile image = bookUpdate.getBookImage();
+
+	    if (image != null && !image.isEmpty()) {
+
+	        String originName = image.getOriginalFilename();
+	        String reName = UUID.randomUUID() + "_" + originName;
+
+	        File dir = new File(FILE_PATH);
+	        if (!dir.exists()) dir.mkdirs();
+
+	        image.transferTo(new File(FILE_PATH + reName));
+
+	        product.setImgPath(WEB_PATH + reName);
+	    }
+
+	    book.setIsbn(bookUpdate.getIsbn());
+	    book.setBookCount(bookUpdate.getBookCount());
+	    
+	    bookRepository.deleteConnect(productNo);
+	    
+	    
+	    // 작가, 출판사 자르기
+ 		List<String> writers = splitToList(bookUpdate.getWriters());
+ 		List<String> publishers = splitToList(bookUpdate.getPublishers());
+ 		
+ 		// 작가 중복검사 + 저장
+ 		TagCode wCode = bookRepository.getTagCodeRef(1L);
+ 		for (String writer : writers) {
+ 			
+ 			ProductTag tag =
+ 					tagRepository.findByTagNameAndTagCode(writer, wCode)
+ 					.orElseGet(() -> tagRepository.save(
+ 					ProductTag.builder()
+ 							  .tagName(writer)
+ 							  .tagCode(wCode)
+ 							  .build()));
+ 			
+ 			bookRepository.saveProductTagConnect(product, tag);
+ 		}
+ 		
+ 		// 출판사 중복검사 + 저장
+ 		TagCode pCode = bookRepository.getTagCodeRef(3L);
+ 		for (String publisher : publishers) {
+ 			
+ 			ProductTag tag = 
+ 					tagRepository.findByTagNameAndTagCode(publisher, pCode)
+ 					.orElseGet(() -> tagRepository.save(
+ 					ProductTag.builder()
+ 			 	     		  .tagName(publisher)
+ 							  .tagCode(pCode)
+ 							  .build()));
+ 			
+ 			bookRepository.saveProductTagConnect(product, tag);
+ 		}
+	    
+	}
+
+
+
+
+	@Transactional(readOnly = false)
+	@Override
+	public void bookDelete(Long productNo) {
+	    Book book = bookRepository2.findById(productNo)
+	            .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 도서입니다."));
+
+	    Product product = book.getProduct();
+
+	    product.setProductDelFl(CommonEnums.ProductDelFl.Y);
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

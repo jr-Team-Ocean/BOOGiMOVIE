@@ -119,3 +119,22 @@ function initStars() {
     }
     
 }
+
+
+
+// 글쓰기 버튼 동작
+document.getElementById("update-btn")?.addEventListener("click", () => {
+    location.href = `${location.pathname}/update`;
+});
+
+document.getElementById("delete-btn")?.addEventListener("click", () => {
+    if (!confirm("정말 삭제하시겠습니까?")) return;
+
+    const form = document.createElement("form");
+    form.method = "post";
+    form.action = `${location.pathname}/delete`;
+
+    document.body.appendChild(form);
+    form.submit();
+});
+
