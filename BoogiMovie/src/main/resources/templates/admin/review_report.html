@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>리뷰 신고 관리</title>
     <link rel="stylesheet" th:href="@{/css/admin/review_report.css}">
     <link rel="stylesheet" th:href="@{/css/common/header.css}">
     <link rel="stylesheet" th:href="@{/css/common/font.css}">
@@ -13,238 +13,107 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
-
 </head>
 <body>
 
-    <!-- header -->
-    <th:block th:replace="~{common/header_no_search}">header_no_search.html</th:block>
+    <th:block th:replace="~{common/header_no_search}"></th:block>
     
     <div class="body_container">
 
-    <!-- side Menu -->
-    <th:block th:replace="~{admin/adminPage_sideBar}">adminPage_sideBar.html</th:block>
+        <th:block th:replace="~{admin/adminPage_sideBar}"></th:block>
 
-    <main>
-        <div class="section_header">
-        <h1>리뷰 신고 관리</h1>
-        </div>
-        
-        <fieldset>
-            <legend>검색창</legend>               
-            <div>당일</div>
-            <div>1개월</div>
-            <div>6개월</div>
-            <div>1년</div>
-            <div class="date">
-                <div class="date_wrapper">
-                    <div class="front_date">2025.09.01</div>
-                    <img th:src="@{/svg/calender.svg}" class="calender_icon" alt="">
-                </div>
-
-                <div>-</div>
-
-                <div class="date_wrapper">
-                    <div class="rear_date">2025.09.21</div>
-                    <img th:src="@{/svg/calender.svg}" class="calender_icon" alt="">
-                </div>
+        <main>
+            <div class="section_header">
+                <h1>리뷰 신고 관리</h1>
             </div>
-            <button>검색</button>
-        </fieldset>
+            
+            <fieldset>
+                <legend>검색창</legend>               
+                <div>당일</div>
+                <div>1개월</div>
+                <div>6개월</div>
+                <div>1년</div>
+                <div class="date">
+                    <div class="date_wrapper">
+                        <div class="front_date" th:text="${startDate}">2025.09.01</div>
+                        <img th:src="@{/svg/calender.svg}" class="calender_icon" alt="달력">
+                    </div>
 
-        <div class="total_delete">
-            <button>전체 삭제</button>
-        </div>        
+                    <div>-</div>
 
-        <div>
-            <table>
-                <tr>
-                    <th scope="col"><input type="checkbox"></th>
-                    <th scope="col">신고자ID</th>
-                    <th scope="col">신고된 리뷰</th>
-                    <th scope="col">신고된 내용</th>
-                    <th scope="col">신고된 회원</th>
-                    <th scope="col">신고 사유</th>
-                    <th scope="col">신고일</th>
-                    <th scope="col">처리여부(Y/N)</th>
-                    <th scope="col">처리상태/처리일</th>
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>43901</td>
-                    <td>광화문 집회에 나와주세요</td>                    
-                    <td><a th:href="@{#}" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
-                    <td>james</td>
-                    <td>1</td>
-                    <td>2025.12.17</td>
-                    <td>Y</td>
-                    <td>
-                        <button>삭제</button>
-                        <button>유지</button>
-                    </td>
-                </tr>
+                    <div class="date_wrapper">
+                        <div class="rear_date" th:text="${endDate}">2025.09.21</div>
+                        <img th:src="@{/svg/calender.svg}" class="calender_icon" alt="달력">
+                    </div>
+                </div>
+                <button type="button">검색</button>
+            </fieldset>
 
-                                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>43901</td>
-                    <td>광화문 집회에 나와주세요</td>
-                    <td><a th:href="@{#}" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
-                    <td>james</td>
-                    <td>1</td>
-                    <td>2025.12.17</td>
-                    <td>Y</td>
-                    <td>
-                        <button>삭제</button>
-                        <button>유지</button>
-                    </td>
-                </tr>
+            <div class="total_delete">
+                <button type="button">전체 삭제</button>
+            </div>        
 
-                                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>43901</td>
-                    <td>광화문 집회에 나와주세요</td>
-                    <td><a th:href="@{#}" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
-                    <td>james</td>
-                    <td>1</td>
-                    <td>2025.12.17</td>
-                    <td>Y</td>
-                    <td>
-                        <button>삭제</button>
-                        <button>유지</button>
-                    </td>
-                </tr>
+            <div class="report_table_wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col"><input type="checkbox" id="selectAll"></th>
+                            <th scope="col">신고자ID</th>
+                            <th scope="col">신고된 리뷰</th>
+                            <th scope="col">신고된 내용</th>
+                            <th scope="col">신고된 회원</th>
+                            <th scope="col">신고 사유</th>
+                            <th scope="col">신고일</th>
+                            <th scope="col">처리여부(Y/N)</th>
+                            <th scope="col">처리상태/처리일</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="report : ${reportList}">
+                            <td><input type="checkbox" name="reportIds" th:value="${report.reportNo}"></td>
+                            <td th:text="${report.reporterId}">43901</td>
+                            <td th:text="${report.reviewTitle}">광화문 집회에 나와주세요</td>                    
+                            <td>
+                                <a th:href="@{/admin/report/detail/{id}(id=${report.reportNo})}" 
+                                   class="report_detail" 
+                                   th:text="${report.reportContent}">게시물과 관련없는 내용입니다...</a>
+                            </td>                    
+                            <td th:text="${report.targetMemberName}">james</td>
+                            <td th:text="${report.reportReasonType}">1</td>
+                            <td th:text="${#dates.format(report.reportDate, 'yyyy.MM.dd')}">2025.12.17</td>
+                            <td th:text="${report.processYn}">Y</td>
+                            <td>
+                                <button type="button" class="btn-delete">삭제</button>
+                                <button type="button" class="btn-keep">유지</button>
+                            </td>
+                        </tr>
+                        
+                        <tr th:if="${#lists.isEmpty(reportList)}">
+                            <td colspan="9" style="text-align: center; padding: 20px;">신고된 내역이 없습니다.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>43901</td>
-                    <td>광화문 집회에 나와주세요</td>
-                    <td><a th:href="@{#}" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
-                    <td>james</td>
-                    <td>1</td>
-                    <td>2025.12.17</td>
-                    <td>Y</td>
-                    <td>
-                        <button>삭제</button>
-                        <button>유지</button>
-                    </td>
-                </tr>
-                                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>43901</td>
-                    <td>광화문 집회에 나와주세요</td>
-                    <td><a th:href="@{#}" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
-                    <td>james</td>
-                    <td>1</td>
-                    <td>2025.12.17</td>
-                    <td>Y</td>
-                    <td>
-                        <button>삭제</button>
-                        <button>유지</button>
-                    </td>
-                </tr>
-                                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>43901</td>
-                    <td>광화문 집회에 나와주세요</td>
-                    <td><a th:href="@{#}" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
-                    <td>james</td>
-                    <td>1</td>
-                    <td>2025.12.17</td>
-                    <td>Y</td>
-                    <td>
-                        <button>삭제</button>
-                        <button>유지</button>
-                    </td>
-                </tr>
-                                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>43901</td>
-                    <td>광화문 집회에 나와주세요</td>
-                    <td><a th:href="@{#}" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
-                    <td>james</td>
-                    <td>1</td>
-                    <td>2025.12.17</td>
-                    <td>Y</td>
-                    <td>
-                        <button>삭제</button>
-                        <button>유지</button>
-                    </td>
-                </tr>
-                                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>43901</td>
-                    <td>광화문 집회에 나와주세요</td>
-                    <td><a th:href="@{#}" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
-                    <td>james</td>
-                    <td>1</td>
-                    <td>2025.12.17</td>
-                    <td>Y</td>
-                    <td>
-                        <button>삭제</button>
-                        <button>유지</button>
-                    </td>
-                </tr>
+            <div class="pagination">
+                <ul>
+                    <a th:href="@{#}">&laquo;</a>
+                    <a th:href="@{#}">&lt;</a>
+                    <th:block th:each="i : ${#numbers.sequence(1, 10)}">
+                        <a th:href="@{/admin/report(page=${i})}" 
+                           th:text="${i}" 
+                           th:classappend="${i == currentPage} ? 'active'">1</a>
+                    </th:block>
+                    <a th:href="@{#}">&gt;</a>
+                    <a th:href="@{#}">&raquo;</a>
+                </ul>
+            </div>
 
-                                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>43901</td>
-                    <td>광화문 집회에 나와주세요</td>
-                    <td><a th:href="@{#}" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
-                    <td>james</td>
-                    <td>1</td>
-                    <td>2025.12.17</td>
-                    <td>Y</td>
-                    <td>
-                        <button>삭제</button>
-                        <button>유지</button>
-                    </td>
-                </tr>
-
-                                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>43901</td>
-                    <td>광화문 집회에 나와주세요</td>
-                    <td><a th:href="@{#}" class="report_detail">게시물과 관련없는 내용입니다.분위기 망치는 내용이에요. 삭제필요</a></td>                    
-                    <td>james</td>
-                    <td>1</td>
-                    <td>2025.12.17</td>
-                    <td>Y</td>
-                    <td>
-                        <button>삭제</button>
-                        <button>유지</button>
-                    </td>
-                </tr>       
-
-            </table>
-
-        </div>
-
-        <div class="pagination">
-            <ul>
-                <a th:href="@{#}">&laquo;</a>
-                <a th:href="@{#}">&lt</a>
-                <a th:href="@{#}" class="active">1</a>
-                <a th:href="@{#}">2</a>
-                <a th:href="@{#}">3</a>
-                <a th:href="@{#}">4</a>
-                <a th:href="@{#}">5</a>
-                <a th:href="@{#}">6</a>
-                <a th:href="@{#}">7</a>
-                <a th:href="@{#}">8</a>
-                <a th:href="@{#}">9</a>
-                <a th:href="@{#}">10</a>
-                <a th:href="@{#}">&gt</a>
-                <a th:href="@{#}">&raquo;</a>
-            </ul>
-
-        </div>
-
-    </main>
-
+        </main>
     </div>
 
-    <!-- footer -->
-    <th:block th:replace="~{common/footer}">footer.html</th:block>
+    <th:block th:replace="~{common/footer}"></th:block>
+    <script th:src="@{/js/admin/review_report.js}"></script>
 
 </body>
 </html>
