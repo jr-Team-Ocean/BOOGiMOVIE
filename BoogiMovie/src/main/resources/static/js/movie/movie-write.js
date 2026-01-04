@@ -1,87 +1,115 @@
 console.log('movie.js loaded....')
 
-// tag 입력(수정, 등록)
-const tagifyNation  = createTagify('input[name=nation]',  ["대한민국", "미국", "일본"]);
-const tagifyActor   = createTagify('input[name=actor]',   ["샘 워싱턴", "조 샐다나", "시고니 위버", "스티븐 랭"]);
-const tagifyCreator = createTagify('input[name=creator]', ["박찬욱", "류승완", "나홍진", "봉준호", "제임스 카메론"]);
-const tagifyCompany = createTagify('input[name=company]', ["롯데", "CJ", "월트디즈니 컴퍼니 코리아"]);
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("writeFrm");
+    const fileInput = document.getElementById("movieImg");
+    const previewImg = document.getElementById("add-img"); // 너가 label 안에 둔 img
 
-function createTagify(selector, whitelist){
-    const input = document.querySelector(selector)
-    return new Tagify(input, {
-        enforceWhitelist: true,
-        whitelist: whitelist
-    })
-}
+    // 이미지 선택 시 미리보기 + 파일 체크
+    fileInput.addEventListener("change", () => {
+        const file = fileInput.files?.[0];
+        if (!file) return;
 
-[tagifyNation, tagifyActor, tagifyCreator, tagifyCompany].forEach(tagify => {
-    tagify
-        .on('add', onAddTag)
-        .on('remove', onRemoveTag)
-        .on('input', onInput)
-        .on('edit', onTagEdit)
-        .on('invalid', onInvalidTag)
-        .on('click', onTagClick)
-        .on('focus', onTagifyFocusBlur)
-        .on('blur', onTagifyFocusBlur)
-        .on('dropdown:hide dropdown:show', e => console.log(e.type))
-        .on('dropdown:select', onDropdownSelect)
-        .settings.maxTags = 3
-})
+    // 타입 검사
+    if (!file.type.startsWith("image/")) {
+        alert("이미지 파일만 업로드할 수 있어요.");
+        fileInput.value = "";
+        previewImg.src = "/svg/ImageAdd.svg"; // 기본 이미지로 복귀
+        return;
+    }
 
-// tag added callback
-function onAddTag(e){
-    console.log("onAddTag: ", e.detail);
-}
+    // (선택) 용량 제한 5MB
+    const maxSize = 5 * 1024 * 1024;
+    if (file.size > maxSize) {
+        alert("이미지는 5MB 이하만 업로드할 수 있어요.");
+        fileInput.value = "";
+        previewImg.src = "/svg/ImageAdd.svg";
+        return;
+    }
 
-// tag remvoed callback
-function onRemoveTag(e){
-    console.log("onRemoveTag:", e.detail, "tagify instance value:", tagify.value)
-}
+    // 미리보기
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        previewImg.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+});
 
-// on character(s) added/removed (user is typing/deleting)
-function onInput(e){
-    const tagify = this;
-    const root = tagify.settings.originalInput.closest('.tagify');
+    // 제출 전 검증(이미지 필수 포함)
+    form.addEventListener("submit", (e) => {
+        // 1) 이미지 필수
+        const file = fileInput.files?.[0];
+        if (!file) {
+            alert("대표이미지는 필수입니다.");
+            e.preventDefault();
+            return;
+        }
+        if (!file.type.startsWith("image/")) {
+            alert("이미지 파일만 업로드할 수 있어요.");
+            e.preventDefault();
+            return;
+        }
 
-    root.classList.add('tagify--loading');
+        // 2) 제목
+        const title = form.querySelector('input[name="movieTitle"]')?.value?.trim();
+        if (!title) {
+            alert("영화제목은 필수입니다.");
+            form.querySelector('input[name="movieTitle"]').focus();
+            e.preventDefault();
+            return;
+        }
 
-    mockAjax()
-        .then(result => {
-            tagify.settings.whitelist = result;
-        })
-        .catch(() => {
-            root.classList.remove('tagify--loading');
-        });
-}
+        // 3) 개봉일
+        const productDate = form.querySelector('input[name="productDate"]')?.value;
+        if (!productDate) {
+            alert("개봉일은 필수입니다.");
+            form.querySelector('input[name="productDate"]').focus();
+            e.preventDefault();
+            return;
+        }
 
-function onTagEdit(e){
-    console.log("onTagEdit: ", e.detail);
-}
+        // 4) 카테고리 선택(movieType/genreType)
+        const movieType = form.querySelector('select[name="movieType"]')?.value;
+        const genreType = form.querySelector('select[name="genreType"]')?.value;
+        if (!movieType) {
+            alert("국내/해외 카테고리를 선택해주세요.");
+            form.querySelector('select[name="movieType"]').focus();
+            e.preventDefault();
+            return;
+        }
+        if (!genreType) {
+            alert("장르를 선택해주세요.");
+            form.querySelector('select[name="genreType"]').focus();
+            e.preventDefault();
+            return;
+        }
 
-// invalid tag added callback
-function onInvalidTag(e){
-    console.log("onInvalidTag: ", e.detail);
-}
+        // 5) 상영시간
+        const movieTimeStr = form.querySelector('input[name="movieTime"]')?.value;
+        const movieTime = Number(movieTimeStr);
+        if (!movieTimeStr || Number.isNaN(movieTime) || movieTime <= 0) {
+            alert("상영시간(분)을 1 이상으로 입력해주세요.");
+            form.querySelector('input[name="movieTime"]').focus();
+            e.preventDefault();
+            return;
+            }
 
-// invalid tag added callback
-function onTagClick(e){
-    console.log(e.detail);
-    console.log("onTagClick: ", e.detail);
-}
+        // 6) 관람등급
+        const rating = form.querySelector('input[name="filmRating"]:checked')?.value;
+        if (!rating) {
+            alert("관람등급을 선택해주세요.");
+            e.preventDefault();
+            return;
+        }
 
-function onTagifyFocusBlur(e){
-    console.log(e.type, "event fired")
-}
-
-function onDropdownSelect(e){
-    console.log("onDropdownSelect: ", e.detail)
-}
-
-// ======================================================
-// 이미지 등록
-const addImg = document.getElementById('add-img')
-
-addImg.addEventListener('click', ()=>{
-    
-})
+        // 7) 판매가
+        const priceStr = form.querySelector('input[name="productPrice"]')?.value;
+        const price = Number(priceStr);
+        if (priceStr === "" || Number.isNaN(price) || price < 0) {
+            alert("판매가는 0 이상으로 입력해주세요.");
+            form.querySelector('input[name="productPrice"]').focus();
+            e.preventDefault();
+            return;
+        }
+    });
+});
