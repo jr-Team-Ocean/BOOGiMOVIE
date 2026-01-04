@@ -3,6 +3,8 @@ package com.bm.project.payment.model.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.bm.project.entity.Product;
+import com.bm.project.entity.ProductType;
 import com.bm.project.payment.entity.Delivery;
 import com.bm.project.payment.entity.Orders;
 import com.bm.project.payment.entity.Payment;
@@ -15,6 +17,30 @@ import lombok.Setter;
 import lombok.ToString;
 
 public class PayValidationDto {
+	
+	// 결제창(배송정보 입력창)에서 보여줄 데이터
+	@Getter @Setter @ToString @Builder
+	public static class PaymentItemDto {
+		private Long productNo;
+	    private String productTitle;
+	    private String imgPath; // 썸네일
+	    private int productPrice;      // 1개당 가격
+	    private int quantity;   // 주문 수량
+	    private int totalPrice; // 총 가격 (price * quantity)
+	    private Long typeCode;
+	    
+	    public static PaymentItemDto paymentItemToDto(Product product, int quantity) {
+	    	return PaymentItemDto.builder()
+	    			.productNo(product.getProductNo())
+	    			.productTitle(product.getProductTitle())
+	    			.imgPath(product.getImgPath())
+	    			.productPrice(product.getProductPrice())
+	    			.quantity(quantity)
+	    			.totalPrice(product.getProductPrice() * quantity)
+	    			.typeCode(product.getProductType().getTypeCode())
+	    			.build();
+	    }
+	}
 	
 	// 결제 요청 DTO (js -> 스프링)
 	@Getter
@@ -38,6 +64,7 @@ public class PayValidationDto {
 	public static class OrderItemDto {
 		private Long productNo; // 상품 번호
 		private Integer quantity; // 주문 수량
+		private Integer typeCode; // 상품 코드 (도서 / 영화)
 	}
 	
 	// 응답용 DTO (검증 후 반환할 데이터들)

@@ -42,7 +42,7 @@ public class Cart {
 					   allocationSize = 1)
 	private Long cartNo;
 	
-	@Column(name = "QUANTITY", nullable = false)
+	@Column(name = "QUANTITY", nullable = false, columnDefinition = "NUMBER DEFAULT 1")
 	private Integer quantity;
 	
 	// 수량만 변경할 수 있도록
@@ -62,8 +62,6 @@ public class Cart {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PRODUCT_NO", nullable = false)
 	private Product product;
-	
-	
 	
 	
 }

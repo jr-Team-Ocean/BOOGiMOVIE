@@ -1,10 +1,14 @@
 package com.bm.project.payment.model.service;
 
+import java.util.List;
+
 import com.bm.project.dto.MemberDto.LoginResult;
 import com.bm.project.payment.model.dto.CartDto.CartRespDto;
 import com.bm.project.payment.model.dto.PayValidationDto;
+import com.bm.project.payment.model.dto.PayValidationDto.OrderItemDto;
 import com.bm.project.payment.model.dto.PayValidationDto.PayResponse;
 import com.bm.project.payment.model.dto.PayValidationDto.PaySuccessDto;
+import com.bm.project.payment.model.dto.PayValidationDto.PaymentItemDto;
 
 public interface PaymentService {
 
@@ -25,6 +29,13 @@ public interface PaymentService {
 	 * @param successDto
 	 */
 	void successPayment(PaySuccessDto successDto);
+
+
+	/** 구매하려는 상품의 상품명 / 가격 / 썸네일 가져오기
+	 * @param orderItemList
+	 * @return
+	 */
+	List<PaymentItemDto> getPaymentItems(List<OrderItemDto> orderItemList);
 
 
 }
