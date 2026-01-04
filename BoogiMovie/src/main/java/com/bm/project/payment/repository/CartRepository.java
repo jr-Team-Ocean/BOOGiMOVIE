@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.bm.project.entity.Member;
+import com.bm.project.entity.Product;
 import com.bm.project.payment.entity.Cart;
 import com.bm.project.payment.model.dto.ICartDto;
 
@@ -24,5 +26,8 @@ public interface CartRepository extends JpaRepository<Cart, Long>{
 			+ "ORDER BY C.CART_NO DESC", 
 			nativeQuery = true)
 	List<ICartDto> findCartListByMemberNo(@Param("memberNo") Long memberNo);
+	
+	// 결제한 아이템 장바구니에서 삭제
+	void deleteByMemberAndProduct(Member member, Product product);
 
 }

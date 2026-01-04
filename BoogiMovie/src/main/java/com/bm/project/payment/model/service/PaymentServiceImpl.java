@@ -21,6 +21,7 @@ import com.bm.project.payment.model.dto.PayValidationDto.OrderItemDto;
 import com.bm.project.payment.model.dto.PayValidationDto.PayResponse;
 import com.bm.project.payment.model.dto.PayValidationDto.PaySuccessDto;
 import com.bm.project.payment.model.dto.PayValidationDto.PaymentItemDto;
+import com.bm.project.payment.repository.CartRepository;
 import com.bm.project.payment.repository.DeliveryRepository;
 import com.bm.project.payment.repository.OrdersDetailRepository;
 import com.bm.project.payment.repository.OrdersRepository;
@@ -40,6 +41,7 @@ public class PaymentServiceImpl implements PaymentService {
 	private final OrdersDetailRepository ordersDetailRepo;
 	private final PaymentRepository paymentRepo;
 	private final DeliveryRepository deliveryRepo;
+	private final CartRepository cartRepo;
 	
 
 
@@ -174,7 +176,19 @@ public class PaymentServiceImpl implements PaymentService {
 		orders.setPayStatus("PAID");
 		orders.setPayment(paymentRepo.save(payment));
 		
-		ordersRepo.save(orders);
+		Orders savedOrder = ordersRepo.save(orders); // 저장된 Orders
+		
+		Member member = savedOrder.getMember(); // 주문자
+		
+		for(OrdersDetail detail : savedOrder.getDetails()) {
+			Product product = detail.getProduct();
+			try {
+				cartRepo.deleteByMemberAndProduct(member, product);
+			} catch (Exception e) {
+				// 장바구니에 없는 상품일 수도 있으므로
+				System.out.println("장바구니 삭제 중 예외 발생 (또는 해당 상품 없음): " + product.getProductNo());
+			}
+		}
 	}
 
 
