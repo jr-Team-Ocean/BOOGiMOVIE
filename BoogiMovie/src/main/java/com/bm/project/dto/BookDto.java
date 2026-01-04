@@ -85,6 +85,7 @@ public class BookDto {
         				   .pCategoryName(pCategory != null ? pCategory.getCategoryName() : null)
         				   
         				   .isbn(book.getIsbn())
+        				   .bookCount(book.getBookCount())
         				   .writers(writers)
         				   .publishers(publishers)
         				   

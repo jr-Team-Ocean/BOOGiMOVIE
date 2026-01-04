@@ -155,7 +155,7 @@ public class BookController {
 	}
 	
 	// 도서 수정
-	@PutMapping("/{productNo}/update")
+	@PostMapping("/{productNo}/update")
 	public  String bookUpdate(
 			@PathVariable("productNo") Long productNo,
 			@ModelAttribute BookDto.Update bookUpdate,
@@ -185,7 +185,7 @@ public class BookController {
 	
 	
 	@PreAuthorize("hasRole('ADMIN')")
-	@DeleteMapping("/{productNo}/delete")
+	@PostMapping("/{productNo}/delete")
 	public String bookDelete(
 	        @PathVariable Long productNo,
 	        RedirectAttributes ra

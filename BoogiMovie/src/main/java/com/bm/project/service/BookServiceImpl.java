@@ -257,6 +257,7 @@ public class BookServiceImpl  implements BookService {
 
 
 	// 도서 수정
+	@Transactional(readOnly = false)
 	@Override
 	public void bookUpdate(Long productNo, Update bookUpdate) throws IllegalStateException, IOException {
 		Book book = bookRepository2.findByProduct_ProductNo(productNo)
@@ -341,7 +342,7 @@ public class BookServiceImpl  implements BookService {
 
 
 
-
+	@Transactional(readOnly = false)
 	@Override
 	public void bookDelete(Long productNo) {
 	    Book book = bookRepository2.findById(productNo)
