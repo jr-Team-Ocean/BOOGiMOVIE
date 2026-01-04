@@ -135,4 +135,30 @@ public class MemberDto {
 		
 	}
 	
+		// 내가 찜한 상품 응답용 DTO
+	    @Getter 
+	    @Builder 
+	    @ToString	 
+        public static class FavoriteResponse {
+	    	private Long productNo;        
+	        private String productTitle;   
+	        private String productAuthor;  // 추가 (오류 해결용)
+	        private Integer productPrice;  
+	        private String productStatus;  // 추가 (오류 해결용)
+	        private String productImage;   // imgPath 대신 productImage로 통일 (화면과 맞춤)
+	        private String favoriteDate;   
+
+	        public static FavoriteResponse toDto(Product p) {
+	            return FavoriteResponse.builder()
+	                    .productNo(p.getProductNo())
+	                    .productTitle(p.getProductTitle())
+	                    .productAuthor("저자 정보 없음") // 이제 에러 안 남
+	                    .productPrice(p.getProductPrice())
+	                    .productStatus("판매중") // 이제 에러 안 남
+	                    .productImage(p.getImgPath()) // 필드명을 productImage로 했으므로 이 메서드 사용
+	                    .favoriteDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")))
+	                    .build();
+	        }
+	    }
+	
 }
