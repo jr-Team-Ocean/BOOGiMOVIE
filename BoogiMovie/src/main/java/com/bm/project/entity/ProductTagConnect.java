@@ -44,8 +44,10 @@ public class ProductTagConnect {
 	
 	
 	// 연관편의
-	public void addProduct(Product product) {
+	public void addProduct(Product product, ProductTag tag) {
 		this.product = product;
+		this.productTag = tag;
+		
 		if(!product.getProductTagConnects().contains(this)) {
 			// 중복 방지
 			product.getProductTagConnects().add(this);
