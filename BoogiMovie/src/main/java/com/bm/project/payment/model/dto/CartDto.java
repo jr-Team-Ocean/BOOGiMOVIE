@@ -1,6 +1,7 @@
 package com.bm.project.payment.model.dto;
 
 
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -24,7 +25,7 @@ public class CartDto {
 		private Integer productPrice;
 		private Integer quantity;
 		private Long memberNo;
-		private Integer typeCode;
+		private Long typeCode;
 		
 		// 인터페이스 -> DTO
 		public static CartRespDto convertToCartDto(ICartDto raw) {

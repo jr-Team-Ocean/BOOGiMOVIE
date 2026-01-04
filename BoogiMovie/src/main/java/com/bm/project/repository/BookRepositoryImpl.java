@@ -380,6 +380,20 @@ public class BookRepositoryImpl implements BookRepository{
 												 .build();
 		em.persist(con);
 	}
+
+
+
+	// 태그 연결 끊기
+	@Override
+	public void deleteConnect(Long productNo) {
+		
+		String query = "delete from ProductTagConnect ptc " +
+					   "where ptc.product.productNo = :productNo";
+		
+		em.createQuery(query)
+		  .setParameter("productNo", productNo)
+		  .executeUpdate();
+	}
 	
 	
 }

@@ -9,10 +9,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -138,10 +141,63 @@ public class BookController {
 	}
 	
 	
+	// 도서 수정 화면 전환
+	@PreAuthorize("hasRole('ADMIN')")
+	@GetMapping("/{productNo}/update")
+	public String bookUpdate(
+			@PathVariable Long productNo,
+            Model model
+			) {
+		BookDto.Response book = bookService.selectBookDetail(productNo);
+        model.addAttribute("book", book);
+		
+		return "book/bookUpdate";
+	}
+	
+	// 도서 수정
+	@PostMapping("/{productNo}/update")
+	public  String bookUpdate(
+			@PathVariable("productNo") Long productNo,
+			@ModelAttribute BookDto.Update bookUpdate,
+			RedirectAttributes ra
+			) throws IllegalStateException, IOException {
+		
+		bookService.bookUpdate(productNo, bookUpdate);
+		
+		
+		
+		String message = null;
+		String path = "redirect:";
+		if (productNo > 0) {
+
+			path += "/books/" + productNo; 
+			message = "도서 상품이 수정되었습니다.";
+			
+		} else {
+			path += "update";
+			message = "도서 수정에 실패하였습니다.";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		return path;
+	}
 	
 	
 	
-	
+	@PreAuthorize("hasRole('ADMIN')")
+	@PostMapping("/{productNo}/delete")
+	public String bookDelete(
+	        @PathVariable Long productNo,
+	        RedirectAttributes ra
+			) {
+	    bookService.bookDelete(productNo);
+	    
+	    String message = "게시글이 삭제되었습니다.";
+ 		String path = "redirect:/books";
+	 		
+		ra.addFlashAttribute("message", message);
+	    return path;
+	}
 	
 	
 	

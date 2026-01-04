@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>주문하기</title>
-    <link rel="stylesheet" th:href="@{/css/cart_order/order.css}">
+    <link rel="stylesheet" th:href="@{/css/cart_order/delivery.css}">
     <link rel="stylesheet" th:href="@{/css/common/font.css}">
     <link rel="stylesheet" th:href="@{/css/common/header.css}">
     <link rel="stylesheet" th:href="@{/css/common/font.css}">
@@ -34,8 +34,10 @@
                             <span class="red">*</span><span>주문자</span>
                         </div>
                         <div class="orderer_info">
-                            <input type="text" placeholder="주문자명" class="orderer_name orderer_input">
-                            <input type="text" placeholder="연락처('-' 포함)" class="orderer_phone orderer_input">
+                            <input type="text" placeholder="주문자명" class="orderer_name orderer_input"
+                                    th:value="${orderMember.memberName}">
+                            <input type="text" placeholder="연락처('-' 포함)" class="orderer_phone orderer_input"
+                                    th:value="${orderMember.memberPhone}">
                         </div>
                     </div>
 
@@ -58,16 +60,19 @@
                     <div class="orderer_address_area">
                         <!-- 우편번호 및 주소찾기 -->
                         <div>
-                            <input type="text" placeholder="우편번호" class="orderer_input orderer_post" id="sample6_postcode">
+                            <input type="text" placeholder="우편번호" class="orderer_input orderer_post" id="sample6_postcode"
+                                    th:value="${orderMember.postNo}">
                             <button class="find_address_btn bold" onclick="sample6_execDaumPostcode()">주소 찾기</button>
                         </div>
                         <!-- 도로명 주소 -->
                         <div>
-                            <input type="text" placeholder="도로명 주소" id="sample6_address" class="orderer_input orderer_address">
+                            <input type="text" placeholder="도로명 주소" id="sample6_address" class="orderer_input orderer_address"
+                                    th:value="${orderMember.address}">
                         </div>
                         <!-- 상세주소 -->
                         <div>
-                            <input type="text" placeholder="상세 주소" id="sample6_detailAddress" class="orderer_input orderer_detail_address">
+                            <input type="text" placeholder="상세 주소" id="sample6_detailAddress" class="orderer_input orderer_detail_address"
+                                    th:value="${orderMember.detailAddress}">
                         </div>
                     </div>
                 </div>
@@ -82,45 +87,37 @@
                 <div class="font-20px bold">주문정보</div>
 
                 <!-- 상품 하나 -->
-                <div class="order_product_container">
-                    <!-- 왼쪽 영역 (상품 이미지) -->
-                    <div>
-                        <img th:src="@{/images/cart/mock_book1.png}" alt="">
-                    </div>
-    
-                    <!-- 오른쪽 영역 (상품 정보) -->
-                    <div class="product_info_container">
-                        <div class="product_title bold font-18px">바이브 코딩 너머 개발자 생존법</div>
-    
-                        <div class="quantity_price_container">
-                            <div>
-                                <span>수량</span> <span>1개</span>
-                            </div>
-                            <div>18,200원</div>
-                        </div>
-    
-                    </div>
-                </div>
+                <th:block th:if="${#lists.size(paymentList) > 0}">
 
-                <div class="order_product_container">
-                    <!-- 왼쪽 영역 (상품 이미지) -->
-                    <div>
-                        <img th:src="@{/images/cart/mock_book2.png}" alt="">
-                    </div>
-    
-                    <!-- 오른쪽 영역 (상품 정보) -->
-                    <div class="product_info_container">
-                        <div class="product_title bold font-18px">루퍼</div>
-    
-                        <div class="quantity_price_container">
-                            <div>
-                                <span>수량</span> <span>1개</span>
+                    <th:block th:each="item : ${paymentList}">
+                        
+                        <div class="order_product_container order_item_values"
+                                    th:data-product-no="${item.productNo}"
+                                    th:data-quantity="${item.quantity}"
+                                    th:data-price="${item.productPrice}"
+                                    th:data-type="${item.typeCode}">
+
+                            <!-- 왼쪽 영역 (상품 이미지) -->
+                            <div class="product_img">
+                                <img th:src="${item.imgPath}" alt="">
                             </div>
-                            <div>9,000원</div>
+            
+                            <!-- 오른쪽 영역 (상품 정보) -->
+                            <div class="product_info_container">
+                                <div class="product_title bold font-18px" th:text="${item.productTitle}">상품명</div>
+            
+                                <div class="quantity_price_container">
+                                    <div>
+                                        <span>수량</span> <span th:text="|${item.quantity}개|">1개</span>
+                                    </div>
+                                    <div th:text="|개당 ${#numbers.formatInteger(item.productPrice, 1, 'COMMA')}원|">18,200원</div>
+                                </div>
+            
+                            </div>
                         </div>
-    
-                    </div>
-                </div>
+                    </th:block>
+                </th:block>
+
 
             </div> <!-- 왼쪽 end -->
 
@@ -134,17 +131,17 @@
                             <input type="radio" name="payments" value="simple" id="simplePay">
                             <label for="simplePay">간편 결제</label> 
                         </div>
-                        <div>
+                        <!-- <div>
                             <input type="radio" name="payments" value="card" id="cardPay">
                             <label for="cardPay">카드 결제</label>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
                 <!-- 결제 및 취소 버튼 -->
                 <div class="btn_area">
-                    <button><span>18,200원 </span>결제하기</button>
-                    <button>결제취소</button>
+                    <button class="order_btn"><span th:text="|${#numbers.formatInteger(totalAmount, 1, 'COMMA')}원|">18,200원 </span> 결제하기</button>
+                    <button id="cancel_payment">결제취소</button>
                 </div>
             </div> <!-- 오른쪽 end -->
         </div>
@@ -158,7 +155,7 @@
 
 
     <!-- 주소 검색 api -->
-    <script th:src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
         function sample6_execDaumPostcode() {
             new daum.Postcode({
@@ -186,7 +183,10 @@
         }
     </script>
 
-    <!-- <script th:src="@{/js/pay/productPayment.js}"></script> -->
+    <script >
+
+    </script>
+    <script th:src="@{/js/pay/productPayment.js}"></script>
 </body>
 
 </html>

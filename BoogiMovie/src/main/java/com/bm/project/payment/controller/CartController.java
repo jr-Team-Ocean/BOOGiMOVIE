@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.bm.project.dto.MemberDto;
 import com.bm.project.payment.model.dto.CartDto;
+import com.bm.project.payment.model.dto.PayValidationDto;
 import com.bm.project.payment.model.service.CartService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -41,11 +43,11 @@ public class CartController {
 		
 		// 로그인한 회원이 가지고 있는 장바구니 목록 조회
 		List<CartDto.CartRespDto> cartList = service.findCartListByMemberNo(loginMember);
-//		System.out.println("=== 장바구니 목록 조회 ===\n" + cartList);
+		System.out.println("=== 장바구니 목록 조회 ===\n" + cartList);
 		
 		model.addAttribute("cartList", cartList);
-		model.addAttribute("storeId", storeId);
-		model.addAttribute("channelKey", channelKey);
+//		model.addAttribute("storeId", storeId);
+//		model.addAttribute("channelKey", channelKey);
 		
 		return "cart_order/cart";
 	}
@@ -81,5 +83,27 @@ public class CartController {
 		
 		return ResponseEntity.ok("수량 변경 성공");
 	}
-
+	
+	// 장바구니에서 결제창으로 이동
+	@PostMapping("/order")
+	@ResponseBody
+	public int cartToOrder(@RequestBody List<PayValidationDto.OrderItemDto> orderItemList,
+							  @SessionAttribute("loginMember") MemberDto.LoginResult loginMember,
+							  HttpSession session) {
+		
+//		System.out.println("======= 결제창 넘어오는 값 ======");
+//		System.out.println(orderItemList);
+		
+		// 회원 정보(이름, 전화번호, 주소)
+		MemberDto.OrderMemberDto orderMemberDto = service.getOrderMemberInfo(loginMember.getMemberNo());
+		if(orderMemberDto != null) {
+			session.setAttribute("orderMemberDto", orderMemberDto);
+			session.setAttribute("orderItemList", orderItemList);
+			return 1;
+			
+		} else {
+			return 0;
+		}
+		
+	}
 }

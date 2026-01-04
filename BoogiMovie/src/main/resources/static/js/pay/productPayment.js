@@ -13,14 +13,45 @@ console.log(storeId)
 console.log(channelKey)
 
 document.addEventListener("DOMContentLoaded", function () {
+    const itemElements = document.querySelectorAll(".order_item_values");
+    
+    const deliveryInfoContainer = document.querySelector(".order_info_container");
+
+    // 배송이 필요한지 체크하는 변수
+    let needsDelivery = false; 
+    const PHYSICAL_TYPE_CODE = 1; // 도서 코드
+
+    itemElements.forEach(item => {
+        const typeCode = parseInt(item.dataset.type);
+        console.log(typeCode)
+
+        // 하나라도 도서 상품이 있다면 배송 정보 요소 필요
+        if (typeCode === PHYSICAL_TYPE_CODE) {
+            needsDelivery = true;
+        }
+    });
+
+    if (needsDelivery) {
+        // 도서가 하나라도 섞여 있으면 보임
+        if(deliveryInfoContainer) deliveryInfoContainer.style.display = "flex";
+    } else {
+        // 전부 영화라면 숨김
+        if(deliveryInfoContainer) deliveryInfoContainer.style.display = "none";
+    }
+
+
     // 결제 버튼 요소 찾아서 넣기
     // const paymentBtn = document.querySelector("#payment-btn");
-    const paymentBtn = document.querySelector(".order_btn > button");
+    const paymentBtn = document.querySelector(".order_btn");
+
+    const memberNo = document.querySelector(".memberNo") // 주문하는 회원번호
+
+    /* 주문하려는 아이템 값 */
 
     /* 원래는 onclick 메소드 넣고, 해당 제품 정보 가져와서 넣어야 함 */
     const validationData = {
         // 주문자 회원 번호
-        member_no: 2,
+        member_no: 6,
 
         // 주문할 아이템들
         order_items: [
@@ -72,7 +103,7 @@ async function payment(validationData) {
             orderName: resp.order_name,
             totalAmount: resp.total_price,
             currency: "CURRENCY_KRW",
-            payMethod: "CARD",
+            payMethod: "EASY_PAY",
             customer: {
                 fullName: resp.recipient_name,
                 phoneNumber: resp.recipient_phone
@@ -101,7 +132,7 @@ async function payment(validationData) {
                 order_no: resp.order_no,
 
                 pay_no: response.txId, // 결제 시도 고유 ID
-                pay_method: "CARD",
+                pay_method: "EASY_PAY",
                 pay_price: resp.total_price, // 총 결제 금액
 
                 /* 여기는 배송 요청 부분 임의 데이터 */

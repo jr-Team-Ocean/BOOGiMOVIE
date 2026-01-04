@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const allDeleteCheckBox = document.getElementById("item_delete"); // 전체 선택 체크박스
+    const allCheckBox = document.getElementById("item_delete"); // 전체 선택 체크박스
     const allDeleteItemBtn = document.querySelector(".all_delete_item a"); // 전체 삭제 텍스트 버튼
 
-    const deleteCheckBox = document.querySelectorAll(".product_del_checkbox"); // 개별 선택 체크박스
+    const checkBox = document.querySelectorAll(".product_checkbox"); // 개별 선택 체크박스
     const deleteBtn = document.querySelectorAll(".delete_btn"); // 개별 삭제 텍스트 버튼
 
 
@@ -30,11 +30,11 @@ document.addEventListener("DOMContentLoaded", () => {
     updateTotalPrice();
 
     /* 전체 선택 및 해제 */
-    allDeleteCheckBox.addEventListener("change", e => {
+    allCheckBox.addEventListener("change", e => {
         const isChecked = e.target.checked; // 전체 선택 체크박스의 상태 (t/f)
 
         /* 모든 개별 체크박스를 돌면서 상태 맞춰주기 */
-        deleteCheckBox.forEach(checkbox => {
+        checkBox.forEach(checkbox => {
             checkbox.checked = isChecked;
         });
 
@@ -44,16 +44,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     /* 개별 체크 박스 하나라도 끄면 전체 선택 취소 */
-    deleteCheckBox.forEach(checkbox => {
+    checkBox.forEach(checkbox => {
         checkbox.addEventListener("change", e => {
             /* 체크 개수와 전체 개수 같은지 확인 */
-            const totalCount = deleteCheckBox.length;
+            const totalCount = checkBox.length;
             const checkedCount = document.querySelectorAll(".product_del_checkbox:checked").length;
             // console.log(totalCount);
             // console.log(checkedCount);
 
             /* 개별적으로 다 체크 되어있다면 전체 선택도 체크, 아니면 해제 */
-            allDeleteCheckBox.checked = (totalCount == checkedCount);
+            allCheckBox.checked = (totalCount == checkedCount);
 
             /* 가격 재계산 */
             updateTotalPrice();
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 /* 개별적으로 아이템 다 지우면 전체 선택 체크박스 끄기 */
                 if(document.querySelectorAll(".cart-item").length === 0) {
-                    allDeleteCheckBox.checked = false;
+                    allCheckBox.checked = false;
                 }
             }
         })
@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if(confirm("장바구니를 비우시겠습니까?")) {
             /* 전체 선택 체크박스 해제 */
-            allDeleteCheckBox.checked = false;
+            allCheckBox.checked = false;
 
             deleteCartItem(cartNoList, function() {
                     inputs.forEach(input => input.closest(".cart-item").remove());
@@ -220,17 +220,21 @@ document.addEventListener("DOMContentLoaded", () => {
         /* 현재 화면에 남아있는 모든 아이템을 기준으로 계산 */
         const currentItems = document.querySelectorAll(".cart-item");
         currentItems.forEach(item => {
-            const checkbox = item.querySelector(".product_del_checkbox");
+            const checkbox = item.querySelector(".product_checkbox");
 
             /* 체크박스가 선택된 것들만 계산*/
             if(checkbox.checked) {
                 const productPrice = item.querySelector(".product_price"); // 개별 가격
+
                 const quantityCount = item.querySelector(".quantity_input"); // 상품 수량
 
                 /* 숫자만 추출 */
                 const priceValue = parseInt(productPrice.innerText.replace(/[^0-9]/g, ""));
-                const countValue = parseInt(quantityCount.value);
 
+                let countValue = 1;
+                if(quantityCount != null) {
+                    countValue = parseInt(quantityCount.value);
+                } 
                 /* 상품 금액 */
                 productTotal += priceValue * countValue;
 
@@ -288,4 +292,61 @@ document.addEventListener("DOMContentLoaded", () => {
             location.href = "/"; 
         });
     }
+    
+    /* ===================================================================== */
+    /* ===================================================================== */
+    
+    /* 주문하기 눌렀을 경우 체크한 상품들만 결제창으로 값들 보내주기 */
+    const orderBtn = document.querySelector(".order_btn > button");
+
+    orderBtn.addEventListener("click", () => {
+        /* 체크 되어있는 체크박스 가져오기 */
+        const checkedBoxes = document.querySelectorAll(".product_checkbox:checked");
+
+        /* 체크된 거 없다면 */
+        if(checkedBoxes.length == 0) {
+            alert("주문할 상품을 선택해주세요.")
+            return;
+        }
+
+        /* 주문할 데이터 담을 배열 */
+        const orderItemList = [];
+        
+        checkedBoxes.forEach(checkBox => {
+            const parentBox = checkBox.closest(".cart-item"); // 상품 하나 박스
+            const productNo = parentBox.querySelector(".productNo"); // 상품 번호
+            const quantity = parentBox.querySelector(".quantity_input"); // 수량
+
+            const quantityVal = quantity ? parseInt(quantity.value) : 1;
+
+            const orderItem = {
+                product_no: parseInt(productNo.value), // 카멜 표기법 / 스네이크 표기법 주의..
+                quantity: parseInt(quantityVal)
+            }
+            
+            console.log(orderItem);
+            orderItemList.push(orderItem); // 리스트에 추가
+        });
+
+        // console.log(orderItemList);
+
+        fetch("/cart/order", {
+            method: "POST",
+            headers: {"Content-Type" : "application/json"},
+            body: JSON.stringify(orderItemList)
+        })
+        .then(resp => resp.text())
+        .then(result => {
+            console.log(result);
+
+            if(result > 0) {
+                location.href = "/order/delivery";
+            } else {
+                console.log("배송정보 이동 실패");
+            }
+        })
+        .catch(e => console.log(e))
+
+    })
 });
+
