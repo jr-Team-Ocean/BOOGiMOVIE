@@ -25,12 +25,15 @@ import com.bm.project.dto.BookDto.Response;
 import com.bm.project.dto.BookDto.Update;
 import com.bm.project.entity.Book;
 import com.bm.project.entity.Category;
+import com.bm.project.entity.Likes;
+import com.bm.project.entity.Member;
 import com.bm.project.entity.Product;
 import com.bm.project.entity.ProductTag;
 import com.bm.project.entity.ProductType;
 import com.bm.project.entity.TagCode;
 import com.bm.project.repository.BookRepository;
 import com.bm.project.repository.BookRepository2;
+import com.bm.project.repository.LikeRepository;
 import com.bm.project.repository.TagRepository;
 import com.bm.project.enums.CommonEnums;
 
@@ -45,6 +48,7 @@ public class BookServiceImpl  implements BookService {
 	private final BookRepository bookRepository;
 	private final BookRepository2 bookRepository2;
 	private final TagRepository tagRepository;
+	private final LikeRepository likeRepository;
 	
 	private final String FILE_PATH = "C:/bmImg/book/";
 	private final String WEB_PATH = "/images/book/";
@@ -352,6 +356,57 @@ public class BookServiceImpl  implements BookService {
 
 	    product.setProductDelFl(CommonEnums.ProductDelFl.Y);
 		
+	}
+
+
+
+
+
+	// 기존 좋아요 여부
+	@Override
+	public int bookLikeCheck(Long productNo, Long memberNo) {
+		boolean exists =
+	            likeRepository.existsByProduct_ProductNoAndMember_MemberNo(productNo, memberNo);
+		
+		return exists ? 1 : 0;
+	}
+
+
+	// 좋아요 처리
+	@Override
+	public int bookLike(Map<String, Long> paramMap) {
+		
+		Long memberNo  = paramMap.get("memberNo");
+		Long productNo = paramMap.get("productNo");
+		Long check     = paramMap.get("check");
+		
+		
+		if (check == 0L) {
+			
+			// 중복 방지
+			boolean exists =
+			        likeRepository.existsByProduct_ProductNoAndMember_MemberNo(productNo, memberNo);
+			
+			if (!exists) {
+				// 추가
+		        bookRepository.insertLike(productNo, memberNo);
+		    }
+		} else {	
+			// 삭제 처리
+			likeRepository.deleteByProduct_ProductNoAndMember_MemberNo(productNo, memberNo);
+			likeRepository.flush();
+		}
+		
+		return likeRepository.countByProduct_ProductNo(productNo);
+	}
+
+
+
+
+	// 좋아요 개수 확인
+	@Override
+	public int bookLikeCount(Long productNo) {
+		return likeRepository.countByProduct_ProductNo(productNo);
 	}
 	
 	

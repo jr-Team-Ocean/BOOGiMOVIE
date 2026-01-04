@@ -49,4 +49,8 @@ public interface BookRepository {
 
 	// 태그 연결 초기화
 	void deleteConnect(Long productNo);
+
+	// 좋아요 추가
+	int insertLike(Long productNo, Long memberNo);
+
 }
