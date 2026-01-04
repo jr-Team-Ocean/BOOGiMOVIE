@@ -12,6 +12,7 @@ import com.bm.project.entity.Product;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 
 @Repository
 public class UbookRepositoryImpl implements UbookRepository{
@@ -23,11 +24,11 @@ public class UbookRepositoryImpl implements UbookRepository{
 	@Override
 	public Page<Product> selectbookList(Map<String, Object> paramMap, Pageable pageable) {
 		
-		String ubookSort = "latest"; // 기본값
+		String ubookSort = (String) paramMap.getOrDefault("ubookSort", "latest"); // 기본값
 		
-		String query = "select p " +
-						"from Ubook u " +
-						"join u.product p " +
+		String query = "select distinct p, u " +
+						"from Product p " +
+						"left join Ubook u on u.product = p " +
 						"where p.productDelFl = 'N' " +
 						"and p.productType.typeCode = 3" ;
 		
@@ -45,8 +46,10 @@ public class UbookRepositoryImpl implements UbookRepository{
 		}
 		
 		
+		
+		
 		// 조건 없을 경우
-		var nQuery = em.createQuery(query, Product.class);
+		TypedQuery<Product> nQuery = em.createQuery(query, Product.class);
 		
 		List<Product> ubooks = nQuery.setFirstResult((int)pageable.getOffset())
 										// 어디서부터 가지고 올 것인지
@@ -59,16 +62,31 @@ public class UbookRepositoryImpl implements UbookRepository{
 									"from Ubook u " +
 									"join u.product p " +
 									"where p.productDelFl = 'N' " +
-									"and p.productType.typeCode = 1";
+									"and p.productType.typeCode = 3";
 				
 		
-		var mQuery = em.createQuery(countProductQuery, Long.class);
+		TypedQuery<Long> mQuery = em.createQuery(countProductQuery, Long.class);
 		
 		Long totalUbookCount = mQuery.getSingleResult();
 						
 				
 		
 		return new PageImpl<>(ubooks, pageable, totalUbookCount);
+	}
+
+	
+	// 중고도서 상태 조회
+	@Override
+	public List<Object[]> selectUbookStateList(Long productNo) {
+		
+		String query = "select u.ubookStatus from " +
+						"from Ubook u" +
+						"join product p" +
+						"where p.productNo = in : productNo" +
+						
+		
+		
+		return result;
 	}
 	
 

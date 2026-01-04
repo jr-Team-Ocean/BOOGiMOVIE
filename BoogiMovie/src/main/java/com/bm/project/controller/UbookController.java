@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.bm.project.dto.PageDto;
 import com.bm.project.dto.UbookDto;
 import com.bm.project.service.UbookService;
 
@@ -31,13 +32,28 @@ public class UbookController {
 			
 			) {
 		
+		// paramMap : HTML의 name 속성으로 전달받은 url을 spring이 자동으로 채워준다.
+		
 		Page<UbookDto.Response> pageResp;
 		
+		// Pageable : 페이지 번호, 페이지 크기, 정렬 정보를 담는 표준 객체
 		Pageable pageable = PageRequest.of(page - 1, 20);
 		
-		pageResp = UbookService.selectbookList(paramMap, pageable);
+		pageResp = ubookService.selectbookList(paramMap, pageable);
+		
+		// 3. PageDto 변환
+	    PageDto<UbookDto.Response> pageDto = new PageDto<>(pageResp);
+		
+		System.out.println(pageResp);
+		System.out.println(pageResp.getContent());
+		System.out.println(pageable);
+		
 		
 		model.addAttribute("url", "ubooks");
+		model.addAttribute("page", pageResp);
+		model.addAttribute("paramMap", paramMap);
+		model.addAttribute("ubooks", pageResp.getContent());
+		model.addAttribute("pageDto", pageDto);
 		
 		return "usedBook/usedBook_List";
 	}

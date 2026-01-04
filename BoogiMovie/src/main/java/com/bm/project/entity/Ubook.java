@@ -38,9 +38,8 @@ public class Ubook {
 	@Column(name = "PRODUCT_NO")
 	private Long productNo; // FK이면서 PK 역할
 
-//	@Column(name="UBOOK_STATUS", length=6, nullable=false)
-//	@Enumerated(EnumType.STRING)
-//	private CommonEnums.UbookStatus ubookStatus;
+	@Column(name="UBOOK_STATUS", length=6, nullable=false)
+	private String ubookStatus;
 	
 	@Column(name="NBOOK_PRICE", nullable=false)
 	private Long nbookPrice;

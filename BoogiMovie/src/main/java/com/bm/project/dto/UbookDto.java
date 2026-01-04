@@ -27,7 +27,7 @@ public class UbookDto {
         private String imgPath; // 대표 이미지
 
         
-        //private UbookStatus ubookStatus; // 중고도서 분류        
+        private String ubookStatus; // 중고도서 분류        
         private Long nbookPrice; // 도서 정가
         private String ubookIndex;
         private String authorIntro;
@@ -37,6 +37,9 @@ public class UbookDto {
         
         private List<String> writers; // 작가
         private List<String> publishers; // 출판사
+        
+        
+
 	
 	
         // 게시글 목록 조회용 DTO
@@ -47,6 +50,7 @@ public class UbookDto {
         					.productTitle(product.getProductTitle())
         					.imgPath(product.getImgPath())
         					.productPrice(product.getProductPrice())
+        	
         					
         					.build();
         }

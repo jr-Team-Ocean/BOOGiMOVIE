@@ -10,6 +10,8 @@ import com.bm.project.dto.UbookDto.Response;
 
 public interface UbookService {
 
+	
+	// 중고도서 목록 조회
 	Page<UbookDto.Response> selectbookList(Map<String, Object> paramMap, Pageable pageable);
 	
 	

@@ -1,18 +1,16 @@
-document.querySelector('.category_case').addEventListener('click', function() {
+// 페이지네이션
+document.querySelectorAll('.pagination-link').forEach(link => {
+    link.addEventListener('click', e => {
+        e.preventDefault();
 
-            const miniCategory = document.querySelectorAll('.mini_category')
+        
+        const page = link.dataset.page
+        const params = new URLSearchParams(window.location.search)
+        
+        if (!page) return;
+        
+        params.set('page', page)
 
-            //console.log(miniCategory)
-
-            //console.log(miniCategory[0])
-
-            for (i in miniCategory){
-                if(i < miniCategory.length){
-
-                    
-                    miniCategory[i].classList.toggle('active')
-
-                }
-            }
-
-        })
+        location.href = '/ubooks?' + params.toString();
+    });
+});

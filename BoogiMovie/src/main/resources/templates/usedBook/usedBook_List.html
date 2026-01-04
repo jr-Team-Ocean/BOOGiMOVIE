@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" th:href="@{/css/common/header.css}">
 
+    <link rel="stylesheet" th:href="@{/css/common/pagination.css}">
+
     <!-- 폰트 -->
     <link rel="stylesheet" th:href="@{/css/common/font.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,7 +32,7 @@
 
         <p class="top_title">중고도서</p>
 
-        <form action="">
+        <form th:action="@{/ubooks}" method="get">
 
             <section class="list_container">
     
@@ -53,10 +55,10 @@
 
                     
 
-                        <div class="category_list">
+                        <a class="category_list">
                             역사/문화/예술/종교
 
-                        </div>
+                        </a>
                         <div class="category_list">
                             역사/문화/예술/종교
 
@@ -140,7 +142,7 @@
                     
                     <div class="sort_search_case">
                         
-                        <!-- <div class="sort_search_left">
+                        <div class="sort_search_left">
         
                             <select class="sort_list" name="ubookSort" id="ubookListSort">
                 
@@ -150,7 +152,7 @@
                 
                             </select>
         
-                        </div> -->
+                        </div>
                         
                         <div class="sort_search_right">
                             
@@ -177,12 +179,11 @@
                 <!-- 상품 -->
                 <section class="list_board">
 
-                    <!-- <a
-                        th:each="i : ${#numbers.sequence(row, row+4)}"
-                        th:if="${i < page.content.size()}"
-                        th:with="ubook=${page.content[i]}"
-                        th:href="@{/ubooks/{id}(id=${ubook.productNo})}"
+                    <a
+                        
                     
+                        th:each="ubook : ${ubooks}"
+                        th:href="@{/ubooks/{id}(id=${ubook.productNo})}"
                     
                     
                     >
@@ -193,13 +194,13 @@
                                 
                                 <div class="img_case"><img class="list_img" th:src="${ubook.imgPath}" alt="도서 이미지"></div>
                                 <div class="list_title" th:text="${ubook.productTitle}"></div>
-                                <div class="list_price" th:text="${ubook.formatInteger(ubook.productPrice, 0, 'COMMA')} + ' 원'"></div>
-
+                                <div class="list_price" th:text="${ubook.ubookStatus}"></div>
+                                <div class="list_price" th:text="${#numbers.formatInteger(ubook.productPrice, 0, 'COMMA')} + ' 원'"></div>
                             </div>
     
                         </div>
 
-                    </a> -->
+                    </a>
 
                     
 
@@ -214,35 +215,61 @@
 
             </div>
 
-            <nav class="pagination" aria-label="페이지네이션">
-                <!-- <ul class="pagination-list">
+            <!-- 페이지네이션 -->
+            <nav class="pagination" th:if="${page != null and page.totalPages > 0}" aria-label="페이지네이션">
+                
+                <ul class="pagination-list">
+
+                    <!-- 처음으로 -->
                     <li class="pagination-item">
-                        <a class="pagination-link" href="#" aria-label="첫 페이지" rel="first">&#60;&#60;</a>
-                    </li>
-                    <li class="pagination-item">
-                        <a class="pagination-link" href="#" aria-label="이전 페이지" rel="prev">&#60;</a>
+                        <a href="#" class="pagination-link" th:attr="data-page=1">
+                            &lt;&lt;
+                        </a>
                     </li>
 
-                    <li class="pagination-item"><a class="pagination-link is-active" href="#" aria-current="page">1</a></li>
-                    <li class="pagination-item"><a class="pagination-link" href="#">2</a></li>
-                    <li class="pagination-item"><a class="pagination-link" href="#">3</a></li>
-                    <li class="pagination-item"><a class="pagination-link" href="#">4</a></li>
-                    <li class="pagination-item"><a class="pagination-link" href="#">5</a></li>
-                    <li class="pagination-item"><a class="pagination-link" href="#">6</a></li>
-                    <li class="pagination-item"><a class="pagination-link" href="#">7</a></li>
-                    <li class="pagination-item"><a class="pagination-link" href="#">8</a></li>
-                    <li class="pagination-item"><a class="pagination-link" href="#">9</a></li>
-                    <li class="pagination-item"><a class="pagination-link" href="#">10</a></li>
+                    <!-- 이전 -->
+                    <li class="pagination-item">
+                        <a href="#" class="pagination-link" th:attr="data-page=${pageDto.prevPage}">
+                            &lt;
+                        </a>
+                    </li>
 
+                    <!-- 페이지 번호 -->
+                    <th:block th:each="i : ${#numbers.sequence(pageDto.blockStart, pageDto.blockEnd)}">
+
+                        
+                        <!-- 현재 페이지 -->
+                        <li class="pagination-item" th:if="${i == pageDto.currentPage}">
+                            <a href="#" class="pagination-link active" th:text="${i}">
+                            </a>
+                        </li>
+                        
+                        <!--  나머지 페이지 -->
+                        <li class="pagination-item" th:unless="${i == pageDto.currentPage}">
+                            <a href="#" class="pagination-link" th:attr="data-page=${i}" th:text="${i}">
+                            </a>
+                        </li>
+                    
+                    </th:block>
+
+                    <!-- 다음 -->
                     <li class="pagination-item">
-                    <a class="pagination-link" href="#" aria-label="다음 페이지" rel="next">&#62;</a>
+                        <a href="#" class="pagination-link" th:attr="data-page=${pageDto.nextPage}">
+                            &gt;
+                        </a>
                     </li>
+
+                    <!-- 끝 -->
                     <li class="pagination-item">
-                    <a class="pagination-link" href="#" aria-label="마지막 페이지" rel="last">&#62;&#62;</a>
+                        <a href="#" class="pagination-link" th:attr="data-page=${pageDto.endPage}">
+                            &gt;&gt;
+                        </a>
                     </li>
-                </ul> -->
+
+                </ul>
+
             </nav>
-
+        
         </form>
 
 
