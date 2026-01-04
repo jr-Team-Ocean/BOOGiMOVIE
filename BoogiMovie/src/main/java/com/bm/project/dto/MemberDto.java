@@ -15,6 +15,7 @@ import com.bm.project.payment.entity.Orders;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -135,6 +136,36 @@ public class MemberDto {
 		
 	}
 	
+	// 결제창에서 보여줄 회원 정보
+	@Getter @Setter @ToString @NoArgsConstructor
+	public static class OrderMemberDto {
+		// 이름, 전화번호, 주소 (우편번호, 도로명 주소, 상세 주소)
+		private Long memberNo;
+		private String memberName;
+		private String memberPhone;
+		private String postNo;
+		private String address;
+		private String detailAddress;
+		
+		public static OrderMemberDto orderMember(Member member) {
+			OrderMemberDto dto = new OrderMemberDto();
+			
+			dto.setMemberNo(member.getMemberNo());
+			dto.setMemberName(member.getMemberName());
+			dto.setMemberPhone(member.getMemberPhone());
+			
+			// ^^^로 합쳐져서 저장된 주소를 하나씩 풀어서 각각 담기
+			String fullAddress = member.getMemberAddress();
+			String[] splitAddress = fullAddress.split("\\^\\^\\^"); // 캐럿은 정규표현식으로 들어가서 이스케이프 써야 함
+			
+			if(splitAddress.length >= 1) dto.setPostNo(splitAddress[0]);
+			if(splitAddress.length >= 2) dto.setAddress(splitAddress[1]);
+			if(splitAddress.length >= 3) dto.setDetailAddress(splitAddress[2]);
+			
+			return dto;
+			
+		}
+	}
 		// 내가 찜한 상품 응답용 DTO
 	    @Getter 
 	    @Builder 

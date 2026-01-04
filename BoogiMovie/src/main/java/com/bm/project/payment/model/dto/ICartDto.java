@@ -12,6 +12,6 @@ public interface ICartDto {
     String getProductTitle();
     Integer getProductPrice();
     String getImgPath();
-    Integer getTypeCode();
+    Long getTypeCode();
 
 }

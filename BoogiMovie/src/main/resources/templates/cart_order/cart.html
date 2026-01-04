@@ -63,7 +63,7 @@
                         <div class="cart-item">
                             <div class="check-area">
                                 <!-- 개별 아이템 선택 체크박스 -->
-                                <input type="checkbox" class="product_del_checkbox">
+                                <input type="checkbox" class="product_checkbox">
                             </div>
                             
                             <div class="image-area">
@@ -75,6 +75,8 @@
                                 <div class="item-header">
                                     <!-- 아이템 삭제 할 때 필요한 값 -->
                                     <input type="hidden" th:value="${item.cartNo}" class="itemNo">
+                                    <!-- 상품 번호 -->
+                                    <input type="hidden" th:value="${item.productNo}" class="productNo">
                                     
                                     <!-- 상품이 도서면 [도서] 상품명, 영화면 [영화] 상품명 -->
                                     <h3 class="product_title" th:text="|${item.typeCode == 1 ? '[도서]' : '[영화]'} ${item.productTitle}|">상품명</h3>
@@ -83,7 +85,7 @@
                                 
                                 <div class="product_price" th:text="|${#numbers.formatInteger(item.productPrice, 1, 'COMMA')}원|">가격</div>
                                 
-                                <div class="quantity-control">
+                                <div class="quantity-control" th:if="${item.typeCode == 1}">
                                     <span>수량</span>
                                     <div class="inputs">
                                         <button class="quantity_minus">-</button>
@@ -142,10 +144,7 @@
 
     <th:block th:replace="~{common/footer}">footer.html</th:block>
 
-
-
     <script th:src="@{/js/pay/cart.js}"></script>
-    <!-- <script th:src="@{/js/pay/productPayment.js}"></script> -->
 </body>
 
 </html>

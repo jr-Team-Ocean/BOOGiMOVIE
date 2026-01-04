@@ -3,6 +3,7 @@ package com.bm.project.payment.model.service;
 import java.util.List;
 
 import com.bm.project.dto.MemberDto.LoginResult;
+import com.bm.project.dto.MemberDto.OrderMemberDto;
 import com.bm.project.payment.model.dto.CartDto.CartRespDto;
 
 public interface CartService {
@@ -23,5 +24,7 @@ public interface CartService {
 	 * @param quantity
 	 */
 	void updateQuantity(Long itemNo, Integer quantity);
+
+	OrderMemberDto getOrderMemberInfo(Long memberNo);
 
 }
