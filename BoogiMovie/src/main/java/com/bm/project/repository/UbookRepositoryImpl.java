@@ -26,9 +26,9 @@ public class UbookRepositoryImpl implements UbookRepository{
 		
 		String ubookSort = (String) paramMap.getOrDefault("ubookSort", "latest"); // 기본값
 		
-		String query = "select distinct p, u " +
-						"from Product p " +
-						"left join Ubook u on u.product = p " +
+		String query = "select p " +
+						"from Ubook u " +
+						"join u.product p " +
 						"where p.productDelFl = 'N' " +
 						"and p.productType.typeCode = 3" ;
 		
@@ -77,13 +77,17 @@ public class UbookRepositoryImpl implements UbookRepository{
 	
 	// 중고도서 상태 조회
 	@Override
-	public List<Object[]> selectUbookStateList(Long productNo) {
+	public List<Object[]> selectUbookStateList(List<Long> productNos) {
 		
-		String query = "select u.ubookStatus from " +
-						"from Ubook u" +
-						"join product p" +
-						"where p.productNo = in : productNo" +
-						
+		String query = "select p.productNo, u.ubookStatus " +
+						"from Ubook u " +
+						"join u.product p " +
+						"where p.productNo IN :productNos " +
+						"and p.productDelFl = 'N' " ;
+		
+		List<Object[]> result = em.createQuery(query, Object[].class)
+                .setParameter("productNos", productNos)
+                .getResultList();
 		
 		
 		return result;

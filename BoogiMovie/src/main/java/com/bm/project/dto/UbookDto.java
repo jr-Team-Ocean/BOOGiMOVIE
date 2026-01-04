@@ -50,7 +50,7 @@ public class UbookDto {
         					.productTitle(product.getProductTitle())
         					.imgPath(product.getImgPath())
         					.productPrice(product.getProductPrice())
-        	
+        					
         					
         					.build();
         }
