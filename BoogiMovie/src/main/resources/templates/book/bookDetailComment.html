@@ -3,7 +3,15 @@
     
     <!-- 후기 작성 화면 구역 -->
     <section class="review-write-area">
-        
+
+        <section class="review-box"
+                 th:each="review : ${reviewList}">
+
+            <span th:text="${review.member.memberNickName}"></span>
+
+        </section>
+
+
         <!-- 상단 -->
         <div class="review-write-top">
             <button class="review-write-btn">후기 작성</button>
