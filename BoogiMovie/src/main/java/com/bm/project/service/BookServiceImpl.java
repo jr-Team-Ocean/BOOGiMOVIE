@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -25,12 +26,17 @@ import com.bm.project.dto.BookDto.Response;
 import com.bm.project.dto.BookDto.Update;
 import com.bm.project.entity.Book;
 import com.bm.project.entity.Category;
+import com.bm.project.entity.Likes;
+import com.bm.project.entity.Member;
 import com.bm.project.entity.Product;
 import com.bm.project.entity.ProductTag;
 import com.bm.project.entity.ProductType;
+import com.bm.project.entity.Review;
 import com.bm.project.entity.TagCode;
 import com.bm.project.repository.BookRepository;
 import com.bm.project.repository.BookRepository2;
+import com.bm.project.repository.LikeRepository;
+import com.bm.project.repository.ReviewRepository;
 import com.bm.project.repository.TagRepository;
 import com.bm.project.enums.CommonEnums;
 
@@ -45,10 +51,17 @@ public class BookServiceImpl  implements BookService {
 	private final BookRepository bookRepository;
 	private final BookRepository2 bookRepository2;
 	private final TagRepository tagRepository;
+	private final LikeRepository likeRepository;
+	private final ReviewRepository reviewRepository;
 	
-	private final String FILE_PATH = "C:/bmImg/book/";
-	private final String WEB_PATH = "/images/book/";
+//	private final String FILE_PATH = "C:/bmImg/book/";
+//	private final String WEB_PATH = "/images/book/";
 	
+	@Value("${my.book.location}")
+	private String FILE_PATH;
+	
+	@Value("${my.book.webpath}")
+	private String WEB_PATH;
 	
 	// 도서 목록 조회
 	@Override
@@ -353,9 +366,104 @@ public class BookServiceImpl  implements BookService {
 	    product.setProductDelFl(CommonEnums.ProductDelFl.Y);
 		
 	}
+
+
+
+
+
+	// 기존 좋아요 여부
+	@Override
+	public int bookLikeCheck(Long productNo, Long memberNo) {
+		boolean exists =
+	            likeRepository.existsByProduct_ProductNoAndMember_MemberNo(productNo, memberNo);
+		
+		return exists ? 1 : 0;
+	}
+
+
+	// 좋아요 처리
+	@Override
+	public int bookLike(Map<String, Long> paramMap) {
+		
+		Long memberNo  = paramMap.get("memberNo");
+		Long productNo = paramMap.get("productNo");
+		Long check     = paramMap.get("check");
+		
+		
+		if (check == 0L) {
+			
+			// 중복 방지
+			boolean exists =
+			        likeRepository.existsByProduct_ProductNoAndMember_MemberNo(productNo, memberNo);
+			
+			if (!exists) {
+				// 추가
+		        bookRepository.insertLike(productNo, memberNo);
+		    }
+		} else {	
+			// 삭제 처리
+			likeRepository.deleteByProduct_ProductNoAndMember_MemberNo(productNo, memberNo);
+			likeRepository.flush();
+		}
+		
+		return likeRepository.countByProduct_ProductNo(productNo);
+	}
+
+
+
+
+	// 좋아요 개수 확인
+	@Override
+	public int bookLikeCount(Long productNo) {
+		return likeRepository.countByProduct_ProductNo(productNo);
+	}
+
+
+
+
+	// 후기 목록 조회
+	@Override
+	public List<Review> selectReviewList(Long productNo) {
+		return bookRepository.selectReviewList(productNo);
+	}
+
+
+
+
+	// 후기 등록
+	@Transactional(readOnly = false)
+	@Override
+	public int writeReview(Long productNo, Long memberNo, Integer reviewScore, String reviewContent) {
+		
+		return bookRepository.insertReview(productNo, memberNo, reviewScore, reviewContent);
+	}
 	
+	// 후기 수정
+	@Transactional(readOnly = false)
+	@Override
+	public int updateReview(Long reviewNo, Long memberNo, String reviewContent) {
+		
+		Review review = reviewRepository.findByReviewNoAndMemberNo(reviewNo, memberNo)
+		        						.orElse(null);
+
+	    if (review == null) return 0;
+
+	    review.setReviewContent(reviewContent);
+		
+		return 1;
+	}
 	
-	
+	// 후기 삭제
+	@Transactional(readOnly = false)
+	@Override
+	public int deleteReview(Long reviewNo, Long memberNo) {
+		reviewRepository.deleteByReviewNoAndMemberNo(reviewNo, memberNo);
+		return 1;
+	}
+
+
+
+
 	
 	
 	

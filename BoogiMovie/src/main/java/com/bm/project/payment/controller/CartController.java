@@ -28,11 +28,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/cart")
 public class CartController {
 	
-	@Value("${portone.store-id}") 
-    private String storeId;
 
-    @Value("${portone.channel-key}")
-    private String channelKey;
     
     private final CartService service;
 	
@@ -46,8 +42,6 @@ public class CartController {
 		System.out.println("=== 장바구니 목록 조회 ===\n" + cartList);
 		
 		model.addAttribute("cartList", cartList);
-//		model.addAttribute("storeId", storeId);
-//		model.addAttribute("channelKey", channelKey);
 		
 		return "cart_order/cart";
 	}

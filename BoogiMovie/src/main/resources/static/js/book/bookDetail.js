@@ -11,10 +11,87 @@ toggleBtn.addEventListener('click', () => {
 // --------------------------------------------------------------------------
 // --------------------------------------------------------------------------
 
+const writeArea = document.querySelector('.review-write-area');
+const writeBtn = document.querySelector('.review-write-btn');
+const targets = document.querySelectorAll(
+  '.review-star, .review-write-box, .review-write-controller'
+);
 
+const cancelBtn = document.querySelector('.review-write-cancel');
 
+writeBtn?.addEventListener('click', () => {
+    writeArea.classList.add('open');
+    targets.forEach(el => el.classList.remove('hidden-review'));
+});
 
+cancelBtn?.addEventListener('click', () => {
+    writeArea.classList.remove('open');
+    targets.forEach(el => el.classList.add('hidden-review'));
+});
 
+// 후기 등록 (fetch)
+document.querySelector('.review-write-submit')?.addEventListener('click', () => {
+
+    // 1. 별점
+    const checked = document.querySelector(
+        '.review-star.write-star input[name="star"]:checked'
+    );
+
+    if (!checked) {
+        alert('별점을 선택해주세요.');
+        return;
+    }
+
+    const reviewScore = Number(checked.id.split('-')[1]);
+
+    // 2. 내용
+    const contentInput = document.querySelector('.review-write-input');
+    const reviewContent = contentInput.value.trim();
+
+    if (reviewContent.length === 0) {
+        alert('후기 내용을 입력해주세요.');
+        return;
+    }
+
+    // 3. 서버 전송
+    fetch(`/books/${productNo}/reviews`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            reviewScore,
+            reviewContent
+        })
+    })
+    .then(resp => resp.text())
+    
+    .then(result => {
+        if (result != 1) {
+            alert('후기 등록에 실패했습니다.');
+            return;
+        }
+
+        // 후기 목록 비동기 갱신
+        alert("후기를 등록하였습니다.!")
+        loadReviewList();
+
+        // UI 초기화
+        contentInput.value = '';
+        document
+          .querySelectorAll('.review-star.write-star input[name="star"]')
+          .forEach(r => r.checked = false);
+
+        document
+          .querySelectorAll('.review-star.write-star .star-icon')
+          .forEach(star => star.classList.remove('filled'));
+
+        // 작성 영역 닫기
+        writeArea.classList.remove('open');
+        targets.forEach(el => el.classList.add('hidden-review'));
+    })
+    .catch(err => console.error(err));
+});
 
 
 
@@ -138,3 +215,200 @@ document.getElementById("delete-btn")?.addEventListener("click", () => {
     form.submit();
 });
 
+
+
+
+
+
+const bookLike = document.getElementById("bookLike");
+
+bookLike.addEventListener("click", e => {
+
+    // 로그인 여부
+    if (loginMemberNo == "") {
+        alert("로그인 후 이용해주세요.");
+        return;
+    }
+
+
+    let check; // 0= 안함, 1 = 함
+
+    // 좋아요 여부
+    if (e.target.classList.contains("fa-regular")) {
+        check = 0;
+    } else {
+        check = 1;
+    }
+
+    // 서버로 보낼 데이터
+    const data = {
+        memberNo  : loginMemberNo,
+        productNo : productNo,
+        check     : check
+    };
+
+    // 비동기
+    fetch("/books/like", {
+        method  : "POST",
+        headers : { "Content-Type" : "application/json" },
+        body    : JSON.stringify(data)
+    })
+    .then(resp => resp.text())
+    .then(count => {
+
+        // 실패
+        if (count == -1) {
+            alert("좋아요 처리 중 문제가 발생했습니다.");
+            return;
+        }
+
+        // 토글
+        e.target.classList.toggle("fa-regular");
+        e.target.classList.toggle("fa-solid");
+
+        // 좋아요 수
+        document.getElementById("likeCount").innerText = count;
+    })
+    .catch(err => console.log(err));
+});
+
+
+document.querySelector('.review-list-area').addEventListener('click', e => {
+
+    if (e.target.classList.contains('review-more-btn')) {
+        document.querySelectorAll('.review-box.hidden-review')
+            .forEach(el => el.classList.remove('hidden-review'));
+
+        e.target.style.display = 'none';
+    }
+
+});
+
+// 후기 삭제
+document.addEventListener('click', e => {
+    if (!e.target.classList.contains('review-delete-btn')) return;
+
+    const reviewBox = e.target.closest('.review-box');
+    const reviewNo = reviewBox?.dataset.reviewNo;
+
+    if (!reviewNo) {
+        console.error('reviewNo 없음');
+        return;
+    }
+
+    if (!confirm('정말 삭제하시겠습니까?')) return;
+
+    fetch(`/books/reviews/${reviewNo}/delete`, {
+        method: 'POST'
+    })
+    .then(resp => resp.text())
+    .then(result => {
+        if (result != 1) {
+            alert('삭제 실패');
+            return;
+        }
+
+        alert('삭제되었습니다');
+        loadReviewList();
+    });
+});
+
+
+
+// 후기 수정 / 취소 (이벤트 위임)
+const reviewListArea = document.querySelector('.review-list-area');
+
+reviewListArea?.addEventListener('click', (e) => {
+
+    // 수정버튼
+    const editBtn = e.target.closest('.review-edit-btn');
+    if (editBtn) {
+        const box = editBtn.closest('.review-box');
+        if (!box) return;
+
+        
+        const detail   = box.querySelector('.review-detail');
+        const controll = box.querySelector('.review-controll');
+        const editArea = box.querySelector('.review-edit-area');
+        const editInput = box.querySelector('.review-edit-input');
+
+        // 기존 내용 → input에 세팅
+        const currentText =
+            box.querySelector('.review-text span')?.textContent ?? '';
+        editInput.value = currentText.trim();
+
+        // 전환
+        detail.classList.add('hidden-review');
+        controll.classList.add('hidden-review');
+        editArea.classList.remove('hidden-review');
+
+        return;
+    }
+
+    // 취소
+    const cancelBtn = e.target.closest('.review-edit-cancel');
+    if (cancelBtn) {
+        const box = cancelBtn.closest('.review-box');
+        if (!box) return;
+
+        const detail   = box.querySelector('.review-detail');
+        const controll = box.querySelector('.review-controll');
+        const editArea = box.querySelector('.review-edit-area');
+
+        // 복원
+        editArea.classList.add('hidden-review');
+        detail.classList.remove('hidden-review');
+        controll.classList.remove('hidden-review');
+
+        return;
+    }
+});
+
+// 후기 수정 submit
+reviewListArea?.addEventListener('click', (e) => {
+    if (!e.target.classList.contains('review-edit-submit')) return;
+
+    const box = e.target.closest('.review-box');
+    const reviewNo = box?.dataset.reviewNo;
+    const newContent = box
+        .querySelector('.review-edit-input')
+        ?.value.trim();
+
+    if (!reviewNo || !newContent) {
+        alert('수정할 내용이 없습니다.');
+        return;
+    }
+
+    fetch(`/books/reviews/${reviewNo}/update`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reviewContent: newContent })
+    })
+    .then(resp => resp.text())
+    .then(result => {
+        if (result != 1) {
+            alert('수정 실패');
+            return;
+        }
+
+        alert('수정되었습니다');
+        loadReviewList(); 
+    });
+});
+
+
+
+
+
+
+// 후기 목록 다시 로드 (fragment)
+function loadReviewList() {
+    fetch(`/books/${productNo}/reviews`)
+        .then(resp => resp.text())
+        .then(html => {
+            document
+                .querySelector('.review-list-area')
+                .innerHTML = html;
+        })
+        .catch(err => console.error(err));
+}

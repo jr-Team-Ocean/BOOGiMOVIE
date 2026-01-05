@@ -16,6 +16,12 @@ main{
     margin-bottom: 10px;
 }
 
+.category-view{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .go-edit{cursor: pointer;}
 
 .go-delete{
@@ -44,7 +50,7 @@ main{
     color: #009E4F;
 }
 
-.movie-heart{
+#movieLikeBtn{
     width: 130px;
     height: 50px;
     border-radius: 20px;
@@ -57,7 +63,7 @@ main{
 
 .movie-price{
     display: flex;
-    gap: 110px;
+    gap: 220px;
     font-size: 24px;
     margin-bottom: 30px;
 }
@@ -96,32 +102,32 @@ main{
 
 /* 네비게이션(상세정보/관람평) */
 .tab-wrapper {
-  width: 100%;
-  margin-top: 30px;
+    width: 100%;
+    margin-top: 30px;
 }
 
 /* 탭 버튼 영역 */
 .tab-buttons {
-  display: flex;
+    display: flex;
 }
 
 /* 기본 탭 */
 .tab-btn {
-  flex: 1;
-  padding: 18px 0;
-  border: 1px solid #7F7F7F;
-  background: #fff;
-  font-size: 20px;
-  cursor: pointer;
-  color: #7F7F7F;
+    flex: 1;
+    padding: 18px 0;
+    border: 1px solid #7F7F7F;
+    background: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    color: #7F7F7F;
 }
 
 /* 활성 탭 */
 .tab-btn.active {
-  border: 2px solid #082A71;
-  border-bottom: none;
-  color: #082A71;
-  font-weight: bold;
+    border: 2px solid #082A71;
+    border-bottom: none;
+    color: #082A71;
+    font-weight: bold;
 }
 
 /* 비활성 탭은 아래 선 유지 */  
@@ -137,12 +143,12 @@ main{
 
 /* 콘텐츠 숨김 */
 .tab-content {
-  display: none;
+    display: none;
 }
 
 /* 콘텐츠 활성 */
 .tab-content.active {
-  display: block;
+    display: block;
 }
 
 /* 상세정보 */
@@ -151,7 +157,7 @@ main{
     font-size: 18px;
     margin: 20px 0;
 }
-.movie-pre, .movie-text{
+.movie-text{
     font-size: 16px;
     margin-bottom: 20px;
 }
@@ -160,8 +166,21 @@ main{
     margin-left: 30px;
 }
 
+.movie-pre{
+    font-size: 16px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 1000px;
+    word-break: break-all; 
+    white-space: pre-wrap;
+}
+
 /* 접힘 상태 */
 .movie-pre.hidden{
+    width: 100%;
+    max-width: 1000px;
+    word-break: break-all; 
+    white-space: pre-wrap;
     max-height: 140px;
     overflow: hidden;
     position: relative;

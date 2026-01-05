@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,7 @@ import com.bm.project.payment.model.dto.PayValidationDto.OrderItemDto;
 import com.bm.project.payment.model.dto.PayValidationDto.PayResponse;
 import com.bm.project.payment.model.dto.PayValidationDto.PaySuccessDto;
 import com.bm.project.payment.model.dto.PayValidationDto.PaymentItemDto;
+import com.bm.project.payment.repository.CartRepository;
 import com.bm.project.payment.repository.DeliveryRepository;
 import com.bm.project.payment.repository.OrdersDetailRepository;
 import com.bm.project.payment.repository.OrdersRepository;
@@ -29,9 +32,11 @@ import com.bm.project.payment.repository.ProductRepository;
 import com.bm.project.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PaymentServiceImpl implements PaymentService {
 	
 	private final OrdersRepository ordersRepo;
@@ -40,8 +45,9 @@ public class PaymentServiceImpl implements PaymentService {
 	private final OrdersDetailRepository ordersDetailRepo;
 	private final PaymentRepository paymentRepo;
 	private final DeliveryRepository deliveryRepo;
+	private final CartRepository cartRepo;
 	
-
+	private final Logger statLogger = LoggerFactory.getLogger("STAT_LOGGER");
 
 	// 결제 전 총금액 사전 검증
 	@Override
@@ -163,13 +169,34 @@ public class PaymentServiceImpl implements PaymentService {
 		Payment payment = successDto.toPaymentEntity(orders);
 		
 		
-		Delivery delivery = successDto.toDeliveryEntity(orders);
-		deliveryRepo.save(delivery);
+		// 배송 정보가 들어온 경우에만 DB에 저장 (빈 값이 아닐 때)
+		if(successDto.getDetailAddress() != null && !successDto.getDetailAddress().isEmpty()) {
+			Delivery delivery = successDto.toDeliveryEntity(orders);
+			deliveryRepo.save(delivery);
+		} else {
+			System.out.println("배송 정보 없음! 건너뜀");
+		}
 		
 		orders.setPayStatus("PAID");
 		orders.setPayment(paymentRepo.save(payment));
 		
-		ordersRepo.save(orders);
+		Orders savedOrder = ordersRepo.save(orders); // 저장된 Orders
+		
+		Member member = savedOrder.getMember(); // 주문자
+		
+		for(OrdersDetail detail : savedOrder.getDetails()) {
+			Product product = detail.getProduct();
+			
+			// 결제 로그 찍기
+			sendStatisticsLog(member, product);
+			
+			try {
+				cartRepo.deleteByMemberAndProduct(member, product);
+			} catch (Exception e) {
+				// 장바구니에 없는 상품일 수도 있으므로
+				System.out.println("장바구니 삭제 중 예외 발생 (또는 해당 상품 없음): " + product.getProductNo());
+			}
+		}
 	}
 
 
@@ -191,6 +218,50 @@ public class PaymentServiceImpl implements PaymentService {
 			paymentList.add(dto);
 		}
 		return paymentList;
+	}
+
+
+
+	// 결제 조회
+	@Override
+	public Orders payComplete(String orderNo) {
+		Orders orders = ordersRepo.findById(orderNo)
+	            .orElseThrow(() -> new IllegalArgumentException("주문 정보가 없습니다."));
+		return orders;
+	}
+	
+	// 연령대별 가장 많이 구매한 장르 로그찍기
+	private void sendStatisticsLog(Member member, Product product) {
+	    try {
+	        // 1. 나이대 계산
+	        String birth = member.getMemberBirth();
+	        String ageGroupStr = "기타";
+
+	        if (birth != null && birth.length() >= 4) {
+	            int birthYear = Integer.parseInt(birth.substring(0, 4));
+	            int currentYear = java.time.LocalDate.now().getYear();
+	            int age = currentYear - birthYear + 1; // 한국 나이
+	            int ageGroup = (age / 10) * 10; // 20, 30, 40... (연령대)
+	            ageGroupStr = ageGroup + "대";
+	        }
+	        
+	        // 도서 / 영화 구분해서 통계 분석
+	        String productType = (product.getProductType().getTypeCode() == 1) ? "도서" : "영화";
+
+	        // 나중에 ELK에서 쉼표(,)로 쪼개기 쉽게
+	        // 이건 통계 전용 로그
+	        statLogger.info("[STAT_LOG],{},{},{}", 
+        		productType,
+	            ageGroupStr,
+	            product.getCategory().getCategoryName()
+	        );
+	        
+	        // 잘 찍히나 보기
+	        log.info("통계 로그 전송 : {}: {}대 / {}", productType, ageGroupStr, product.getCategory().getCategoryName());
+	        
+	    } catch (Exception e) {
+	        System.out.println("통계 로그 생성 중 오류: " + e.getMessage());
+	    }
 	}
 
 }

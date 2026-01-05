@@ -73,3 +73,17 @@ solapi:
 #   member:
 #     location: C:/boogimovieImg/member/
 #     webpath: /images/member/
+
+
+# 도서 이미지 
+my:
+  book:
+    location: C:/bmImg/book/
+    webpath: /images/book/
+  
+  movie:
+    location: C:/bmImg/movie/
+    webpath: /images/movie/
+
+
+

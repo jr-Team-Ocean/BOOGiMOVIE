@@ -3,10 +3,12 @@ package com.bm.project.payment.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bm.project.dto.MemberDto;
 import com.bm.project.dto.MemberDto.OrderMemberDto;
+import com.bm.project.payment.entity.Orders;
 import com.bm.project.payment.model.dto.PayValidationDto;
 import com.bm.project.payment.model.dto.PayValidationDto.OrderItemDto;
 import com.bm.project.payment.model.dto.PayValidationDto.PaymentItemDto;
@@ -30,9 +33,17 @@ public class OrderController {
 	
 	private final PaymentService paymentService;
 	
+	@Value("${portone.store-id}") 
+    private String storeId;
+
+    @Value("${portone.channel-key}")
+    private String channelKey;
+	
 	// 결제창(배송 정보 입력창) 이동
 	@GetMapping("/delivery")
 	public String delivery(Model model, HttpSession session) {
+		model.addAttribute("storeId", storeId);
+		model.addAttribute("channelKey", channelKey);
 		
 //		System.out.println(session.getAttribute("orderMemberDto"));
 //		System.out.println(session.getAttribute("orderItemList"));
@@ -92,10 +103,27 @@ public class OrderController {
 	// 결제 완료 후 사후 검증
 	@PostMapping("/payment")
 	@ResponseBody
-	public ResponseEntity<String> successPayment(@RequestBody PayValidationDto.PaySuccessDto successDto) {
+	public ResponseEntity<String> successPayment(@RequestBody PayValidationDto.PaySuccessDto successDto, HttpSession session) {
 		System.out.println("검증을 위한 DTO : " + successDto);
 		paymentService.successPayment(successDto);
+		
+		// 세션에 등록했던 배송 정보 날리기
+		session.removeAttribute("orderItemList");
+		session.removeAttribute("orderMemberDto");
+		
 		return ResponseEntity.ok("결제가 성공적으로 처리 되었습니다!");
+	}
+	
+	// 결제 완료창 이동
+	@GetMapping("/complete/{orderNo}")
+	public String payComplete(@PathVariable("orderNo") String orderNo, Model model) {
+	    Orders order = paymentService.payComplete(orderNo);
+	    System.out.println(order);
+	    
+	    model.addAttribute("order", order);
+	    model.addAttribute("payment", order.getPayment());
+	    model.addAttribute("delivery", order.getDelivery());
+		return "cart_order/pay_completed";
 	}
 	
 }

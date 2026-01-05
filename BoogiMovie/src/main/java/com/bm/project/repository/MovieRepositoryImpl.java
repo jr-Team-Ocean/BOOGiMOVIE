@@ -9,7 +9,15 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import com.bm.project.entity.Category;
+import com.bm.project.entity.Likes;
+import com.bm.project.entity.Member;
 import com.bm.project.entity.Movie;
+import com.bm.project.entity.Product;
+import com.bm.project.entity.ProductTag;
+import com.bm.project.entity.ProductTagConnect;
+import com.bm.project.entity.ProductType;
+import com.bm.project.entity.TagCode;
 import com.bm.project.enums.CommonEnums;
 
 import jakarta.persistence.EntityManager;
@@ -199,6 +207,72 @@ public class MovieRepositoryImpl implements MovieRepositoryCustom{
         
 		return new PageImpl<>(movies, pageable, total);
 	}
-	
+
+	// 연결이 없으면 생성 + 저장
+	@Override
+	public void saveProductTagConnect(Product product, ProductTag tag) {
+
+		Long productNo = product.getProductNo();
+        Long tagNo = tag.getTagNo();
+
+        if (productNo == null) {
+            throw new IllegalStateException("Product가 아직 저장되지 않아 productNo가 없습니다.");
+        }
+        if (tagNo == null) {
+            throw new IllegalStateException("ProductTag가 아직 저장되지 않아 tagNo가 없습니다.");
+        }
+        
+        // 중복이면 스킵
+        if (existsProductTagConnect(productNo, tagNo)) return;
+
+        // 연결 엔티티 생성
+        ProductTagConnect connect = ProductTagConnect.builder()
+                .product(product)
+                .productTag(tag)
+                .build();
+        
+        connect.addProduct(product, tag);
+        em.persist(connect);
+	}
+
+	// TagCode 검증
+	@Override
+	public TagCode getTagCodeRef(long tagCode) {
+		return em.getReference(TagCode.class, tagCode);
+	}
+
+	//  PRODUCT_TAG_CONNECT에 (productNo, tagNo) 연결이 이미 있는지 확인
+	@Override
+	public boolean existsProductTagConnect(Long productNo, Long tagNo) {
+		Long cnt = em.createQuery(
+                "select count(ptc) " +
+                "from ProductTagConnect ptc " +
+                "where ptc.product.productNo = :productNo " +
+                "and ptc.productTag.tagNo = :tagNo",
+                Long.class
+        )
+        .setParameter("productNo", productNo)
+        .setParameter("tagNo", tagNo)
+        .getSingleResult();
+
+        return cnt != null && cnt > 0;
+	}
+
+	// 좋아요 insert
+	@Override
+	public int insertLike(Long productNo, Long memberNo) {
+		
+		Member memberRef = em.getReference(Member.class, memberNo);
+		Product productRef = em.getReference(Product.class, productNo);
+		
+		Likes likes = Likes.builder()
+						.member(memberRef)
+						.product(productRef)
+						.build();
+		
+		em.persist(likes); // 단순 insert
+		em.flush(); // 즉시 반영
+		return 1;
+	}
 	
 }

@@ -11,10 +11,13 @@ import org.springframework.stereotype.Repository;
 
 import com.bm.project.entity.Book;
 import com.bm.project.entity.Category;
+import com.bm.project.entity.Likes;
+import com.bm.project.entity.Member;
 import com.bm.project.entity.Product;
 import com.bm.project.entity.ProductTag;
 import com.bm.project.entity.ProductTagConnect;
 import com.bm.project.entity.ProductType;
+import com.bm.project.entity.Review;
 import com.bm.project.entity.TagCode;
 
 import jakarta.persistence.EntityManager;
@@ -393,6 +396,60 @@ public class BookRepositoryImpl implements BookRepository{
 		em.createQuery(query)
 		  .setParameter("productNo", productNo)
 		  .executeUpdate();
+	}
+
+
+
+	@Override
+	public int insertLike(Long productNo, Long memberNo) {
+		
+		Member memberRef = em.getReference(Member.class, memberNo);
+		Product productRef = em.getReference(Product.class, productNo);
+		
+		Likes likes = Likes.builder()
+						   .member(memberRef)
+						   .product(productRef)
+						   .build();
+		
+		em.persist(likes); // 단순 insert
+		em.flush(); // 즉시반영
+		
+		return 1;
+		
+	}
+
+
+
+	@Override
+	public List<Review> selectReviewList(Long productNo) {
+
+		String query = "select r "+
+		               "from Review r "+
+		               "join fetch r.member "+
+		               "where r.productNo = :productNo "+
+		               "order by r.reviewTime desc";
+		
+		
+		
+		return em.createQuery(query, Review.class)
+				 .setParameter("productNo", productNo)
+				 .getResultList();
+	}
+
+
+
+	@Override
+	public int insertReview(Long productNo, Long memberNo, Integer reviewScore, String reviewContent) {
+		
+		
+		Review review = Review.builder()
+                			  .productNo(productNo)
+                			  .memberNo(memberNo)
+                			  .reviewScore(reviewScore)
+                			  .reviewContent(reviewContent)
+                			  .build();
+		em.persist(review);
+		return 1;
 	}
 	
 	

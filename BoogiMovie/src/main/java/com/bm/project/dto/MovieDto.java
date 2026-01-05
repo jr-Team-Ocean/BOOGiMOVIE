@@ -1,5 +1,6 @@
 package com.bm.project.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +26,6 @@ public class MovieDto {
 	@Getter
 	public static class Response{
 		
-		private Long tagCode; // 상품 종류(영화)
-		
 		private Long productNo; // 상품 번호
 		private String productTitle; // 영화 제목
 		private String productContent; // 영화 소개
@@ -36,6 +35,7 @@ public class MovieDto {
 		
 		private Integer movieTime; // 상영시간
 		private MovieRating filmRating; // 관람등급
+		private String filmRatingLabel; // 관람등급(한글)
 		
 		private List<String> directors; // 감독
 		private List<String> companies; // 제작사
@@ -43,7 +43,9 @@ public class MovieDto {
 		private List<String> actors; // 출연배우
 		
 		private Long categoryId;
+		private Long parentId;
 		private String categoryName;
+		private String parentName;
 		
 		
 		// 영화 목록 조회용 
@@ -55,7 +57,7 @@ public class MovieDto {
 					.productTitle(product.getProductTitle())
 					.productPrice(product.getProductPrice())
 					.productDate(product.getProductDate())
-					.filmRating(movie.getFilmRating())
+					.filmRatingLabel(movie.getFilmRating().getDescripton())
 					.categoryId(product.getCategory().getCategoryId())
 					.imgPath(product.getImgPath())
 					.build();
@@ -77,7 +79,12 @@ public class MovieDto {
 					
 					.movieTime(movie.getMovieTime())
 					.filmRating(movie.getFilmRating())
+					.filmRatingLabel(movie.getFilmRating().getDescripton())
+					.categoryId(category.getCategoryId())
+					.parentId(category.getPCategoryId().getCategoryId())
+					
 					.categoryName(category.getCategoryName())
+					.parentName(category.getPCategoryId().getCategoryName())
 					
 					.actors(getTagsByCode(ptcList, 5))
 					.directors(getTagsByCode(ptcList, 2))
@@ -94,19 +101,32 @@ public class MovieDto {
 	@ToString
 	public static class Create{
 		
-		private String movieTitle;
-		private String movieContent;
-		private MultipartFile imgFile;
+		private String productTitle;
+		private String productContent;
+		private MultipartFile movieImg;
 		private String imgPath;
-		private List<String> director;
+		private String directors;
 		private String nation;
-		private List<String> company;
-		private List<String> actor;
+		private String companies;
+		private String actors;
 		private Integer productPrice;
 		private Integer movieTime; 
 		private MovieRating filmRating;
-		private LocalDateTime productDate;
+		private LocalDate productDate;
+		private Long categoryId;
 		
+		// 상품
+		public Product toProductEntity() {
+			return Product.builder()
+					.productTitle(this.productTitle)
+					.productContent(this.productContent)
+					.productDate(this.productDate.atStartOfDay())
+					.productPrice(this.productPrice)
+					.imgPath(this.imgPath)
+					.build();
+		}
+		
+		// 영화
 		public Movie toEntity(Product product) {
 			return Movie.builder()
 					.product(product)
@@ -114,19 +134,30 @@ public class MovieDto {
 					.filmRating(this.filmRating)
 					.build();
 		}
-		
-		public Product toProductEntity() {
-			return Product.builder()
-					.productTitle(this.movieTitle)
-					.productContent(this.movieContent)
-					.productDate(this.productDate)
-					.productPrice(this.productPrice)
-					.imgPath(this.imgPath)
-					.build();
-		}
-		
 	}
 	
+	// 영화 수정
+	@Getter
+	@Setter
+	@ToString
+	public static class Update{
+		private String productTitle;
+		private String productContent;
+		private MultipartFile movieImg;
+		private String imgPath;
+		private String directors;
+		private String nation;
+		private String companies;
+		private String actors;
+		private Integer productPrice;
+		private Integer movieTime; 
+		private MovieRating filmRating;
+		private LocalDate productDate;
+		private Long categoryId;
+	}
+	
+	
+	// 상세조회시 리스트로 태그이름 읽어오기
 	private static List<String> getTagsByCode(List<ProductTagConnect> ptcList, int targetCode) {
 	    if (ptcList == null) {
 	        return new ArrayList<>();

@@ -18,34 +18,23 @@
     <title>영화 상세정보</title>
 </head>
 <body>
-    <div style="background: #333; color: #fff; padding: 15px; margin-top: 50px; font-size: 12px;">
-        <h3>Debug Info</h3>
-        <p>영화 제목: [[${movie.productTitle}]]</p>
-        <p>상품번호: [[${movie.productNo}]]</p>
-        <p th:if="${movie != null}">
-            배우 이름: [[${#strings.listJoin(movie.actors, ', ')}]]
-            감독 이름: [[${#strings.listJoin(movie.directors, ', ')}]]
-            제작사 이름: [[${#strings.listJoin(movie.companies, ', ')}]]
-            국가 이름: [[${#strings.listJoin(movie.nation, ', ')}]]
-        </p>
-        <p>ACTORS: <span th:text="${movie.actors}"></span></p>
-        <p>DIRECTORS: <span th:text="${movie.directors}"></span></p>
-        <p>NATION: <span th:text="${movie.nation}"></span></p>
-        <p>Creator: <span th:text="${movie.companies}"></span></p>
-    </div>
     <!-- 헤더 -->
     <th:block th:replace="~{common/header}">header.html</th:block>
 
     <main class="main">
         <section class="movie-category-path">
             <!-- 영화 경로 -->
-            <span>해외영화 &gt; <span class="category-name" th:text="${movie.categoryName}">애니메이션</span></span>
+            <div class="category-view">
+                <span th:text="${movie.parentName}">해외영화</span>
+                <span> &gt; </span>
+                <span class="category-name" th:text="${movie.categoryName}">애니메이션</span>
+            </div>
 
             <!-- 관리자용 수정 삭제 -->
-            <div class="edit">
-                <a class="go-edit">수정</a>
+            <div class="edit" sec:authorize="hasRole('ADMIN')">
+                <a class="go-edit" id="update-btn">수정</a>
                 <span>|</span>
-                <a class="go-delete">삭제</a>
+                <a class="go-delete" id="delete-btn">삭제</a>
             </div>
         </section>
 
@@ -67,13 +56,12 @@
                     <span>|</span>
                     <span th:text="${#strings.listJoin(movie.nation, ', ')}">미국</span>
                     <span>|</span>
-                    <span th:text="${movie.filmRating}">전체관람가</span>
+                    <span th:text="${movie.filmRatingLabel}">전체관람가</span>
                 </div>
 
-                <button class="movie-heart">
-                    <i class="fa-heart fa-solid"></i>
-                    <i class="fa-heart fa-regular"></i>
-                    1234
+                <button id="movieLikeBtn" type="button">
+                    <i class="fa-heart" th:classappend="${likeCheck} ? 'fa-solid' : 'fa-regular'" id="movieHeart"></i>
+                    <span id="likeCount" th:text="${likeCount}">0</span>
                 </button>
                 
                 <div class="movie-price">
@@ -487,6 +475,14 @@
 
     <!-- 푸터 -->
     <th:block th:replace="~{common/footer}">footer.html</th:block>
+
+    <script th:inline="javascript">
+        const loginMemberNo = /*[[${session.loginMember?.memberNo}]]*/ "로그인한 회원번호";
+
+        const memberNickName = /*[[${session.loginMember?.memberNickName}]]*/ "로그인한 회원 닉네임";
+
+        const productNo = /*[[${movie.productNo}]]*/ "상품 번호";
+    </script>
 
     <script th:src="@{/js/movie/movie-detail.js}"></script>
 </body>

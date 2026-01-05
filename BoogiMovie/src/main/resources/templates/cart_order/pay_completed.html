@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,87 +10,89 @@
 </head>
 <body>
 
-  <th:block th:replace="~{common/header_no_search}">header_no_search.html</th:block>
+    <th:block th:replace="~{common/header_no_search}">header_no_search.html</th:block>
 
     <div class="pay_completed_container">
         <div class="inner_container">
 
             <div class="pay_completed_text">
-                <div><img th:src="@{/svg/pay_completed.svg}" alt=""></div>
+                <div><img th:src="@{/svg/pay_completed.svg}" alt="완료 아이콘"></div>
                 <div class="complete_msg">결제가 완료 되었습니다!</div>
             </div>
 
             <div class="pay_info_container">
                 
-                <!-- 배송정보 -->
                 <div class="info_column margin">
                     <div class="section_title">배송정보</div>
 
-                    <!-- 주문자 -->
                     <div class="info_row">
                         <div class="label">주문자</div>
                         <div class="content">
-                            <span>김멍멍</span>
-                            <span class="phone">010-1234-1234</span>
+                            <span th:text="${delivery != null ? delivery.recipientName : order.member.memberName}">주문자명</span>
+                            
+                            <span class="phone" th:text="${(delivery != null ? delivery.recipientTel : order.member.memberPhone).replaceAll('(\d{3})(\d{4})(\d{4})', '$1-$2-$3')}">
+                                010-1234-1234
+                            </span>
                         </div>
                     </div>
 
-                    <!-- 배송지 -->
                     <div class="info_row">
                         <div class="label">배송지</div>
                         <div class="content">
-                            <div>서울특별시 종로구 삼일대로 19길 15 (관철동)</div>
-                            <!-- 상세주소 -->
-                            <div>9층 906호</div>
+                            <th:block th:if="${delivery != null}">
+                                <div th:text="|(${delivery.postCode}) ${delivery.roadAddress}|">우편번호 주소</div>
+                                <div th:text="${delivery.detailAddress}">상세주소</div>
+                            </th:block>
+
+                            <th:block th:unless="${delivery != null}">
+                                <div style="color: #888;">-</div>
+                            </th:block>
                         </div>
                     </div>
 
-                    <!-- 요청사항 -->
                     <div class="info_row">
                         <div class="label">요청사항</div>
-                        <div class="content">예쁘게 포장해주세요</div>
+                        <div class="content">
+                            <span th:if="${delivery != null}" th:text="${delivery.orderRequest}">요청사항 내용</span>
+                            <span th:unless="${delivery != null}">-</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- 결제정보 -->
                 <div class="info_column">
                     <div class="section_title">결제정보</div>
 
-                    <!-- 주문번호 -->
                     <div class="info_row">
                         <div class="label">주문 번호</div>
-                        <div class="content">A348509341674</div>
+                        <div class="content" th:text="${order.orderNo}">주문번호</div>
                     </div>
 
-                    <!-- 주문상품 -->
                     <div class="info_row">
                         <div class="label">주문 상품</div>
-                        <div class="content">바이브 코딩 너머 개발자 생존법 외 1개</div>
+                        <div class="content">
+                            <span th:text="${order.details[0].product.productTitle}">상품명</span>
+                            
+                            <span th:if="${#lists.size(order.details) > 1}" 
+                                  th:text="| 외 ${#lists.size(order.details) - 1}건|"> 외 1건</span>
+                        </div>
                     </div>
 
-                    <!-- 결제일시 -->
                     <div class="info_row">
                         <div class="label">결제 일시</div>
-                        <div class="content">2025.12.18 10:12</div>
+                        <div class="content" th:text="${#temporals.format(payment.payDate, 'yyyy.MM.dd HH:mm')}">2025.12.18 10:12</div>
                     </div>
 
-                    <!-- 결제수단 -->
                     <div class="info_row">
                         <div class="label">결제 수단</div>
-                        <div class="content">간편 결제</div>
+                        <div class="content" th:text="${payment.payMethod}">간편 결제</div>
                     </div>
 
-                    <!-- 결제금액 -->
                     <div class="info_row">
                         <div class="label">결제 금액</div>
-                        <div class="content price">36,200원</div>
+                        <div class="content price" th:text="|${#numbers.formatInteger(payment.payPrice, 1, 'COMMA')}원|">36,200원</div>
                     </div>
                 </div>
 
-            </div>
-        </div>
-    </div>
-
-    <th:block th:replace="~{common/footer}">footer.html</th:block>
+            </div> </div> </div> <th:block th:replace="~{common/footer}">footer.html</th:block>
 </body>
 </html>

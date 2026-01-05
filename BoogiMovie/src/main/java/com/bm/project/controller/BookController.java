@@ -1,11 +1,13 @@
 package com.bm.project.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,15 +17,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bm.project.dto.BookDto;
+import com.bm.project.dto.MemberDto;
 import com.bm.project.dto.MemberDto.LoginResult;
+import com.bm.project.entity.Review;
 import com.bm.project.dto.PageDto;
 import com.bm.project.service.BookService;
 
@@ -89,9 +95,31 @@ public class BookController {
 	@GetMapping("/{productNo}")
 	public String selectBookDetail(
 			@PathVariable("productNo") Long productNo,
+			@SessionAttribute(value = "loginMember", required = false) MemberDto.LoginResult loginMember,
 			Model model
 			) {
 		BookDto.Response book = bookService.selectBookDetail(productNo);
+		
+		// 좋아요 개수 확인
+		int likeCount = bookService.bookLikeCount(productNo);
+	    model.addAttribute("likeCount", likeCount);
+		
+		
+		
+		if (loginMember != null) {
+	        model.addAttribute("loginMember", loginMember);
+	    
+	        // 기존 좋아요 여부
+	        int result = bookService.bookLikeCheck(productNo, loginMember.getMemberNo());
+	        if (result > 0) {
+	        	model.addAttribute("likeCheck", true);
+	        }
+		
+		}
+		
+		// 후기
+		List<Review> reviewList = bookService.selectReviewList(productNo);
+		model.addAttribute("reviewList", reviewList);
 		
 		model.addAttribute("book", book);
 		model.addAttribute("url", "books");
@@ -200,6 +228,77 @@ public class BookController {
 	}
 	
 	
+	// 좋아요 처리
+	@PostMapping("/like")
+	@ResponseBody
+	public int bookLike(@RequestBody Map<String, Long> paramMap) {
+		
+		return bookService.bookLike(paramMap);
+	}
+	
+	
+	// 후기 등록
+	@PostMapping("/{productNo}/reviews")
+	@ResponseBody
+	public int writeReview (
+            @PathVariable Long productNo,
+            @RequestBody Map<String, Object> paramMap,
+            @SessionAttribute(value = "loginMember", required = false) MemberDto.LoginResult loginMember
+			) {
+		
+		// 로그인 여부
+		if (loginMember == null) {
+		    return -1;
+		}
+		
+		Integer reviewScore = (Integer) paramMap.get("reviewScore");
+		String reviewContent = (String) paramMap.get("reviewContent");
+		
+		// 미작성 막기
+		if (reviewScore == null || reviewContent == null || reviewContent.isBlank()) {
+	        return 0;
+	    }
+		
+		
+		return bookService.writeReview(productNo, loginMember.getMemberNo(), reviewScore, reviewContent);
+	}
+	
+	
+	// 후기 등록 후 재조회
+	@GetMapping("/{productNo}/reviews")
+	public String reviewListFragment(
+	        @PathVariable Long productNo,
+	        @SessionAttribute(value = "loginMember", required = false) MemberDto.LoginResult loginMember,
+	        Model model
+	) {
+	    List<Review> reviewList = bookService.selectReviewList(productNo);
+
+	    model.addAttribute("reviewList", reviewList);
+	    model.addAttribute("loginMember", loginMember);
+
+	    return "book/bookDetailComment :: review-list-area";
+	}
+	
+	// 후기 수정
+	@PostMapping("/reviews/{reviewNo}/update")
+	@ResponseBody
+	public int updateReview(
+	        @PathVariable Long reviewNo,
+	        @RequestBody Map<String, String> paramMap,
+	        @SessionAttribute(value = "loginMember", required = false)
+	        MemberDto.LoginResult loginMember
+	) {
+	    // 로그인 체크
+	    if (loginMember == null) return -1;
+
+	    String reviewContent = paramMap.get("reviewContent");
+
+	    if (reviewContent == null || reviewContent.isBlank()) {
+	        return 0;
+	    }
+
+	    return bookService.updateReview(reviewNo, loginMember.getMemberNo(), reviewContent);
+	}
 	
 	
 	
@@ -207,13 +306,17 @@ public class BookController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
+	// 후기 삭제
+	@PostMapping("/reviews/{reviewNo}/delete")
+	@ResponseBody
+	public int deleteReview(
+	        @PathVariable Long reviewNo,
+	        @SessionAttribute(value = "loginMember", required = false) MemberDto.LoginResult loginMember
+			) {
+	    if (loginMember == null) return -1;
+
+	    return bookService.deleteReview(reviewNo, loginMember.getMemberNo());
+	}
 	
 	
 	

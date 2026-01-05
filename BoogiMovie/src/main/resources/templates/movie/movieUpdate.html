@@ -1,77 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../static/css/common/header.css">
-    <link rel="stylesheet" href="../../static/css/movie/movie-update.css">
-    <title>영화상품 수정</title>
+    <link rel="stylesheet" th:href="@{/css/common/header.css}">
+    <link rel="stylesheet" th:href="@{/css/movie/movie-write.css}">
+    <title>영화상품 등록</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
-    
-    <!-- Tagify -->
-    <link rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.17.8/dist/tagify.css">
-    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.17.8/dist/tagify.polyfills.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.17.8/dist/tagify.min.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
-    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" /> -->
 
 </head>
 <body>
     <!-- 헤더 -->
-    <div class="header_container">
-        <div class="blue_background">
-            <div class="header_inner">
-                <div class="header_category">
-                    <!-- 선택에 따른 효과 - 타임리프(경로에 따른 효과 주기로 변경 예정) -->
-                    <div class="header_active"><a href="#" class="white font-18px">홈</a></div>
-                    <div><a href="#" class="white font-18px">도서</a></div>
-                    <div><a href="#" class="white font-18px">중고도서</a></div>
-                    <div><a href="#" class="white font-18px">영화</a></div>
-                </div>
-
-                <div class="header_login">
-                    <div><a href="#" class="white font-18px">로그인</a></div>
-                    <div><a href="#" class="white font-18px">회원가입</a></div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- 로고 및 검색바 -->
-    <div class="logo_search_container">
-        <!-- 로고 -->
-        <div class="logo_container">
-            <a href="#"><img src="../../static/images/common/logo_basic.png" alt=""></a>
-        </div>
-
-        <!-- 검색바 전체 자리 -->
-        <div class="search_container">
-            <!-- 검색 아이콘 -->
-            <div class="search_icon">
-                <img src="../../static/svg/search_icon.svg" alt="">
-            </div>
-
-            <!-- 검색란 -->
-            <div class="search_input">
-                <input type="text" placeholder="원하는 작품을 검색해 보세요!">
-            </div>
-        </div>
-    </div>
+    <th:block th:replace="~{common/header}">header.html</th:block>
 
     <div class="write-container">
         <div class="table-wrapper">
-            <h3>영화 상품 수정</h3> 
-            <form action="#" method="POST" name="movieFrm" id="writeFrm" enctype="multipart/form-data">
+            <h3>영화 상품 등록</h3> 
+            <form th:action="@{/movies/{productNo}/update(productNo=*{productNo})}" method="POST" name="movieFrm" id="updateFrm" enctype="multipart/form-data" th:object="${movie}">
+                <input type="hidden" th:field="*{productNo}">
                 <table class="table-container">
                     <thead>
                         <tr class="table-title">
                             <th>영화제목</th>
-                            <th class="movie-img">대표이미지</th>
+                            <th>대표이미지</th>
                             <th>감독</th>
                             <th>출연배우</th>
                             <th>상영시간</th>
@@ -86,63 +40,69 @@
                     </thead>
                     <tbody>
                         <tr class="table-content">
-                            <td><input type="text" class="movie-title" placeholder="영화 제목을 입력하세요."  value="아바타: 불과 재"></td>
-                            <td class="movie-img"><img src="../../static/images/movie/movie_sample_img.png" id="add-img"></td>
-                            <td><input name='creator' class='some_class_name' placeholder='감독을 입력해주세요.' value="제임스 카메론"></td>
-                            <td><input name='actor' class='some_class_name' placeholder='배우를 입력해주세요.'
-                                value="샘 워싱턴, 조 샐다나, 시고니 위버, 스티븐 랭"></td>
-                            <td><input type="number" class="input" value="197">분</td>
+                            <td><input type="text" class="movie-input-css" th:field="*{productTitle}" placeholder="영화 제목을 입력하세요."></td>
+                            <td>
+                                <label for="movieImg"><img th:src="${movie.imgPath}" id="add-img"></label>
+                                <input type="file" id="movieImg" name="movieImg" accept="image/*" hidden>
+                            </td>
+                            <td><input name='directors' class='movie-input-css' th:value="${#strings.listJoin(movie.directors, ', ')}" placeholder='감독을 콤마(,)로 구분해서 입력'></td>
+                            <td><input name='actors' class='movie-input-css' th:value="${#strings.listJoin(movie.actors, ', ')}" placeholder='배우를 콤마(,)로 구분해서 입력'></td>
+                            <td><input type="number" class="input" th:field="*{movieTime}">분</td>
                             <td class="td-radio">
-                                <input type="radio" name="filmClass"> 전체관람가
-                                <input type="radio" name="filmClass" checked> 12세이상 관람가
-                                <input type="radio" name="filmClass"> 15세이상 관람가
-                                <input type="radio" name="filmClass"> 청소년관람불가
+                                <input type="radio" value="All" th:field="*{filmRating}"> 전체관람
+                                <input type="radio" value="TWELVE" th:field="*{filmRating}"> 12세이상 관람
+                                <input type="radio" value="FIFTEEN" th:field="*{filmRating}"> 15세이상 관람
+                                <input type="radio" value="ADULT" th:field="*{filmRating}"> 청소년관람불가
                             </td>
-                            <td><input name='company' class='some_class_name' placeholder='제작사를 입력해주세요.' value="월트디즈니 컴퍼니 코리아"></td>
-                            <td><input type="date"  class="open-date" value="2025-12-17"></td>
-                            <td><input type="number" class="input" value="12000">원</td>
-                            <td><input name='nation' class='some_class_name' placeholder='국가를 입력해주세요.' value="미국"></td>
+                            <td><input name='companies' class='movie-input-css' th:value="${#strings.listJoin(movie.companies, ', ')}" placeholder='제작사를 콤마(,)로 구분해서 입력'></td>
+                            <td><input type="date" name="productDate" class="open-date" th:value="${#temporals.format(movie.productDate, 'yyyy-MM-dd')}"></td>
+                            <td><input type="number" name="productPrice" class="input" th:field="*{productPrice}">원</td>
+                            <td><input name='nation' class='movie-input-css' th:value="${#strings.listJoin(movie.nation, ', ')}" placeholder='국가를 입력해주세요.'></td>
                             <td class="category-td">
-                                <select name="movieType" size="5">
-                                    <option value="국내영화">국내영화</option>
-                                    <option value="해외영화" selected>해외영화</option>
+                                <select th:field="*{parentId}" size="5" required>
+                                    <option value="100" >국내영화</option>
+                                    <option value="200" >해외영화</option>
                                 </select>
-                                <select name="genreType" size="5">
-                                    <option value="액션">액션</option>
-                                    <option value="모험">모험</option>
-                                    <option value="애니메이션">애니메이션</option>
-                                    <option value="코미디">코미디</option>
-                                    <option value="범죄">범죄</option>
-                                    <option value="다큐멘터리">다큐멘터리</option>
-                                    <option value="드라마">드라마</option>
-                                    <option value="가족">가족</option>
-                                    <option value="판타지">판타지</option>
-                                    <option value="역사">역사</option>
-                                    <option value="공포">공포</option>
-                                    <option value="음악">음악</option>
-                                    <option value="미스터리">미스터리</option>
-                                    <option value="로랜스">로랜스</option>
-                                    <option value="SF" selected>SF</option>
-                                    <option value="TV영화">TV영화</option>
-                                    <option value="스릴러">스릴러</option>
-                                    <option value="전쟁">전쟁</option>
-                                    <option value="서부">서부</option>
+                                <select th:field="*{categoryId}" size="5" required th:with="base=${movie.parentId}">
+                                    <option th:value="${base + 1}">액션</option>
+                                    <option th:value="${base + 2}">모험</option>
+                                    <option th:value="${base + 3}">애니메이션</option>
+                                    <option th:value="${base + 4}">코미디</option>
+                                    <option th:value="${base + 5}">범죄</option>
+                                    <option th:value="${base + 6}">다큐멘터리</option>
+                                    <option th:value="${base + 7}">드라마</option>
+                                    <option th:value="${base + 8}">가족</option>
+                                    <option th:value="${base + 9}">판타지</option>
+                                    <option th:value="${base + 10}">역사</option>
+                                    <option th:value="${base + 11}">공포</option>
+                                    <option th:value="${base + 12}">음악</option>
+                                    <option th:value="${base + 13}">미스터리</option>
+                                    <option th:value="${base + 14}">로맨스</option>
+                                    <option th:value="${base + 15}">SF</option>
+                                    <option th:value="${base + 16}">TV영화</option>
+                                    <option th:value="${base + 17}">스릴러</option>
+                                    <option th:value="${base + 18}">전쟁</option>
+                                    <option th:value="${base + 19}">서부</option>
                                 </select>
                             </td>
-                            <td class="movie-th"><textarea name="" id="movie-content" placeholder="내용을 입력하세요.">판도라를 위협하는 재의 부족, 더 이상 인간만이 적이 아니다! 모두의 운명을 뒤흔들 거대한 전투가 시작된다! 인간들과의 전쟁으로 첫째 아들 ‘네테이얌’을 잃은 후, ‘제이크’와 ‘네이티리’는 깊은 슬픔에 빠진다. 상실에 빠진 이들 앞에 '바랑'이 이끄는 재의 부족이 등장하면서, 판도라는 더욱 큰 위험에 빠지게 되고, ‘설리’ 가족은 선택의 기로에 서게 되는데…
-                            </textarea></td>
+                            <td class="movie-td"><textarea id="movie-content" th:field="*{productContent}" placeholder="내용을 입력하세요."></textarea></td>
                         </tr>
                     </tbody>
                 </table>
+
+                <div class="button-group">
+                    <button type="submit">수정하기</button>
+                    <button type="reset">취소</button>
+                </div>
             </form>
-            <div class="button-group">
-                <button type="submit">수정하기</button>
-                <button type="reset">취소</button>
-            </div>
         </div>
     </div>
+    
 
-    <script src="../../static/js/movie/movie-write.js"></script>
+    <!-- 푸터 -->
+    <th:block th:replace="~{common/footer}">footer.html</th:block>
+
+    <script th:src="@{/js/movie/movie-update.js}"></script>
     
 </body>
 </html>
