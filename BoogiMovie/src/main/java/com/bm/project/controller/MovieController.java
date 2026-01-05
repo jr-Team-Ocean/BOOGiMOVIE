@@ -16,15 +16,19 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.bm.project.dto.MemberDto;
 import com.bm.project.dto.MovieDto;
 import com.bm.project.dto.PageDto;
 import com.bm.project.entity.Product;
-import com.bm.project.service.MovieService;
+import com.bm.project.service.movie.MovieService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -80,9 +84,24 @@ public class MovieController {
 	
 	// 영화 상세정보
 	@GetMapping("/{productNo:[0-9]+}")
-	public String getMovieDetail(@PathVariable("productNo") Long productNo, Model model) {
+	public String getMovieDetail(
+			@PathVariable("productNo") Long productNo, 
+			@SessionAttribute(value = "loginMember", required = false) MemberDto.LoginResult loginMember,
+			Model model) {
 		
 		MovieDto.Response movie = movieService.getMovieDetail(productNo);
+		
+		// 좋아요 개수 확인
+		int likeCount = movieService.movieLikeCount(productNo);
+		model.addAttribute("likeCount", likeCount);
+		
+		if(loginMember != null) {
+			// 좋아요 여부 확인 
+			int result = movieService.movieLikeCheck(productNo, loginMember.getMemberNo());
+			
+			// 좋아요를 누른 적이 있는 경우
+			if(result > 0) model.addAttribute("likeCheck", true);
+		}
 		
 		model.addAttribute("movie", movie);
 		model.addAttribute("url", "movies");
@@ -129,7 +148,7 @@ public class MovieController {
 	}
 	
 	// 영화 수정 화면 전환
-	// @PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("{productNo:[0-9]+}/update")
 	public String updateMovie(
 			@PathVariable("productNo") Long productNo,
@@ -170,6 +189,7 @@ public class MovieController {
 	}
 	
 	// 영화 삭제
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("{productNo:[0-9]+}/delete")
 	public String deleteMovie(
 			@PathVariable("productNo") Long productNo,
@@ -183,5 +203,16 @@ public class MovieController {
 		ra.addFlashAttribute("message", message);
 		
 		return path;
+	}
+	
+	
+	// 좋아요 처리
+	@PostMapping("/like")
+	@ResponseBody
+	public int movieLike(@RequestBody Map<String, Long> likeMap) {
+		System.out.println("좋아요");
+		System.out.println(likeMap);
+		return movieService.movieLike(likeMap);
+		
 	}
 }

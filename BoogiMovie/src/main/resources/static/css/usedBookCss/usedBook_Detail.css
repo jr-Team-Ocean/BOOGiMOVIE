@@ -4,7 +4,8 @@
     margin-left: 25%;
     margin-right: 25%;
 
-    
+    box-sizing: border-box;
+    width: 1200px;
 }
 
 .detail_top {
@@ -54,7 +55,8 @@
 
 .present_price {
     color: #F4307E;
-    font-size: 24px;
+    font-size: 18px;
+    
 }
 
 .detail_top_left{
@@ -69,25 +71,19 @@
 }
 
 .like_part > span{
-    font-size: 34px;
+    font-size: 20px;
     font-weight: bold;
 
 }
 
+
+.heart {
+    cursor: pointer;
+}
+
 .heart .fa-solid {
     display: none;
-
-}
-
-.heart.active .fa-solid {
-    display: inline;
     color: red;
-    
-}
-
-.heart.active .fa-regular {
-    display: none;
-    
 }
 
 
@@ -99,37 +95,42 @@
 
 .button_bottom{
     display: flex;
-    justify-content: space-between;
+    margin-right: 3px;
+    
 }
 
 .cart_btn{
-    font-size: 24px;
-    width: 200px;
-    height: 70px;
+    font-size: 16px;
+    width: 100px;
+    height: 35px;
     background-color: #082A71;
     border-radius: 5px;
     color: white;
     border: 0px;
+    cursor: pointer;
+    font-weight: bold;
 
 }
 
 .purchase_btn{
-    font-size: 24px;
-    width: 348px;
-    height: 70px;
+    font-size: 16px;
+    width: 150px;
+    height: 35px;
     background-color: #E1B12C;
     border-radius: 5px;
     color: white;
     margin-left: 10px;
     border: 0px;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 
 .button_bottom > button{
 
-    font-size: 24px;
-    width: 180px;
-    height: 70px;
+    font-size: 16px;
+    width: 90px;
+    height: 35px;
     border-radius: 5px;
     color: white;
     margin-top: 15px;
@@ -149,16 +150,32 @@
 
 .edit_btn{
     background-color: #0C54B4;
+    cursor: pointer;
 }
 
 .del_btn{
     margin-left: 5px;
     background-color: #F4307E;
+    cursor: pointer;
 }
 
-.list_btn{
+.button_bottom > a{
+    display: flex;
+}
+
+.list_btn {
     margin-left: 5px;
     background-color: #5170B1;
+    cursor: pointer;
+
+    font-size: 16px;
+    width: 90px;
+    height: 35px;
+    border-radius: 5px;
+    color: white;
+    margin-top: 15px;
+    font-weight: bold;
+    border: 0px;
 }
 
 .detail_middle > table{
@@ -197,6 +214,11 @@
 .long_text {
     white-space: pre-line;
     
+    
+}
+
+#intro {
+    margin-bottom: 30px;
 }
 
 

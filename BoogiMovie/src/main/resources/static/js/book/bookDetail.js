@@ -338,7 +338,6 @@ reviewListArea?.addEventListener('click', (e) => {
         editInput.value = currentText.trim();
 
         // 전환
-        detail.classList.add('hidden-review');
         controll.classList.add('hidden-review');
         editArea.classList.remove('hidden-review');
 

@@ -1,4 +1,4 @@
-package com.bm.project.service;
+package com.bm.project.service.movie;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
@@ -30,6 +31,7 @@ import com.bm.project.entity.ProductType;
 import com.bm.project.entity.TagCode;
 import com.bm.project.enums.CommonEnums;
 import com.bm.project.repository.CategoryRepository;
+import com.bm.project.repository.LikeRepository;
 import com.bm.project.repository.MovieRepository;
 import com.bm.project.repository.ProductTypeRepository;
 import com.bm.project.repository.TagRepository;
@@ -39,16 +41,23 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class MovieServiceImpl implements MovieService{
 	
 	private final MovieRepository movieRepository;
 	private final CategoryRepository categoryRepository;
 	private final ProductTypeRepository productTypeRepository;
 	private final TagRepository tagRepository;
+	private final LikeRepository likeRepository;
 	
-	private final String FILE_PATH = "C:\\bmImg\\movie\\";
-	private final String WEB_PATH = "/images/movie/";
+	// private final String FILE_PATH = "C:\\bmImg\\movie\\";
+	// private final String WEB_PATH = "/images/movie/";
+	
+	@Value("${my.movie.location}")
+	private String FILE_PATH;
+	
+	@Value("${my.movie.webpath}")
+	private String WEB_PATH;
 
 	// 영화 목록 조회
 	@Override
@@ -263,6 +272,49 @@ public class MovieServiceImpl implements MovieService{
 		
 		Product product = movie.getProduct();
 		product.setProductDelFl(CommonEnums.ProductDelFl.Y);
+	}
+
+	// 좋아요 처리
+	@Override
+	public int movieLike(Map<String, Long> likeMap) {
+		
+		Long memberNo = likeMap.get("memberNo");
+		Long productNo = likeMap.get("productNo");
+		Long check = likeMap.get("check");
+		
+		// 중복 방지
+		boolean exists = likeRepository.existsByProduct_ProductNoAndMember_MemberNo(productNo, memberNo);
+		System.out.println(exists);
+		
+		if(check == 1L) {
+			
+			if(!exists) {
+				// 추가
+				movieRepository.insertLike(productNo, memberNo);
+				System.out.println("좋아요 추가!!!");
+			}
+		}else {
+			if(exists) {
+				// 삭제 처리
+				likeRepository.deleteByProduct_ProductNoAndMember_MemberNo(productNo, memberNo);
+				System.out.println("!!!좋아요 삭제!!!");
+			}
+		}
+		
+		return (int)likeRepository.countByProduct_ProductNo(productNo);
+	}
+
+	// 좋아요 여부 확인
+	@Override
+	public int movieLikeCheck(Long productNo, Long memberNo) {
+		boolean exists = likeRepository.existsByProduct_ProductNoAndMember_MemberNo(productNo, memberNo);
+		return exists ? 1 : 0;
+	}
+
+	// 좋아요 개수
+	@Override
+	public int movieLikeCount(Long productNo) {
+		return likeRepository.countByProduct_ProductNo(productNo);
 	}
 	
 }

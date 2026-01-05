@@ -29,20 +29,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* 통합검색 */
 
-    const searchInput = document.querySelector('.search_input input');
-    const searchDropdown = document.querySelector('.search_dropdown');
+    const searchInput = document.querySelector('.search_input input'); // 검색바
+    const searchDropdown = document.querySelector('.search_dropdown'); // 결과 박스
 
     searchInput.addEventListener('input', function (e) {
         const keyword = e.target.value.trim();
 
+        /* 검색어 없으면 결과 박스 숨김 */
         if (keyword.length === 0) {
             searchDropdown.style.display = 'none';
             return;
         }
 
-        fetch(`search?query=${keyword}`)
+        fetch(`/search?query=${keyword}`)
             .then(response => response.json())
             .then(data => {
+                console.log(data);
                 renderSearchData(data);
 
                 searchDropdown.style.display = 'flex';
@@ -63,6 +65,8 @@ document.addEventListener("DOMContentLoaded", () => {
         /* 도서가 있는 경우 */
         if (data.books && data.books.length > 0) {
             const categoryHtml = makeCategoryHtml('도서', data.books);
+
+                        /* 요소 바로 안에서 마지막 자식 이후에 위치 */
             searchDropdown.insertAdjacentHTML('beforeend', categoryHtml);
             hasResult = true;
         }
