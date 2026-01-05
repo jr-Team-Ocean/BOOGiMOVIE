@@ -180,11 +180,15 @@ public class ChattingController {
 	        return result > 0 ? "success" : "fail";
 	    }
 	    
-	    // 전체 안읽음 개수 조회 (관리자용)
-	    @GetMapping("chatting/totalUnreadCount")
+	    // 전체 안읽음 개수 조회
+	    @GetMapping("/chatting/totalUnreadCount")
 	    @ResponseBody
-	    public int getTotalUnreadCount(@RequestParam("memberNo") int memberNo) {
-	        return service.getTotalUnreadCount(memberNo);
+	    public int getTotalUnreadCount(@SessionAttribute("loginMember") LoginResult loginMember) {
+	        // 로그인하지 않은 경우 0 반환
+	        if (loginMember == null) {
+	            return 0;
+	        }
+	        return service.getTotalUnreadCount(loginMember.getMemberNo());
 	    }
 
 }

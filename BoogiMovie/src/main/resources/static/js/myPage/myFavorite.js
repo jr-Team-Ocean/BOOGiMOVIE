@@ -1,3 +1,5 @@
+console.log('myFavorite.js 로딩...')
+
 // 1. 요소 선택
 const searchOrder = document.getElementById('search_order'); // 정렬 셀렉트 박스
 const searchContent = document.querySelector('.search_content'); // 결과가 렌더링될 구역
@@ -5,6 +7,7 @@ const searchBoxMenu = document.getElementById('search_box_menu'); // "검색 결
 
 // 2. 셀렉트 박스 변경 이벤트 리스너
 searchOrder.addEventListener('change', () => {
+    console.log('🔄 정렬 변경됨: ', searchOrder.value);
 
     // 3. URLSearchParams 사용
     const params = new URLSearchParams();
@@ -14,7 +17,8 @@ searchOrder.addEventListener('change', () => {
     fetch('/myPage/searchResult?' + params.toString())
         .then(response => response.json())
         .then(data => { // 변수명을 list에서 data로 변경 (객체를 받으므로)
-            
+            console.log('📦 서버에서 전달받은 전체 객체:', data);
+
             // 5. 기존 결과 삭제
             const results = document.querySelectorAll('.search_box_results');
             results.forEach(el => el.remove());
@@ -26,6 +30,7 @@ searchOrder.addEventListener('change', () => {
 
             // 6. 데이터가 없을 경우 처리
             if (!list || list.length === 0) {
+                console.warn('⚠️ 데이터가 비어있습니다.');
                 const emptyMsg = `
                     <div class="search_box_results" style="text-align: center; padding: 60px 20px; color: #999;">
                         <p style="font-size: 16px; margin-bottom: 10px;">찜한 상품이 없습니다.</p>
@@ -36,6 +41,10 @@ searchOrder.addEventListener('change', () => {
 
             // 7. 받아온 리스트로 새로운 요소 생성
             list.forEach(favorite => {
+
+                console.log('🔍 첫 번째 아이템 상세 정보:', favorite);
+                console.log('❓ 필드명 확인 - product_no:', favorite.product_no, ' / productNo:', favorite.productNo);
+
                 // 필드명 매칭 (서버 응답이 snake_case인 경우)
                 const pNo = favorite.product_no;
                 const pAuthor = favorite.product_author;
@@ -77,7 +86,7 @@ searchOrder.addEventListener('change', () => {
                 searchContent.insertAdjacentHTML('beforeend', html);
             });
 
-            // 8. (추가 선택) 페이지네이션 업데이트 로직이 필요하다면 여기서 data.pageDto를 활용
+            console.log('✨ 렌더링 완료');
         })
         .catch(err => console.error("조회 중 오류 발생:", err));
 });
@@ -87,6 +96,7 @@ searchOrder.addEventListener('change', () => {
 
 /** 찜 삭제 함수 */
 function removeFavorite(productNo, btn) { // 1. btn 매개변수 추가
+    console.log('🗑️ 삭제 시도 상품번호:', productNo);
     if(!confirm("찜 목록에서 삭제하시겠습니까?")) return;
     
     // fetch 실행 전, 삭제할 카드를 미리 변수에 담아두는 것이 안전합니다.
@@ -99,7 +109,7 @@ function removeFavorite(productNo, btn) { // 1. btn 매개변수 추가
     })
     .then(response => {
         if (response.ok) {
-            // 2. 미리 찾아둔 카드를 삭제합니다.
+            console.log('✅ 서버 삭제 성공');
             if (productCard) {
                 productCard.remove();
                 console.log(`${productNo}번 상품 화면 삭제 완료`);

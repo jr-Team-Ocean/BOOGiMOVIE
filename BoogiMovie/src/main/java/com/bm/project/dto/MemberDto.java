@@ -179,14 +179,19 @@ public class MemberDto {
 	        private String productImage;   // imgPath 대신 productImage로 통일 (화면과 맞춤)
 	        private String favoriteDate;   
 
+	     // MemberDto.java 내 FavoriteResponse 클래스 수정
 	        public static FavoriteResponse toDto(Product p) {
+	            // Enum 값을 직접 비교하여 상태 결정
+	            String status = (p.getProductDelFl() == com.bm.project.enums.CommonEnums.ProductDelFl.N) 
+	                            ? "판매중" : "품절/삭제";
+
 	            return FavoriteResponse.builder()
 	                    .productNo(p.getProductNo())
 	                    .productTitle(p.getProductTitle())
-	                    .productAuthor("저자 정보 없음") // 이제 에러 안 남
+	                    .productAuthor(p.getAuthorName())
 	                    .productPrice(p.getProductPrice())
-	                    .productStatus("판매중") // 이제 에러 안 남
-	                    .productImage(p.getImgPath()) // 필드명을 productImage로 했으므로 이 메서드 사용
+	                    .productStatus(status) 
+	                    .productImage(p.getImgPath())
 	                    .favoriteDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")))
 	                    .build();
 	        }

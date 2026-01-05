@@ -74,6 +74,9 @@ public class Product {
 	@Column(name="IMG_PATH", length=200, nullable=false)
 	private String imgPath;
 	
+	@jakarta.persistence.Transient
+	private String authorName;
+	
 	
 	
 	@PrePersist

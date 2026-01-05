@@ -87,9 +87,9 @@ public interface ChattingService {
 	int deleteChattingRoom(int chattingNo, int memberNo);
 	
 	/** 안읽은 채팅방 전체 개수 가져오기
-	 * @param memberNo
+	 * @param long1
 	 * @return
 	 */
-	int getTotalUnreadCount(int memberNo);
+	int getTotalUnreadCount(Long memberNo);
 
 }

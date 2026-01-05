@@ -64,13 +64,18 @@ public class MyPageServiceImpl implements MyPageService {
 	
 	// 내가 찜한 상품
 	@Override
-    @Transactional(readOnly = true)
-    public Page<MemberDto.FavoriteResponse> getFavoriteList(Long memberNo, String order, Pageable pageable) {
-        
-        Page<Product> productPage = repository.findByMemberNo(memberNo, order, pageable);
-        
-        return productPage.map(MemberDto.FavoriteResponse::toDto);
-    }
+	@Transactional(readOnly = true)
+	public Page<MemberDto.FavoriteResponse> getFavoriteList(Long memberNo, String order, Pageable pageable) {
+	    
+	    Page<Product> productPage = repository.findByMemberNo(memberNo, order, pageable);
+	    
+	    return productPage.map(product -> {
+	        // 여기서 DB의 태그 테이블을 뒤져서 '저자' 이름을 가져오는 쿼리를 실행
+	        // 예: String author = repository.findAuthorByProductNo(product.getProductNo());
+	        // product.setAuthorName(author);
+	        return MemberDto.FavoriteResponse.toDto(product);
+	    });
+	}
 
 	// 좋아요 삭제
 	@Override
