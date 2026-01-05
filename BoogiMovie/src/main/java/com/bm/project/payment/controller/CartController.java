@@ -100,4 +100,30 @@ public class CartController {
 		}
 		
 	}
+	
+	@PostMapping("/addCart")
+	@ResponseBody
+	public int addCart(
+			@RequestBody Map<String, Object> paramMap,
+		    @SessionAttribute("loginMember") MemberDto.LoginResult loginMember
+			) {
+		if (loginMember == null) return -1;
+		
+		return 0;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

@@ -393,9 +393,9 @@ public class BookServiceImpl  implements BookService {
 		if (check == 0L) {
 			
 			// 중복 방지
+			// 언더바 없어도 되는데 가독성 때문에 씀 
 			boolean exists =
 			        likeRepository.existsByProduct_ProductNoAndMember_MemberNo(productNo, memberNo);
-			
 			if (!exists) {
 				// 추가
 		        bookRepository.insertLike(productNo, memberNo);
