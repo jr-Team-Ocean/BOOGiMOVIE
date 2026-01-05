@@ -421,14 +421,49 @@ public class BookServiceImpl  implements BookService {
 
 
 
-
+	// 후기 목록 조회
 	@Override
 	public List<Review> selectReviewList(Long productNo) {
 		return bookRepository.selectReviewList(productNo);
 	}
+
+
+
+
+	// 후기 등록
+	@Transactional(readOnly = false)
+	@Override
+	public int writeReview(Long productNo, Long memberNo, Integer reviewScore, String reviewContent) {
+		
+		return bookRepository.insertReview(productNo, memberNo, reviewScore, reviewContent);
+	}
 	
+	// 후기 수정
+	@Transactional(readOnly = false)
+	@Override
+	public int updateReview(Long reviewNo, Long memberNo, String reviewContent) {
+		
+		Review review = reviewRepository.findByReviewNoAndMemberNo(reviewNo, memberNo)
+		        						.orElse(null);
+
+	    if (review == null) return 0;
+
+	    review.setReviewContent(reviewContent);
+		
+		return 1;
+	}
 	
-	
+	// 후기 삭제
+	@Transactional(readOnly = false)
+	@Override
+	public int deleteReview(Long reviewNo, Long memberNo) {
+		reviewRepository.deleteByReviewNoAndMemberNo(reviewNo, memberNo);
+		return 1;
+	}
+
+
+
+
 	
 	
 	
