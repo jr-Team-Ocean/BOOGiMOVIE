@@ -29,12 +29,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* 통합검색 */
 
-    const searchInput = document.querySelector('.search_input input');
-    const searchDropdown = document.querySelector('.search_dropdown');
+    const searchInput = document.querySelector('.search_input input'); // 검색바
+    const searchDropdown = document.querySelector('.search_dropdown'); // 결과 박스
 
     searchInput.addEventListener('input', function (e) {
         const keyword = e.target.value.trim();
 
+        /* 검색어 없으면 결과 박스 숨김 */
         if (keyword.length === 0) {
             searchDropdown.style.display = 'none';
             return;
@@ -67,12 +68,12 @@ document.addEventListener("DOMContentLoaded", () => {
             hasResult = true;
         }
 
-        /* 중고 도서가 있는 경우 */
-        if (data.usedBooks && data.usedBooks.length > 0) {
-            const categoryHtml = makeCategoryHtml('중고도서', data.usedBooks);
-            searchDropdown.insertAdjacentHTML('beforeend', categoryHtml);
-            hasResult = true;
-        }
+        // /* 중고 도서가 있는 경우 */
+        // if (data.usedBooks && data.usedBooks.length > 0) {
+        //     const categoryHtml = makeCategoryHtml('중고도서', data.usedBooks);
+        //     searchDropdown.insertAdjacentHTML('beforeend', categoryHtml);
+        //     hasResult = true;
+        // }
 
         /* 영화가 있는 경우 */
         if (data.movies && data.movies.length > 0) {
