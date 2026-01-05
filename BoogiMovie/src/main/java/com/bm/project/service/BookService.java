@@ -43,6 +43,16 @@ public interface BookService {
 
 	// 기존 리뷰 목록 조회
 	List<Review> selectReviewList(Long productNo);
+
+	// 후기 작성
+	int writeReview(Long productNo, Long memberNo, Integer reviewScore, String reviewContent);
+
+	// 후기 수정
+	int updateReview(Long reviewNo, Long memberNo, String reviewContent);
+	
+	// 후기 삭제
+	int deleteReview(Long reviewNo, Long memberNo);
+
 	
 
 }

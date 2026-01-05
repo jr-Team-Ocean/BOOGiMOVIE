@@ -392,13 +392,24 @@ main {
     font-size: 25px;
 
 }
+.review-write-btn-disabled {
+    width: 150px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #5170B0;
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+
+}
 
 /* 작성구역 */
 .review-write-area {
     /* border: 1px solid red; */
     display: flex;
     flex-direction: column;
-    height: 185px;
+    min-height: 50px;
 }
 
 .review-write-top {
@@ -512,7 +523,8 @@ main {
     display: flex;
     justify-content: space-between;
 
-    height: 120px;
+    min-height: 120px;  /* 기존 높이 보장 */
+    height: auto;
 }
 
 /* 후기 유저 부분 */
@@ -536,7 +548,9 @@ main {
     text-align: center;
     font-size: 15px;
 }
-
+.review-body{
+  flex: 1;
+}
 .review-detail {
     display: flex;
     flex-direction: column;
@@ -547,6 +561,8 @@ main {
 .review-text {
     font-size: 20px;
     font-weight: 500;
+    text-indent: 1px;
+    margin-left: 5px;
 }
 
 .review-time {
@@ -650,4 +666,8 @@ main {
     height: 40px;
     background-color: #B3B3B3;
     color: black;
+}
+
+.hidden-review {
+    display: none;
 }

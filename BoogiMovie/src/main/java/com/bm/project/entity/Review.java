@@ -1,6 +1,11 @@
 package com.bm.project.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import com.bm.project.enums.CommonEnums;
 
@@ -15,15 +20,25 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
-// 신고 관리를 위한 임세 엔티티
 
 @Entity
-@Table(name = "REVIEW")
+@Table(name="REVIEW")
+@NoArgsConstructor(access=AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 @Getter
+@DynamicInsert
+@DynamicUpdate
 @Setter
+@ToString
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REVIEW_NO")

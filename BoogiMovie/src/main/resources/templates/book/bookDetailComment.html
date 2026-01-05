@@ -4,19 +4,21 @@
     <!-- 후기 작성 화면 구역 -->
     <section class="review-write-area">
 
-        <section class="review-box"
-                 th:each="review : ${reviewList}">
-
-            <span th:text="${review.member.memberNickName}"></span>
-
-        </section>
-
-
         <!-- 상단 -->
         <div class="review-write-top">
-            <button class="review-write-btn">후기 작성</button>
+            
+            <!-- 로그인 한 사람 -->
+            <button class="review-write-btn" th:if="${loginMember != null}">
+                후기 작성
+            </button>
 
-            <div class="review-star write-star">
+            <!-- 로그인 안한사람 -->
+            <button class="review-write-btn-disabled" th:if="${loginMember == null}" onclick="alert('로그인 후 이용해주세요.')">
+                후기 작성
+            </button>
+
+
+            <div class="review-star write-star hidden-review">
                 <label class="review-star-label" for="star-01">
                     <input type="radio" class="review-star-input" name="star" id="star-01">
                     <span class="star-icon"></span>
@@ -38,10 +40,12 @@
                     <span class="star-icon"></span>
                 </label>
             </div>
+
+
         </div>
 
         <!-- 작성 내용 -->
-        <div class="review-write-box">
+        <div class="review-write-box hidden-review">
             <input type="text" 
                     class="review-write-input"
                     placeholder="후기를 작성해주세요!"
@@ -49,7 +53,7 @@
         </div>
 
         <!-- 등록 취소 -->
-        <div class="review-write-controller">
+        <div class="review-write-controller hidden-review">
             <button class="review-write-submit">등록</button>
             <button class="review-write-cancel">취소</button>
         </div>
@@ -59,139 +63,120 @@
 
 
 
+    <!-- 후기 목록 영역 -->
+    <section class="review-list-area" th:fragment="review-list-area">
 
 
 
-    <!-- 작성된 후기가 없는 경우 -->
-    <div class="no-review">
-        <hr>
-        <span>작성된 도서 후기가 없습니다.</span>
-        <hr>
-    </div>
+        <!-- 작성된 후기가 없는 경우 -->
+        <div class="no-review"
+            th:if="${#lists.isEmpty(reviewList)}">
+            
+            <hr>
+            <span>작성된 도서 후기가 없습니다.</span>
+            <hr>
 
-    <!-- 후기 있는 경우 -->
-    <div class="yes-review">
-        <hr>
+        </div>
 
-        <!-- 후기 박스 -->
-        <section class="review-box">
-            <!-- 후기 남긴 유저 -->
-            <section class="review-user">
-                <img class="review-user-profile" src="../../static/svg/person.svg">
-                <span class="review-user-name">유저일</span>
-            </section>
+        <!-- 후기 있는 경우 -->
+        <div class="yes-review"
+            th:if="${!#lists.isEmpty(reviewList)}">
+            
+            <hr>
 
-
-
-            <!-- 후기 본문 -->
-            <section class="review-detail">
+            <!-- 후기 박스 -->
+            <section class="review-box"
+                     th:each="review, stat : ${reviewList}"
+                     th:classappend="${stat.index >= 5} ? 'hidden-review'"
+                     th:attr="data-review-no=${review.reviewNo}">
                 
-                <!-- 별점 -->
-                <div class="review-star readonly">
-                    <span class="star-icon filled"></span>
-                    <span class="star-icon filled"></span>
-                    <span class="star-icon filled"></span>
-                    <span class="star-icon"></span>
-                    <span class="star-icon"></span>
-                </div>
+                <!-- 후기 남긴 유저 -->
+                <section class="review-user">
 
-                <!-- 내용 -->
-                <div class="review-text">
-                    <span>대충 여기 공백포함 40자 정도 들어갈 수 있는 후기 글 뭐시기 입니다.</span>
-                </div>
+                    <img class="review-user-profile" th:src="${review.member.profilePath != null ? review.member.profilePath : '/images/common/person.svg'}">
+                    <span class="review-user-name" th:text="${review.member.memberNickName}">유저일</span>
+                
+                </section>
 
-                <!-- 작성 시각 -->
-                <div class="review-time">
-                    <span>10분전</span>
-                </div>
-            </section>
+                <section class="review-body">
+                    
+                    <!-- 후기 본문 -->
+                    <section class="review-detail">
+                        
+                        <!-- 별점 -->
+                        <div class="review-star readonly">
+                            <span class="star-icon" th:classappend="${review.reviewScore >= 1} ? 'filled'"></span>
+                            <span class="star-icon" th:classappend="${review.reviewScore >= 2} ? 'filled'"></span>
+                            <span class="star-icon" th:classappend="${review.reviewScore >= 3} ? 'filled'"></span>
+                            <span class="star-icon" th:classappend="${review.reviewScore >= 4} ? 'filled'"></span>
+                            <span class="star-icon" th:classappend="${review.reviewScore >= 5} ? 'filled'"></span>
+                        </div>
 
-            <!-- 버튼들 -->
-            <section class="review-controll">
-                <div class="review-report">
-                    <span class="report-btn">신고</span>
-                </div>
+                        <!-- 내용 -->
+                        <div class="review-text">
+                            <span th:text="${review.reviewContent}">기후 글 뭐시기.</span>
+                        </div>
 
-                <div class="review-edit">
-                    <span class="review-edit-btn">수정</span>
-                    <span>|</span>
-                    <span class="review-delete-btn">삭제</span>
-                </div>
+                        <!-- 작성 시각 -->
+                        <div class="review-time">
+                            <span th:text="${#temporals.format(review.reviewTime, 'yyyy.MM.dd HH:mm')}"></span>
+                        </div>
+                    </section>
+                    
 
-            </section>
-            <hr>
-        
-        </section>
+                    <!-- 후기 수정 화면 -->
+                    <section class="review-edit-area hidden-review">
 
-        <!-- 후기 박스 -->
-        <section class="review-box">
-            <!-- 후기 남긴 유저 -->
-            <section class="review-user">
-                <img class="review-user-profile" src="">
-                <span class="review-user-name">유저김이박최구강</span>
-            </section>
+                        <!-- 작성 내용 -->
+                        <div class="review-edit-box">
+                            <input type="text" class="review-edit-input"
+                                   th:value="${review.reviewContent}">
+                        </div>
+                        
+                        <!-- 등록 취소 -->
+                        <div class="review-edit-controller">
+                            <button class="review-edit-submit">수정</button>
+                            <button class="review-edit-cancel">취소</button>
+                        </div>
+
+                    </section>
+
+                </section>
+
+
+                <!-- 버튼들 -->
+                <section class="review-controll">
+
+                    <div class="review-report">
+                        <span class="report-btn"  th:if="${loginMember != null and loginMember.memberNo != review.member.memberNo}">신고</span>
+                    </div>
+
+                    <div class="review-edit">
+                        <th:block th:if="${loginMember != null and loginMember.memberNo == review.member.memberNo}">
+                            <span class="review-edit-btn">수정</span>
+                            <span>|</span>
+                            <span class="review-delete-btn">삭제</span>
+                        </th:block>
+                    </div>
+
+                </section>
+
             
-            <!-- 후기 본문 -->
-            <section class="review-detail">
-
-                <!-- 별점 -->
-                <div class="review-star readonly">
-                    <span class="star-icon filled"></span>
-                    <span class="star-icon filled"></span>
-                    <span class="star-icon filled"></span>
-                    <span class="star-icon"></span>
-                    <span class="star-icon"></span>
-                </div>
-
-                <!-- 내용 -->
-                <div class="review-text">
-                    <span>대충 여기 공백포함 40자 정도 들어갈 수 있는 후기 글 뭐시기 입니다.</span>
-                </div>
-
-                <!-- 작성 시각 -->
-                <div class="review-time">
-                    <span>10분전</span>
-                </div>
             </section>
 
-            <!-- 버튼들 -->
-            <section class="review-controll">
-                <div class="review-report">
-                    <span class="report-btn">신고</span>
-                </div>
 
-                <div class="review-edit">
-                    <span class="review-edit-btn">수정</span>
-                    <span>|</span>
-                    <span class="review-delete-btn">삭제</span>
-                </div>
 
-            </section>
-            <hr>
-        
-        </section>
-        
 
-        <!-- 후기 수정 화면 -->
-        <section class="review-edit-area">
-            <!-- 작성 내용 -->
-            <div class="review-edit-box">
-                <input type="text" 
-                        class="review-edit-input"
-                        value="이건 아마 기존 후기글일껄요?"
-                >
-            </div>
-            
-            <!-- 등록 취소 -->
-            <div class="review-edit-controller">
-                <button class="review-edit-submit">수정</button>
-                <button class="review-edit-cancel">취소</button>
+
+
+            <div class="review-more" th:if="${#lists.size(reviewList) > 5}">
+                <button type="button" class="review-more-btn">더보기</button>
             </div>
 
-        </section>
+        </div>
 
 
-    </div>
 
+    </section>
 
 </section>
