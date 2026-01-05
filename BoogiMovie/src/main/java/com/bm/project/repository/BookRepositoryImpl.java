@@ -435,6 +435,22 @@ public class BookRepositoryImpl implements BookRepository{
 				 .setParameter("productNo", productNo)
 				 .getResultList();
 	}
+
+
+
+	@Override
+	public int insertReview(Long productNo, Long memberNo, Integer reviewScore, String reviewContent) {
+		
+		
+		Review review = Review.builder()
+                			  .productNo(productNo)
+                			  .memberNo(memberNo)
+                			  .reviewScore(reviewScore)
+                			  .reviewContent(reviewContent)
+                			  .build();
+		em.persist(review);
+		return 1;
+	}
 	
 	
 }
