@@ -1,17 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
+    <link rel="stylesheet" th:href="@{/css/common/footer.css}">
     
-    <link rel="stylesheet" href="../../static/css/usedBookCss/usedBook_List.css">
+    <link rel="stylesheet" th:href="@{/css/usedBookCss/usedBook_List.css}">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="../../static/css/common/header.css">
+    <link rel="stylesheet" th:href="@{/css/common/header.css}">
 
-    <link rel="stylesheet" href="../../static/css/common/font.css">
+    <link rel="stylesheet" th:href="@{/css/common/pagination.css}">
+
+    <!-- 폰트 -->
+    <link rel="stylesheet" th:href="@{/css/common/font.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
@@ -20,52 +24,7 @@
 </head>
 <body>
 
-
-    <div class="header_container">
-        <div class="blue_background">
-            <div class="header_inner">
-                <div class="header_category">
-                    <!-- 선택에 따른 효과 - 타임리프(경로에 따른 효과 주기로 변경 예정) -->
-                    <div class="header_active"><a href="#">홈</a></div>
-                    <div><a href="#">도서</a></div>
-                    <div><a href="#">중고도서</a></div>
-                    <div><a href="#">영화</a></div>
-                </div>
-
-                <div class="header_login">
-                    <div><a href="#">로그인</a></div>
-                    <div><a href="#">회원가입</a></div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- 로고 및 검색바 -->
-    <div class="logo_search_container">
-        <!-- 로고 -->
-        <div class="logo_container">
-            <a href="#"><img src="../../static/images/common/logo_basic.png" alt=""></a>
-        </div>
-
-        <!-- 검색바 전체 자리 -->
-        <div class="search_container">
-            <!-- 검색 아이콘 -->
-            <div class="search_icon">
-                <img src="../../static/svg/search_icon.svg" alt="">
-            </div>
-
-            <!-- 검색란 -->
-            <div class="search_input">
-                <input type="text" placeholder="원하는 작품을 검색해 보세요!">
-            </div>
-        </div>
-    </div>
-
-    </div>
-
-
-
+    <th:block th:replace="~{common/header}"></th:block>
 
     <main>
 
@@ -73,56 +32,246 @@
 
         <p class="top_title">중고도서</p>
 
-        <form action="">
+        <form th:action="@{/ubooks}" method="get">
 
             <section class="list_container">
     
-                <section class="category_section">
-                    
-                    <table class="category_table">
-                        <tbody class="category_body">
-                            <tr class="category_tr">
-                                <td class="category_td">
-                                    카테고리
-                                </td>
-                            </tr>
-                        </tbody>
-        
-                    </table>
-        
-                </section>
-        
-                <section class="sort_search">
-        
-                    <div class="sort_search_left">
-    
-                        <select class="sort_list" name="" id="">
-            
-                            <option value="recent_sort">최신순</option>
-                            <option value="popular_sort">인기순</option>
-            
-                        </select>
-    
+                <div class="category_section">
+
+                    <div class="category_left">
+
+                        <button class="ucategoryBtn small" data-value="0" type="button">
+                            전체
+                        </button>
+
+                        <button class="ucategoryBtn small" data-value="99" type="button">
+                            기타
+                        </button>
+
                     </div>
                     
-                    <div class="sort_search_right">
+                    
+                    <div class="category_area">
+
+                    
+
+                        <button class="ucategoryBtn" data-value="1" type="button">
+                            운동/취미/살림
+
+                        </button>
+                        <button class="ucategoryBtn" data-value="2" type="button">
+                            교재/참고서/자격증
+
+                        </button>
+                        <button class="ucategoryBtn" data-value="3" type="button">
+                            유아/어린이
+
+                        </button>
+                        <button class="ucategoryBtn" data-value="4" type="button">
+                            여행
+
+                        </button>
+                        <button class="ucategoryBtn" data-value="5" type="button">
+                            역사/문화/예술/종교
+
+                        </button>
+                        <button class="ucategoryBtn" data-value="6" type="button">
+                            과학
+
+                        </button>
+                        <button class="ucategoryBtn" data-value="7" type="button">
+                            외국어
+
+                        </button>
+                        <button class="ucategoryBtn" data-value="8" type="button">
+                            만화
+
+                        </button>
+                        <button class="ucategoryBtn" data-value="9" type="button">
+                            컴퓨터/모바일
+
+                        </button>
+                        <button class="ucategoryBtn" data-value="10" type="button">
+                            외국도서
+
+                        </button>
+
+                        <button class="ucategoryBtn" data-value="11" type="button">
+                            소설/희곡
+
+                        </button>
                         
-                        <select name="" id="">
-                            <option value="book_title">제목</option>
-                            <option value="author">저자</option>
-        
-                        </select>
-        
-                        <input class="search_bar" type="text" placeholder="저자, 제목으로 검색">
-        
-                        <button class="search_btn">검색</button>
-            
-            
+                        
+
+                        <div class="category_small">
+                            <button class="ucategoryBtn mini" data-value="12" type="button">
+                                라이트노벨
+                            </button>
+                            <button class="ucategoryBtn mini" data-value="13" type="button">
+                                판타지
+                            </button>
+                            <button class="ucategoryBtn mini" data-value="14" type="button">
+                                SF
+                            </button>
+                            <button class="ucategoryBtn mini" data-value="15" type="button">
+                                추리
+                            </button>
+                            <button class="ucategoryBtn mini" data-value="16" type="button">
+                                로맨스
+                            </button>
+                            <button class="ucategoryBtn mini" data-value="17" type="button">
+                                무협
+                            </button>
+                            <button class="ucategoryBtn mini" data-value="18" type="button">
+                                희곡
+                            </button>
+                            
+                            
+
+                        </div>
+                        
+                
                     </div>
+                    
+        
+                </div>
+        
+                
+                <!-- 정렬 -->
+                <section class="sort_search">
+                    
+                    <div class="sort_search_case">
+                        
+                        <div class="sort_search_left">
+        
+                            <select class="sort_list" name="ubookSort" id="ubookListSort">
+                
+                                <option value="latest"
+                                        th:selected="${paramMap['ubookSort'] == 'latest'}">최신순</option>
+                                <option value="productTitle"
+                                        th:selected="${paramMap['ubookSort'] == 'productTitle'}">가나다순</option>
+                                <option value="인기순">인기순</option>
+                
+                            </select>
+        
+                        </div>
+                        
+                        <div class="sort_search_right">
+                            
+                            <select name="" id="">
+                                <option value="book_title">제목</option>
+                                <option value="author">저자</option>
+            
+                            </select>
+            
+                            <input class="search_bar" type="text" placeholder="저자, 제목으로 검색">
+            
+                            <button class="search_btn">검색</button>
+    
+                
+                        </div>
+
+                    </div>
+
+                    
+
+                </section>
+
+
+                <!-- 상품 -->
+                <section class="list_board">
+
+                    <a
+                        
+                    
+                        th:each="ubook : ${ubooks}"
+                        th:href="@{/ubooks/{id}(id=${ubook.productNo})}"
+                    
+                    
+                    >
+                        
+
+                        <div class="list_info_case">
+                            <div class="list_info">
+                                
+                                <div class="img_case"><img class="list_img" th:src="${ubook.imgPath}" alt="도서 이미지"></div>
+                                <div class="list_title" th:text="${ubook.productTitle}"></div>
+                                <div class="list_price" th:text="${ubook.ubookStatus}"></div>
+                                <div class="list_price" th:text="${#numbers.formatInteger(ubook.productPrice, 0, 'COMMA')} + ' 원'"></div>
+                            </div>
+    
+                        </div>
+
+                    </a>
+
+                    
+
+                
+
                 </section>
     
             </section>
 
+            <div class="list_btn_area">
+                <button class="enroll_btn">글쓰기</button>
+
+            </div>
+
+            <!-- 페이지네이션 -->
+            <nav class="pagination" th:if="${page != null and page.totalPages > 0}" aria-label="페이지네이션">
+                
+                <ul class="pagination-list">
+
+                    <!-- 처음으로 -->
+                    <li class="pagination-item">
+                        <a href="#" class="pagination-link" th:attr="data-page=1">
+                            &lt;&lt;
+                        </a>
+                    </li>
+
+                    <!-- 이전 -->
+                    <li class="pagination-item">
+                        <a href="#" class="pagination-link" th:attr="data-page=${pageDto.prevPage}">
+                            &lt;
+                        </a>
+                    </li>
+
+                    <!-- 페이지 번호 -->
+                    <th:block th:each="i : ${#numbers.sequence(pageDto.blockStart, pageDto.blockEnd)}">
+
+                        
+                        <!-- 현재 페이지 -->
+                        <li class="pagination-item" th:if="${i == pageDto.currentPage}">
+                            <a href="#" class="pagination-link active" th:text="${i}">
+                            </a>
+                        </li>
+                        
+                        <!--  나머지 페이지 -->
+                        <li class="pagination-item" th:unless="${i == pageDto.currentPage}">
+                            <a href="#" class="pagination-link" th:attr="data-page=${i}" th:text="${i}">
+                            </a>
+                        </li>
+                    
+                    </th:block>
+
+                    <!-- 다음 -->
+                    <li class="pagination-item">
+                        <a href="#" class="pagination-link" th:attr="data-page=${pageDto.nextPage}">
+                            &gt;
+                        </a>
+                    </li>
+
+                    <!-- 끝 -->
+                    <li class="pagination-item">
+                        <a href="#" class="pagination-link" th:attr="data-page=${pageDto.endPage}">
+                            &gt;&gt;
+                        </a>
+                    </li>
+
+                </ul>
+
+            </nav>
+        
         </form>
 
 
@@ -132,88 +281,11 @@
     </main>
 
 
-    <footer class="footer">
 
-        <div class="footer-in">
-
-            <!-- 상단 링크 -->
-            <nav class="ft-toplinks" aria-label="Ft links">
-            <a href="#">회사소개</a>
-            <span class="sep">|</span>
-            <a href="#">서비스 소개</a>
-            <span class="sep">|</span>
-            <a href="#">이용약관</a>
-            <span class="sep">|</span>
-            <a href="#">개인정보처리방침</a>
-            <span class="sep">|</span>
-            <a href="#">청소년보호정책</a>
-            <span class="sep">|</span>
-            <a href="#">채용정보</a>
-            <span class="sep">|</span>
-            <a href="#">광고문의</a>
-            </nav>
-
-            <div class="footer-main">
-            <!-- 좌측 로고 -->
-            <div class="footer-brand" aria-label="BOOGIMOVIE">
-                <img src="../../static/images/common/logo_white.png" alt="">
-            </div>
-
-            <!-- 회사 정보 -->
-            <div class="footer-info">
-                <div class="info-row">
-                <span class="info-title">(주)BOOGIMOVIE</span>
-                </div>
-
-                <div class="info-row">
-                <span>서울특별시 종로구 우정국로2길 21 9층, 903호</span>
-                </div>
-
-                <div class="info-row">
-                <span>대표자: (발신자부담) 1544-0000(부기문고) · 1661-1112(핫트랙스)</span>
-                </div>
-
-                <div class="info-row">
-                <span>이메일: boogi@naver.com</span>
-                </div>
-
-                <div class="info-row">
-                <span>대표 FAX: 2025-012-0801</span>
-                </div>
-
-                <div class="info-row">
-                <span>사업자등록번호: 102-81-11670</span>
-                </div>
-
-                <div class="info-row">
-                <span>통신판매업신고: 0000 - 서울 종로구 - 00000</span>
-                </div>
-
-                <div class="info-row">
-                <span>개인정보관리 책임자: 김무비</span>
-                </div>
-
-                <div class="info-row copyright">
-                © BOOGIMOVIE CENTRE
-                </div>
-            </div>
-
-            <!-- 우측 SNS -->
-            <div class="footer-sns" aria-label="Social links">
-                <a class="sns-btn" href="#" aria-label="KakaoTalk"><img src="../../static/svg/footer-kakao.svg" alt=""></a>
-                <a class="sns-btn" href="#" aria-label="Facebook"><img src="../../static/svg/footer-facebook.svg" alt=""></a>
-                <a class="sns-btn" href="https://www.instagram.com/dog___foooot?igsh=MTlyc3lpc3Y3c3FqMA==" aria-label="Instagram"><img src="../../static/svg/footer-instagram.svg" alt=""></a>
-                <a class="sns-btn" href="#" aria-label="YouTube"><img src="../../static/svg/footer-youtube.svg" alt=""></a>
-            </div>
-            </div>
-        </div>
-
-    </footer>
-        
-    <link rel="stylesheet" href="footer.css">
+    <th:block th:replace="~{common/footer}"></th:block>
 
 
-
+    <script  th:src="@{/js/ubook/usedbookList.js}"></script>
 
 
     
