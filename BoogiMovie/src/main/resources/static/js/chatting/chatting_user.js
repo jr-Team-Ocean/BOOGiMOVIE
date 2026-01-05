@@ -62,7 +62,7 @@ function updateUnreadUI() {
                         updateReadFlag();
                         unreadCount = 0;
                         updateUnreadUI();
-                    }, 150);
+                    }, 150); 
                 }
             };
         }
