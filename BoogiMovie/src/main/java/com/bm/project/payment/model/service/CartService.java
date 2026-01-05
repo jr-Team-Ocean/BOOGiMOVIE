@@ -27,4 +27,11 @@ public interface CartService {
 
 	OrderMemberDto getOrderMemberInfo(Long memberNo);
 
+	/** 장바구니에 담?기
+	 * @param productNo
+	 * @param quantity
+	 * @param memberNo
+	 */
+	void addCart(Long productNo, Integer quantity, Long memberNo);
+	
 }

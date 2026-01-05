@@ -105,11 +105,19 @@ public class CartController {
 	@ResponseBody
 	public int addCart(
 			@RequestBody Map<String, Object> paramMap,
-		    @SessionAttribute("loginMember") MemberDto.LoginResult loginMember
+		    @SessionAttribute(value = "loginMember", required = false) MemberDto.LoginResult loginMember
 			) {
+		
 		if (loginMember == null) return -1;
 		
-		return 0;
+		Long productNo = Long.valueOf(paramMap.get("productNo").toString());
+		Integer quantity = Integer.valueOf(paramMap.get("quantity").toString());
+		
+		service.addCart(productNo, quantity, loginMember.getMemberNo());
+		
+		
+		
+		return 1;
 	}
 	
 	
