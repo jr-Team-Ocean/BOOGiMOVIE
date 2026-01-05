@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.bm.project.dto.MovieDto;
 import com.bm.project.dto.MovieDto.Create;
 import com.bm.project.dto.MovieDto.Response;
+import com.bm.project.dto.MovieDto.Update;
 import com.bm.project.dto.PageDto;
 import com.bm.project.entity.Category;
 import com.bm.project.entity.Movie;
@@ -26,6 +28,7 @@ import com.bm.project.entity.Product;
 import com.bm.project.entity.ProductTag;
 import com.bm.project.entity.ProductType;
 import com.bm.project.entity.TagCode;
+import com.bm.project.enums.CommonEnums;
 import com.bm.project.repository.CategoryRepository;
 import com.bm.project.repository.MovieRepository;
 import com.bm.project.repository.ProductTypeRepository;
@@ -77,6 +80,7 @@ public class MovieServiceImpl implements MovieService{
 		// 해당 영화 정보가 존재하는지 조회
 		Movie movie = movieRepository.findById(productNo)
 						.orElseThrow(() -> new EntityNotFoundException("해당 상품이 존재하지 않습니다."));
+		
 		return MovieDto.Response.toDto(movie);
 	}
 
@@ -143,6 +147,86 @@ public class MovieServiceImpl implements MovieService{
         return product.getProductNo();
 	}
 	
+
+	// 영화 수정
+	@Transactional(readOnly = false)
+	@Override
+	public void updateMovie(Long productNo, Update movieUpdate) throws IllegalStateException, IOException {
+		// 해당 게시글 존재하는 조회
+		Movie movie = movieRepository.findByProduct_ProductNo(productNo)
+						.orElseThrow(() -> new EntityNotFoundException("존재하지 않는 영화 입니다."));
+		
+		Product product = movie.getProduct();
+		
+		// product 수정
+		product.setProductTitle(movieUpdate.getProductTitle());
+		product.setProductContent(movieUpdate.getProductContent());
+		product.setProductPrice(movieUpdate.getProductPrice());
+		
+		if(movieUpdate.getProductDate() != null) {
+			product.setProductDate(movieUpdate.getProductDate().atStartOfDay());
+		}
+		
+		// 카테고리 수정
+		Category category = categoryRepository.getReferenceById(movieUpdate.getCategoryId());
+		product.setCategory(category);
+		
+		// 이미지 수정
+		MultipartFile image = movieUpdate.getMovieImg();
+		
+		if(image != null && !image.isEmpty()) {
+			
+			String originName = image.getOriginalFilename();
+			String reName = UUID.randomUUID().toString() + "_" + originName;
+			
+			File updateDir = new File(FILE_PATH);
+			if(!updateDir.exists()) updateDir.mkdirs();
+			image.transferTo(new File(FILE_PATH + reName));
+			
+			// DB에 웹 경로만 저장
+			product.setImgPath(WEB_PATH + reName);
+		}
+		
+		// movie 수정
+		movie.setFilmRating(movieUpdate.getFilmRating());
+		movie.setMovieTime(movieUpdate.getMovieTime());
+		
+		System.out.println("entity filmRating = " + movie.getFilmRating());
+		
+		if(movieUpdate.getActors() != null && !movieUpdate.getActors().isEmpty()) {
+			// 기존 Tag 연결 끊기
+			movie.getProduct().getProductTagConnects().clear();
+			
+			List<String> directors = splitComma(movieUpdate.getDirectors());
+	        List<String> actors    = splitComma(movieUpdate.getActors());
+	        List<String> companies = splitComma(movieUpdate.getCompanies());
+
+	        // 태그코드 검증
+	        TagCode directorCode = movieRepository.getTagCodeRef(2L);
+	        TagCode actorCode = movieRepository.getTagCodeRef(5L);
+	        TagCode companyCode = movieRepository.getTagCodeRef(4L);
+	        TagCode nationCode = movieRepository.getTagCodeRef(6L);
+			
+			// 없으면 생성 -> 연결
+			for (String d : directors) {
+	            connectTag(product, directorCode, d);
+	        }
+	        for (String a : actors) {
+	            connectTag(product, actorCode, a);
+	        }
+	        for (String c : companies) {
+	            connectTag(product, companyCode, c);
+	        }
+	        if (StringUtils.hasText(movieUpdate.getNation())) {
+	            connectTag(product, nationCode, movieUpdate.getNation());
+	        }
+
+		}
+		
+	}
+	
+	
+	// 태그 연결 + 저장 함수
 	private void connectTag(Product product, TagCode tagCode, String tagName) {
 	    if (!StringUtils.hasText(tagName)) return;
 
@@ -168,6 +252,17 @@ public class MovieServiceImpl implements MovieService{
 			        .filter(StringUtils::hasText)
 			        .distinct()
 			        .collect(Collectors.toList());
+	}
+
+	// 영화 삭제
+	@Transactional
+	@Override
+	public void deleteMovie(Long productNo) {
+		Movie movie = movieRepository.findById(productNo)
+			.orElseThrow(() -> new EntityNotFoundException("존재하지 않는 영화입니다."));
+		
+		Product product = movie.getProduct();
+		product.setProductDelFl(CommonEnums.ProductDelFl.Y);
 	}
 	
 }

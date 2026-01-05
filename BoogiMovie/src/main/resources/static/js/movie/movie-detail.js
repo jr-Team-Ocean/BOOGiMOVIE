@@ -135,9 +135,19 @@ const reviewInput = document.querySelector('.review-write')
 const reviewStar = document.querySelector('.review-star')
 
 reviewBtn.addEventListener('click', ()=>{
-  sendBtn.classList.toggle('colsed')
-  reviewInput.classList.toggle('colsed')
-  reviewStar.classList.toggle('colsed')
+    sendBtn.classList.toggle('colsed')
+    reviewInput.classList.toggle('colsed')
+    reviewStar.classList.toggle('colsed')
 })
 
-// 수정 버튼 클릭시 input, 버튼 보이게
+// 수정 버튼 클릭시 update화면으로
+document.getElementById('update-btn').addEventListener("click", ()=>{
+    location.href = `${location.pathname}/update`;
+})
+
+// 삭제 버튼 -> 삭제하기
+document.getElementById('delete-btn')?.addEventListener('click', ()=>{
+    if (confirm("정말 삭제하시겠습니까?")){
+        location.href = `${location.pathname}/delete`;
+    }
+})

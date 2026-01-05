@@ -34,7 +34,8 @@ public class MovieDto {
 		private String imgPath; // 대표이미지
 		
 		private Integer movieTime; // 상영시간
-		private String filmRating; // 관람등급
+		private MovieRating filmRating; // 관람등급
+		private String filmRatingLabel; // 관람등급(한글)
 		
 		private List<String> directors; // 감독
 		private List<String> companies; // 제작사
@@ -42,6 +43,7 @@ public class MovieDto {
 		private List<String> actors; // 출연배우
 		
 		private Long categoryId;
+		private Long parentId;
 		private String categoryName;
 		private String parentName;
 		
@@ -55,7 +57,7 @@ public class MovieDto {
 					.productTitle(product.getProductTitle())
 					.productPrice(product.getProductPrice())
 					.productDate(product.getProductDate())
-					.filmRating(movie.getFilmRating().getDescripton())
+					.filmRatingLabel(movie.getFilmRating().getDescripton())
 					.categoryId(product.getCategory().getCategoryId())
 					.imgPath(product.getImgPath())
 					.build();
@@ -76,7 +78,11 @@ public class MovieDto {
 					.productPrice(product.getProductPrice())
 					
 					.movieTime(movie.getMovieTime())
-					.filmRating(movie.getFilmRating().getDescripton())
+					.filmRating(movie.getFilmRating())
+					.filmRatingLabel(movie.getFilmRating().getDescripton())
+					.categoryId(category.getCategoryId())
+					.parentId(category.getPCategoryId().getCategoryId())
+					
 					.categoryName(category.getCategoryName())
 					.parentName(category.getPCategoryId().getCategoryName())
 					
@@ -95,8 +101,8 @@ public class MovieDto {
 	@ToString
 	public static class Create{
 		
-		private String movieTitle;
-		private String movieContent;
+		private String productTitle;
+		private String productContent;
 		private MultipartFile movieImg;
 		private String imgPath;
 		private String directors;
@@ -112,8 +118,8 @@ public class MovieDto {
 		// 상품
 		public Product toProductEntity() {
 			return Product.builder()
-					.productTitle(this.movieTitle)
-					.productContent(this.movieContent)
+					.productTitle(this.productTitle)
+					.productContent(this.productContent)
 					.productDate(this.productDate.atStartOfDay())
 					.productPrice(this.productPrice)
 					.imgPath(this.imgPath)
@@ -128,6 +134,26 @@ public class MovieDto {
 					.filmRating(this.filmRating)
 					.build();
 		}
+	}
+	
+	// 영화 수정
+	@Getter
+	@Setter
+	@ToString
+	public static class Update{
+		private String productTitle;
+		private String productContent;
+		private MultipartFile movieImg;
+		private String imgPath;
+		private String directors;
+		private String nation;
+		private String companies;
+		private String actors;
+		private Integer productPrice;
+		private Integer movieTime; 
+		private MovieRating filmRating;
+		private LocalDate productDate;
+		private Long categoryId;
 	}
 	
 	
