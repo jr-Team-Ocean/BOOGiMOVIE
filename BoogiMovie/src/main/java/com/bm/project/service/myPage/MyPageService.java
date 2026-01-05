@@ -28,4 +28,12 @@ public interface MyPageService {
 	 */
 	Page<FavoriteResponse> getFavoriteList(Long memberNo, String string, Pageable pageable);
 
+	
+	/** 
+	 * @param productNo
+	 * @param memberNo
+	 * @return
+	 */
+	boolean removeFavorite(int productNo, Long memberNo);
+
 }

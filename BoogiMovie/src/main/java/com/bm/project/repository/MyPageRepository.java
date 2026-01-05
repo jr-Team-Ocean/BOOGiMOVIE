@@ -7,4 +7,6 @@ import com.bm.project.entity.Product;
 public interface MyPageRepository {
    
     Page<Product> findByMemberNo(Long memberNo, String order, Pageable pageable);
+
+	void deleteFavorite(int productNo, Long memberNo);
 }

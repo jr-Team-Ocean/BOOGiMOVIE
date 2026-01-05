@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -108,6 +109,23 @@ public class MyPageController {
 
 	    return ResponseEntity.ok(response);
 	}
+	
+	// 좋아요 삭제
+	@PostMapping("/deleteFavorite")
+    public ResponseEntity<String> deleteFavorite(
+            @RequestBody int productNo,
+            @SessionAttribute("loginMember") LoginResult loginMember) {
+
+        Long memberNo = loginMember.getMemberNo();
+
+        boolean result = service.removeFavorite(productNo, memberNo);
+
+        if (result) {
+            return ResponseEntity.ok("Success");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Fail");
+        }
+    }
 	
 	
 	// 회원 탈퇴 창으로 이동
