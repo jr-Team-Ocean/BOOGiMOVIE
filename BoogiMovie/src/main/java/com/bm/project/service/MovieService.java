@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import com.bm.project.dto.MovieDto;
 import com.bm.project.dto.MovieDto.Create;
 import com.bm.project.dto.MovieDto.Response;
+import com.bm.project.dto.MovieDto.Update;
 import com.bm.project.dto.PageDto;
 import com.bm.project.entity.Product;
 import com.bm.project.enums.CommonEnums.ProductDelFl;
@@ -26,6 +27,12 @@ public interface MovieService {
 
 	// 영화 등록
 	Long createMovie(Create movieCreate) throws IllegalStateException, IOException;
+
+	// 영화 수정
+	void updateMovie(Long productNo, Update movieUpdate) throws IllegalStateException, IOException;
+
+	// 영화 삭제
+	void deleteMovie(Long productNo);
 
 
 
