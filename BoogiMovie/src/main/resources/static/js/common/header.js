@@ -112,5 +112,47 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
     }
 
+    updateHeaderUnreadCount();
 });
 
+/* ============================================================================ */
+    /* 안읽은 알림 카운트 동기화 (홈 이동 시 초기화 방지) */
+    /* ============================================================================ */
+
+    function updateHeaderUnreadCount() {
+    console.log('=== updateHeaderUnreadCount 시작 ===');
+    console.log('현재 경로:', window.location.pathname);
+    
+    if (window.location.pathname.includes('/chatting')) {
+        console.log('채팅 페이지이므로 업데이트 건너뜀');
+        return;
+    }
+    
+    console.log('fetch 요청 시작: /chatting/totalUnreadCount');
+    
+    fetch('/chatting/totalUnreadCount') 
+        .then(resp => {
+            console.log('응답 상태:', resp.status);
+            return resp.text();
+        })
+        .then(count => {
+            console.log('받아온 카운트:', count);
+            console.log('카운트 타입:', typeof count);
+            
+            const headerBadge = document.getElementById('headerUnreadBadge');
+            console.log('headerBadge 요소:', headerBadge);
+            
+            // ✅ 요소가 없으면 (로그인 안 했거나 권한 없음) 조용히 종료
+            if (!headerBadge) {
+                console.log('배지 요소가 없습니다 (로그인 안 했거나 권한 없음)');
+                return;
+            }
+            
+            const cnt = Number(count);
+            console.log('숫자로 변환된 카운트:', cnt);
+            headerBadge.innerText = cnt;
+            headerBadge.style.display = cnt > 0 ? 'inline-block' : 'none';
+            console.log('✅ 배지 업데이트 완료');
+        })
+        .catch(err => console.error("헤더 카운트 동기화 실패:", err));
+}
