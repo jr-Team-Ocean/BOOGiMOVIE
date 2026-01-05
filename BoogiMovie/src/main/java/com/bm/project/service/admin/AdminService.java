@@ -1,6 +1,7 @@
 package com.bm.project.service.admin;
 
 import com.bm.project.entity.Report;
+import java.util.List;
 
 public interface AdminService {
 
