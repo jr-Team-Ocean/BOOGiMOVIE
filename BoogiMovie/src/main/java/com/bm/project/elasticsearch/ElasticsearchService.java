@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 //오라클에 있는 데이터 -> 엘라스틱 인덱스로 그대로 복사
 @Service
 @RequiredArgsConstructor
-public class CopyToDocumentService {
+public class ElasticsearchService {
 	private final ProductRepository productRepo;	   // 오라클 DB
 	private final ProductSearchRepository searchRepo;  // 엘라스틱
 	
@@ -67,6 +67,14 @@ public class CopyToDocumentService {
                 .directors(directors)
                 .publisher(publishers)
                 .build();
+	}
+
+	/** 통합검색
+	 * @param query
+	 * @return
+	 */
+	public List<ProductDocument> headerSearch(String query) {
+		return searchRepo.searchByKeyword(query);
 	}
 	
 }
