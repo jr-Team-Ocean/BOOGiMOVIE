@@ -1,4 +1,4 @@
-package com.bm.project.document;
+package com.bm.project.elasticsearch;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -57,9 +57,6 @@ public class ProductDocument {
 
     @Field(type = FieldType.Text, analyzer = "nori")
     private List<String> directors;  // 감독 리스트 (영화)
-
-    @Field(type = FieldType.Text, analyzer = "nori")
-    private List<String> actors;     // 배우 리스트 (영화)
 
     @Field(type = FieldType.Text, analyzer = "nori")
     private List<String> publisher;  // 출판사 또는 제작사
