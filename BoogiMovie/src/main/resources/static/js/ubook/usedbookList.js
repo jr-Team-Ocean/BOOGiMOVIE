@@ -73,3 +73,45 @@ if (sortSelect) {
         location.href = '/ubooks?' + params.toString();
     });
 }
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    // 소설/희곡 버튼
+    const novelBtn = document.querySelector(
+        '.ucategoryBtn[data-value="11"]'
+    );
+
+    // 하위 카테고리
+    const subCategory = document.querySelector(".category_small");
+
+    if (!novelBtn || !subCategory) return;
+
+    // 처음엔 숨김
+    subCategory.style.display = "none";
+
+    // 상위 카테고리 hover
+    novelBtn.addEventListener("mouseenter", () => {
+        subCategory.style.display = "flex";
+    });
+
+    // 하위 카테고리 hover 유지
+    subCategory.addEventListener("mouseenter", () => {
+        subCategory.style.display = "flex";
+    });
+
+    // 상위에서 나갔을 때
+    novelBtn.addEventListener("mouseleave", () => {
+        setTimeout(() => {
+            if (!subCategory.matches(":hover")) {
+                subCategory.style.display = "none";
+            }
+        }, 100);
+    });
+
+    // 하위에서 나갔을 때
+    subCategory.addEventListener("mouseleave", () => {
+        subCategory.style.display = "none";
+    });
+
+});

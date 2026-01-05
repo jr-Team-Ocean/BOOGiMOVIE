@@ -46,8 +46,9 @@ main{
     width: 70px;
     
 
-    background-color: gainsboro;
+    background-color: #eee;
     border-radius: 5px;
+    border: none;
 
     flex: 1;
     
@@ -102,11 +103,14 @@ main{
     height: 35px;
     width: 160px;
     align-items: center;
-    background-color: gainsboro;
+    background-color: #eee;
     border-radius: 5px;
     margin-left: 10px;
     margin-bottom: 10px;
     flex-basis: 18%;
+    border: none;
+
+    cursor: pointer;
     
 }
 
@@ -120,6 +124,8 @@ main{
 
 }
 
+
+
 .ucategoryBtn.mini {
     
     display: flex;
@@ -128,18 +134,37 @@ main{
     flex-direction: row;
     
     
-    background-color: gainsboro;
+    background-color: #eee;
     cursor: pointer;
     border-radius: 5px;
     
     width: 94px;
     height: 35px;
     margin-top: 1px;
+    border: none;
     
 
     /* display: none; */
 
     
+}
+
+.category_small {
+    display: none;
+}
+
+.category_area {
+    position: relative;
+}
+
+.category_small {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: none;
+    gap: 8px;
+    background: white;
+    z-index: 1000;
 }
 
 .mini_category.active {

@@ -100,7 +100,7 @@
 }
 
 .cart_btn{
-    font-size: 24px;
+    font-size: 16px;
     width: 100px;
     height: 35px;
     background-color: #082A71;
@@ -108,11 +108,12 @@
     color: white;
     border: 0px;
     cursor: pointer;
+    font-weight: bold;
 
 }
 
 .purchase_btn{
-    font-size: 24px;
+    font-size: 16px;
     width: 150px;
     height: 35px;
     background-color: #E1B12C;
@@ -121,6 +122,7 @@
     margin-left: 10px;
     border: 0px;
     cursor: pointer;
+    font-weight: bold;
 }
 
 
@@ -212,6 +214,11 @@
 .long_text {
     white-space: pre-line;
     
+    
+}
+
+#intro {
+    margin-bottom: 30px;
 }
 
 
