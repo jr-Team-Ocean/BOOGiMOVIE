@@ -36,25 +36,20 @@ if (typeof SockJS !== 'undefined') {
     chattingSock.onopen = () => console.log("웹소켓 서버 연결 성공");
 }
 
-// 2. UI 업데이트 함수 (기존과 동일하지만 다시 확인)
-// 2. UI 업데이트 함수 (헤더 메뉴와 채팅창 내부 동시 업데이트)
+
+// 2. UI 업데이트 함수
+// 2. UI 업데이트 함수
 function updateUnreadUI() {
-    // 공통 클래스(.notread_img)를 사용하는 모든 요소를 찾음
-    // 1:1 문의(헤더)와 채팅창 내부 '안읽음' 배지가 모두 이 클래스를 가져야 합니다.
+    // 1) 페이지 내의 모든 배지(클래스 기반)와 헤더 특정 배지(ID 기반) 호출
     const badges = document.querySelectorAll('.notread_img');
-    
+    const headerBadge = document.getElementById('headerUnreadBadge');
+
+    // 2) 클래스로 찾은 모든 요소 업데이트 (채팅창 내부 등)
     badges.forEach(badge => {
         badge.innerText = unreadCount;
-        
-        // 숫자가 0보다 크면 보이고, 0이면 숨김
-        if (unreadCount > 0) {
-            badge.style.display = 'inline-block';
-            // 만약 텍스트가 1:1 문의(18) 처럼 붙어있어야 한다면 display 속성을 상황에 맞게 조절하세요.
-        } else {
-            badge.style.display = 'none';
-        }
+        badge.style.display = unreadCount > 0 ? 'inline-block' : 'none';
 
-        // ✅ 채팅창 내부의 '안읽음' 클릭 이벤트 (기존 로직 유지)
+        // [채팅창 내부 전용] '안읽음' 버튼 처리 로직
         const parentButton = badge.closest('.notread');
         if (parentButton) {
             parentButton.onclick = () => {
@@ -67,15 +62,18 @@ function updateUnreadUI() {
                         updateReadFlag();
                         unreadCount = 0;
                         updateUnreadUI();
-                    }, 150);
+                    }, 150); 
                 }
             };
         }
     });
 
-    // 만약 헤더의 숫자가 .notread_img가 아니라 다른 id라면 아래처럼 명시적으로 추가 가능
-    // const headerBadge = document.getElementById('headerUnreadCount');
-    // if(headerBadge) headerBadge.innerText = unreadCount;
+    // 3) 헤더 배지 업데이트 (ID 기반으로 한 번 더 확실하게 처리)
+    // 위 forEach에서 이미 처리되었을 수도 있지만, ID가 다를 경우를 대비한 안전장치입니다.
+    if (headerBadge) {
+        headerBadge.innerText = unreadCount;
+        headerBadge.style.display = unreadCount > 0 ? 'inline-block' : 'none';
+    }
 }
 
 // 창을 다시 볼 때 처리

@@ -39,7 +39,7 @@
                         
                         <a th:href="@{/chatting}" style="text-decoration: none; display: flex; align-items: center; gap: 8px;">
                             <div class="white font-18px">1:1 문의</div>
-                            <span class="notread_img" style="display: none;">0</span>
+                            <span class="notread_img" id="headerUnreadBadge" style="display: none;">0</span>
                         </a>
 
                         <a th:href="@{/member/logout}"><div class="white font-18px">로그아웃</div></a>
@@ -51,7 +51,7 @@
 
                         <a th:href="@{/chatting}" style="text-decoration: none; display: flex; align-items: center; gap: 8px;">
                             <div class="white font-18px">1:1 문의</div>
-                            <span class="notread_img" style="display: none;">0</span>
+                            <span class="notread_img" id="headerUnreadBadge" style="display: none;">0</span>
                         </a>
 
                         <a th:href="@{/admin/logout}"><div class="white font-18px">로그아웃</div></a>
