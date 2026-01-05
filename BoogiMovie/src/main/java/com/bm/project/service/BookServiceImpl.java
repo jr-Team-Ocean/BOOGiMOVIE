@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -30,10 +31,12 @@ import com.bm.project.entity.Member;
 import com.bm.project.entity.Product;
 import com.bm.project.entity.ProductTag;
 import com.bm.project.entity.ProductType;
+import com.bm.project.entity.Review;
 import com.bm.project.entity.TagCode;
 import com.bm.project.repository.BookRepository;
 import com.bm.project.repository.BookRepository2;
 import com.bm.project.repository.LikeRepository;
+import com.bm.project.repository.ReviewRepository;
 import com.bm.project.repository.TagRepository;
 import com.bm.project.enums.CommonEnums;
 
@@ -49,10 +52,16 @@ public class BookServiceImpl  implements BookService {
 	private final BookRepository2 bookRepository2;
 	private final TagRepository tagRepository;
 	private final LikeRepository likeRepository;
+	private final ReviewRepository reviewRepository;
 	
-	private final String FILE_PATH = "C:/bmImg/book/";
-	private final String WEB_PATH = "/images/book/";
+//	private final String FILE_PATH = "C:/bmImg/book/";
+//	private final String WEB_PATH = "/images/book/";
 	
+	@Value("${my.book.location}")
+	private String FILE_PATH;
+	
+	@Value("${my.book.webpath}")
+	private String WEB_PATH;
 	
 	// 도서 목록 조회
 	@Override
@@ -407,6 +416,15 @@ public class BookServiceImpl  implements BookService {
 	@Override
 	public int bookLikeCount(Long productNo) {
 		return likeRepository.countByProduct_ProductNo(productNo);
+	}
+
+
+
+
+
+	@Override
+	public List<Review> selectReviewList(Long productNo) {
+		return bookRepository.selectReviewList(productNo);
 	}
 	
 	

@@ -32,9 +32,9 @@
 
             <!-- 관리자용 수정 삭제 -->
             <div class="edit">
-                <a class="go-edit">수정</a>
+                <a class="go-edit" id="update-btn">수정</a>
                 <span>|</span>
-                <a class="go-delete">삭제</a>
+                <a class="go-delete" id="delete-btn">삭제</a>
             </div>
         </section>
 
@@ -56,7 +56,7 @@
                     <span>|</span>
                     <span th:text="${#strings.listJoin(movie.nation, ', ')}">미국</span>
                     <span>|</span>
-                    <span th:text="${movie.filmRating}">전체관람가</span>
+                    <span th:text="${movie.filmRatingLabel}">전체관람가</span>
                 </div>
 
                 <button class="movie-heart">

@@ -1,6 +1,7 @@
 package com.bm.project.service;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import com.bm.project.dto.BookDto;
 import com.bm.project.dto.BookDto.Create;
 import com.bm.project.dto.BookDto.Update;
+import com.bm.project.entity.Review;
 
 public interface BookService {
 
@@ -38,6 +40,9 @@ public interface BookService {
 
 	// 좋아요 개수 확인
 	int bookLikeCount(Long productNo);
+
+	// 기존 리뷰 목록 조회
+	List<Review> selectReviewList(Long productNo);
 	
 
 }

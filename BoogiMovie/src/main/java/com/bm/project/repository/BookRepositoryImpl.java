@@ -17,6 +17,7 @@ import com.bm.project.entity.Product;
 import com.bm.project.entity.ProductTag;
 import com.bm.project.entity.ProductTagConnect;
 import com.bm.project.entity.ProductType;
+import com.bm.project.entity.Review;
 import com.bm.project.entity.TagCode;
 
 import jakarta.persistence.EntityManager;
@@ -415,6 +416,24 @@ public class BookRepositoryImpl implements BookRepository{
 		
 		return 1;
 		
+	}
+
+
+
+	@Override
+	public List<Review> selectReviewList(Long productNo) {
+
+		String query = "select r "+
+		               "from Review r "+
+		               "join fetch r.member "+
+		               "where r.productNo = :productNo "+
+		               "order by r.reviewTime desc";
+		
+		
+		
+		return em.createQuery(query, Review.class)
+				 .setParameter("productNo", productNo)
+				 .getResultList();
 	}
 	
 	
