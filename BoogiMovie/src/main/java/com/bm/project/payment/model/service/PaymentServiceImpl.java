@@ -244,16 +244,20 @@ public class PaymentServiceImpl implements PaymentService {
 	            int ageGroup = (age / 10) * 10; // 20, 30, 40... (연령대)
 	            ageGroupStr = ageGroup + "대";
 	        }
+	        
+	        // 도서 / 영화 구분해서 통계 분석
+	        String productType = (product.getProductType().getTypeCode() == 1) ? "도서" : "영화";
 
 	        // 나중에 ELK에서 쉼표(,)로 쪼개기 쉽게
 	        // 이건 통계 전용 로그
-	        statLogger.info("[STAT_LOG],{},{}", 
+	        statLogger.info("[STAT_LOG],{},{},{}", 
+        		productType,
 	            ageGroupStr,
 	            product.getCategory().getCategoryName()
 	        );
 	        
 	        // 잘 찍히나 보기
-	        log.info("통계 로그 전송 : {}대 / {}", ageGroupStr, product.getCategory().getCategoryName());
+	        log.info("통계 로그 전송 : {}: {}대 / {}", productType, ageGroupStr, product.getCategory().getCategoryName());
 	        
 	    } catch (Exception e) {
 	        System.out.println("통계 로그 생성 중 오류: " + e.getMessage());
