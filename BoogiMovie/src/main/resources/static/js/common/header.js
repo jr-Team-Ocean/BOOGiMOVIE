@@ -41,9 +41,10 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        fetch(`search?query=${keyword}`)
+        fetch(`/search?query=${keyword}`)
             .then(response => response.json())
             .then(data => {
+                console.log(data);
                 renderSearchData(data);
 
                 searchDropdown.style.display = 'flex';
@@ -64,16 +65,18 @@ document.addEventListener("DOMContentLoaded", () => {
         /* 도서가 있는 경우 */
         if (data.books && data.books.length > 0) {
             const categoryHtml = makeCategoryHtml('도서', data.books);
+
+                        /* 요소 바로 안에서 마지막 자식 이후에 위치 */
             searchDropdown.insertAdjacentHTML('beforeend', categoryHtml);
             hasResult = true;
         }
 
-        // /* 중고 도서가 있는 경우 */
-        // if (data.usedBooks && data.usedBooks.length > 0) {
-        //     const categoryHtml = makeCategoryHtml('중고도서', data.usedBooks);
-        //     searchDropdown.insertAdjacentHTML('beforeend', categoryHtml);
-        //     hasResult = true;
-        // }
+        /* 중고 도서가 있는 경우 */
+        if (data.usedBooks && data.usedBooks.length > 0) {
+            const categoryHtml = makeCategoryHtml('중고도서', data.usedBooks);
+            searchDropdown.insertAdjacentHTML('beforeend', categoryHtml);
+            hasResult = true;
+        }
 
         /* 영화가 있는 경우 */
         if (data.movies && data.movies.length > 0) {
