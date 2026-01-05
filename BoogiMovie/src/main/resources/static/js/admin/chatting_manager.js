@@ -83,6 +83,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const attachButton = document.querySelector('.attach_button');
+    console.log('이미지 전송' ,attachButton)
+
     if (attachButton) attachButton.addEventListener('click', triggerFileInput);
 
     // 2. [수정됨] 검색창 로직 - 객체 키값 매핑 수정
@@ -368,11 +370,11 @@ function sendMessage() {
         messageContent: input.value.trim() 
     };
 
-    if (chattingSock?.readyState === 1) {
-        chattingSock.send(JSON.stringify(obj));
+    if (chattingSock?.readyState === 1) {        
+        chattingSock.send(JSON.stringify(obj));        
         input.value = '';
         input.focus();
-    }
+    }  
 }
 
 // ========== 읽음 처리 (방어 코드 추가) ==========
@@ -399,6 +401,7 @@ function handleFilterClick(e) {
 
 function triggerFileInput() {
     let fileInput = document.getElementById('chattingFile') || document.createElement('input');
+    console.log('이미지 가져오기')
     console.log('fileInput 상태:', fileInput.id ? '기존 존재' : '새로 생성');
     
     if (!fileInput.id) {
@@ -413,7 +416,8 @@ function triggerFileInput() {
         const file = e.target.files[0];
         console.log('선택된 파일:', file);
         
-        const reader = new FileReader();
+        const reader = new FileReader();        
+
         reader.onload = (ev) => {
             console.log('파일 읽기 완료, 크기:', ev.target.result.length);
             const obj = { 

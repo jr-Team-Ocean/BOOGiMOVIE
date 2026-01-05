@@ -34,7 +34,7 @@ public class ChattingController {
 	@Autowired
 	private ChattingService service;	
 
-	
+		
 	@GetMapping("/chatting")
 	public String chatting(@SessionAttribute("loginMember") LoginResult loginMember, 
 	                       Model model) {

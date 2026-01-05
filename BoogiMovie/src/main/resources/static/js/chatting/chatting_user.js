@@ -37,17 +37,24 @@ if (typeof SockJS !== 'undefined') {
 }
 
 // 2. UI 업데이트 함수 (기존과 동일하지만 다시 확인)
+// 2. UI 업데이트 함수 (헤더 메뉴와 채팅창 내부 동시 업데이트)
 function updateUnreadUI() {
-    // ✅ 모든 .notread_img 요소를 다 찾음 (헤더 + 채팅방 내부)
+    // 공통 클래스(.notread_img)를 사용하는 모든 요소를 찾음
+    // 1:1 문의(헤더)와 채팅창 내부 '안읽음' 배지가 모두 이 클래스를 가져야 합니다.
     const badges = document.querySelectorAll('.notread_img');
     
     badges.forEach(badge => {
         badge.innerText = unreadCount;
         
         // 숫자가 0보다 크면 보이고, 0이면 숨김
-        badge.style.setProperty('display', unreadCount > 0 ? 'inline-block' : 'none', 'important');
+        if (unreadCount > 0) {
+            badge.style.display = 'inline-block';
+            // 만약 텍스트가 1:1 문의(18) 처럼 붙어있어야 한다면 display 속성을 상황에 맞게 조절하세요.
+        } else {
+            badge.style.display = 'none';
+        }
 
-        // ✅ 만약 채팅방 내부의 '안읽음' 버튼 세트라면 클릭 이벤트 연결
+        // ✅ 채팅창 내부의 '안읽음' 클릭 이벤트 (기존 로직 유지)
         const parentButton = badge.closest('.notread');
         if (parentButton) {
             parentButton.onclick = () => {
@@ -65,6 +72,10 @@ function updateUnreadUI() {
             };
         }
     });
+
+    // 만약 헤더의 숫자가 .notread_img가 아니라 다른 id라면 아래처럼 명시적으로 추가 가능
+    // const headerBadge = document.getElementById('headerUnreadCount');
+    // if(headerBadge) headerBadge.innerText = unreadCount;
 }
 
 // 창을 다시 볼 때 처리
@@ -75,19 +86,23 @@ window.onfocus = function() {
     }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => { console.log('테스트0')
     enterAdminChat();
     setTimeout(() => { isInitialLoad = false; }, 1500);
 
     const sendBtn = document.getElementById('sendBtn');
-    if (sendBtn) sendBtn.addEventListener('click', sendMessage);
+    if (sendBtn) sendBtn.addEventListener('click', sendMessage);        
 
-    const chattingInput = document.getElementById('chattingInput');
+    const chattingInput = document.getElementById('chattingInput');        
+
     if (chattingInput) {
         chattingInput.addEventListener('keydown', (e) => {
+            
             if (e.key === 'Enter' && !e.isComposing && !e.shiftKey) {
                 e.preventDefault();
-                sendMessage();
+                console.log(e.key)
+                sendMessage();                    
+                
             }
         });
     }
@@ -184,20 +199,29 @@ function selectMessageList() {
                     }, 10000);
                 }
 
-                const sNo = msg.senderNo || msg.sender_no || msg.senderId; // 보낸 사람 번호
+                const sNo = msg.senderNo || msg.sender_no || msg.senderId;
                 const content = msg.message_content || msg.messageContent || "";
-                
-                // ✅ 서버 데이터 키값인 'sent_at'을 사용하도록 수정
+                const imgPath = msg.imgPath; // ⭐ 이미지 경로 변수 추가
                 const sentAt = msg.sent_at || ""; 
                 
                 const li = document.createElement('li');
                 const isMyMessage = Number(sNo) === Number(loginMemberNo);
                 li.classList.add(isMyMessage ? 'my-chat' : 'target-chat');
 
+                // ⭐ 이미지 여부에 따라 출력할 HTML 생성
+                let chatContent = "";
+                if(imgPath) {
+                    // 이미지 경로가 있으면 img 태그 생성 (텍스트 [이미지] 대신 실제 사진 출력)
+                    chatContent = `<img src="${imgPath}" class="chat-img" style="max-width: 250px; border-radius: 10px; cursor: pointer;" onclick="window.open(this.src)">`;
+                } else {
+                    // 이미지 경로가 없으면 기존처럼 텍스트 출력
+                    chatContent = `<p class="chat">${content}</p>`;
+                }
+
                 if (isMyMessage) {
                     li.innerHTML = `
                         <span class="chatDate">${sentAt}</span>
-                        <p class="chat">${content}</p>
+                        ${chatContent}
                     `;
                 } else {
                     li.innerHTML = `
@@ -205,7 +229,7 @@ function selectMessageList() {
                         <div>
                             <b>관리자</b>
                             <div style="display:flex; gap:8px; align-items:flex-end;">
-                                <p class="chat">${content}</p>
+                                ${chatContent}
                                 <span class="chatDate">${sentAt}</span>
                             </div>
                         </div>
@@ -224,7 +248,12 @@ function selectMessageList() {
 
 // ========== 메시지 전송 ==========
 function sendMessage() {
+    console.log('오비제이before')
+    console.log(selectChattingNo)
+    console.log(selectTargetNo)
+    
     const input = document.getElementById('chattingInput');
+    console.log(input.value)
     if (!input?.value.trim() || !selectChattingNo || !selectTargetNo) return;
     
     const obj = { 
@@ -234,11 +263,16 @@ function sendMessage() {
         messageContent: input.value.trim() 
     };
 
+    console.log('오비제이')
+    console.log(obj)
+
     if (chattingSock?.readyState === 1) {
         chattingSock.send(JSON.stringify(obj));
         input.value = '';
         input.focus();
     }
+
+
 }
 
 // ========== 읽음 처리 (방어 코드 추가) ==========
@@ -257,6 +291,7 @@ function updateReadFlag() {
 
 function triggerFileInput() {
     const fileInput = document.getElementById('imageInput');
+
     if (!fileInput) return;
     
     fileInput.onchange = (e) => {
