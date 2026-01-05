@@ -16,5 +16,5 @@ public interface MovieRepository extends JpaRepository<Movie, Long>, MovieReposi
 
 	// 영화 수정
 	Optional<Movie> findByProduct_ProductNo(Long productNo);
-	
+
 }
