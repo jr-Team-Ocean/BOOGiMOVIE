@@ -12,8 +12,13 @@ import org.springframework.stereotype.Service;
 
 import com.bm.project.dto.UbookDto;
 import com.bm.project.dto.UbookDto.Response;
+import com.bm.project.entity.Book;
+import com.bm.project.entity.Category;
 import com.bm.project.entity.Product;
+import com.bm.project.entity.Ubook;
 import com.bm.project.repository.UbookRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -59,11 +64,6 @@ public class UBookServiceImpl implements UbookService{
 		    ubookStatusMap.put(productNo, ubookStatus);
 		}
 
-
-//		List<UbookDto.Response> listUbookDto = page.getContent()
-//				.stream()
-//				.map(UbookDto.Response::toUListDto)
-//				.collect(Collectors.toList());
 		
 		List<UbookDto.Response> listUbookDto =
 		        page.getContent()
@@ -85,6 +85,33 @@ public class UBookServiceImpl implements UbookService{
 		return new PageImpl<>(listUbookDto, pageable, page.getTotalElements());
 	
 	
+	}
+
+
+	// 중고도서 상세 조회
+	@Override
+	public Response selectUbookDetail(Long productNo) {
+		
+		
+		// 상품번호로 도서 상세 정보 조회
+		Ubook ubook = ubookRepository.selectUbookDetailByProductNo(productNo)
+				.orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품입니다."));
+		
+		// 도서와 연결된 상품 정보 가져오기
+		Product product = ubook.getProduct();
+		
+		Category category = product.getCategory();
+		Category pcategory = category.getPCategoryId();
+		
+		// 저자 불러오기
+		List<String> writers = ubookRepository.selectWritersByProductNo(productNo);
+		
+		// 출판사 불러오기 
+		List<String> publishers = ubookRepository.selectPublishersByProductNo(productNo);
+		
+		return Response.toUbookDetailDto(product, ubook, category, pcategory, writers, publishers);
+
+		
 	}
 	
 

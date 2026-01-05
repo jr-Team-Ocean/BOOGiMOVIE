@@ -13,6 +13,9 @@ public interface UbookService {
 	
 	// 중고도서 목록 조회
 	Page<UbookDto.Response> selectbookList(Map<String, Object> paramMap, Pageable pageable);
+
+	// 중고도서 상세 조회
+	UbookDto.Response selectUbookDetail(Long productNo);
 	
 	
 	

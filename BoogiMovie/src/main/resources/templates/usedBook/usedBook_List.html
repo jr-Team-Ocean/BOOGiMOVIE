@@ -40,13 +40,13 @@
 
                     <div class="category_left">
 
-                        <div class="category_all">
+                        <button class="ucategoryBtn small" data-value="0" type="button">
                             전체
-                        </div>
+                        </button>
 
-                        <div class="category_all">
+                        <button class="ucategoryBtn small" data-value="99" type="button">
                             기타
-                        </div>
+                        </button>
 
                     </div>
                     
@@ -55,77 +55,77 @@
 
                     
 
-                        <a class="category_list">
+                        <button class="ucategoryBtn" data-value="1" type="button">
+                            운동/취미/살림
+
+                        </button>
+                        <button class="ucategoryBtn" data-value="2" type="button">
+                            교재/참고서/자격증
+
+                        </button>
+                        <button class="ucategoryBtn" data-value="3" type="button">
+                            유아/어린이
+
+                        </button>
+                        <button class="ucategoryBtn" data-value="4" type="button">
+                            여행
+
+                        </button>
+                        <button class="ucategoryBtn" data-value="5" type="button">
                             역사/문화/예술/종교
 
-                        </a>
-                        <div class="category_list">
-                            역사/문화/예술/종교
+                        </button>
+                        <button class="ucategoryBtn" data-value="6" type="button">
+                            과학
 
-                        </div>
-                        <div class="category_list">
-                            역사/문화/예술/종교
+                        </button>
+                        <button class="ucategoryBtn" data-value="7" type="button">
+                            외국어
 
-                        </div>
-                        <div class="category_list">
-                            역사/문화/예술/종교
+                        </button>
+                        <button class="ucategoryBtn" data-value="8" type="button">
+                            만화
 
-                        </div>
-                        <div class="category_list">
-                            역사/문화/예술/종교
+                        </button>
+                        <button class="ucategoryBtn" data-value="9" type="button">
+                            컴퓨터/모바일
 
-                        </div>
-                        <div class="category_list">
-                            역사/문화/예술/종교
+                        </button>
+                        <button class="ucategoryBtn" data-value="10" type="button">
+                            외국도서
 
-                        </div>
-                        <div class="category_list">
-                            역사/문화/예술/종교
+                        </button>
 
-                        </div>
-                        <div class="category_list">
-                            역사/문화/예술/종교
+                        <button class="ucategoryBtn" data-value="11" type="button">
+                            소설/희곡
 
-                        </div>
-                        <div class="category_list">
-                            역사/문화/예술/종교
-
-                        </div>
-                        <div class="category_list">
-                            역사/문화/예술/종교
-
-                        </div>
-                        <div class="category_list">
-                            역사/문화/예술/종교
-
-                        </div>
+                        </button>
+                        
                         
 
                         <div class="category_small">
-                            <div class="mini_category">
+                            <button class="ucategoryBtn mini" data-value="12" type="button">
                                 라이트노벨
-                            </div>
-                            <div class="mini_category">
-                                라이트노벨
-                            </div>
-                            <div class="mini_category">
-                                라이트노벨
-                            </div>
-                            <div class="mini_category">
-                                라이트노벨
-                            </div>
-                            <div class="mini_category">
-                                라이트노벨
-                            </div>
-                            <div class="mini_category">
-                                라이트노벨
-                            </div>
-                            <div class="mini_category">
-                                라이트노벨
-                            </div>
-                            <div class="mini_category">
-                                라이트노벨
-                            </div>
+                            </button>
+                            <button class="ucategoryBtn mini" data-value="13" type="button">
+                                판타지
+                            </button>
+                            <button class="ucategoryBtn mini" data-value="14" type="button">
+                                SF
+                            </button>
+                            <button class="ucategoryBtn mini" data-value="15" type="button">
+                                추리
+                            </button>
+                            <button class="ucategoryBtn mini" data-value="16" type="button">
+                                로맨스
+                            </button>
+                            <button class="ucategoryBtn mini" data-value="17" type="button">
+                                무협
+                            </button>
+                            <button class="ucategoryBtn mini" data-value="18" type="button">
+                                희곡
+                            </button>
+                            
                             
 
                         </div>
@@ -148,6 +148,8 @@
                 
                                 <option value="latest"
                                         th:selected="${paramMap['ubookSort'] == 'latest'}">최신순</option>
+                                <option value="productTitle"
+                                        th:selected="${paramMap['ubookSort'] == 'productTitle'}">가나다순</option>
                                 <option value="인기순">인기순</option>
                 
                             </select>
