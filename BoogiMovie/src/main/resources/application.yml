@@ -80,7 +80,10 @@ my:
   book:
     location: C:/bmImg/book/
     webpath: /images/book/
-
+  
+  movie:
+    location: C:/bmImg/movie/
+    webpath: /images/movie/
 
 
 

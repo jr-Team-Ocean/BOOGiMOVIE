@@ -24,4 +24,7 @@ public interface MovieRepositoryCustom{
 
 	TagCode getTagCodeRef(long tagCode);
 	
+	// 좋아요 insert
+	int insertLike(Long productNo, Long memberNo);
+	
 }

@@ -1,4 +1,4 @@
-package com.bm.project.service;
+package com.bm.project.service.movie;
 
 import java.io.IOException;
 import java.util.Map;
@@ -34,6 +34,16 @@ public interface MovieService {
 	// 영화 삭제
 	void deleteMovie(Long productNo);
 
+	// 좋아요 처리
+	int movieLike(Map<String, Long> likeMap);
+
+	// 좋아요 여부
+	int movieLikeCheck(Long productNo, Long memberNo);
+
+	// 좋아요 개수 확인
+	int movieLikeCount(Long productNo);
+
+	
 
 
 }

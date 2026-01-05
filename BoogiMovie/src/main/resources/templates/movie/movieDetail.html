@@ -31,7 +31,7 @@
             </div>
 
             <!-- 관리자용 수정 삭제 -->
-            <div class="edit">
+            <div class="edit" sec:authorize="hasRole('ADMIN')">
                 <a class="go-edit" id="update-btn">수정</a>
                 <span>|</span>
                 <a class="go-delete" id="delete-btn">삭제</a>
@@ -59,10 +59,9 @@
                     <span th:text="${movie.filmRatingLabel}">전체관람가</span>
                 </div>
 
-                <button class="movie-heart">
-                    <i class="fa-heart fa-solid"></i>
-                    <i class="fa-heart fa-regular"></i>
-                    1234
+                <button id="movieLikeBtn" type="button">
+                    <i class="fa-heart" th:classappend="${likeCheck} ? 'fa-solid' : 'fa-regular'" id="movieHeart"></i>
+                    <span id="likeCount" th:text="${likeCount}">0</span>
                 </button>
                 
                 <div class="movie-price">
@@ -476,6 +475,14 @@
 
     <!-- 푸터 -->
     <th:block th:replace="~{common/footer}">footer.html</th:block>
+
+    <script th:inline="javascript">
+        const loginMemberNo = /*[[${session.loginMember?.memberNo}]]*/ "로그인한 회원번호";
+
+        const memberNickName = /*[[${session.loginMember?.memberNickName}]]*/ "로그인한 회원 닉네임";
+
+        const productNo = /*[[${movie.productNo}]]*/ "상품 번호";
+    </script>
 
     <script th:src="@{/js/movie/movie-detail.js}"></script>
 </body>
