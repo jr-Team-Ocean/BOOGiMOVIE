@@ -1,6 +1,7 @@
 package com.bm.project.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
@@ -27,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.bm.project.dto.BookDto;
 import com.bm.project.dto.MemberDto;
 import com.bm.project.dto.MemberDto.LoginResult;
+import com.bm.project.entity.Review;
 import com.bm.project.dto.PageDto;
 import com.bm.project.service.BookService;
 
@@ -114,7 +116,9 @@ public class BookController {
 		
 		}
 		
-		
+		// 후기
+		List<Review> reviewList = bookService.selectReviewList(productNo);
+		model.addAttribute("reviewList", reviewList);
 		
 		model.addAttribute("book", book);
 		model.addAttribute("url", "books");
@@ -230,7 +234,6 @@ public class BookController {
 		
 		return bookService.bookLike(paramMap);
 	}
-	
 	
 	
 	
