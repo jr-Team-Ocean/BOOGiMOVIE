@@ -10,7 +10,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.bm.project.entity.Book;
+import com.bm.project.entity.Category;
+import com.bm.project.entity.Likes;
+import com.bm.project.entity.Member;
 import com.bm.project.entity.Product;
+import com.bm.project.entity.ProductTag;
+import com.bm.project.entity.ProductTagConnect;
+import com.bm.project.entity.ProductType;
+import com.bm.project.entity.TagCode;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -149,7 +156,7 @@ public class BookRepositoryImpl implements BookRepository{
 	}
 
 
-
+	// 도서 검색 조회
 	@Override
 	public Page<Product> searchBookList(Map<String, Object> paramMap, Pageable pageable) {
 		
@@ -346,6 +353,68 @@ public class BookRepositoryImpl implements BookRepository{
 		return em.createQuery(query, String.class)
 				 .setParameter("productNo", productNo)
 				 .getResultList();
+	}
+
+
+
+	@Override
+	public Category getReference(Class<Category> categoryEntityClass, Long categoryId) {
+		return em.getReference(categoryEntityClass, categoryId);
+	}
+
+	@Override
+	public ProductType getReference(Class<ProductType> pTypeEntityClass, long typeCode) {
+		return em.getReference(pTypeEntityClass, typeCode);
+	}
+
+	@Override
+	public TagCode getTagCodeRef(long code) {
+		return em.getReference(TagCode.class, code);
+	}
+
+	
+	@Override
+	public void saveProductTagConnect(Product product, ProductTag tag) {
+		
+		ProductTagConnect con = ProductTagConnect.builder()
+												 .product(product)
+												 .productTag(tag)
+												 .build();
+		em.persist(con);
+	}
+
+
+
+	// 태그 연결 끊기
+	@Override
+	public void deleteConnect(Long productNo) {
+		
+		String query = "delete from ProductTagConnect ptc " +
+					   "where ptc.product.productNo = :productNo";
+		
+		em.createQuery(query)
+		  .setParameter("productNo", productNo)
+		  .executeUpdate();
+	}
+
+
+
+	@Override
+	public int insertLike(Long productNo, Long memberNo) {
+		
+		Member memberRef = em.getReference(Member.class, memberNo);
+		Product productRef = em.getReference(Product.class, productNo);
+		
+		Likes likes = Likes.builder()
+						   .member(memberRef)
+						   .product(productRef)
+						   .build();
+		
+		em.persist(likes); // 단순 insert
+		em.flush(); // 즉시반영
+		
+		return 1;
+		
 	}
 	
 	

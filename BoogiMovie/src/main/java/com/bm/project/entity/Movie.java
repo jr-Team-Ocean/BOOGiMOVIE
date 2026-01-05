@@ -2,6 +2,7 @@ package com.bm.project.entity;
 
 import com.bm.project.enums.CommonEnums.MovieRating;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -27,11 +28,11 @@ import lombok.NoArgsConstructor;
 public class Movie {
 
 	@Id
-	@Column(name = "PRODCUT_NO")
-	private Long prodcutNo;
+	@Column(name = "PRODUCT_NO")
+	private Long productNo;
 	
-	@OneToOne(fetch = FetchType.LAZY)
 	@MapsId // FK 이면서 기본키(PK)로 사용
+	@OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "PRODUCT_NO")
 	private Product product;
 	

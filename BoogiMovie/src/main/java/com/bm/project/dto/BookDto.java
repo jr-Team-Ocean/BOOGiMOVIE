@@ -1,11 +1,15 @@
 package com.bm.project.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bm.project.entity.Book;
 import com.bm.project.entity.Category;
 import com.bm.project.entity.Product;
+
 
 import lombok.Builder;
 import lombok.Getter;
@@ -81,6 +85,7 @@ public class BookDto {
         				   .pCategoryName(pCategory != null ? pCategory.getCategoryName() : null)
         				   
         				   .isbn(book.getIsbn())
+        				   .bookCount(book.getBookCount())
         				   .writers(writers)
         				   .publishers(publishers)
         				   
@@ -91,4 +96,63 @@ public class BookDto {
         
 	}
 	
+	
+	// 등록용
+	@Builder
+	@Getter
+	@Setter
+	public static class Create {
+		private String isbn;
+		private String productTitle;
+		private MultipartFile bookImage;
+		private String  writers;
+		private String publishers;
+		private LocalDate productDate;
+		private Integer productPrice;
+		private Long categoryId;
+		private Integer bookCount;
+		private String productContent;
+		
+		
+		// 상품부분 담기
+		public Product toEntity() {
+			return Product.builder()
+						  .productTitle(this.productTitle) // this 없어도 되지만 헷갈리지 않게
+						  .productContent(this.productContent)
+						  .productDate(this.productDate.atStartOfDay())
+						  // atStartOfDay() : LocalDate → LocalDateTime 변환 표준 방식
+						  .productPrice(productPrice)
+						  .imgPath(null)
+						  .build();
+		}
+		
+		// 도서부분 담기
+		public Book toBookEntity(Product product) {
+			return Book.builder()
+					   .product(product)
+					   .isbn(isbn)
+					   .bookCount(bookCount)
+					   .build();
+			
+		}
+		
+	}
+	
+	@Builder
+	@Getter
+	@Setter
+	public static class Update {
+		private String isbn;
+	    private String productTitle;
+	    private MultipartFile bookImage;
+	    private String writers;
+	    private String publishers;
+	    private LocalDate productDate;
+	    private Integer productPrice;
+	    private Long categoryId;
+	    private Integer bookCount;
+	    private String productContent;
+	}
+	
+
 }

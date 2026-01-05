@@ -10,13 +10,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
-    
-    <!-- Tagify -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.17.8/dist/tagify.css">
-    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.17.8/dist/tagify.polyfills.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.17.8/dist/tagify.min.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
-    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" /> -->
 
 </head>
 <body>
@@ -46,59 +39,66 @@
                     </thead>
                     <tbody>
                         <tr class="table-content">
-                            <td><input type="text" class="movie-title" placeholder="영화 제목을 입력하세요."></td>
-                            <td><img th:src="@{/svg/ImageAdd.svg}" id="add-img"></td>
-                            <td><input name='creator' class='some_class_name' placeholder='감독을 입력해주세요.'></td>
-                            <td><input name='actor' class='some_class_name' placeholder='배우를 입력해주세요.'></td>
-                            <td><input type="number" class="input">분</td>
+                            <td><input type="text" name="movieTitle" class="movie-input-css" placeholder="영화 제목을 입력하세요."></td>
+                            <td>
+                                <label for="movieImg"><img th:src="@{/svg/ImageAdd.svg}" id="add-img"></label>
+                                <input type="file" id="movieImg" name="movieImg" accept="image/*" hidden>
+                            </td>
+                            <td><input name='directors' class='movie-input-css' placeholder='감독을 콤마(,)로 구분해서 입력'></td>
+                            <td><input name='actors' class='movie-input-css' placeholder='배우를 콤마(,)로 구분해서 입력'></td>
+                            <td><input type="number" name="movieTime" class="input">분</td>
                             <td class="td-radio">
-                                <input type="radio" name="filmClass"> 전체관람가
-                                <input type="radio" name="filmClass"> 12세이상 관람가
-                                <input type="radio" name="filmClass"> 15세이상 관람가
-                                <input type="radio" name="filmClass"> 청소년관람불가
+                                <input type="radio" name="filmRating" value="All"> 전체관람
+                                <input type="radio" name="filmRating" value="TWELVE"> 12세이상 관람
+                                <input type="radio" name="filmRating" value="FIFTEEN"> 15세이상 관람
+                                <input type="radio" name="filmRating" value="ADULT"> 청소년관람불가
                             </td>
-                            <td><input name='company' class='some_class_name' placeholder='제작사를 입력해주세요.'></td>
-                            <td><input type="date"  class="open-date"></td>
-                            <td><input type="number" class="input">원</td>
-                            <td><input name='nation' class='some_class_name' placeholder='국가를 입력해주세요.'></td>
+                            <td><input name='companies' class='movie-input-css' placeholder='제작사를 콤마(,)로 구분해서 입력'></td>
+                            <td><input type="date" name="productDate" class="open-date"></td>
+                            <td><input type="number" name="productPrice" class="input">원</td>
+                            <td><input name='nation' class='movie-input-css' placeholder='국가를 입력해주세요.'></td>
                             <td class="category-td">
-                                <select name="movieType" size="5">
-                                    <option th:value="국내영화">국내영화</option>
-                                    <option th:value="해외영화">해외영화</option>
+                                <select name="movieType" size="5" required>
+                                    <option value="100">국내영화</option>
+                                    <option value="200">해외영화</option>
                                 </select>
-                                <select name="genreType" size="5">
-                                    <option th:value="액션">액션</option>
-                                    <option th:value="모험">모험</option>
-                                    <option th:value="애니메이션">애니메이션</option>
-                                    <option th:value="코미디">코미디</option>
-                                    <option th:value="범죄">범죄</option>
-                                    <option th:value="다큐멘터리">다큐멘터리</option>
-                                    <option th:value="드라마">드라마</option>
-                                    <option th:value="가족">가족</option>
-                                    <option th:value="판타지">판타지</option>
-                                    <option th:value="역사">역사</option>
-                                    <option th:value="공포">공포</option>
-                                    <option th:value="음악">음악</option>
-                                    <option th:value="미스터리">미스터리</option>
-                                    <option th:value="로랜스">로랜스</option>
-                                    <option th:value="SF">SF</option>
-                                    <option th:value="TV영화">TV영화</option>
-                                    <option th:value="스릴러">스릴러</option>
-                                    <option th:value="전쟁">전쟁</option>
-                                    <option th:value="서부">서부</option>
+                                <select name="genreType" size="5" required>
+                                    <option value="1">액션</option>
+                                    <option value="2">모험</option>
+                                    <option value="3">애니메이션</option>
+                                    <option value="4">코미디</option>
+                                    <option value="5">범죄</option>
+                                    <option value="6">다큐멘터리</option>
+                                    <option value="7">드라마</option>
+                                    <option value="8">가족</option>
+                                    <option value="9">판타지</option>
+                                    <option value="10">역사</option>
+                                    <option value="11">공포</option>
+                                    <option value="12">음악</option>
+                                    <option value="13">미스터리</option>
+                                    <option value="14">로랜스</option>
+                                    <option value="15">SF</option>
+                                    <option value="16">TV영화</option>
+                                    <option value="17">스릴러</option>
+                                    <option value="18">전쟁</option>
+                                    <option value="19">서부</option>
                                 </select>
                             </td>
-                            <td class="movie-td"><textarea name="" id="movie-content" placeholder="내용을 입력하세요."></textarea></td>
+                            <td class="movie-td"><textarea name="movieContent" id="movie-content" placeholder="내용을 입력하세요."></textarea></td>
                         </tr>
                     </tbody>
                 </table>
+
+                <div class="button-group">
+                    <button type="submit">등록하기</button>
+                    <button type="reset">취소</button>
+                </div>
             </form>
-            <div class="button-group">
-                <button type="submit">등록하기</button>
-                <button type="reset">취소</button>
-            </div>
         </div>
     </div>
+
+    <!-- 푸터 -->
+    <th:block th:replace="~{common/footer}">footer.html</th:block>
 
     <script th:src="@{/js/movie/movie-write.js}"></script>
     

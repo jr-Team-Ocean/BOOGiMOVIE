@@ -22,9 +22,12 @@ public class CommonEnums {
 
 		MovieRating(String description) {
 			this.description = description;
-		}}
-	
-		public String getDescription() {
-			return getDescription();
 		}
+		
+		public String getDescripton() {
+			return description;
+		}
+	}
+	
+	
 }

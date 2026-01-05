@@ -115,8 +115,8 @@
         </div>
 
 
-        <div class="btn-area">
-            <button id="write-btn">글쓰기</button>
+        <div sec:authorize="hasRole('ADMIN')" class="btn-area">
+            <button sec:authorize="hasRole('ADMIN')" id="write-btn">글쓰기</button>
         </div>
     </div>
 

@@ -16,6 +16,7 @@ import com.bm.project.jwt.model.service.JwtService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 
@@ -72,6 +73,11 @@ public class JwtController {
 	public String adminLogout(HttpServletResponse response, HttpServletRequest request) {
 		// 현재 로그인한 관리자 정보 가져오기
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		HttpSession session = request.getSession(false);
+	    if (session != null) {
+	        session.invalidate(); // 세션도 꼬일 수 있으니 날리기
+	    }
 		
 		if(auth != null && auth.isAuthenticated()) {
 			adminService.deleteRefreshToken(auth.getName());

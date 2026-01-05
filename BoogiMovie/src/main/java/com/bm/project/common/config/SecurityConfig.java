@@ -3,26 +3,21 @@ package com.bm.project.common.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.bm.project.common.filter.JwtFilter;
-import com.bm.project.jwt.provider.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity // Spring Security 활성화 어노테이션
+@EnableMethodSecurity // 메소드 어노테이션 활성화
 @RequiredArgsConstructor
 public class SecurityConfig {
 	
@@ -83,10 +78,11 @@ public class SecurityConfig {
                         ).permitAll()
             		
             		// 로그인 해야만 접근할 수 있는 곳 (글쓰기 등 경로 더 작성하면 됨)
-            		.requestMatchers("/home/**"
+            		.requestMatchers("/myPage/**", "/cart"
             				).authenticated()
             		
             		.anyRequest().permitAll() // 위 경로 제외 다른 곳들은 자유롭게 접근 가능
+            		// .authenticated()로 변경 해야할 듯
         		)
             
             // 일반 로그인

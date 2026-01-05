@@ -119,3 +119,78 @@ function initStars() {
     }
     
 }
+
+
+
+// 글쓰기 버튼 동작
+document.getElementById("update-btn")?.addEventListener("click", () => {
+    location.href = `${location.pathname}/update`;
+});
+
+document.getElementById("delete-btn")?.addEventListener("click", () => {
+    if (!confirm("정말 삭제하시겠습니까?")) return;
+
+    const form = document.createElement("form");
+    form.method = "post";
+    form.action = `${location.pathname}/delete`;
+
+    document.body.appendChild(form);
+    form.submit();
+});
+
+
+
+
+
+
+const bookLike = document.getElementById("bookLike");
+
+bookLike.addEventListener("click", e => {
+
+    // 로그인 여부
+    if (loginMemberNo == "") {
+        alert("로그인 후 이용해주세요.");
+        return;
+    }
+
+
+    let check; // 0= 안함, 1 = 함
+
+    // 좋아요 여부
+    if (e.target.classList.contains("fa-regular")) {
+        check = 0;
+    } else {
+        check = 1;
+    }
+
+    // 서버로 보낼 데이터
+    const data = {
+        memberNo  : loginMemberNo,
+        productNo : productNo,
+        check     : check
+    };
+
+    // 비동기
+    fetch("/books/like", {
+        method  : "POST",
+        headers : { "Content-Type" : "application/json" },
+        body    : JSON.stringify(data)
+    })
+    .then(resp => resp.text())
+    .then(count => {
+
+        // 실패
+        if (count == -1) {
+            alert("좋아요 처리 중 문제가 발생했습니다.");
+            return;
+        }
+
+        // 토글
+        e.target.classList.toggle("fa-regular");
+        e.target.classList.toggle("fa-solid");
+
+        // 좋아요 수
+        document.getElementById("likeCount").innerText = count;
+    })
+    .catch(err => console.log(err));
+});

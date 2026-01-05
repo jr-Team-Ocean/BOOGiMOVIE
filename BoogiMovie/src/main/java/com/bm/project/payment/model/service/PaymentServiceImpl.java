@@ -3,6 +3,8 @@ package com.bm.project.payment.model.service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -15,8 +17,11 @@ import com.bm.project.payment.entity.Orders;
 import com.bm.project.payment.entity.OrdersDetail;
 import com.bm.project.payment.entity.Payment;
 import com.bm.project.payment.model.dto.PayValidationDto;
+import com.bm.project.payment.model.dto.PayValidationDto.OrderItemDto;
 import com.bm.project.payment.model.dto.PayValidationDto.PayResponse;
 import com.bm.project.payment.model.dto.PayValidationDto.PaySuccessDto;
+import com.bm.project.payment.model.dto.PayValidationDto.PaymentItemDto;
+import com.bm.project.payment.repository.CartRepository;
 import com.bm.project.payment.repository.DeliveryRepository;
 import com.bm.project.payment.repository.OrdersDetailRepository;
 import com.bm.project.payment.repository.OrdersRepository;
@@ -36,6 +41,7 @@ public class PaymentServiceImpl implements PaymentService {
 	private final OrdersDetailRepository ordersDetailRepo;
 	private final PaymentRepository paymentRepo;
 	private final DeliveryRepository deliveryRepo;
+	private final CartRepository cartRepo;
 	
 
 
@@ -159,13 +165,61 @@ public class PaymentServiceImpl implements PaymentService {
 		Payment payment = successDto.toPaymentEntity(orders);
 		
 		
-		Delivery delivery = successDto.toDeliveryEntity(orders);
-		deliveryRepo.save(delivery);
+		// 배송 정보가 들어온 경우에만 DB에 저장 (빈 값이 아닐 때)
+		if(successDto.getDetailAddress() != null && !successDto.getDetailAddress().isEmpty()) {
+			Delivery delivery = successDto.toDeliveryEntity(orders);
+			deliveryRepo.save(delivery);
+		} else {
+			System.out.println("배송 정보 없음! 건너뜀");
+		}
 		
 		orders.setPayStatus("PAID");
 		orders.setPayment(paymentRepo.save(payment));
 		
-		ordersRepo.save(orders);
+		Orders savedOrder = ordersRepo.save(orders); // 저장된 Orders
+		
+		Member member = savedOrder.getMember(); // 주문자
+		
+		for(OrdersDetail detail : savedOrder.getDetails()) {
+			Product product = detail.getProduct();
+			try {
+				cartRepo.deleteByMemberAndProduct(member, product);
+			} catch (Exception e) {
+				// 장바구니에 없는 상품일 수도 있으므로
+				System.out.println("장바구니 삭제 중 예외 발생 (또는 해당 상품 없음): " + product.getProductNo());
+			}
+		}
+	}
+
+
+
+	// 구매하려는 상품의 상품명 / 가격 / 썸네일 가져오기
+	@Override
+	public List<PaymentItemDto> getPaymentItems(List<OrderItemDto> orderItemList) {
+		// 세션에서 꺼낸 주문 목록(상품 번호, 수량)
+		
+		List<PaymentItemDto> paymentList = new ArrayList<>();
+		
+		for(PayValidationDto.OrderItemDto req : orderItemList) {
+			Product product = productRepo.findById(req.getProductNo())
+					.orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
+			
+			PaymentItemDto dto = PaymentItemDto.paymentItemToDto(product, req.getQuantity());
+			
+			// 리스트에 추가
+			paymentList.add(dto);
+		}
+		return paymentList;
+	}
+
+
+
+	// 결제 조회
+	@Override
+	public Orders payComplete(String orderNo) {
+		Orders orders = ordersRepo.findById(orderNo)
+	            .orElseThrow(() -> new IllegalArgumentException("주문 정보가 없습니다."));
+		return orders;
 	}
 
 }

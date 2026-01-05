@@ -59,10 +59,10 @@
             </span>
 
             <!-- 관리자용 수정 삭제 -->
-            <div class="book-edit">
-                <span class="go-edit">수정</span>
+            <div class="book-edit" sec:authorize="hasRole('ADMIN')">
+                <span class="go-update" id="update-btn">수정</span>
                 <span>|</span>
-                <span class="go-delete">삭제</span>
+                <span class="go-delete"  id="delete-btn">삭제</span>
             </div>
         </section>
 
@@ -87,10 +87,15 @@
 
                 <div class="book-rating">
                     <span>평점 <b class="rate-value">4.4</b></span>
-                    <button>
-                        <i class="fa-heart fa-solid"></i>
-                        <i class="fa-heart fa-regular"></i>
-                        1234
+
+
+                    <button id="bookLikeBtn" >
+                        <!-- <i class="fa-heart fa-solid"></i> -->
+                        <!-- <i class="fa-heart fa-regular"></i> -->
+                        <i class="fa-heart" 
+                           th:classappend="${likeCheck} ? 'fa-solid' : 'fa-regular'" 
+                           id="bookLike"></i>
+                        <span id="likeCount" th:text="${likeCount}">0</span>
                     </button>
                 </div>
 
@@ -156,13 +161,37 @@
 
     </main>
 
+
     <!-- 푸터 -->
     <th:block th:replace="~{common/footer}"></th:block>
 
     <!-- 우측하단 -->
     <th:block th:replace="~{common/bot-nav-btn}"></th:block>
 
+
+    <script th:inline="javascript">
+
+        let loginMemberNo = /*[[${session.loginMember?.memberNo}]]*/ null;
+        
+        // ==> 만약 로그인한 회원의 번호가 없다면 빈칸을 집어넣겠다
+        if (loginMemberNo == null) loginMemberNo = "";
+        
+        const memberNickname = /*[[${session.loginMember?.memberNickName}]]*/ "로그인한 회원 닉네임";
+
+        const productNo = /*[[${book.productNo}]]*/ '게시글 번호';
+
+    </script>
+
+
+
+
+
+
+
+
     <script th:src="@{/js/book/bookDetail.js}"></script>
+
+
 </body>
 </html> 
 
