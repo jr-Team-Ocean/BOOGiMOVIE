@@ -72,4 +72,17 @@ public class MyPageServiceImpl implements MyPageService {
         return productPage.map(MemberDto.FavoriteResponse::toDto);
     }
 
+	// 좋아요 삭제
+	@Override
+	@Transactional // <- 이 어노테이션이 없으면 삭제 시 에러가 발생합니다!
+	public boolean removeFavorite(int productNo, Long memberNo) {
+	    try {
+	        repository.deleteFavorite(productNo, memberNo);
+	        return true;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+
 }
