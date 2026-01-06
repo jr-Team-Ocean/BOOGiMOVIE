@@ -32,33 +32,40 @@
 	<select id="selectRoomList" resultMap="chattingRoom_rm">
 	    SELECT
 	        R.CHATTING_ROOM_ID,
+	        -- 1) 가장 최근 메세지 
 	        (SELECT MESSAGE_CONTENT FROM (
 	            SELECT M.MESSAGE_CONTENT FROM CHATTING_MESSAGE M
 	            WHERE M.CHATTING_ROOM_ID = R.CHATTING_ROOM_ID
 	            ORDER BY M.MESSAGE_ID DESC)
 	            WHERE ROWNUM = 1
 	        ) AS LAST_MESSAGE,
+	        
+	        -- 2) 가장 최근에 채팅 보낸 시간 
 	        (SELECT TO_CHAR(MAX(SENT_AT), 'YYYY.MM.DD')
 	         FROM CHATTING_MESSAGE M
 	         WHERE M.CHATTING_ROOM_ID = R.CHATTING_ROOM_ID) AS SEND_TIME,
-	
+			
+			-- 3) 타겟 회원 번호 
 	        CASE
 	            WHEN ADMIN_MEMBER_NO = #{loginMemberNo} THEN USER_MEMBER_NO
 	            ELSE ADMIN_MEMBER_NO
-	        END AS TARGET_NO,
-	
+	        END AS TARGET_NO,	
+
 	        (SELECT MEMBER_NAME FROM MEMBER
 	         WHERE MEMBER_NO = (CASE WHEN ADMIN_MEMBER_NO = #{loginMemberNo} THEN USER_MEMBER_NO ELSE ADMIN_MEMBER_NO END)
-	        ) AS TARGET_NAME,
-	
+	        ) AS TARGET_NAME,	       
+	        
+			-- 4) 타겟 회원 닉네임  
 	        (SELECT MEMBER_NICKNAME FROM MEMBER
 	         WHERE MEMBER_NO = (CASE WHEN ADMIN_MEMBER_NO = #{loginMemberNo} THEN USER_MEMBER_NO ELSE ADMIN_MEMBER_NO END)
 	        ) AS TARGET_NICKNAME,
-	
+
+			-- 5) 타겟 회원 프로필 이미지	
 	        (SELECT PROFILE_PATH FROM MEMBER
 	         WHERE MEMBER_NO = (CASE WHEN ADMIN_MEMBER_NO = #{loginMemberNo} THEN USER_MEMBER_NO ELSE ADMIN_MEMBER_NO END)
 	        ) AS TARGET_PROFILE,
-	
+			
+			-- 6) 읽지 않은 받은 메세지 수
 	        (SELECT COUNT(*) FROM CHATTING_MESSAGE M
 	         WHERE READ_YN = 'N'
 	         AND M.CHATTING_ROOM_ID = R.CHATTING_ROOM_ID
