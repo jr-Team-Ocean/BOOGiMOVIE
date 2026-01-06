@@ -27,7 +27,7 @@ public class ElasticsearchService {
 	private final ProductSearchRepository searchRepo;  // 엘라스틱
 	
 	// 검색어 전용 로그
-	private final Logger statLogger = LoggerFactory.getLogger("SEARCH_LOGGER");
+	private final Logger searchLogger = LoggerFactory.getLogger("SEARCH_LOGGER");
 	
 	@Transactional(readOnly = true)
 	public void syncAllData() {
@@ -89,7 +89,7 @@ public class ElasticsearchService {
 
 	// 로그 분석
 	public void getSearchLogData(String query) {
-		statLogger.info(query); // 검색어 로그에 추가
+		searchLogger.info(query); // 검색어 로그에 추가
 		
 		log.info("검색어 로그 전송 : {}", query);
 		

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <property name="LOG_PATH" value="C:/logs"/>
-    <property name="LOG_FILE_NAME" value="stat_log"/>
+    
+    <property name="STAT_LOG_NAME" value="stat_log"/>
+    <property name="SEARCH_LOG_NAME" value="search_log"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -9,34 +11,42 @@
         </encoder>
     </appender>
 
-    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_PATH}/${LOG_FILE_NAME}.log</file>
+    <appender name="STAT_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/${STAT_LOG_NAME}.log</file>
         
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} %msg%n</pattern>
         </encoder>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <!-- 각 파일 최대 크기: 100MB를 넘으면 인덱스(i)를 올려 새 파일로 분할 -->
+            <fileNamePattern>${LOG_PATH}/${STAT_LOG_NAME}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>100MB</maxFileSize>
-
-            <!-- 보관 일수(또는 날짜 단위 히스토리): 30일치 유지 -->
             <maxHistory>30</maxHistory>
-
-            <!-- 보관 파일들의 총 용량 상한: 2GB 넘으면 가장 오래된 것부터 삭제 -->
             <totalSizeCap>2GB</totalSizeCap>
         </rollingPolicy>
     </appender>
 
-	<!-- 결제 로그 -->
-    <logger name="STAT_LOGGER" level="INFO" additivity="true">
-        <appender-ref ref="FILE"/>
+    <appender name="SEARCH_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/${SEARCH_LOG_NAME}.log</file>
+        
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/${SEARCH_LOG_NAME}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>2GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="STAT_LOGGER" level="INFO" additivity="false">
+        <appender-ref ref="STAT_FILE"/>
     </logger>
     
-    <!-- 검색어 로그 -->
-    <logger name="SEARCH_LOGGER" level="INFO" additivity="true">
-        <appender-ref ref="FILE"/>
+    <logger name="SEARCH_LOGGER" level="INFO" additivity="false">
+        <appender-ref ref="SEARCH_FILE"/>
     </logger>
 
     <root level="INFO">
