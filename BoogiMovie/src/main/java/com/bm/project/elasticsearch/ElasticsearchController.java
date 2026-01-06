@@ -8,11 +8,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bm.project.payment.model.service.PaymentServiceImpl;
+
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class ElasticsearchController {
 	
 	private final ElasticsearchService service;
@@ -28,10 +32,21 @@ public class ElasticsearchController {
 	// 통합검색
 	@GetMapping("/search")
 	@ResponseBody
-	public HeaderSearchDto headerSearch(@RequestParam("query") String query) {
+	public HeaderSearchDto headerSearch(@RequestParam("query") String query, 
+										@RequestParam("isEnter") String isEnter) {
+		
+		System.out.println("요청 확인!!!");
+		System.out.println(query);
+		System.out.println(isEnter);
+		
 		if (query == null || query.isBlank()) {
             return new HeaderSearchDto();
         }
+		
+		// 로그 분석 여부
+		if(isEnter.equals("yes")) {
+			service.getSearchLogData(query);
+		}
 		
 		List<ProductDocument> docs = service.headerSearch(query);
 		

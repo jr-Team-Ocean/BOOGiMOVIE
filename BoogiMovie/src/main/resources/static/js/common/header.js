@@ -89,36 +89,47 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.querySelector('.search_input input'); // 검색바
     const searchDropdown = document.querySelector('.search_dropdown'); // 결과 박스
 
+    /* 사용자가 검색어 치고 엔터를 보냈을 경우 로그 찍기 (엔터 상태값) */
+    searchInput.addEventListener('keydown', e => {
+        if(e.key === 'Enter') {
+            // console.log("엔터 감지");
+            const keyword = e.target.value.trim();
+            const isEnter = 'yes';
+
+            headerSearch(keyword, isEnter);
+        }
+    })
+
+    /* 검색어만 입력하는 경우 */
     searchInput.addEventListener('input', e => {
         const keyword = e.target.value.trim();
 
-        
         /* 검색어 없으면 결과 박스 숨김 */
         if (keyword.length === 0) {
             searchDropdown.style.display = 'none';
             return;
         }
 
-        
-        /* 사용자가 엔터를 보냈을 경우 로그 찍기 (엔터 상태값) */
-        // if(e.keyword == 'Enter') {
-        //     console.log("엔터 입력");
-        // }
+        const isEnter = 'no'; // 로그 분석 X
+        headerSearch(keyword, isEnter);
 
-        const isEnter = '&isEnter=yes';
-
-        fetch(`/search?query=${keyword}&isEnter=${isEnter}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                renderSearchData(data);
-
-                searchDropdown.style.display = 'flex';
-            })
-            .catch(error => {
-                console.error('검색 실패', error);
-            });
     });
+
+    function headerSearch(keyword, isEnter) {
+        fetch(`/search?query=${keyword}&isEnter=${isEnter}`)
+        .then(response => response.json())
+        .then(data => {
+
+            console.log(data);
+            renderSearchData(data);
+
+            searchDropdown.style.display = 'flex';
+        })
+        .catch(error => {
+            console.error('검색 실패', error);
+        });
+    }
+
 
     
     /* ============================================================================ */
@@ -204,4 +215,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-    
+// 예솔님
+/* ======================================================================================== */
+
+// 남구님
+/* ============================================================================ */
+    /* 안읽은 알림 카운트 동기화 (홈 이동 시 초기화 방지) */
+/* ============================================================================ */
+
+    function updateHeaderUnreadCount() {
+    console.log('=== updateHeaderUnreadCount 시작 ===');
+    console.log('현재 경로:', window.location.pathname);
+}

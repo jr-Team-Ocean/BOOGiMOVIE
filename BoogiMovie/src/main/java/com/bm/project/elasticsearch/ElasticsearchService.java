@@ -3,6 +3,8 @@ package com.bm.project.elasticsearch;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,13 +16,18 @@ import com.bm.project.entity.ProductTagConnect;
 import com.bm.project.payment.repository.ProductRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 //오라클에 있는 데이터 -> 엘라스틱 인덱스로 그대로 복사
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ElasticsearchService {
 	private final ProductRepository productRepo;	   // 오라클 DB
 	private final ProductSearchRepository searchRepo;  // 엘라스틱
+	
+	// 검색어 전용 로그
+	private final Logger searchLogger = LoggerFactory.getLogger("SEARCH_LOGGER");
 	
 	@Transactional(readOnly = true)
 	public void syncAllData() {
@@ -78,6 +85,14 @@ public class ElasticsearchService {
 	public List<ProductDocument> headerSearch(String query) {
 		Pageable pageable = PageRequest.of(0, 3);
 		return searchRepo.searchByKeyword(query, pageable);
+	}
+
+	// 로그 분석
+	public void getSearchLogData(String query) {
+		searchLogger.info(query); // 검색어 로그에 추가
+		
+		log.info("검색어 로그 전송 : {}", query);
+		
 	}
 	
 }
