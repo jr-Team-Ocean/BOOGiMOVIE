@@ -25,7 +25,10 @@ import com.solapi.shadow.retrofit2.http.POST;
 import com.solapi.shadow.retrofit2.http.PUT;
 
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
+
+@ToString
 @Controller
 @RequestMapping("/ubooks")
 @RequiredArgsConstructor
@@ -130,10 +133,13 @@ public class UbookController {
 			
 			) {
 		
+		System.out.println(createUbook);
+		
 		Long productNo = ubookService.insertUbook(createUbook);
 		
+		
 				
-		return "usedBook/usedBook_Detail";
+		return null;
 		
 	}
 	
