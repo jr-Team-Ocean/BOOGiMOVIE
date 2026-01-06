@@ -28,12 +28,14 @@ import com.bm.project.entity.Movie;
 import com.bm.project.entity.Product;
 import com.bm.project.entity.ProductTag;
 import com.bm.project.entity.ProductType;
+import com.bm.project.entity.Review;
 import com.bm.project.entity.TagCode;
 import com.bm.project.enums.CommonEnums;
 import com.bm.project.repository.CategoryRepository;
 import com.bm.project.repository.LikeRepository;
 import com.bm.project.repository.MovieRepository;
 import com.bm.project.repository.ProductTypeRepository;
+import com.bm.project.repository.ReviewRepository;
 import com.bm.project.repository.TagRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -41,7 +43,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class MovieServiceImpl implements MovieService{
 	
 	private final MovieRepository movieRepository;
@@ -49,6 +51,7 @@ public class MovieServiceImpl implements MovieService{
 	private final ProductTypeRepository productTypeRepository;
 	private final TagRepository tagRepository;
 	private final LikeRepository likeRepository;
+	private final ReviewRepository reviewRepository;
 	
 	// private final String FILE_PATH = "C:\\bmImg\\movie\\";
 	// private final String WEB_PATH = "/images/movie/";
@@ -264,7 +267,7 @@ public class MovieServiceImpl implements MovieService{
 	}
 
 	// 영화 삭제
-	@Transactional
+	@Transactional(readOnly = false)
 	@Override
 	public void deleteMovie(Long productNo) {
 		Movie movie = movieRepository.findById(productNo)
@@ -273,6 +276,8 @@ public class MovieServiceImpl implements MovieService{
 		Product product = movie.getProduct();
 		product.setProductDelFl(CommonEnums.ProductDelFl.Y);
 	}
+	
+	// ======================================================================================================
 
 	// 좋아요 처리
 	@Override
@@ -315,6 +320,44 @@ public class MovieServiceImpl implements MovieService{
 	@Override
 	public int movieLikeCount(Long productNo) {
 		return likeRepository.countByProduct_ProductNo(productNo);
+	}
+	
+	// ======================================================================================================
+
+	// 후기 등록
+	@Transactional(readOnly = false)
+	@Override
+	public int movieReviewWrite(Long productNo, Long memberNo, Integer reviewScore, String reviewContent) {
+		return movieRepository.insertReview(productNo, memberNo, reviewScore, reviewContent);
+	}
+
+	// 후기 목록
+	@Override
+	public List<Review> selectReviewList(Long productNo) {
+		return movieRepository.selectReviewList(productNo);
+	}
+
+	// 후기 수정
+	@Transactional(readOnly = false)
+	@Override
+	public int updateReview(Long reviewNo, Long memberNo, String reviewContent) {
+		
+		Review review = reviewRepository.findByReviewNoAndMemberNo(reviewNo, memberNo)
+											.orElseThrow(()-> new EntityNotFoundException("해당 리뷰가 없습니다."));
+		
+		if(review == null) return 0;
+		
+		review.setReviewContent(reviewContent);
+		
+		return 1;
+	}
+
+	// 후기 삭제
+	@Transactional(readOnly = false)
+	@Override
+	public int deleteReview(Long reviewNo, Long memberNo) {
+		reviewRepository.deleteByReviewNoAndMemberNo(reviewNo, memberNo);
+		return 1;
 	}
 	
 }
