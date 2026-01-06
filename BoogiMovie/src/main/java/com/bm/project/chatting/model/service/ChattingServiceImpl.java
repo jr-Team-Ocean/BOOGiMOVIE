@@ -97,7 +97,10 @@ public class ChattingServiceImpl implements ChattingService {
     	
     	// 페이지 포함 목록 조회(매퍼에 메서드 추가 필요) 
     	List<ChattingRoom> roomList = mapper.selectRoomListPaging(map);
-    	
+    	System.out.println("cp:" + cp);
+    	System.out.println("totalCount:" + totalCount);
+    	System.out.println("limit:" + limit);
+    	 System.out.println("페이지" + roomList);
     	return new PageDto<>(roomList, cp, totalCount, limit);
     }
 

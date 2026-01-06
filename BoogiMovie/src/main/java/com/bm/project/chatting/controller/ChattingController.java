@@ -54,6 +54,7 @@ public class ChattingController {
 	        // 관리자: 전체 채팅방 목록 조회
 	        PageDto<ChattingRoom> roomList = service.selectRoomList(loginMember.getMemberNo(), 1);
 	        model.addAttribute("roomList", roomList);
+	        System.out.println("페이지" + roomList);
 	        
 	        return "admin/chatting_manager"; 
 	    }
