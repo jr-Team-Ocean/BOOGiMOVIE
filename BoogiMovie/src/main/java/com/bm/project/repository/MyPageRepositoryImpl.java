@@ -21,17 +21,15 @@ public class MyPageRepositoryImpl implements MyPageRepository {
     @Override
     public Page<Product> findByMemberNo(Long memberNo, String order, Pageable pageable) {
         
-        // 1. 정렬 조건 설정 (Likes 엔티티를 거쳐 Product 필드에 접근)
+        // 1. 정렬 조건 설정
         String sortQuery = switch (order) {
             case "price" -> "ORDER BY l.product.productPrice ASC";
             case "name"  -> "ORDER BY l.product.productTitle ASC";
-            default      -> "ORDER BY l.product.productNo DESC"; // 기본 최신순
+            default      -> "ORDER BY l.product.productNo DESC";
         };
 
-        // 2. 데이터 조회 쿼리 (Likes 테이블에서 해당 회원의 상품만 추출)
-        // l.member.memberNo는 Likes 엔티티 안의 member 필드의 memberNo를 의미합니다.
-        String jpql = "SELECT l.product FROM Likes l " +
-                     "WHERE l.member.memberNo = :memberNo " + sortQuery;
+        // 2. 기본 데이터 조회 쿼리
+        String jpql = "SELECT l.product FROM Likes l WHERE l.member.memberNo = :memberNo " + sortQuery;
         
         TypedQuery<Product> query = em.createQuery(jpql, Product.class)
                 .setParameter("memberNo", memberNo)
@@ -40,7 +38,33 @@ public class MyPageRepositoryImpl implements MyPageRepository {
 
         List<Product> content = query.getResultList();
 
-        // 3. 전체 개수 조회 쿼리
+        // 3. 각 Product 객체에 '작가' 정보 채워넣기 (ERD 기반 1번 코드 사용)
+     // MyPageRepositoryImpl.java 의 반복문 내부 수정
+        for (Product p : content) {
+            // Native Query 사용 (엔티티 필드명이 아닌 실제 DB 테이블/컬럼명 기준)
+            String nativeSql = "SELECT T.TAG_NAME " +
+                               "FROM PRODUCT_TAG_CONNECT PTC " +
+                               "JOIN PRODUCT_TAG T ON PTC.TAG_NO = T.TAG_NO " +
+                               "WHERE PTC.PRODUCT_NO = :pNo " +
+                               "AND T.TAG_CODE = 1";
+
+            try {
+                List<String> results = em.createNativeQuery(nativeSql, String.class)
+                                         .setParameter("pNo", p.getProductNo())
+                                         .setMaxResults(1)
+                                         .getResultList();
+
+                if (!results.isEmpty()) {
+                    p.setAuthorName(results.get(0));
+                } else {
+                    p.setAuthorName("저자 미상");
+                }
+            } catch (Exception e) {
+                p.setAuthorName("저자 미상");
+            }
+        }
+
+        // 4. 전체 개수 조회
         String countJpql = "SELECT COUNT(l) FROM Likes l WHERE l.member.memberNo = :memberNo";
         Long total = em.createQuery(countJpql, Long.class)
                 .setParameter("memberNo", memberNo)

@@ -50,7 +50,7 @@ main{
     color: #009E4F;
 }
 
-.movie-heart{
+#movieLikeBtn{
     width: 130px;
     height: 50px;
     border-radius: 20px;

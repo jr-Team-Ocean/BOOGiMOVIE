@@ -41,6 +41,6 @@ public interface ChattingMapper {
 	int deleteChattingRoom(int chattingNo, int memberNo);
 	
 	// 전체 안읽음 개수 조회
-	int getTotalUnreadCount(int memberNo);
+	int getTotalUnreadCount(Long memberNo);
 	
 }

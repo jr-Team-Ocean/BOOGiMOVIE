@@ -90,6 +90,10 @@ public class MyPageController {
 	        @RequestParam(value = "order", defaultValue = "recent") String order,
 	        @SessionAttribute(value = "loginMember", required = false) LoginResult loginMember) {
 
+		System.out.println("--- 비동기 정렬 요청 수신 ---");
+	    System.out.println("회원번호: " + loginMember.getMemberNo());
+	    System.out.println("정렬기준: " + order);
+	    
 	    Map<String, Object> response = new HashMap<>();
 
 	    if (loginMember == null) {
@@ -100,6 +104,7 @@ public class MyPageController {
 	    
 	    // 서비스 호출 (Favorite 대신 MemberDto.FavoriteResponse 사용)
 	    Page<MemberDto.FavoriteResponse> resultPage = service.getFavoriteList(loginMember.getMemberNo(), order, pageable);
+	    System.out.println("조회된 데이터 개수: " + resultPage.getTotalElements());
 	    
 	    // 친구의 PageDto 활용
 	    PageDto<MemberDto.FavoriteResponse> pageDto = new PageDto<>(resultPage);

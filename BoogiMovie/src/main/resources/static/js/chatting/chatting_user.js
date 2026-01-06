@@ -17,15 +17,26 @@ if (typeof SockJS !== 'undefined') {
     try {
         const msg = JSON.parse(e.data);
         const receivedNo = msg.chattingNo || msg.chatting_no || msg.chattingRoomId;
-        
+        const senderNo = msg.senderNo || msg.sender_no || msg.senderId; // 발신자 확인
+
+        // 1. 내가 보낸 메시지인 경우 카운트 증가 없이 목록만 갱신하고 종료
+        if (Number(senderNo) === Number(loginMemberNo)) {
+            if (selectChattingNo && Number(selectChattingNo) === Number(receivedNo)) {
+                selectMessageList();
+            }
+            return; 
+        }
+
+        // 2. 상대방(관리자)이 보낸 메시지인 경우
         if (selectChattingNo && Number(selectChattingNo) === Number(receivedNo)) {
-            // 안 읽은 상태가 시작될 때 인덱스를 고정하기 위해 unreadCount 체크
+            // 현재 창을 안 보고 있거나 스크롤이 위에 있을 때만 카운트 증가
             if (document.visibilityState === 'hidden' || !document.hasFocus() || !isAutoScroll) {
                 unreadCount++;
                 updateUnreadUI();
             }
             selectMessageList(); 
         } else {
+            // 다른 채팅방 메시지거나 채팅창 밖일 때
             unreadCount++;
             updateUnreadUI();
         }
@@ -36,31 +47,61 @@ if (typeof SockJS !== 'undefined') {
     chattingSock.onopen = () => console.log("웹소켓 서버 연결 성공");
 }
 
-// 2. UI 업데이트 함수 (기존과 동일하지만 다시 확인)
-function updateUnreadUI() {
-    // ✅ 모든 .notread_img 요소를 다 찾음 (헤더 + 채팅방 내부)
-    const badges = document.querySelectorAll('.notread_img');
-    
-    badges.forEach(badge => {
-        badge.innerText = unreadCount;
-        
-        // 숫자가 0보다 크면 보이고, 0이면 숨김
-        badge.style.setProperty('display', unreadCount > 0 ? 'inline-block' : 'none', 'important');
 
-        // ✅ 만약 채팅방 내부의 '안읽음' 버튼 세트라면 클릭 이벤트 연결
-        const parentButton = badge.closest('.notread');
-        if (parentButton) {
-            parentButton.onclick = () => {
-                if (unreadCount > 0) {
-                    isAutoScroll = true;
+// 2. UI 업데이트 함수
+function updateUnreadUI() {
+    // 1. 헤더 배지 및 헤더 링크 처리
+    const headerBadge = document.getElementById('headerUnreadBadge');
+    
+    // 배지가 들어있는 부모 링크(예: 1:1 문의 a태그)를 찾습니다.
+    const headerLink = headerBadge ? headerBadge.closest('a') : null;
+
+    if (headerBadge) {
+        headerBadge.innerText = unreadCount;
+        headerBadge.style.display = unreadCount > 0 ? 'inline-block' : 'none';
+        headerBadge.style.cursor = 'pointer';
+    }
+
+    // 헤더 링크나 배지를 눌렀을 때의 동작
+    const headerTarget = headerLink || headerBadge;
+    if (headerTarget) {
+        headerTarget.onclick = (e) => {
+            // 이미 채팅 페이지라면 페이지 이동을 막고 안내선으로 스크롤
+            if (window.location.pathname.includes('/chatting')) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // 안내선으로 이동
+                const line = document.querySelector('.unread-line');
+                if (line) {
+                    line.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else if (unreadCount > 0) {
+                    // 안내선이 없다면 강제로 그려주고 이동
                     selectMessageList();
                     setTimeout(() => {
-                        const line = document.querySelector('.unread-line');
-                        if (line) line.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        updateReadFlag();
-                        unreadCount = 0;
-                        updateUnreadUI();
-                    }, 150);
+                        const newLine = document.querySelector('.unread-line');
+                        if (newLine) newLine.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 200);
+                }
+            }
+            // 채팅 페이지가 아니라면 그대로 링크를 타고 이동하게 둡니다.
+        };
+    }
+
+    // 2. 페이지 내 다른 배지들 처리 (기존 유지)
+    const badges = document.querySelectorAll('.notread_img');
+    badges.forEach(badge => {
+        badge.innerText = unreadCount;
+        badge.style.display = unreadCount > 0 ? 'inline-block' : 'none';
+
+        const parentButton = badge.closest('.notread');
+        if (parentButton) {
+            parentButton.onclick = (e) => {
+                if (window.location.pathname.includes('/chatting')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const line = document.querySelector('.unread-line');
+                    if (line) line.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
             };
         }
@@ -70,24 +111,28 @@ function updateUnreadUI() {
 // 창을 다시 볼 때 처리
 window.onfocus = function() {
     if (!isInitialLoad && selectChattingNo && unreadCount > 0 && isAutoScroll) {
-        updateReadFlag();
+
         getUnreadCount();
     }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => { console.log('테스트0')
     enterAdminChat();
     setTimeout(() => { isInitialLoad = false; }, 1500);
 
     const sendBtn = document.getElementById('sendBtn');
-    if (sendBtn) sendBtn.addEventListener('click', sendMessage);
+    if (sendBtn) sendBtn.addEventListener('click', sendMessage);        
 
-    const chattingInput = document.getElementById('chattingInput');
+    const chattingInput = document.getElementById('chattingInput');        
+
     if (chattingInput) {
         chattingInput.addEventListener('keydown', (e) => {
+            
             if (e.key === 'Enter' && !e.isComposing && !e.shiftKey) {
                 e.preventDefault();
-                sendMessage();
+                console.log(e.key)
+                sendMessage();                    
+                
             }
         });
     }
@@ -184,20 +229,29 @@ function selectMessageList() {
                     }, 10000);
                 }
 
-                const sNo = msg.senderNo || msg.sender_no || msg.senderId; // 보낸 사람 번호
+                const sNo = msg.senderNo || msg.sender_no || msg.senderId;
                 const content = msg.message_content || msg.messageContent || "";
-                
-                // ✅ 서버 데이터 키값인 'sent_at'을 사용하도록 수정
+                const imgPath = msg.imgPath; // ⭐ 이미지 경로 변수 추가
                 const sentAt = msg.sent_at || ""; 
                 
                 const li = document.createElement('li');
                 const isMyMessage = Number(sNo) === Number(loginMemberNo);
                 li.classList.add(isMyMessage ? 'my-chat' : 'target-chat');
 
+                // ⭐ 이미지 여부에 따라 출력할 HTML 생성
+                let chatContent = "";
+                if(imgPath) {
+                    // 이미지 경로가 있으면 img 태그 생성 (텍스트 [이미지] 대신 실제 사진 출력)
+                    chatContent = `<img src="${imgPath}" class="chat-img" style="max-width: 250px; border-radius: 10px; cursor: pointer;" onclick="window.open(this.src)">`;
+                } else {
+                    // 이미지 경로가 없으면 기존처럼 텍스트 출력
+                    chatContent = `<p class="chat">${content}</p>`;
+                }
+
                 if (isMyMessage) {
                     li.innerHTML = `
                         <span class="chatDate">${sentAt}</span>
-                        <p class="chat">${content}</p>
+                        ${chatContent}
                     `;
                 } else {
                     li.innerHTML = `
@@ -205,7 +259,7 @@ function selectMessageList() {
                         <div>
                             <b>관리자</b>
                             <div style="display:flex; gap:8px; align-items:flex-end;">
-                                <p class="chat">${content}</p>
+                                ${chatContent}
                                 <span class="chatDate">${sentAt}</span>
                             </div>
                         </div>
@@ -225,6 +279,8 @@ function selectMessageList() {
 // ========== 메시지 전송 ==========
 function sendMessage() {
     const input = document.getElementById('chattingInput');
+    
+    // 기본 유효성 검사
     if (!input?.value.trim() || !selectChattingNo || !selectTargetNo) return;
     
     const obj = { 
@@ -238,6 +294,16 @@ function sendMessage() {
         chattingSock.send(JSON.stringify(obj));
         input.value = '';
         input.focus();
+
+        // ✅ 메시지 전송 시 본인 채팅창의 카운트와 UI를 즉시 초기화
+        unreadCount = 0;           // 1. 카운트 0으로 설정
+        updateUnreadUI();          // 2. 헤더 및 배지 UI 반영
+        updateReadFlag();          // 3. 서버 DB에도 읽음 처리 알림
+        
+        fixedLastReadIndex = null; // 4. "여기까지 읽었습니다" 선 제거용 초기화
+        isAutoScroll = true;       // 5. 내가 보낸 메시지를 보기 위해 하단 스크롤
+        
+        selectMessageList();       // 6. 목록 즉시 갱신
     }
 }
 
@@ -257,6 +323,7 @@ function updateReadFlag() {
 
 function triggerFileInput() {
     const fileInput = document.getElementById('imageInput');
+
     if (!fileInput) return;
     
     fileInput.onchange = (e) => {

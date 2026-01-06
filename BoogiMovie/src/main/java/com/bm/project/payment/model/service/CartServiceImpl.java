@@ -13,6 +13,7 @@ import com.bm.project.payment.entity.Cart;
 import com.bm.project.payment.model.dto.CartDto;
 import com.bm.project.payment.model.dto.CartDto.CartRespDto;
 import com.bm.project.payment.repository.CartRepository;
+import com.bm.project.payment.repository.CartRepositoryCustom;
 import com.bm.project.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class CartServiceImpl implements CartService {
 	
 	private final CartRepository cartRepo;
 	private final MemberRepository memberRepo;
+	private final CartRepositoryCustom cartCustom;
 	
 
 	// 장바구니 목록 조회
@@ -60,6 +62,26 @@ public class CartServiceImpl implements CartService {
 		Member member = memberRepo.findById(memberNo)
 				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
 		return OrderMemberDto.orderMember(member); // 메소드 안에서 주소 쪼개서 담아서 보냄
+	}
+
+
+	// 장바구닝 ㅔ추가
+	@Override
+	@Transactional
+	public void addCart(Long productNo, Integer quantity, Long memberNo) {
+		
+		// 기존 존재 여부 확인
+		Cart cart = cartRepo.findByMemberMemberNoAndProductProductNo(memberNo, productNo)
+		            		.orElse(null);
+		
+		// 존재하면 수량 업데이트
+		if (cart != null) {
+	        cart.updateQuantity(quantity);
+	        return;
+	    }
+		
+		cartCustom.insertCart(memberNo, productNo, quantity);
+		
 	}
 
 }

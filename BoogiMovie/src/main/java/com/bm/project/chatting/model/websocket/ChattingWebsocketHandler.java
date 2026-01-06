@@ -46,8 +46,6 @@ public class ChattingWebsocketHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String payload = message.getPayload();
-        log.info("전달받은 내용 : {}", payload);
-        
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> data = objectMapper.readValue(payload, Map.class);
         
@@ -60,39 +58,31 @@ public class ChattingWebsocketHandler extends TextWebSocketHandler {
         msg.setSenderId(senderNo);
         msg.setMessageContent(messageContent);
         
-        // ⭐ Base64 이미지 처리
-        if (data.get("isFile") != null && (Boolean) data.get("isFile")) {
+        // ⭐ 이미지 처리 로직 개선
+        boolean isFile = data.get("isFile") != null && String.valueOf(data.get("isFile")).equals("true");
+        
+        if (isFile) {
             String fileData = String.valueOf(data.get("fileData"));
             String imagePath = saveBase64Image(fileData);
-            msg.setImgPath(imagePath);
-        }
-        // 기존 imgPath 처리
-        else if(data.get("imgPath") != null) {
+            msg.setImgPath(imagePath); // DTO에 경로 주입
+        } else if(data.get("imgPath") != null) {
             msg.setImgPath(String.valueOf(data.get("imgPath")));
         }
 
-        // DB 삽입
+        // DB 삽입 (Service에서 이미지 테이블도 같이 인서트한다고 가정)
         int result = service.insertMessage(msg);
         
         if (result > 0) {
             ChattingRoom room = service.selectChattingRoom(chattingNo);
-            
             if (room != null) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm");
-                msg.setSentAt(sdf.format(new Date()));
-                
+                msg.setSentAt(new SimpleDateFormat("yyyy.MM.dd HH:mm").format(new Date()));
                 String resultJson = new Gson().toJson(msg);
                 
                 for (WebSocketSession s : sessions) {
-                    Object obj = s.getAttributes().get("loginMember");
-                    
-                    if (obj instanceof LoginResult) {
-                        LoginResult loginMember = (LoginResult) obj;
-                        long loginMemberNo = Long.parseLong(String.valueOf(loginMember.getMemberNo()));
-                        long adminNo = Long.parseLong(String.valueOf(room.getAdminMemberNo()));
-                        long userNo = Long.parseLong(String.valueOf(room.getUserMemberNo()));
-
-                        if (loginMemberNo == adminNo || loginMemberNo == userNo) {
+                    LoginResult loginMember = (LoginResult) s.getAttributes().get("loginMember");
+                    if (loginMember != null) {
+                        long loginNo = Long.parseLong(String.valueOf(loginMember.getMemberNo()));
+                        if (loginNo == room.getAdminMemberNo() || loginNo == room.getUserMemberNo()) {
                             s.sendMessage(new TextMessage(resultJson));
                         }
                     }

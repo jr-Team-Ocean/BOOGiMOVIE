@@ -22,9 +22,9 @@ const plusBtn = document.querySelector('.open-toggle')
 const movieInfo = document.querySelector('.movie-pre')
 
 plusBtn.addEventListener('click', ()=>{
-  movieInfo.classList.toggle('hidden');
-  
-  plusBtn.textContent = movieInfo.classList.contains('hidden') ? '더보기 ▼' : '접기 ▲';
+    movieInfo.classList.toggle('hidden');
+    
+    plusBtn.textContent = movieInfo.classList.contains('hidden') ? '더보기 ▼' : '접기 ▲';
 })
 
 
@@ -135,9 +135,104 @@ const reviewInput = document.querySelector('.review-write')
 const reviewStar = document.querySelector('.review-star')
 
 reviewBtn.addEventListener('click', ()=>{
-  sendBtn.classList.toggle('colsed')
-  reviewInput.classList.toggle('colsed')
-  reviewStar.classList.toggle('colsed')
+    sendBtn.classList.toggle('closed')
+    reviewInput.classList.toggle('closed')
+    reviewStar.classList.toggle('closed')
 })
 
-// 수정 버튼 클릭시 input, 버튼 보이게
+// 수정 버튼 클릭시 update화면으로
+document.getElementById('update-btn')?.addEventListener("click", ()=>{
+    location.href = `${location.pathname}/update`;
+})
+
+// 삭제 버튼 -> 삭제하기
+document.getElementById('delete-btn')?.addEventListener('click', ()=>{
+    if (confirm("정말 삭제하시겠습니까?")){
+        location.href = `${location.pathname}/delete`;
+    }
+})
+
+// 좋아요
+const likeBtn = document.getElementById('movieLikeBtn')
+const movieLike = document.querySelector('#movieHeart')
+
+likeBtn.addEventListener('click', (e) => {
+
+    // console.count("LIKE_CLICK");
+    e.preventDefault();
+
+    if(loginMemberNo == "" || loginMemberNo == null){
+        alert("로그인 후 이용해주세요.");
+        return;
+    }
+
+    const isLiked = movieLike.classList.contains('fa-solid');
+    const check = isLiked ? 0 : 1; // 0: 삭제(취소), 1: 추가
+
+    const likeData = {
+        'memberNo' : loginMemberNo,
+        'productNo' : productNo,
+        'check' : check
+    }
+
+    fetch("/movies/like", {
+        method : "POST",
+        headers : { "Content-Type" : "application/json" },
+        body : JSON.stringify(likeData)
+    })
+    .then(resp => resp.text())
+    .then(count => {
+        console.log("likeCount : ", count)
+
+        if(count === -1){
+            alert("좋아요 처리 중 문제가 발생했습니다.");
+            return;
+        }
+
+        movieLike.classList.toggle('fa-regular', check === 0);
+        movieLike.classList.toggle('fa-solid', check === 1);
+
+        // 현재 좋아요 수 
+        document.getElementById('likeCount').innerText = count;
+    })
+    .catch(err => console.log(err))
+})
+
+
+
+
+// 장바구니
+document.querySelector('.add-cart').addEventListener('click', () => {
+
+    // 로그인 체크
+    if (loginMemberNo === "") {
+        alert("로그인 후 이용해주세요.");
+        return;
+    }
+
+    const buyCount = document.querySelector('.book-price input[type="number"]');
+
+
+    const quantity = 1;
+
+    fetch(`/cart/addCart`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            productNo,
+            quantity
+        })
+    })
+    .then(resp => resp.text())
+    .then(result => {
+        if (result != 1) {
+            alert("장바구니 담기에 실패했습니다.");
+            return;
+        }
+
+        if (confirm("장바구니에 담았습니다. 이동하시겠습니까?")) {
+            location.href = "/cart";
+        }
+    })
+    .catch(err => console.error(err));
+});

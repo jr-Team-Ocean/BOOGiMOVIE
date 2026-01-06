@@ -12,6 +12,7 @@ import com.bm.project.entity.Category;
 import com.bm.project.entity.Product;
 import com.bm.project.entity.ProductTag;
 import com.bm.project.entity.ProductType;
+import com.bm.project.entity.Review;
 import com.bm.project.entity.TagCode;
 
 public interface BookRepository {
@@ -52,5 +53,11 @@ public interface BookRepository {
 
 	// 좋아요 추가
 	int insertLike(Long productNo, Long memberNo);
+
+	// 후기목록
+	List<Review> selectReviewList(Long productNo);
+
+	// 후기 등록
+	int insertReview(Long productNo, Long memberNo, Integer reviewScore, String reviewContent);
 
 }

@@ -13,5 +13,8 @@ public interface MovieRepository extends JpaRepository<Movie, Long>, MovieReposi
 	// 영화 상세정보
 	@EntityGraph(attributePaths = {"product", "product.productTagConnects", "product.productTagConnects.productTag"})
 	Optional<Movie> findById(Long productNo);
-	
+
+	// 영화 수정
+	Optional<Movie> findByProduct_ProductNo(Long productNo);
+
 }
