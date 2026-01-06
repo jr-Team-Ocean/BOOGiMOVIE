@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bm.project.dto.UbookDto;
+import com.bm.project.dto.UbookDto.Create;
 import com.bm.project.dto.UbookDto.Response;
 import com.bm.project.entity.Book;
 import com.bm.project.entity.Category;
@@ -25,7 +26,9 @@ import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
+@ToString
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -139,6 +142,20 @@ public class UBookServiceImpl implements UbookService{
 		
 		
 		
+	}
+
+	
+	// 중고도서 상품 등록
+	@Override
+	public Long insertUbook(Create createUbook) {
+		
+		
+		Product product = createUbook.toProductEntity();
+		
+		System.out.println(product);
+		
+		
+		return null;
 	}
 	
 

@@ -104,6 +104,7 @@ public class UbookDto {
 	}
 	
 	
+	// 중고도서 등록용
 	@Getter
 	@Setter
 	@Builder
