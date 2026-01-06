@@ -25,7 +25,9 @@ public interface UbookRepository {
 	List<String> selectWritersByProductNo(Long productNo);
 
 	// 중고도서 상세 출판사 불러오기
-	List<String> selectPublishersByProductNo(Long productNo); 
+	List<String> selectPublishersByProductNo(Long productNo);
+
+
 	
 
 }
