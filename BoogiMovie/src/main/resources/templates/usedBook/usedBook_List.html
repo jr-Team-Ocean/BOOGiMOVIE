@@ -198,7 +198,6 @@
                         <div class="list_info_case">
                             <div class="list_info">
                                 <div class="img_case">
-                                    <input type="file" name="imageFile">
                                     <img class="list_img" th:src="${ubook.imgPath}" alt="도서 이미지">
                                 </div>
                                 <div class="list_title" th:text="${ubook.productTitle}"></div>
@@ -220,8 +219,8 @@
             </section>
 
             
-            <div class="list_btn_area">
-                <button class="enroll_btn" id="enroll">글쓰기</button>
+            <div class="list_btn_area" sec:authorize="hasRole('ADMIN')">
+                <button type="button" class="enroll_btn" id="enroll" sec:authorize="hasRole('ADMIN')">글쓰기</button>
 
             </div>
 
