@@ -4,6 +4,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bm.project.dto.MemberDto;
@@ -29,6 +31,7 @@ import org.springframework.data.domain.PageRequest;
 import com.bm.project.dto.PageDto;
 
 import java.util.Map;
+import java.io.IOException;
 import java.util.HashMap;
 
 import org.springframework.http.HttpStatus;
@@ -163,5 +166,76 @@ public class MyPageController {
 	    ra.addFlashAttribute("message", "회원 탈퇴가 완료되었습니다.");
 	    return "redirect:/";
 	}
+	
+	
+	
+	// 회원정보 수정 화면 이동
+	@GetMapping("/change")
+	public String changeProfile(
+	        @SessionAttribute(value = "loginMember", required = false) LoginResult loginMember,
+	        Model model) {
+	    if (loginMember == null) return "redirect:/member/login";
+	    
+	    // 현재 로그인된 회원의 정보 가져오기
+ 		MemberDto.MemberInfo memberInfo = service.getMemberInfo(loginMember.getMemberNo());
+ 		model.addAttribute("memberInfo", memberInfo);
+	    
+	    
+	    return "myPage/myPage-change";
+	}
+	
+	// 회원 정보 수정
+	@PostMapping("/change/{item}")
+	@ResponseBody
+	public int changeProfileInfo(
+			@PathVariable("item") String item, // 변경하는 요소
+			@RequestBody Map<String, String> body,
+			@SessionAttribute("loginMember") LoginResult loginMember
+			
+			) {
+		
+		// 변경값
+		String value = body.get("value");
+		
+		service.changeProfileInfo(loginMember.getMemberNo(), item, value);
+		
+		return 1;
+	} 
+	
+	
+	// 비밀번호 수정
+	@PostMapping("/changePw")
+	@ResponseBody
+	public int changeProfilePw(
+			@RequestBody Map<String, String> body,
+			@SessionAttribute("loginMember") LoginResult loginMember
+			) {
+		String newPw = body.get("value");
+		
+		service.changeProfilePw(loginMember.getMemberNo(), newPw);
+		
+		
+		return 1;
+	}
+	
+	// 프로필 이미지 변경
+	@PostMapping("/changeProfileImg")
+	@ResponseBody
+	public int ChangeProfileImg(
+			@SessionAttribute("loginMember") LoginResult loginMember,
+			@RequestParam("profileImage") MultipartFile profileImage
+			) throws IllegalStateException, IOException {
+		
+		// 이미지 없음
+		if (profileImage.isEmpty()) {
+	        return 0;
+	    }
+		
+		service.changeProfileImg(loginMember.getMemberNo(), profileImage);
+	    
+		return 1;
+	}
+	
+	
 
 }

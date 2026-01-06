@@ -84,7 +84,7 @@ body {
 
     color: white;
     font-size: 16px;
-    font-weight: blod;
+    font-weight: bold;
 
     background-color: #5170B1;
 }
@@ -224,4 +224,20 @@ body {
 .just-shape:hover {
     cursor: default;
     
+}
+
+/* 비번 수정 상자  */
+.change-pw-box {
+    display: none;
+}
+
+.change-pw-box.open {
+    display: block;
+}
+
+#change-img {
+    width: 130px;
+    height: 130px;
+    object-fit: cover;   /* 핵심 */
+    border-radius: 50%;  /* 원형이면 */
 }

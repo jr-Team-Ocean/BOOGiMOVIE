@@ -47,6 +47,8 @@ body {
 .user_info_container div > img {
     width: 130px;
     height: 130px;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 /* 정보 간격 */

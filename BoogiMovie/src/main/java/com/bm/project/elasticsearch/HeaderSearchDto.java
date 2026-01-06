@@ -57,7 +57,8 @@ public class HeaderSearchDto {
 				.productType(document.getProductType())
 
 				// 분리한 값
-				.publisher(publisherText).creator(creatorText)
+				.publisher(publisherText)
+				.creator(creatorText)
 				.build();
 
 		if ("도서".equals(document.getProductType())) {
