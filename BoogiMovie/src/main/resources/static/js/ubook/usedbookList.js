@@ -115,3 +115,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+
+
+document.getElementById('enroll').addEventListener('click', () => {
+
+    location.href = `/ubooks/insert`;
+
+})

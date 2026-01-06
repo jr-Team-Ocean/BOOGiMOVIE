@@ -3,18 +3,23 @@ package com.bm.project.controller;
 import java.util.Map;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bm.project.dto.PageDto;
 import com.bm.project.dto.UbookDto;
 import com.bm.project.service.UbookService;
+import com.solapi.shadow.retrofit2.http.POST;
+import com.solapi.shadow.retrofit2.http.PUT;
 
 import lombok.RequiredArgsConstructor;
 
@@ -77,5 +82,48 @@ public class UbookController {
 		
 		
 	}
+	
+	// 게시글 삭제
+	@PostMapping("/{productNo}")
+	public String deleteProduct(
+			
+			@PathVariable("productNo") Long productNo,
+			RedirectAttributes ra
+			
+			){
+		
+		System.out.println("productNo :" + productNo);
+		
+		ubookService.deleteProduct(productNo);
+		
+		String path = "redirect:/ubooks";
+		
+		return path;
+		
+	}
+	
+	
+	// 중고도서 등록화면 전환
+	@GetMapping("/{insert}")
+	public String goEnrollUbook() {
+		
+		
+		
+		return "usedBook/usedBook_Enroll";
+	}
+	
+	
+//	// 중고도서 등록
+//	@PostMapping("/{insert}")
+//	public String UbookInsert(
+//			
+//			
+//			
+//			) {
+//		
+//		
+//	}
+	
+	
 
 }
