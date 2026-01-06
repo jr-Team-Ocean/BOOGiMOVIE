@@ -23,6 +23,8 @@ import com.bm.project.dto.MovieDto.Create;
 import com.bm.project.dto.MovieDto.Response;
 import com.bm.project.dto.MovieDto.Update;
 import com.bm.project.dto.PageDto;
+import com.bm.project.elasticsearch.ProductDocument;
+import com.bm.project.elasticsearch.ProductSearchRepository;
 import com.bm.project.entity.Category;
 import com.bm.project.entity.Movie;
 import com.bm.project.entity.Product;
@@ -52,6 +54,7 @@ public class MovieServiceImpl implements MovieService{
 	private final TagRepository tagRepository;
 	private final LikeRepository likeRepository;
 	private final ReviewRepository reviewRepository;
+	private final ProductSearchRepository searchRepository;
 	
 	// private final String FILE_PATH = "C:\\bmImg\\movie\\";
 	// private final String WEB_PATH = "/images/movie/";
@@ -155,6 +158,27 @@ public class MovieServiceImpl implements MovieService{
         if (StringUtils.hasText(movieCreate.getNation())) {
             connectTag(product, nationCode, movieCreate.getNation());
         }
+        
+        // 엘라스틱 저장로직
+        ProductDocument doc = ProductDocument.builder()
+                .productNo(product.getProductNo())            // 방금 저장된 PK
+                .productTitle(product.getProductTitle())
+                .productContent(product.getProductContent())
+                .productPrice(product.getProductPrice())
+                .productDate(product.getProductDate())
+                .imgPath(product.getImgPath())
+                
+                .categoryName(category.getCategoryName()) // 카테고리명
+                .productType("영화")                      // 타입 고정
+                
+                // ★ 핵심: 이미 List<String> 이니까 그대로 넣기!
+                .directors(directors)     
+                .publisher(companies)
+                
+                // 영화 관련 필드(directors, actors)는 도서니까 안 넣어도 됨 (null 처리됨)
+                .build();
+
+        searchRepository.save(doc); // 저장 쾅!
 
         return product.getProductNo();
 	}
@@ -232,6 +256,27 @@ public class MovieServiceImpl implements MovieService{
 	        if (StringUtils.hasText(movieUpdate.getNation())) {
 	            connectTag(product, nationCode, movieUpdate.getNation());
 	        }
+	        
+	        // 엘라스틱 저장로직
+	        ProductDocument doc = ProductDocument.builder()
+	                .productNo(product.getProductNo())            // 방금 저장된 PK
+	                .productTitle(product.getProductTitle())
+	                .productContent(product.getProductContent())
+	                .productPrice(product.getProductPrice())
+	                .productDate(product.getProductDate())
+	                .imgPath(product.getImgPath())
+	                
+	                .categoryName(category.getCategoryName()) // 카테고리명
+	                .productType("영화")                      // 타입 고정
+	                
+	                // ★ 핵심: 이미 List<String> 이니까 그대로 넣기!
+	                .directors(directors)     
+	                .publisher(companies)
+	                
+	                // 영화 관련 필드(directors, actors)는 도서니까 안 넣어도 됨 (null 처리됨)
+	                .build();
+
+	        searchRepository.save(doc); // 저장 쾅!
 
 		}
 		
@@ -275,6 +320,10 @@ public class MovieServiceImpl implements MovieService{
 		
 		Product product = movie.getProduct();
 		product.setProductDelFl(CommonEnums.ProductDelFl.Y);
+		
+		// 엘라스틱 저장로직
+        searchRepository.findById(productNo); // 삭제
+		
 	}
 	
 	// ======================================================================================================
