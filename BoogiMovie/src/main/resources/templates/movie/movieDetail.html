@@ -6,6 +6,7 @@
     <link rel="stylesheet" th:href="@{/css/common/header.css}">
     <link rel="stylesheet" th:href="@{/css/common/footer.css}">
     <link rel="stylesheet" th:href="@{/css/movie/movie-detail.css}">
+    <!-- <link rel="stylesheet" href="../../static/css/movie/movie-detail.css"> -->
 
     <!-- 폰트 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -71,7 +72,7 @@
                 </div>
                 
                 <div class="movie-buy">
-                    <button class="add-cart">보관함</button>
+                    <button class="add-cart">장바구니</button>
                     <button class="buy">구매하기</button>
                 </div>
 
@@ -241,10 +242,14 @@
 
                     <!-- 관람평 작성 -->
                     <div class="review-area">
-                        <button id="review-btn">관람평 작성</button>
+                        <!-- 로그인 한 사람 -->
+                        <button class="review-btn" th:if="${session.loginMember}">관람평 작성</button>
+
+                        <!-- 로그인 안한 사람 -->
+                        <button class="review-btn-disabled" th:unless="${session.loginMember}" onclick="alert('로그인 후 이용해주세요.')">관람평 작성</button>
                         
                         <!-- 별점 -->
-                        <div class="review-star write-star colsed">
+                        <div class="review-star write-star closed">
                             <label class="review-star-label" for="star-01">
                                 <input type="radio" class="review-star-input" name="star" id="star-01">
                                 <span class="star-icon"></span>
@@ -269,205 +274,87 @@
                     </div>
 
                     <!-- 작성내용 -->
-                    <div class="review-write colsed">
-                        <input type="text" placeholder="재미있게 보셨나요? 영화의 어떤 점이 좋았는지 이야기해주세요." class="review-input">
+                    <div class="review-write closed">
+                        <input type="text" name="reviewContent" class="review-input" placeholder="재미있게 보셨나요? 영화의 어떤 점이 좋았는지 이야기해주세요.">
                     </div>
 
                     <!-- 등록/취소 버튼 -->
-                    <div class="btn-area colsed">
+                    <div class="btn-area closed">
                         <button type="submit" class="submit-btn basic">등록</button>   
                         <button type="reset" class="reset-btn basic">취소</button>
                     </div>
 
-                    <!-- 관람평 없음 -->
-                    <div class="no-review">작성된 관람평이 없습니다.</div>
+                    <!-- 관람평 목록 영역 -->
+                    <section class="review-list-area" th:fragment="review-list-area">
+                        <!-- 관람평 없음 -->
+                        <div class="no-review" th:if="${#lists.isEmpty(reviewList)}">작성된 관람평이 없습니다.</div>
+
+                        <!-- 관람평 있음 -->
+                        <section class="review-box" th:unless="${#lists.isEmpty(reviewList)}">
+                            <div class="yes-review" th:each="review, stat : ${reviewList}" th:classappend="${stat.index >= 5} ? 'hidden'" th:attr="data-review-no=${review.reviewNo}">
+
+                                <!-- 유저 정보 -->
+                                <div class="review-profile">
+                                    <img th:src="${review.member.profilePath != null ? review.member.profilePath : '/images/common/person.svg'}">
+                                    <p class="review-name" th:text="${review.member.memberNickName}">유저일</p>
+                                </div>
+
+                                <div class="review-right">
+                                    <!-- 관람평 내용 -->
+                                    <div class="review-content">
+                                        <p class="report-btn" th:if="${loginMember != null and loginMember.memberNo != review.member.memberNo}">신고</p>
+                                        
+                                        <!-- 별점 -->
+                                        <div class="review-star readonly">
+                                            <span class="star-icon" th:classappend="${review.reviewScore >= 1} ? 'filled'"></span>
+                                            <span class="star-icon" th:classappend="${review.reviewScore >= 2} ? 'filled'"></span>
+                                            <span class="star-icon" th:classappend="${review.reviewScore >= 3} ? 'filled'"></span>
+                                            <span class="star-icon" th:classappend="${review.reviewScore >= 4} ? 'filled'"></span>
+                                            <span class="star-icon" th:classappend="${review.reviewScore >= 5} ? 'filled'"></span>
+                                        </div>
+                                        <!-- 작성내용 -->
+                                        <span class="review-text"  name="reviewContent" th:text="${review.reviewContent}">대충 여기 공백포함 40자 글</span>
+                                        
+                                        <div class="time-btn">
+                                            <!-- 작성 시간 -->
+                                            <p th:text="${#temporals.format(review.reviewTime, 'yyyy.MM.dd HH:mm')}">12분전</p>
+                
+                                            <!-- 수정/삭제 버튼 -->
+                                            <div class="buttons">
+                                                <th:block th:if="${loginMember != null and loginMember.memberNo == review.member.memberNo}">
+                                                    <span class="update-review-btn">수정</span>
+                                                    <span>|</span>
+                                                    <span class="delete-review-btn">삭제</span>
+                                                </th:block>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <!-- 관람평 수정 -->
+                                    <section class="review-edit closed">
+                                        <!-- 작성된 내용 -->
+                                        <div class="review-write">
+                                            <input type="text" name="updateContent" th:value="${review.reviewContent}" class="review-update-input" data-mode="edit">
+                                        </div>
+                                        
+                                        <!-- 수정/취소 버튼 -->
+                                        <div class="btn-area">
+                                            <button type="submit" class="update-btn basic">수정</button>   
+                                            <button type="reset" class="reset-btn basic">취소</button>
+                                        </div>
+                                    </section>
+
+                                </div>
+                            </div>  
+                            
+
+                            <!-- 관람평 2개 이상 있으면 더보기로 무한 스크롤 -->
+                            <button class="review-plus-btn" th:if="${#lists.size(reviewList) > 5}">더보기 ▼</button>
+
+                        </section>
+                    </section>
                     
-                    <!-- 관람평 있음 -->
-                    <hr>
-                    <section class="review-box hidden">
-                        <div class="yes-review">
-                            <div class="review-profile">
-                                <img th:src="@{/svg/person.svg}">
-                                <p class="review-name">유저일</p>
-                            </div>
-                            <div class="review-content">
-                                <p class="report-btn">신고</p>
-                                
-                                <!-- 별점 -->
-                                <div class="review-star readonly">
-                                    <span class="star-icon filled"></span>
-                                    <span class="star-icon filled"></span>
-                                    <span class="star-icon filled"></span>
-                                    <span class="star-icon"></span>
-                                    <span class="star-icon"></span>
-                                </div>
-                                <!-- 작성내용 -->
-                                <span class="review-text">대충 여기 공백포함 40자 정도 들어갈 수 있는 후기 글 뭐시기 입니다.</span>
-                                
-                                <div class="time-btn">
-                                    <!-- 작성 시간 -->
-                                    <p>12분전</p>
-        
-                                    <!-- 수정/삭제 버튼 -->
-                                    <div class="buttons">
-                                        <span>수정</span>
-                                        <span>|</span>
-                                        <span>삭제</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>     
-    
-                        <div class="yes-review">
-                            <div class="review-profile">
-                                <img th:src="@{/svg/person.svg}">
-                                <p class="review-name">유저일</p>
-                            </div>
-                            <div class="review-content">
-                                <p class="report-btn">신고</p>
-                                
-                                <!-- 별점 -->
-                                <div class="review-star readonly">
-                                    <span class="star-icon filled"></span>
-                                    <span class="star-icon filled"></span>
-                                    <span class="star-icon filled"></span>
-                                    <span class="star-icon"></span>
-                                    <span class="star-icon"></span>
-                                </div>
-                                <!-- 작성내용 -->
-                                <span class="review-text">대충 여기 공백포함 40자 정도 들어갈 수 있는 후기 글 뭐시기 입니다.</span>
-                                
-                                <div class="time-btn">
-                                    <!-- 작성 시간 -->
-                                    <p>12분전</p>
-        
-                                    <!-- 수정/삭제 버튼 -->
-                                    <div class="buttons">
-                                        <span>수정</span>
-                                        <span>|</span>
-                                        <span>삭제</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-    
-                        <div class="yes-review">
-                            <div class="review-profile">
-                                <img th:src="@{/svg/person.svg}">
-                                <p class="review-name">유저일</p>
-                            </div>
-                            <div class="review-content">
-                                <p class="report-btn">신고</p>
-                                
-                                <!-- 별점 -->
-                                <div class="review-star readonly">
-                                    <span class="star-icon filled"></span>
-                                    <span class="star-icon filled"></span>
-                                    <span class="star-icon filled"></span>
-                                    <span class="star-icon"></span>
-                                    <span class="star-icon"></span>
-                                </div>
-                                <!-- 작성내용 -->
-                                <span class="review-text">대충 여기 공백포함 40자 정도 들어갈 수 있는 후기 글 뭐시기 입니다.</span>
-                                
-                                <div class="time-btn">
-                                    <!-- 작성 시간 -->
-                                    <p>12분전</p>
-        
-                                    <!-- 수정/삭제 버튼 -->
-                                    <div class="buttons">
-                                        <span>수정</span>
-                                        <span>|</span>
-                                        <span>삭제</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="yes-review">
-                            <div class="review-profile">
-                                <img th:src="@{/svg/person.svg}">
-                                <p class="review-name">유저일</p>
-                            </div>
-                            <div class="review-content">
-                                <p class="report-btn">신고</p>
-                                
-                                <!-- 별점 -->
-                                <div class="review-star readonly">
-                                    <span class="star-icon filled"></span>
-                                    <span class="star-icon filled"></span>
-                                    <span class="star-icon filled"></span>
-                                    <span class="star-icon"></span>
-                                    <span class="star-icon"></span>
-                                </div>
-                                <!-- 작성내용 -->
-                                <span class="review-text">대충 여기 공백포함 40자 정도 들어갈 수 있는 후기 글 뭐시기 입니다.</span>
-                                
-                                <div class="time-btn">
-                                    <!-- 작성 시간 -->
-                                    <p>12분전</p>
-        
-                                    <!-- 수정/삭제 버튼 -->
-                                    <div class="buttons">
-                                        <span>수정</span>
-                                        <span>|</span>
-                                        <span>삭제</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="yes-review">
-                            <div class="review-profile">
-                                <img th:src="@{/svg/person.svg}">
-                                <p class="review-name">유저일</p>
-                            </div>
-                            <div class="review-content">
-                                <p class="report-btn">신고</p>
-                                
-                                <!-- 별점 -->
-                                <div class="review-star readonly">
-                                    <span class="star-icon filled"></span>
-                                    <span class="star-icon filled"></span>
-                                    <span class="star-icon filled"></span>
-                                    <span class="star-icon"></span>
-                                    <span class="star-icon"></span>
-                                </div>
-                                <!-- 작성내용 -->
-                                <span class="review-text">대충 여기 공백포함 40자 정도 들어갈 수 있는 후기 글 뭐시기 입니다.</span>
-                                
-                                <div class="time-btn">
-                                    <!-- 작성 시간 -->
-                                    <p>12분전</p>
-        
-                                    <!-- 수정/삭제 버튼 -->
-                                    <div class="buttons">
-                                        <span>수정</span>
-                                        <span>|</span>
-                                        <span>삭제</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- 관람평 2개 이상 있으면 더보기로 무한 스크롤 -->
-                    <button class="review-plus-btn">더보기 ▼</button>
-
-                    <!-- 관람평 수정 -->
-                    <section class="review-edit">
-                        <!-- 작성내용 -->
-                        <div class="review-write">
-                            <input type="text" value="정말 재미있네요!!" class="review-input" data-mode="edit">
-                        </div>
-    
-                        <!-- 등록/취소 버튼 -->
-                        <div class="btn-area">
-                            <button type="submit" class="submit-btn basic">수정</button>   
-                            <button type="reset" class="reset-btn basic">취소</button>
-                        </div>
-                    </section>
-
                 </section>
             </div>
         </section>
@@ -485,5 +372,6 @@
     </script>
 
     <script th:src="@{/js/movie/movie-detail.js}"></script>
+    <!-- <script src="../../static/js/movie/movie-detail.js"></script> -->
 </body>
 </html>
