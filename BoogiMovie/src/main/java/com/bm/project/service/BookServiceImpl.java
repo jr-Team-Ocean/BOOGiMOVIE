@@ -24,6 +24,8 @@ import com.bm.project.dto.BookDto;
 import com.bm.project.dto.BookDto.Create;
 import com.bm.project.dto.BookDto.Response;
 import com.bm.project.dto.BookDto.Update;
+import com.bm.project.elasticsearch.ProductDocument;
+import com.bm.project.elasticsearch.ProductSearchRepository;
 import com.bm.project.entity.Book;
 import com.bm.project.entity.Category;
 import com.bm.project.entity.Likes;
@@ -53,6 +55,7 @@ public class BookServiceImpl  implements BookService {
 	private final TagRepository tagRepository;
 	private final LikeRepository likeRepository;
 	private final ReviewRepository reviewRepository;
+	private final ProductSearchRepository searchRepository;
 	
 //	private final String FILE_PATH = "C:/bmImg/book/";
 //	private final String WEB_PATH = "/images/book/";
@@ -225,34 +228,49 @@ public class BookServiceImpl  implements BookService {
 		// 작가 중복검사 + 저장
 		TagCode wCode = bookRepository.getTagCodeRef(1L);
 		for (String writer : writers) {
-			
-			ProductTag tag =
-					tagRepository.findByTagNameAndTagCode(writer, wCode)
-					.orElseGet(() -> tagRepository.save(
-					ProductTag.builder()
-							  .tagName(writer)
-							  .tagCode(wCode)
-							  .build()));
-			
-			bookRepository.saveProductTagConnect(product, tag);
+		    connectTag(product, wCode, writer);
 		}
 		
 		// 출판사 중복검사 + 저장
 		TagCode pCode = bookRepository.getTagCodeRef(3L);
 		for (String publisher : publishers) {
-			
-			ProductTag tag = 
-					tagRepository.findByTagNameAndTagCode(publisher, pCode)
-					.orElseGet(() -> tagRepository.save(
-					ProductTag.builder()
-			 	     		  .tagName(publisher)
-							  .tagCode(pCode)
-							  .build()));
-			
-			bookRepository.saveProductTagConnect(product, tag);
+		    connectTag(product, pCode, publisher);
 		}
 		
+		// 엘라스틱 저장로직
+		ProductDocument doc = 
+				ProductDocument.builder()
+							   .productNo(product.getProductNo())
+							   .productTitle(product.getProductTitle())
+							   .productPrice(product.getProductPrice())
+							   .productDate(product.getProductDate())
+							   .imgPath(product.getImgPath())
+							   .categoryName(product.getCategory().getCategoryName())
+							   .productType("도서")
+							   .authors(writers)
+							   .publisher(publishers)
+							   .build();
+		searchRepository.save(doc);
+		
+		
 		return product.getProductNo();
+	}
+	
+	
+	private void connectTag(Product product, TagCode tagCode, String tagName) {
+	    if (!org.springframework.util.StringUtils.hasText(tagName)) return;
+
+	    // 태그 조회 -> 없으면 생성 (Movie 방식과 동일하게 save 사용)
+	    ProductTag tag = tagRepository.findByTagNameAndTagCode(tagName, tagCode)
+	            .orElseGet(() -> tagRepository.save(
+	                    ProductTag.builder()
+	                            .tagName(tagName)
+	                            .tagCode(tagCode)
+	                            .build()
+	            ));
+	    
+	    // 연결 테이블 저장
+	    bookRepository.saveProductTagConnect(product, tag);
 	}
 	
 	
@@ -323,32 +341,29 @@ public class BookServiceImpl  implements BookService {
  		// 작가 중복검사 + 저장
  		TagCode wCode = bookRepository.getTagCodeRef(1L);
  		for (String writer : writers) {
- 			
- 			ProductTag tag =
- 					tagRepository.findByTagNameAndTagCode(writer, wCode)
- 					.orElseGet(() -> tagRepository.save(
- 					ProductTag.builder()
- 							  .tagName(writer)
- 							  .tagCode(wCode)
- 							  .build()));
- 			
- 			bookRepository.saveProductTagConnect(product, tag);
- 		}
+            connectTag(product, wCode, writer);
+        }
  		
  		// 출판사 중복검사 + 저장
  		TagCode pCode = bookRepository.getTagCodeRef(3L);
  		for (String publisher : publishers) {
- 			
- 			ProductTag tag = 
- 					tagRepository.findByTagNameAndTagCode(publisher, pCode)
- 					.orElseGet(() -> tagRepository.save(
- 					ProductTag.builder()
- 			 	     		  .tagName(publisher)
- 							  .tagCode(pCode)
- 							  .build()));
- 			
- 			bookRepository.saveProductTagConnect(product, tag);
- 		}
+		    connectTag(product, pCode, publisher);
+		}
+ 		
+ 		ProductDocument doc = 
+ 				ProductDocument.builder()
+				               .productNo(product.getProductNo())
+				               .productTitle(product.getProductTitle())
+				               .productPrice(product.getProductPrice())
+				               .productDate(product.getProductDate())
+				               .imgPath(product.getImgPath())
+				               .categoryName(product.getCategory().getCategoryName())
+				               .productType("도서")
+				               .authors(writers)
+				               .publisher(publishers)
+				               .build();
+        
+        searchRepository.save(doc);
 	    
 	}
 
