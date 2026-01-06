@@ -43,4 +43,13 @@ public interface ChattingMapper {
 	// 전체 안읽음 개수 조회
 	int getTotalUnreadCount(Long memberNo);
 	
+	// 채팅방 번호와 보낸 사람 번호를 토대로 수신자(상대방) 번호 조회	 
+	int getReceiverId(Map<String, Object> params);
+	
+	// 전체 채팅방 수 조회
+	int getListCount(Long memberNo);
+
+	// 페이징 처리된 목록 조회
+	List<ChattingRoom> selectRoomListPaging(Map<String, Object> map);
+	
 }

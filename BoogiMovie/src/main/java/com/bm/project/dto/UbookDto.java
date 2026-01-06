@@ -12,6 +12,7 @@ import com.bm.project.entity.Ubook;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 public class UbookDto {
 	
@@ -101,6 +102,66 @@ public class UbookDto {
         	
         }
 	
+	}
+	
+	
+	// 중고도서 등록용
+	@ToString
+	@Getter
+	@Setter
+	@Builder
+	public static class Create{
+		
+		private String productTitle; // 도서명
+        private String productContent; // 책 소개
+        private LocalDateTime productDate; // 출간일
+        private Integer productPrice; // 판매가
+        private String imgPath; // 대표 이미지
+
+        
+        private String ubookStatus; // 중고도서 분류        
+        private Long nbookPrice; // 도서 정가
+        private String ubookIndex;
+        private String authorIntro;
+        
+        private Long categoryId; // 카테고리 
+        
+        private String writers; // 작가
+        private String publishers; // 출판사
+        
+        
+        	// 상품 담기용
+        	public Product toProductEntity() {
+        		
+        		
+        		return Product.builder()
+        				.productTitle(this.productTitle)
+        				.productContent(this.productContent)
+        				.productDate(this.productDate)
+        				.productPrice(this.productPrice)
+        				.imgPath(this.imgPath)
+        				.build();
+        		
+        	}
+        	
+        	
+        	// 중고도서 담기용
+        	public Ubook toUbookEntity() {
+        		
+        		return Ubook.builder()
+        				.ubookStatus(this.ubookStatus)
+        				.nbookPrice(this.nbookPrice)
+        				.ubookIndex(this.ubookIndex)
+        				.authorIntro(this.authorIntro)
+        				.build();
+        		
+        		
+        		
+        	}
+        	
+        	
+        	
+		
 	}
 
 }

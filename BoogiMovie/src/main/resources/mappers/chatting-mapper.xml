@@ -32,33 +32,40 @@
 	<select id="selectRoomList" resultMap="chattingRoom_rm">
 	    SELECT
 	        R.CHATTING_ROOM_ID,
+	        -- 1) 가장 최근 메세지 
 	        (SELECT MESSAGE_CONTENT FROM (
 	            SELECT M.MESSAGE_CONTENT FROM CHATTING_MESSAGE M
 	            WHERE M.CHATTING_ROOM_ID = R.CHATTING_ROOM_ID
 	            ORDER BY M.MESSAGE_ID DESC)
 	            WHERE ROWNUM = 1
 	        ) AS LAST_MESSAGE,
+	        
+	        -- 2) 가장 최근에 채팅 보낸 시간 
 	        (SELECT TO_CHAR(MAX(SENT_AT), 'YYYY.MM.DD')
 	         FROM CHATTING_MESSAGE M
 	         WHERE M.CHATTING_ROOM_ID = R.CHATTING_ROOM_ID) AS SEND_TIME,
-	
+			
+			-- 3) 타겟 회원 번호 
 	        CASE
 	            WHEN ADMIN_MEMBER_NO = #{loginMemberNo} THEN USER_MEMBER_NO
 	            ELSE ADMIN_MEMBER_NO
-	        END AS TARGET_NO,
-	
+	        END AS TARGET_NO,	
+
 	        (SELECT MEMBER_NAME FROM MEMBER
 	         WHERE MEMBER_NO = (CASE WHEN ADMIN_MEMBER_NO = #{loginMemberNo} THEN USER_MEMBER_NO ELSE ADMIN_MEMBER_NO END)
-	        ) AS TARGET_NAME,
-	
+	        ) AS TARGET_NAME,	       
+	        
+			-- 4) 타겟 회원 닉네임  
 	        (SELECT MEMBER_NICKNAME FROM MEMBER
 	         WHERE MEMBER_NO = (CASE WHEN ADMIN_MEMBER_NO = #{loginMemberNo} THEN USER_MEMBER_NO ELSE ADMIN_MEMBER_NO END)
 	        ) AS TARGET_NICKNAME,
-	
+
+			-- 5) 타겟 회원 프로필 이미지	
 	        (SELECT PROFILE_PATH FROM MEMBER
 	         WHERE MEMBER_NO = (CASE WHEN ADMIN_MEMBER_NO = #{loginMemberNo} THEN USER_MEMBER_NO ELSE ADMIN_MEMBER_NO END)
 	        ) AS TARGET_PROFILE,
-	
+			
+			-- 6) 읽지 않은 받은 메세지 수
 	        (SELECT COUNT(*) FROM CHATTING_MESSAGE M
 	         WHERE READ_YN = 'N'
 	         AND M.CHATTING_ROOM_ID = R.CHATTING_ROOM_ID
@@ -191,5 +198,35 @@
 	    AND M.SENDER_ID != #{memberNo}
 	    AND M.READ_YN = 'N'
 	</select>
+	
+	<!-- 채팅 상대자 번호 가져오기 -->
+	<select id="getReceiverId" resultType="_int">
+	    SELECT 
+	        CASE 
+	            WHEN ADMIN_MEMBER_NO = #{senderNo} THEN USER_MEMBER_NO 
+	            ELSE ADMIN_MEMBER_NO 
+	        END AS receiverId
+	    FROM CHATTING_ROOM
+	    WHERE CHATTING_ROOM_ID = #{chattingNo}
+	</select>
+
+	<!-- 전체 채팅방 수 조회 -->
+	<select id="getListCount" resultType="_int">
+	    SELECT COUNT(*) FROM CHATTING_ROOM
+	    WHERE (ADMIN_MEMBER_NO = #{memberNo} OR USER_MEMBER_NO = #{memberNo})	    
+	</select>
+	
+	<!-- 페이징 처리된 목록 조회 -->
+	<select id="selectRoomListPaging" resultMap="chattingRoom_rm">
+	    SELECT * FROM (
+	        SELECT R.*, ROW_NUMBER() OVER(ORDER BY 
+	            /* MAX(SEND_TIME)을 MAX(SENT_AT)으로 수정 */
+	            (SELECT MAX(SENT_AT) FROM CHATTING_MESSAGE M WHERE M.CHATTING_ROOM_ID = R.CHATTING_ROOM_ID) DESC NULLS LAST
+	        ) AS RNUM
+	        FROM CHATTING_ROOM R
+	        WHERE ADMIN_MEMBER_NO = #{memberNo} OR USER_MEMBER_NO = #{memberNo}
+	    ) WHERE RNUM BETWEEN #{start} AND #{end}
+	</select>
+	
 
 </mapper>

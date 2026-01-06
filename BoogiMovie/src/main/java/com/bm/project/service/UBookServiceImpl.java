@@ -1,5 +1,7 @@
 package com.bm.project.service;
 
+import com.bm.project.enums.CommonEnums;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,24 +13,29 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bm.project.dto.UbookDto;
+import com.bm.project.dto.UbookDto.Create;
 import com.bm.project.dto.UbookDto.Response;
 import com.bm.project.entity.Book;
 import com.bm.project.entity.Category;
 import com.bm.project.entity.Product;
 import com.bm.project.entity.Ubook;
 import com.bm.project.repository.UbookRepository;
+import com.bm.project.repository.UbookRepository2;
 
 import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
+@ToString
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UBookServiceImpl implements UbookService{
 	
 	private final UbookRepository ubookRepository;
+	private final UbookRepository2 ubookRepositories;
 
 	
 	// 중고도서 목록 조회
@@ -112,6 +119,45 @@ public class UBookServiceImpl implements UbookService{
 		return Response.toUbookDetailDto(product, ubook, category, pcategory, writers, publishers);
 
 		
+	}
+
+
+	// 중고도서 상품 삭제
+	@Transactional(readOnly=false)
+	@Override
+	public void deleteProduct(Long productNo) {
+		
+		Ubook ubook = ubookRepositories.findById(productNo)
+				.orElseThrow(() -> new EntityNotFoundException("해당 게시글이 존재하지 않습니다."));
+		
+		System.out.println("ubook : " + ubook);
+		
+		Product product = ubook.getProduct();
+		
+		System.out.println("product : " + product);
+		
+		product.setProductDelFl(CommonEnums.ProductDelFl.Y);
+		
+		
+		
+		
+		
+	}
+
+	
+	// 중고도서 상품 등록
+	@Override
+	public Long insertUbook(Create createUbook) {
+		
+		
+		Product product = createUbook.toProductEntity();
+		
+		System.out.println(product);
+		
+		
+		
+		
+		return null;
 	}
 	
 

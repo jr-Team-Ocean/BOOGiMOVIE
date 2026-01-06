@@ -17,6 +17,7 @@ import com.bm.project.entity.Product;
 import com.bm.project.entity.ProductTag;
 import com.bm.project.entity.ProductTagConnect;
 import com.bm.project.entity.ProductType;
+import com.bm.project.entity.Review;
 import com.bm.project.entity.TagCode;
 import com.bm.project.enums.CommonEnums;
 
@@ -258,6 +259,8 @@ public class MovieRepositoryImpl implements MovieRepositoryCustom{
         return cnt != null && cnt > 0;
 	}
 
+	// ======================================================================================================
+	
 	// 좋아요 insert
 	@Override
 	public int insertLike(Long productNo, Long memberNo) {
@@ -274,5 +277,42 @@ public class MovieRepositoryImpl implements MovieRepositoryCustom{
 		em.flush(); // 즉시 반영
 		return 1;
 	}
+
+	// ======================================================================================================
+	
+	// 후기 insert
+	@Override
+	public int insertReview(Long productNo, Long memberNo, Integer reviewScore, String reviewContent) {
+		
+		Review review = Review.builder()
+							.productNo(productNo)
+							.memberNo(memberNo)
+							.reviewScore(reviewScore)
+							.reviewContent(reviewContent)
+							.build();
+		em.persist(review);
+		return 1;
+	}
+
+	
+	// 후기 List
+	@Override
+	public List<Review> selectReviewList(Long productNo) {
+		
+		StringBuilder query = new StringBuilder();
+		query.append("select r from Review r")
+			.append(" join fetch r.member")
+			.append(" where r.productNo =:productNo")
+			.append(" order by r.reviewTime desc");
+		
+		
+		return em.createQuery(query.toString(), Review.class)
+				.setParameter("productNo", productNo)
+				.getResultList();
+	}
+	
+	
+	
+	
 	
 }

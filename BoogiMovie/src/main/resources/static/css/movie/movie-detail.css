@@ -238,7 +238,21 @@ hr{
 }
 
 /* 관람평 */
-#review-btn{
+.review-btn{
+    background-color: #5170B1;
+    color: white;
+    border: none;
+    width: 120px;
+    height: 45px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 10px;
+    margin-top: 20px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.review-btn-disabled{
     background-color: #5170B1;
     color: white;
     border: none;
@@ -261,7 +275,7 @@ hr{
 }
 
 /* 작성내용 접힘 */
-.review-write.colsed{
+.review-write.closed{
     display: none;
 }
 
@@ -273,7 +287,7 @@ hr{
     background-color: #EBF2FF;
 }
 
-.review-input{
+.review-update-input, .review-input{
     width: 100%;
     height: 100%;
     background-color: transparent;
@@ -286,22 +300,28 @@ hr{
 
 
 /* 리뷰 O */
-.review-box.hidden{
-    max-height: 260px;
+.review-box{
+    max-height: 500px;
     overflow: hidden;
 }
 
 .yes-review{
-    height: 110px;
+    height: auto;
     display: flex;
     flex-direction: row;
     padding: 0 20px 20px 20px;
-    align-items: center;
+    align-items: flex-start; 
     gap: 25px;
     font-size: 18px;
     position: relative;
     border-bottom: 3px solid #e0e0e0;
-    margin-bottom: 25px;
+    margin: 25px 0;
+}
+
+.review-right{
+    flex: 1;
+    display: flex;
+    flex-direction: column; 
 }
 
 .review-content{
@@ -318,6 +338,7 @@ hr{
     top: 0px;
     right: 20px;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .review-profile > img{
@@ -336,8 +357,13 @@ hr{
     justify-content: space-between;
 }
 
-.buttons > span:nth-child(3){
+.update-review-btn{
+    cursor: pointer;
+}
+
+.delete-review-btn{
     color: red;
+    cursor: pointer;
 }
 
 
@@ -364,7 +390,7 @@ hr{
 }
 
 /* 별점 숨기기 */
-.review-star.colsed{
+.review-star.closed{
     display: none;
 }
 
@@ -387,7 +413,7 @@ hr{
     gap: 10px;
 }
 
-.btn-area.colsed{
+.btn-area.closed{
     display: none;
 }
 
@@ -421,6 +447,9 @@ button[type='reset']{
 }
 
 .review-edit{
+    width: 100%;
+    height: 100%;
     margin-top: 20px;
 }
 
+.closed{display: none;}

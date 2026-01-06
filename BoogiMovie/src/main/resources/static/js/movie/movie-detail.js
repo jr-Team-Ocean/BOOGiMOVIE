@@ -4,16 +4,16 @@ const tabButtons = document.querySelectorAll('.tab-btn');
 const tabContents = document.querySelectorAll('.tab-content');
 
 tabButtons.forEach((button, index) => {
-  button.addEventListener('click', () => {
+    button.addEventListener('click', () => {
 
-    // 버튼 active 처리
-    tabButtons.forEach(btn => btn.classList.remove('active'));
-    button.classList.add('active');
+        // 버튼 active 처리
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
 
-    // 콘텐츠 전환
-    tabContents.forEach(content => content.classList.remove('active'));
-    tabContents[index].classList.add('active');
-  });
+        // 콘텐츠 전환
+        tabContents.forEach(content => content.classList.remove('active'));
+        tabContents[index].classList.add('active');
+    });
 });
 
 
@@ -128,17 +128,202 @@ function initStars() {
     
 }
 
-// 관람평에서 별점, input, button 숨기기
-const reviewBtn = document.getElementById('review-btn')
+
+// ====================================================================
+
+// 관람평
+const reviewBtn = document.querySelector('.review-btn')
 const sendBtn = document.getElementsByClassName('btn-area')[0]
 const reviewInput = document.querySelector('.review-write')
 const reviewStar = document.querySelector('.review-star')
 
-reviewBtn.addEventListener('click', ()=>{
-    sendBtn.classList.toggle('closed')
-    reviewInput.classList.toggle('closed')
-    reviewStar.classList.toggle('closed')
+reviewBtn?.addEventListener('click', ()=>{
+    sendBtn.classList.remove('closed')
+    reviewInput.classList.remove('closed')
+    reviewStar.classList.remove('closed')
 })
+
+// 후기 등록(fetch)
+document.querySelector('.submit-btn')?.addEventListener('click', () => {
+
+    // 1. 별점
+    const checked = document.querySelector('.review-star.write-star input[name="star"]:checked')
+
+    if(!checked){
+        alert('별점을 선택해주세요.');
+        return;
+    }
+
+    const reviewScore = Number(checked.id.split('-')[1])
+
+    // 2. 내용
+    const contentInput = document.querySelector('.review-input')
+    const reviewContent = contentInput.value.trim();
+
+    if(reviewContent.length === 0){
+        alert('후기 내용을 입력해주세요.')
+        return;
+    }
+
+    // 3. 서버 전송
+    fetch(`/movies/${productNo}/review`, {
+        method: 'POST',
+        headers : {'Content-Type' : 'application/json'},
+        body : JSON.stringify({reviewScore, reviewContent})
+    })
+    .then(resp => resp.text())
+    .then(result => {
+        console.log('result', result)
+
+        if(result != 1){
+            alert('후기 등록에 실패했습니다.');
+            return;
+        }
+
+        // 후기 목록 비동기
+        alert('후기를 등록하였습니다.')
+        loadReviewList();
+
+        // UI 초기화
+        contentInput.value = "";
+        document
+            .querySelectorAll('.review-star.write-star input[name="star"]')
+            .forEach(r => r.checked = false);
+
+        document
+            .querySelectorAll('.review-star.write-star .star-icon')
+            .forEach(star => star.classList.remove('filled'));
+
+        // 작성 영역 닫기
+        sendBtn.classList.add('closed')
+        reviewInput.classList.add('closed')
+        reviewStar.classList.add('closed')
+    })
+    .catch(err => console.log(err))
+})
+
+// 후기 수정/취소(이벤트 위임)
+const reviewListArea = document.querySelector('.review-list-area');
+
+reviewListArea?.addEventListener('click', e => {
+
+    // 수정버튼
+    const editBtn = e.target.closest('.update-review-btn')
+    if(editBtn){
+        const box = editBtn.closest('.yes-review')
+        if (!box) return;
+
+        const buttons = box.querySelector('.buttons')
+        const editArea = box.querySelector('.review-edit')
+        const editInput = box.querySelector('.review-update-input')
+    
+        // 기존 내용 -> input에 세팅
+        const currentText = 
+            box.querySelector('.review-text span')?.textContent ?? '';
+        editInput.value = currentText.trim();
+
+        // 전환
+        buttons.classList.add('closed')
+        editArea.classList.remove('closed')
+
+        return;
+    }
+
+    // 취소
+    const cancelBtn = e.target.closest('.reset-btn')
+    // console.log("cancelBtn", cancelBtn)
+    if(cancelBtn){
+        const box = cancelBtn.closest('.yes-review')
+        if(!box) return;
+
+        const content = box.querySelector('.review-content')
+        const buttons = box.querySelector('.buttons')
+        const editArea = box.querySelector('.review-edit')
+
+        // 복원
+        editArea.classList.add('closed')
+        buttons.classList.remove('closed')
+        content.classList.remove('closed')
+    }
+
+})
+
+// 후기 수정 submit
+reviewListArea?.addEventListener('click', e => {
+    if(!e.target.classList.contains('update-btn')) return;
+
+    const box = e.target.closest('.yes-review')
+    const reviewNo = box?.dataset.reviewNo;
+    const updateContent = box.querySelector('.review-update-input')?.value.trim()
+
+    if(!reviewNo || !updateContent){
+        alert('수정할 내용이 없습니다.');
+        return;
+    }
+
+    fetch(`/movies/review/${reviewNo}/update`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reviewContent: updateContent })
+    })
+    .then(resp => resp.text())
+    .then(result => {
+        console.log('후기 수정', result)
+        if (result != 1) {
+            alert('수정 실패');
+            return;
+        }
+
+        alert('수정되었습니다');
+        loadReviewList(); 
+    });
+})
+
+
+// 후기 삭제
+document.addEventListener('click', e => {
+    if(!e.target.classList.contains('delete-review-btn')) return;
+
+    const reviewBox = e.target.closest('.yes-review')
+    const reviewNo = reviewBox?.dataset.reviewNo
+
+    if(!reviewNo){
+        console.error('reviewNo 없음')
+        return;
+    }
+
+    if(!confirm('정말 삭제하겠습니까?')) return;
+
+    fetch(`movies/review/${reviewNo}/delete`, {
+        method : "POST"
+    })
+    .then(resp => resp.text())
+    .then(result => {
+        console.log("후기삭제", result)
+
+        if(result != 1){
+            alert('관람평 삭제 실패')
+            return;
+        }
+
+        alert('관람평이 삭제되었습니다.')
+        loadReviewList();
+    })
+    .catch(err => console.log(err))
+})
+
+// 후기 목록 함수 (fragment)
+function loadReviewList(){
+    fetch(`/movies/${productNo}/review`)
+    .then(resp => resp.text())
+    .then(list => {
+        // console.log(list)
+        document.querySelector('.review-list-area').innerHTML = list;
+    })
+    .catch(err => console.log(err))
+}
+
+//===========================================================================
 
 // 수정 버튼 클릭시 update화면으로
 document.getElementById('update-btn')?.addEventListener("click", ()=>{
@@ -199,8 +384,6 @@ likeBtn.addEventListener('click', (e) => {
 })
 
 
-
-
 // 장바구니
 document.querySelector('.add-cart').addEventListener('click', () => {
 
@@ -235,4 +418,42 @@ document.querySelector('.add-cart').addEventListener('click', () => {
         }
     })
     .catch(err => console.error(err));
+});
+
+
+// 결제창 즉시 이동
+document.querySelector('.buy')?.addEventListener('click', () => {
+
+    // 로그인 체크
+    if (loginMemberNo === "") {
+        alert("로그인 후 이용해주세요.");
+        return;
+    }
+
+    // 영화 수량 고정
+    const quantity = 1;
+
+    const orderItemList = [];
+
+    const orderItem = {
+        product_no: parseInt(productNo),
+        quantity: quantity
+    };
+
+    orderItemList.push(orderItem);
+
+    fetch("/cart/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderItemList)
+    })
+    .then(resp => resp.text())
+    .then(result => {
+        if (result > 0) {
+            location.href = "/order/delivery";
+        } else {
+            alert("배송 정보가 없어 주문할 수 없습니다.");
+        }
+    })
+    .catch(err => console.log(err));
 });

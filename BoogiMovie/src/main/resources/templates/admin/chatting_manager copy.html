@@ -95,26 +95,19 @@
             
             <section class="bottom_control_row">
                 <div class="side_pagination_section">
-                    <nav class="side_list_pagination" th:if="${roomList != null and roomList.totalPage > 0}">
-        
+                    <nav class="bottom_pagination side_list_pagination" th:if="${roomList != null and roomList.totalPage > 0}">
                         <a th:href="@{/chatting(cp=1)}">&laquo;</a>
-                        
                         <a th:href="@{/chatting(cp=${roomList.prevPage})}">&lt;</a>
                         
                         <th:block th:each="i : ${#numbers.sequence(roomList.blockStart, roomList.blockEnd)}">
                             <th:block th:if="${i > 0}">
-                                <a th:if="${i == roomList.currentPage}" 
-                                class="active" 
-                                th:text="${i}">1</a>
-                                
-                                <a th:unless="${i == roomList.currentPage}" 
-                                th:href="@{/chatting(cp=${i})}" 
-                                th:text="${i}">2</a>
+                                <a th:href="@{/chatting(cp=${i})}" 
+                                th:text="${i}" 
+                                th:classappend="${i == roomList.currentPage} ? 'active'">1</a>
                             </th:block>
                         </th:block>
 
                         <a th:href="@{/chatting(cp=${roomList.nextPage})}">&gt;</a>
-                        
                         <a th:href="@{/chatting(cp=${roomList.totalPage})}">&raquo;</a>
                     </nav>
                 </div>

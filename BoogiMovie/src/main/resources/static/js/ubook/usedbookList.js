@@ -115,3 +115,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+
+
+document.getElementById('enroll')?.addEventListener('click', () => {
+
+    location.href = `/ubooks/enroll`;
+    
+    
+    console.log(location.href)
+})

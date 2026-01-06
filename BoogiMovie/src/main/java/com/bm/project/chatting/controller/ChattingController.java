@@ -1,11 +1,14 @@
 package com.bm.project.chatting.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,12 +20,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import com.bm.project.chatting.model.dto.ChattingRoom;
 import com.bm.project.chatting.model.dto.Member_C;
 import com.bm.project.chatting.model.dto.ChattingMessage;
 import com.bm.project.chatting.model.service.ChattingService;
 import com.bm.project.common.utility.Util;
+import com.bm.project.dto.PageDto;
 import com.bm.project.dto.MemberDto.LoginResult;
 import com.bm.project.entity.Member;
 
@@ -32,7 +37,10 @@ import jakarta.servlet.http.HttpSession;
 public class ChattingController {
 
 	@Autowired
-	private ChattingService service;	
+	private ChattingService service;
+	
+	// 세션 관리: key=회원번호, value=SSE연결
+    public static final Map<Long, SseEmitter> emitters = new ConcurrentHashMap<>();
 
 		
 	@GetMapping("/chatting")
@@ -44,8 +52,9 @@ public class ChattingController {
 	    if (Member.IsYN.Y.equals(loginMember.getIsAdmin()) || "Y".equals(loginMember.getIsAdmin().toString())) {
 	        
 	        // 관리자: 전체 채팅방 목록 조회
-	        List<ChattingRoom> roomList = service.selectRoomList(loginMember.getMemberNo());
+	        PageDto<ChattingRoom> roomList = service.selectRoomList(loginMember.getMemberNo(), 1);
 	        model.addAttribute("roomList", roomList);
+	        System.out.println("페이지" + roomList);
 	        
 	        return "admin/chatting_manager"; 
 	    }
@@ -84,15 +93,18 @@ public class ChattingController {
 	    return service.checkChattingNo(map);
 	}
 	
-	// 채팅방 목록 조회
+	// 채팅방 목록 조회 (페이지네이션 포함)
 	@GetMapping(value="/chatting/roomList", produces="application/json; charset=UTF-8")
 	@ResponseBody
-	public List<ChattingRoom> selectRoomList(@SessionAttribute("loginMember") LoginResult loginMember){
-		return service.selectRoomList(loginMember.getMemberNo());
+	public PageDto<ChattingRoom> selectRoomList(
+			@SessionAttribute("loginMember") LoginResult loginMember,
+			@RequestParam(value="cp", defaultValue="1") int cp) {
+				
+		return service.selectRoomList(loginMember.getMemberNo(), cp);
 		
 	}
 	
-	// ChattingController.java
+	// updateReadFlag
 	@PutMapping("/chatting/updateReadFlag")
 	@ResponseBody
 	public int updateReadFlag(@RequestBody Map<String, Object> paramMap) {
@@ -189,6 +201,54 @@ public class ChattingController {
 	            return 0;
 	        }
 	        return service.getTotalUnreadCount(loginMember.getMemberNo());
+	    }	        
+
+	    @GetMapping(value = "/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+	    public SseEmitter subscribe(@SessionAttribute("loginMember") LoginResult loginMember) {
+	    	
+	            SseEmitter emitter = new SseEmitter(30 * 60 * 1000L); // 30분 유지
+	            Long memberNo = loginMember.getMemberNo();
+	            
+	            System.out.println("[SSE 연결 요청] 회원번호: " + memberNo);	            
+	            
+	            emitters.put(memberNo, emitter);
+	            System.out.println("SSE 연결 성공" + memberNo);	            
+	                        
+	            emitter.onCompletion(() -> {
+	            	emitters.remove(memberNo);
+	            	System.out.println("SSE 연결종료 / 회원번호 :" + memberNo);
+	            });      	
+	            
+	            
+	            emitter.onTimeout(() -> {
+	            	emitters.remove(memberNo);
+	            	System.out.println("SSE 타임아웃/회원번호 + memberNo");
+	            });
+	            
+
+	            // 연결 확인용 더미 데이터
+	            try { emitter.send(SseEmitter.event().name("connect").data("0")); 
+	            } catch (Exception e) {
+	            	System.out.println("더미데이터 전송 불가");	            	
+	            }
+	            
+	            return emitter;
+	        }
+	    
+	 // 서비스에서 호출할 숫자 전송 메서드
+	    public static void sendCount(Long memberNo, int totalCount) {
+	    	System.out.println("SSE 전송 시도 / 회원번호 : " + memberNo + "알림개수:" + totalCount);
+	        if (emitters.containsKey(memberNo)) {
+	            try {
+	                emitters.get(memberNo).send(totalCount);
+	                System.out.println("전송 성공" );
+	            } catch (Exception e) {
+	            	System.out.println("전송 실패" + e.getMessage());
+	                emitters.remove(memberNo);
+	            }
+	        }else {
+	        	System.out.println("회원이 연결되어 있지 않습니다." + memberNo);
+	        }
 	    }
 
 }

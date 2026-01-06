@@ -105,9 +105,9 @@
                 </a>
             </div>
         </div>
-        <!-- sec:authorize="hasRole('ADMIN')" 관리자만 가능-->
-        <div class="btn-area" >
-            <button id="write-btn">글쓰기</button>
+        <!-- sec:authorize="hasRole('ADMIN')" 관리자만 가능 -->
+        <div class="btn-area" sec:authorize="hasRole('ADMIN')">
+            <button id="write-btn" sec:authorize="hasRole('ADMIN')">글쓰기</button>
         </div>
     </div>
 
@@ -157,7 +157,7 @@
         <p>현재 페이지 데이터 개수: [[${pageDto.content.size()}]]</p>
         <p>전체 페이지 수: [[${pageDto.totalPage}]]</p>
         <p th:if="${!pageDto.content.isEmpty()}">
-            첫 번째 아이템 제목: [[${pageDto.content[0].productTitle}]]
+            첫 번째 아이템 제목: [[${pageDto}]]
         </p>
     </div> -->
 
