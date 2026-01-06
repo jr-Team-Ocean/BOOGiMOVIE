@@ -301,11 +301,6 @@ public class BookController {
 	}
 	
 	
-	
-	
-	
-	
-	
 	// 후기 삭제
 	@PostMapping("/reviews/{reviewNo}/delete")
 	@ResponseBody
@@ -319,13 +314,7 @@ public class BookController {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	
 	
