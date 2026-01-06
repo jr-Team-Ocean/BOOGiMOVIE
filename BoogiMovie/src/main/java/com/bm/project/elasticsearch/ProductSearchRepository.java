@@ -2,6 +2,7 @@ package com.bm.project.elasticsearch;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
@@ -21,5 +22,5 @@ public interface ProductSearchRepository extends ElasticsearchRepository<Product
             "    ]" +
             "  }" +
             "}")
-    List<ProductDocument> searchByKeyword(String keyword);
+    List<ProductDocument> searchByKeyword(String keyword, Pageable pageable);
 }

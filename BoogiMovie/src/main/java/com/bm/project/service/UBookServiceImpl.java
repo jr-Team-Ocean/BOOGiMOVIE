@@ -1,5 +1,7 @@
 package com.bm.project.service;
 
+import com.bm.project.enums.CommonEnums;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +19,7 @@ import com.bm.project.entity.Category;
 import com.bm.project.entity.Product;
 import com.bm.project.entity.Ubook;
 import com.bm.project.repository.UbookRepository;
+import com.bm.project.repository.UbookRepository2;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -29,6 +32,7 @@ import lombok.RequiredArgsConstructor;
 public class UBookServiceImpl implements UbookService{
 	
 	private final UbookRepository ubookRepository;
+	private final UbookRepository2 ubookRepositories;
 
 	
 	// 중고도서 목록 조회
@@ -111,6 +115,29 @@ public class UBookServiceImpl implements UbookService{
 		
 		return Response.toUbookDetailDto(product, ubook, category, pcategory, writers, publishers);
 
+		
+	}
+
+
+	// 중고도서 상품 삭제
+	@Transactional(readOnly=false)
+	@Override
+	public void deleteProduct(Long productNo) {
+		
+		Ubook ubook = ubookRepositories.findById(productNo)
+				.orElseThrow(() -> new EntityNotFoundException("해당 게시글이 존재하지 않습니다."));
+		
+		System.out.println("ubook : " + ubook);
+		
+		Product product = ubook.getProduct();
+		
+		System.out.println("product : " + product);
+		
+		product.setProductDelFl(CommonEnums.ProductDelFl.Y);
+		
+		
+		
+		
 		
 	}
 	
