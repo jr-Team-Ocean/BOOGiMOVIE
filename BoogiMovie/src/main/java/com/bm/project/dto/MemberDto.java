@@ -102,6 +102,8 @@ public class MemberDto {
 		private String enrollDate;
 		private String memberPhone;
 		private String profilePath;
+		private String memberEmail;
+		private String memberName;
 		
 		// 내가 소장한 영화
 		private List<PurchasedMovie> myMovies;
@@ -126,6 +128,8 @@ public class MemberDto {
 			return MemberInfo.builder()
 			.memberNo(member.getMemberNo())
 			.memberId(member.getMemberId())
+			.memberName(member.getMemberName())
+			.memberEmail(member.getMemberEmail())
 			.memberNickName(member.getMemberNickName())
 			.enrollDate(member.getEnrollDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd 가입"))) // 2026-01-01 가입
 			.memberPhone(member.getMemberPhone())

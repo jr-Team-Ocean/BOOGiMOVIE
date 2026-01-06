@@ -85,5 +85,7 @@ my:
     location: C:/bmImg/movie/
     webpath: /images/movie/
 
-
+  member:
+    location: C:/bmImg/member/
+    webpath: /images/member/
 
