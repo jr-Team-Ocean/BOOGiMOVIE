@@ -3,6 +3,8 @@ package com.bm.project.elasticsearch;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 //오라클에 있는 데이터 -> 엘라스틱 인덱스로 그대로 복사
 @Service
 @RequiredArgsConstructor
-public class CopyToDocumentService {
+public class ElasticsearchService {
 	private final ProductRepository productRepo;	   // 오라클 DB
 	private final ProductSearchRepository searchRepo;  // 엘라스틱
 	
@@ -44,7 +46,7 @@ public class CopyToDocumentService {
         for (ProductTagConnect connect : p.getProductTagConnects()) {
             ProductTag tag = connect.getProductTag();
             long code = tag.getTagCode().getTagCode(); // 1:작가, 2:감독...
-            String name = tag.getTagName();
+            String name = tag.getTagName(); // 작가/감독명, 출판사/제작사명 등
 
             switch ((int)code) {
                 case 1: authors.add(name); break;
@@ -67,6 +69,15 @@ public class CopyToDocumentService {
                 .directors(directors)
                 .publisher(publishers)
                 .build();
+	}
+
+	/** 통합검색
+	 * @param query
+	 * @return
+	 */
+	public List<ProductDocument> headerSearch(String query) {
+		Pageable pageable = PageRequest.of(0, 3);
+		return searchRepo.searchByKeyword(query, pageable);
 	}
 	
 }

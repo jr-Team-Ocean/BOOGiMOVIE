@@ -181,11 +181,11 @@
 	
 	<!-- 전체 안읽음 개수 조회 (해당 회원의 모든 채팅방 합계) -->
 	<select id="getTotalUnreadCount" resultType="_int">
-	    SELECT COUNT(*) 
+	    SELECT COUNT(*)
 	    FROM CHATTING_MESSAGE M
 	    WHERE M.CHATTING_ROOM_ID IN (
-	        SELECT CHATTING_ROOM_ID 
-	        FROM CHATTING_ROOM 
+	        SELECT CHATTING_ROOM_ID
+	        FROM CHATTING_ROOM
 	        WHERE ADMIN_MEMBER_NO = #{memberNo} OR USER_MEMBER_NO = #{memberNo}
 	    )
 	    AND M.SENDER_ID != #{memberNo}

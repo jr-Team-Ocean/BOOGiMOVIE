@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" th:href="@{/css/common/header.css}">
 
-    <link rel="stylesheet" th:href="@{footer.css}">
+    <link rel="stylesheet" th:href="@{/css/common/footer.css}">
 
     <link rel="stylesheet" th:href="@{/css/common/font.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -116,6 +116,8 @@
                         <span>5</span>
                         
                     </section>
+
+                    
                     
                     <section class="buttons">
 
@@ -128,10 +130,19 @@
                         </div>
     
                         <div class="button_bottom">
-    
-                            <button class="edit_btn">수정하기</button>
+                            
+                            <form class="del_btn_case" th:action="@{/ubooks/{id}(id=${ubook.productNo})}" method="">
+
+                                <button class="edit_btn">수정하기</button>
+
+                            </form>
         
-                            <button class="del_btn">삭제하기</button>
+                        
+
+                            <form class="del_btn_case" th:action="@{/ubooks/{id}(id=${ubook.productNo})}" method="post">
+                                
+                                <button type="submit" class="del_btn">삭제하기</button>
+                            </form>
                             
                             <a th:href="@{/ubooks}">
                                 
@@ -147,6 +158,8 @@
                 
                 
             </section>
+
+            <hr class="line">
 
             <section class="detail_middle">
 
@@ -275,6 +288,8 @@
             <section class="usedBook_detail_low">
 
                 <br><br><br>
+
+                <hr class="linet">
 
                 <div>책소개</div>
 

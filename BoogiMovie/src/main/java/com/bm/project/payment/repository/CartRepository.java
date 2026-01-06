@@ -1,17 +1,17 @@
 package com.bm.project.payment.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
 import com.bm.project.entity.Member;
 import com.bm.project.entity.Product;
 import com.bm.project.payment.entity.Cart;
 import com.bm.project.payment.model.dto.ICartDto;
 
-public interface CartRepository extends JpaRepository<Cart, Long>{
+public interface CartRepository extends JpaRepository<Cart, Long> {
 
 	// 장바구니 목록 조회
 	@Query(value = 
@@ -29,5 +29,8 @@ public interface CartRepository extends JpaRepository<Cart, Long>{
 	
 	// 결제한 아이템 장바구니에서 삭제
 	void deleteByMemberAndProduct(Member member, Product product);
+
+	
+	Optional<Cart> findByMemberMemberNoAndProductProductNo(Long memberNo, Long productNo);
 
 }

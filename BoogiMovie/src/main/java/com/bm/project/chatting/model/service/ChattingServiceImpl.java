@@ -142,7 +142,7 @@ public class ChattingServiceImpl implements ChattingService {
 	
 	// 안읽은 채팅 개수 확인
 	@Override
-	public int getTotalUnreadCount(int memberNo) {
+	public int getTotalUnreadCount(Long memberNo) {
 	    return mapper.getTotalUnreadCount(memberNo);
 	}
 }

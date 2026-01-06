@@ -157,6 +157,16 @@
     margin-left: 5px;
     background-color: #F4307E;
     cursor: pointer;
+
+    font-size: 16px;
+    width: 90px;
+    height: 35px;
+    border-radius: 5px;
+    color: white;
+    margin-top: 15px;
+    font-weight: bold;
+    border: 0px;
+
 }
 
 .button_bottom > a{
@@ -176,6 +186,21 @@
     margin-top: 15px;
     font-weight: bold;
     border: 0px;
+}
+
+.line{
+    width: 1200px;
+    border: 1px solid black;
+
+    margin-top: 50px;
+}
+
+.linet{
+
+    width: 1200px;
+    border: 1px solid black;
+    margin-bottom: 30px;
+
 }
 
 .detail_middle > table{

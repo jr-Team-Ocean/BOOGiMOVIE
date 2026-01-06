@@ -225,7 +225,8 @@ main{
     display: flex;
     flex-wrap: wrap;
     
-    gap: 77px;
+    
+    gap: 60px;
     
     
 }
@@ -243,39 +244,47 @@ main{
 .list_info {
     
     flex-direction: column;
-    width: 178px;
+    /* width: 100px; */
     cursor: pointer;
 }
 
 .list_img{
-    max-width: 178px;
+    width: 180px;
+    height: 260px;
 }
 
 .list_title{
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
+    color: black;
 }
 
 .list_author, .list_publisher{
     color: #565050;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .list_price{
-    color: #5170B0;
-    font-size: 14px;
+    color: black;
+    font-size: 12px;
+}
+
+.line{
+    width: 1200px;
+    border: 1px solid black;
+    margin-top: 20px;
+
 }
 
 
-
 .enroll_btn{
-    width: 185px;
-    height: 70px;
+    width: 90px;
+    height: 35px;
     border: 0;
     border-radius: 5px;
     background-color: #082A71;
     color: white;
-    font-size: 24px;
+    font-size: 16px;
     font-weight: bold;
     margin-top: 50px;
 }

@@ -100,4 +100,38 @@ public class CartController {
 		}
 		
 	}
+	
+	@PostMapping("/addCart")
+	@ResponseBody
+	public int addCart(
+			@RequestBody Map<String, Object> paramMap,
+		    @SessionAttribute(value = "loginMember", required = false) MemberDto.LoginResult loginMember
+			) {
+		
+		if (loginMember == null) return -1;
+		
+		Long productNo = Long.valueOf(paramMap.get("productNo").toString());
+		Integer quantity = Integer.valueOf(paramMap.get("quantity").toString());
+		
+		service.addCart(productNo, quantity, loginMember.getMemberNo());
+		
+		
+		
+		return 1;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

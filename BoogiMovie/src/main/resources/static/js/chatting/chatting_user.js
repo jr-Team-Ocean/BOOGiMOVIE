@@ -17,15 +17,26 @@ if (typeof SockJS !== 'undefined') {
     try {
         const msg = JSON.parse(e.data);
         const receivedNo = msg.chattingNo || msg.chatting_no || msg.chattingRoomId;
-        
+        const senderNo = msg.senderNo || msg.sender_no || msg.senderId; // 발신자 확인
+
+        // 1. 내가 보낸 메시지인 경우 카운트 증가 없이 목록만 갱신하고 종료
+        if (Number(senderNo) === Number(loginMemberNo)) {
+            if (selectChattingNo && Number(selectChattingNo) === Number(receivedNo)) {
+                selectMessageList();
+            }
+            return; 
+        }
+
+        // 2. 상대방(관리자)이 보낸 메시지인 경우
         if (selectChattingNo && Number(selectChattingNo) === Number(receivedNo)) {
-            // 안 읽은 상태가 시작될 때 인덱스를 고정하기 위해 unreadCount 체크
+            // 현재 창을 안 보고 있거나 스크롤이 위에 있을 때만 카운트 증가
             if (document.visibilityState === 'hidden' || !document.hasFocus() || !isAutoScroll) {
                 unreadCount++;
                 updateUnreadUI();
             }
             selectMessageList(); 
         } else {
+            // 다른 채팅방 메시지거나 채팅창 밖일 때
             unreadCount++;
             updateUnreadUI();
         }
@@ -38,48 +49,69 @@ if (typeof SockJS !== 'undefined') {
 
 
 // 2. UI 업데이트 함수
-// 2. UI 업데이트 함수
 function updateUnreadUI() {
-    // 1) 페이지 내의 모든 배지(클래스 기반)와 헤더 특정 배지(ID 기반) 호출
-    const badges = document.querySelectorAll('.notread_img');
+    // 1. 헤더 배지 및 헤더 링크 처리
     const headerBadge = document.getElementById('headerUnreadBadge');
+    
+    // 배지가 들어있는 부모 링크(예: 1:1 문의 a태그)를 찾습니다.
+    const headerLink = headerBadge ? headerBadge.closest('a') : null;
 
-    // 2) 클래스로 찾은 모든 요소 업데이트 (채팅창 내부 등)
+    if (headerBadge) {
+        headerBadge.innerText = unreadCount;
+        headerBadge.style.display = unreadCount > 0 ? 'inline-block' : 'none';
+        headerBadge.style.cursor = 'pointer';
+    }
+
+    // 헤더 링크나 배지를 눌렀을 때의 동작
+    const headerTarget = headerLink || headerBadge;
+    if (headerTarget) {
+        headerTarget.onclick = (e) => {
+            // 이미 채팅 페이지라면 페이지 이동을 막고 안내선으로 스크롤
+            if (window.location.pathname.includes('/chatting')) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // 안내선으로 이동
+                const line = document.querySelector('.unread-line');
+                if (line) {
+                    line.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else if (unreadCount > 0) {
+                    // 안내선이 없다면 강제로 그려주고 이동
+                    selectMessageList();
+                    setTimeout(() => {
+                        const newLine = document.querySelector('.unread-line');
+                        if (newLine) newLine.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 200);
+                }
+            }
+            // 채팅 페이지가 아니라면 그대로 링크를 타고 이동하게 둡니다.
+        };
+    }
+
+    // 2. 페이지 내 다른 배지들 처리 (기존 유지)
+    const badges = document.querySelectorAll('.notread_img');
     badges.forEach(badge => {
         badge.innerText = unreadCount;
         badge.style.display = unreadCount > 0 ? 'inline-block' : 'none';
 
-        // [채팅창 내부 전용] '안읽음' 버튼 처리 로직
         const parentButton = badge.closest('.notread');
         if (parentButton) {
-            parentButton.onclick = () => {
-                if (unreadCount > 0) {
-                    isAutoScroll = true;
-                    selectMessageList();
-                    setTimeout(() => {
-                        const line = document.querySelector('.unread-line');
-                        if (line) line.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        updateReadFlag();
-                        unreadCount = 0;
-                        updateUnreadUI();
-                    }, 150); 
+            parentButton.onclick = (e) => {
+                if (window.location.pathname.includes('/chatting')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const line = document.querySelector('.unread-line');
+                    if (line) line.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
             };
         }
     });
-
-    // 3) 헤더 배지 업데이트 (ID 기반으로 한 번 더 확실하게 처리)
-    // 위 forEach에서 이미 처리되었을 수도 있지만, ID가 다를 경우를 대비한 안전장치입니다.
-    if (headerBadge) {
-        headerBadge.innerText = unreadCount;
-        headerBadge.style.display = unreadCount > 0 ? 'inline-block' : 'none';
-    }
 }
 
 // 창을 다시 볼 때 처리
 window.onfocus = function() {
     if (!isInitialLoad && selectChattingNo && unreadCount > 0 && isAutoScroll) {
-        updateReadFlag();
+
         getUnreadCount();
     }
 };
@@ -246,12 +278,9 @@ function selectMessageList() {
 
 // ========== 메시지 전송 ==========
 function sendMessage() {
-    console.log('오비제이before')
-    console.log(selectChattingNo)
-    console.log(selectTargetNo)
-    
     const input = document.getElementById('chattingInput');
-    console.log(input.value)
+    
+    // 기본 유효성 검사
     if (!input?.value.trim() || !selectChattingNo || !selectTargetNo) return;
     
     const obj = { 
@@ -261,16 +290,21 @@ function sendMessage() {
         messageContent: input.value.trim() 
     };
 
-    console.log('오비제이')
-    console.log(obj)
-
     if (chattingSock?.readyState === 1) {
         chattingSock.send(JSON.stringify(obj));
         input.value = '';
         input.focus();
+
+        // ✅ 메시지 전송 시 본인 채팅창의 카운트와 UI를 즉시 초기화
+        unreadCount = 0;           // 1. 카운트 0으로 설정
+        updateUnreadUI();          // 2. 헤더 및 배지 UI 반영
+        updateReadFlag();          // 3. 서버 DB에도 읽음 처리 알림
+        
+        fixedLastReadIndex = null; // 4. "여기까지 읽었습니다" 선 제거용 초기화
+        isAutoScroll = true;       // 5. 내가 보낸 메시지를 보기 위해 하단 스크롤
+        
+        selectMessageList();       // 6. 목록 즉시 갱신
     }
-
-
 }
 
 // ========== 읽음 처리 (방어 코드 추가) ==========

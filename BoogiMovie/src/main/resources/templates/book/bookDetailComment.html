@@ -8,7 +8,7 @@
         <div class="review-write-top">
             
             <!-- 로그인 한 사람 -->
-            <button class="review-write-btn" th:if="${loginMember != null}">
+            <button class="review-write-btn" th:if="${session.loginMember != null}">
                 후기 작성
             </button>
 

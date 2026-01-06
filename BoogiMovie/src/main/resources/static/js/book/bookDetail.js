@@ -327,7 +327,6 @@ reviewListArea?.addEventListener('click', (e) => {
         if (!box) return;
 
         
-        const detail   = box.querySelector('.review-detail');
         const controll = box.querySelector('.review-controll');
         const editArea = box.querySelector('.review-edit-area');
         const editInput = box.querySelector('.review-edit-input');
@@ -411,3 +410,45 @@ function loadReviewList() {
         })
         .catch(err => console.error(err));
 }
+
+
+
+// 장바구니
+document.querySelector('.add-cart').addEventListener('click', () => {
+
+    // 로그인 체크
+    if (loginMemberNo === "") {
+        alert("로그인 후 이용해주세요.");
+        return;
+    }
+
+    const buyCount = document.querySelector('.book-price input[type="number"]');
+
+    const quantity = Number(buyCount.value);
+
+    if (quantity < 1) {
+        alert("수량은 1개 이상이어야 합니다.");
+        return;
+    }
+
+    fetch(`/cart/addCart`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            productNo,
+            quantity
+        })
+    })
+    .then(resp => resp.text())
+    .then(result => {
+        if (result != 1) {
+            alert("장바구니 담기에 실패했습니다.");
+            return;
+        }
+
+        if (confirm("장바구니에 담았습니다. 이동하시겠습니까?")) {
+            location.href = "/cart";
+        }
+    })
+    .catch(err => console.error(err));
+});
