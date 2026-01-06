@@ -1,5 +1,6 @@
 package com.bm.project.elasticsearch;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bm.project.payment.model.service.PaymentServiceImpl;
 
+import co.elastic.clients.elasticsearch._types.ElasticsearchException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import oracle.jdbc.proxy.annotation.Post;
@@ -58,6 +60,13 @@ public class ElasticsearchController {
         }
 
         return searchDto;
+	}
+	
+	// 인기 검색어
+	@GetMapping("/search/rank")
+	@ResponseBody
+	public List<String> getTopKeywords() throws ElasticsearchException, IOException {
+		return service.getTopKeywords();
 	}
 
 }

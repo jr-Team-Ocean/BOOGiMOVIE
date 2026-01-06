@@ -136,29 +136,16 @@
                         
                         <div class="popular_search_window">
                             <ul class="popular_search_list">
-                                <li>개발자 책 추천</li>
-                                <li>자바스크립트 죽어</li>
+                                <!-- <li>개발자 책 추천</li>
                                 <li>아 살려주세요</li>
                                 <li>여기 사람 갇혔어요</li>
                                 <li>이거 언제 다 만드냐고</li>
                                 <li>왜 되다 말어</li>
                                 <li>왜애애애</li>
                                 <li>제발 잠 좀</li>
-                                <li>자게 해주세요</li>
-                                <li>종강원해요</li>
+                                <li>자게 해주세요</li> -->
                             </ul>
                         </div>
-    
-                        <!-- <div class="popular_search_window">
-                            <ul class="popular_search_list" id="rollingList">
-                                <li th:each="keyword, stat : ${popularKeywords}" 
-                                    th:text="${stat.count + '. ' + keyword}">검색어</li>
-                                
-                                검색어 무한 반복을 위해 처음 요소를 다시 넣어줌!
-                                <li th:if="${not #lists.isEmpty(popularKeywords)}" 
-                                    th:text="${'1. ' + popularKeywords[0]}">검색어</li>
-                            </ul>
-                        </div> -->
                 </div>
             </div>
         </div>
@@ -179,6 +166,7 @@
         /*]]>*/
     </script>
     <script th:src="@{/js/common/header.js}"></script>
+    <script th:src="@{/js/common/search.js}"></script>
 
 
 
