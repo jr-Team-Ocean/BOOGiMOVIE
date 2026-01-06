@@ -71,6 +71,7 @@
     </div>
 
     <script th:inline="javascript">
+
         const message = /*[[${message}]]*/ "전달 받은 message";
         if(message != null) alert(message);
 
@@ -78,7 +79,7 @@
         function getCookie(key){
             const cookies = document.cookie
             console.log(cookies)
-            const cookieList = cookies.split(";").map(cookie => cookie.split("="))
+            const cookieList = cookies.split("; ").map(cookie => cookie.split("="))
 
             const obj = {}; // 비어있는 객체 생성
 

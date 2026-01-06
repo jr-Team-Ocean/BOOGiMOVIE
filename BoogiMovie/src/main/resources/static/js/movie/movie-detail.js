@@ -242,8 +242,8 @@ reviewListArea?.addEventListener('click', e => {
 
         // 복원
         editArea.classList.add('closed')
-        buttons.classList.remove('closed')
         content.classList.remove('closed')
+        buttons.classList.remove('closed')
     }
 
 })
@@ -324,7 +324,7 @@ function loadReviewList(){
 }
 
 //===========================================================================
-
+// 관리자
 // 수정 버튼 클릭시 update화면으로
 document.getElementById('update-btn')?.addEventListener("click", ()=>{
     location.href = `${location.pathname}/update`;
@@ -337,22 +337,27 @@ document.getElementById('delete-btn')?.addEventListener('click', ()=>{
     }
 })
 
-// 좋아요
-const likeBtn = document.getElementById('movieLikeBtn')
-const movieLike = document.querySelector('#movieHeart')
+//===========================================================================
 
-likeBtn.addEventListener('click', (e) => {
+// 좋아요
+const movieLike = document.getElementById('movieHeart')
+
+movieLike.addEventListener('click', (e) => {
 
     // console.count("LIKE_CLICK");
-    e.preventDefault();
 
     if(loginMemberNo == "" || loginMemberNo == null){
         alert("로그인 후 이용해주세요.");
         return;
     }
 
-    const isLiked = movieLike.classList.contains('fa-solid');
-    const check = isLiked ? 0 : 1; // 0: 삭제(취소), 1: 추가
+    let check; // 0= 안함, 1 = 함
+
+    if(e.target.classList.contains("fa-regular")){
+        check = 0;
+    }else{
+        check = 1;
+    }
 
     const likeData = {
         'memberNo' : loginMemberNo,
@@ -362,20 +367,20 @@ likeBtn.addEventListener('click', (e) => {
 
     fetch("/movies/like", {
         method : "POST",
-        headers : { "Content-Type" : "application/json" },
+        headers : {"Content-Type" : "application/json"},
         body : JSON.stringify(likeData)
     })
     .then(resp => resp.text())
     .then(count => {
-        console.log("likeCount : ", count)
+        // console.log("likeCount : ", count)
 
-        if(count === -1){
+        if(count == -1){
             alert("좋아요 처리 중 문제가 발생했습니다.");
             return;
         }
 
-        movieLike.classList.toggle('fa-regular', check === 0);
-        movieLike.classList.toggle('fa-solid', check === 1);
+        e.target.classList.toggle('fa-regular');
+        e.target.classList.toggle('fa-solid');
 
         // 현재 좋아요 수 
         document.getElementById('likeCount').innerText = count;
