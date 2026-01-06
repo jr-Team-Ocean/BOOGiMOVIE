@@ -327,7 +327,6 @@ reviewListArea?.addEventListener('click', (e) => {
         if (!box) return;
 
         
-        const detail   = box.querySelector('.review-detail');
         const controll = box.querySelector('.review-controll');
         const editArea = box.querySelector('.review-edit-area');
         const editInput = box.querySelector('.review-edit-input');

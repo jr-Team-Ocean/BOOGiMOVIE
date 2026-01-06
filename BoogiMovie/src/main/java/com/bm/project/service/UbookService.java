@@ -17,6 +17,9 @@ public interface UbookService {
 	// 중고도서 상세 조회
 	UbookDto.Response selectUbookDetail(Long productNo);
 	
+	// 중고도서 상품 삭제
+	void deleteProduct(Long productNo);
+	
 	
 	
 	
