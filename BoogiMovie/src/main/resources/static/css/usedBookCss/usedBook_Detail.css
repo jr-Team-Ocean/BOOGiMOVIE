@@ -178,6 +178,21 @@
     border: 0px;
 }
 
+.line{
+    width: 1200px;
+    border: 1px solid black;
+
+    margin-top: 50px;
+}
+
+.linet{
+
+    width: 1200px;
+    border: 1px solid black;
+    margin-bottom: 30px;
+
+}
+
 .detail_middle > table{
 
     display: block
