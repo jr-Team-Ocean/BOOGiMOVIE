@@ -3,6 +3,8 @@ package com.bm.project.elasticsearch;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,7 +46,7 @@ public class ElasticsearchService {
         for (ProductTagConnect connect : p.getProductTagConnects()) {
             ProductTag tag = connect.getProductTag();
             long code = tag.getTagCode().getTagCode(); // 1:작가, 2:감독...
-            String name = tag.getTagName();
+            String name = tag.getTagName(); // 작가/감독명, 출판사/제작사명 등
 
             switch ((int)code) {
                 case 1: authors.add(name); break;
@@ -74,7 +76,8 @@ public class ElasticsearchService {
 	 * @return
 	 */
 	public List<ProductDocument> headerSearch(String query) {
-		return searchRepo.searchByKeyword(query);
+		Pageable pageable = PageRequest.of(0, 3);
+		return searchRepo.searchByKeyword(query, pageable);
 	}
 	
 }

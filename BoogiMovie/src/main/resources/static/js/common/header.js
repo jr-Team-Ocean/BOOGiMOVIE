@@ -32,16 +32,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.querySelector('.search_input input'); // 검색바
     const searchDropdown = document.querySelector('.search_dropdown'); // 결과 박스
 
-    searchInput.addEventListener('input', function (e) {
+    searchInput.addEventListener('input', e => {
         const keyword = e.target.value.trim();
 
+        
         /* 검색어 없으면 결과 박스 숨김 */
         if (keyword.length === 0) {
             searchDropdown.style.display = 'none';
             return;
         }
 
-        fetch(`/search?query=${keyword}`)
+        
+        /* 사용자가 엔터를 보냈을 경우 로그 찍기 (엔터 상태값) */
+        // if(e.keyword == 'Enter') {
+        //     console.log("엔터 입력");
+        // }
+
+        const isEnter = '&isEnter=yes';
+
+        fetch(`/search?query=${keyword}&isEnter=${isEnter}`)
             .then(response => response.json())
             .then(data => {
                 console.log(data);
@@ -64,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         /* 도서가 있는 경우 */
         if (data.books && data.books.length > 0) {
-            const categoryHtml = makeCategoryHtml('도서', data.books);
+            const categoryHtml = makeCategoryHtml('도서', data.books, 'books');
 
                         /* 요소 바로 안에서 마지막 자식 이후에 위치 */
             searchDropdown.insertAdjacentHTML('beforeend', categoryHtml);
@@ -73,14 +82,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         /* 중고 도서가 있는 경우 */
         if (data.usedBooks && data.usedBooks.length > 0) {
-            const categoryHtml = makeCategoryHtml('중고도서', data.usedBooks);
+            const categoryHtml = makeCategoryHtml('중고도서', data.usedBook, 'ubooks');
             searchDropdown.insertAdjacentHTML('beforeend', categoryHtml);
             hasResult = true;
         }
 
         /* 영화가 있는 경우 */
         if (data.movies && data.movies.length > 0) {
-            const categoryHtml = makeCategoryHtml('영화', data.movies);
+            const categoryHtml = makeCategoryHtml('영화', data.movies, 'movies');
             searchDropdown.insertAdjacentHTML('beforeend', categoryHtml);
             hasResult = true;
         }
@@ -91,19 +100,37 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function makeCategoryHtml(categoryTitle, items) {
+    /* 검색 결과 그리기 */
+    function makeCategoryHtml(categoryTitle, items, urlCategory) {
         let itemsHtml = '';
         items.forEach(item => {
+            const detailLink = `/${urlCategory}/${item.product_no}`;
             itemsHtml += `
-            <a href="#" class="category_a">
-                <div class="dropdown_item">
-                    <div class="dropdown_img">
-                        <img src="${item.img}" alt="이미지">
+                <a href="${detailLink}" class="category_a">
+                    <div class="dropdown_item">
+                        
+                        <div class="dropdown_img">
+                            <img src="${item.img_path}" alt="${item.product_title}"> 
+                        </div>
+                        
+                        <div class="dropdown_text_area">
+                            
+                            <div class="dropdown_item_name dropdown_item_title" style="font-weight: bold; font-size: 15px; margin-bottom: 2px; color: #333;">
+                                ${item.product_title}
+                            </div>
+                            
+                            <div class="dropdown_item_name dropdown_item_publisher" style="color: #666;">
+                                ${item.publisher || ''} 
+                            </div>
+
+                            <div class="dropdown_item_name dropdown_item_creator" style="color: #999;">
+                                ${item.creator || ''}
+                            </div>
+
+                        </div>
                     </div>
-                    <div class="dropdown_item_name">${item.title}</div>
-                </div>
-            </a>
-        `;
+                </a>
+            `;
         });
 
         return `
@@ -121,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /* ============================================================================ */
     /* 안읽은 알림 카운트 동기화 (홈 이동 시 초기화 방지) */
-    /* ============================================================================ */
+/* ============================================================================ */
 
     function updateHeaderUnreadCount() {
     console.log('=== updateHeaderUnreadCount 시작 ===');
