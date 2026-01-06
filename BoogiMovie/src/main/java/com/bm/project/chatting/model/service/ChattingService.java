@@ -16,7 +16,7 @@ public interface ChattingService {
 	 * @param memberNo
 	 * @return roomList
 	 */
-	PageDto<ChattingRoom> selectRoomList(Long memberNo, int cp);
+	Map<String, Object> selectRoomList(Long memberNo, int cp);
 	
 	/** 채팅 상대 조회
 	 * @param map
@@ -53,12 +53,6 @@ public interface ChattingService {
 	 * @return room
 	 */
 	ChattingRoom selectChattingRoom(int chattingRoomId);
-
-	/** 관리자 채팅방 자동 배정 및 입장
-	 * @param memberNo
-	 * @return chatInfo
-	 */
-	Map<String, Object> enterAdminChat(Long memberNo);
 	
 	/** 안읽은 메세지 개수 가져오기
 	 * @param map
@@ -92,5 +86,13 @@ public interface ChattingService {
 	 * @return
 	 */
 	int getTotalUnreadCount(Long memberNo);
+	
+	/** 관리자 채팅방 자동 배정 및 입장
+	 * @param memberNo
+	 * @return chatInfo
+	 */
+	Map<String, Object> enterAdminChat(Long memberNo);
 
 }
+
+

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +15,7 @@ import com.bm.project.chatting.controller.ChattingController;
 import com.bm.project.chatting.model.dao.ChattingMapper;
 import com.bm.project.chatting.model.dto.ChattingRoom;
 import com.bm.project.chatting.model.dto.Member_C;
+import com.bm.project.chatting.model.dto.Pagination;
 import com.bm.project.chatting.model.dto.ChattingMessage;
 import com.bm.project.chatting.model.dto.ChattingImage;
 import com.bm.project.common.utility.Util;
@@ -79,29 +81,31 @@ public class ChattingServiceImpl implements ChattingService {
     }
 
     @Override
-    public PageDto<ChattingRoom> selectRoomList(Long memberNo, int cp) {
+    public Map<String, Object> selectRoomList(Long memberNo, int cp) {
         
-    	int limit = 10; // 페이지당 채팅방 개수
+    	Long listCount = (long) mapper.getListCount(memberNo);
     	
-    	
-    	int totalCount = mapper.getListCount(memberNo); // 전체 채팅방 수 조회
-    	
-    	int start = (cp - 1) * limit + 1; // 처음 번호
-    	int end = cp * limit; // 끝 번호
-    	
-    	// 전달 객체 생성
-    	Map<String, Object> map = new HashMap<>();
-    	map.put("memberNo", memberNo);
-    	map.put("start", start);
-    	map.put("end", end);
-    	
-    	// 페이지 포함 목록 조회(매퍼에 메서드 추가 필요) 
-    	List<ChattingRoom> roomList = mapper.selectRoomListPaging(map);
-    	System.out.println("cp:" + cp);
-    	System.out.println("totalCount:" + totalCount);
-    	System.out.println("limit:" + limit);
-    	 System.out.println("페이지" + roomList);
-    	return new PageDto<>(roomList, cp, totalCount, limit);
+		Pagination pagination = new Pagination(cp, listCount.intValue());
+
+		// 3. 특정 게시판에서 현재 페이지에 해당하는 부분에 대한 게시글 목록 조회
+		// -> 어떤 게시판(boardCode)에서
+		//    몇 페이지(pagination.currentPage)에 대한
+		//    게시글 몇 개 (pagination.limit) 조회
+
+		// 1) offset 계산
+		int offset = (pagination.getCurrentPage() - 1) * pagination.getLimit();
+
+		// 2) RowBounds 객체 생성
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+
+		List<ChattingRoom> roomList = mapper.selectRoomList(memberNo, rowBounds); 
+
+		// 4. pagination, boardList를 Map에 담아서 반환
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("pagination", pagination);
+		map.put("roomList", roomList);
+
+		return map;
     }
 
     @Override
@@ -146,28 +150,6 @@ public class ChattingServiceImpl implements ChattingService {
     }
 
     @Override
-    public Map<String, Object> enterAdminChat(Long memberNo) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("memberNo", memberNo);
-        List<Integer> adminList = mapper.enterAdminChat();
-        if (adminList.isEmpty()) throw new RuntimeException("채팅 가능한 관리자가 없습니다.");
-        
-        int targetNo = adminList.get(0); 
-        map.put("targetNo", targetNo);
-        int chattingNo = mapper.checkChattingNo(map);
-
-        if (chattingNo == 0) { 
-            mapper.createChattingRoom(map); 
-            chattingNo = (int)map.get("chattingNo");
-        }
-
-        Map<String, Object> result = new HashMap<>();
-        result.put("chattingNo", chattingNo);
-        result.put("targetNo", targetNo);
-        return result;
-    }
-
-    @Override
     public int getUnreadCount(Map<String, Object> map) {
         return mapper.getUnreadCount(map);
     }
@@ -188,4 +170,30 @@ public class ChattingServiceImpl implements ChattingService {
 	public int getTotalUnreadCount(Long memberNo) {
 	    return mapper.getTotalUnreadCount(memberNo);
 	}
+	
+	 // 여러 관리자중 1명 선택
+	@Override
+	public Map<String, Object> enterAdminChat(Long memberNo) {
+	  Map<String, Object> map = new HashMap<>();
+	  map.put("memberNo", memberNo);
+	  List<Integer> adminList = mapper.enterAdminChat();
+	  if (adminList.isEmpty()) throw new RuntimeException("채팅 가능한 관리자가 없습니다.");
+	  
+	  int targetNo = adminList.get(0); 
+	  map.put("targetNo", targetNo);
+	  int chattingNo = mapper.checkChattingNo(map);
+	
+	  if (chattingNo == 0) { 
+	      mapper.createChattingRoom(map); 
+	      chattingNo = (int)map.get("chattingNo");
+	  }
+	
+	  Map<String, Object> result = new HashMap<>();
+	  result.put("chattingNo", chattingNo);
+	  result.put("targetNo", targetNo);
+	  return result;
+	}
+
 }
+
+
