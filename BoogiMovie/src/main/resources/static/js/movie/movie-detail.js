@@ -421,3 +421,39 @@ document.querySelector('.add-cart').addEventListener('click', () => {
 });
 
 
+// 결제창 즉시 이동
+document.querySelector('.buy')?.addEventListener('click', () => {
+
+    // 로그인 체크
+    if (loginMemberNo === "") {
+        alert("로그인 후 이용해주세요.");
+        return;
+    }
+
+    // 영화 수량 고정
+    const quantity = 1;
+
+    const orderItemList = [];
+
+    const orderItem = {
+        product_no: parseInt(productNo),
+        quantity: quantity
+    };
+
+    orderItemList.push(orderItem);
+
+    fetch("/cart/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderItemList)
+    })
+    .then(resp => resp.text())
+    .then(result => {
+        if (result > 0) {
+            location.href = "/order/delivery";
+        } else {
+            alert("배송 정보가 없어 주문할 수 없습니다.");
+        }
+    })
+    .catch(err => console.log(err));
+});
