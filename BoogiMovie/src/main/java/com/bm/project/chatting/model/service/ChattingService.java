@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.bm.project.chatting.model.dto.ChattingRoom;
 import com.bm.project.chatting.model.dto.Member_C;
+import com.bm.project.dto.PageDto;
 import com.bm.project.chatting.model.dto.ChattingMessage;
 
 public interface ChattingService {
@@ -15,7 +16,7 @@ public interface ChattingService {
 	 * @param memberNo
 	 * @return roomList
 	 */
-	List<ChattingRoom> selectRoomList(Long memberNo);
+	PageDto<ChattingRoom> selectRoomList(Long memberNo, int cp);
 	
 	/** 채팅 상대 조회
 	 * @param map

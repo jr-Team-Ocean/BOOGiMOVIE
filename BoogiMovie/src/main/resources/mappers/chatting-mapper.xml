@@ -191,5 +191,35 @@
 	    AND M.SENDER_ID != #{memberNo}
 	    AND M.READ_YN = 'N'
 	</select>
+	
+	<!-- 채팅 상대자 번호 가져오기 -->
+	<select id="getReceiverId" resultType="_int">
+	    SELECT 
+	        CASE 
+	            WHEN ADMIN_MEMBER_NO = #{senderNo} THEN USER_MEMBER_NO 
+	            ELSE ADMIN_MEMBER_NO 
+	        END AS receiverId
+	    FROM CHATTING_ROOM
+	    WHERE CHATTING_ROOM_ID = #{chattingNo}
+	</select>
+
+	<!-- 전체 채팅방 수 조회 -->
+	<select id="getListCount" resultType="_int">
+	    SELECT COUNT(*) FROM CHATTING_ROOM
+	    WHERE (ADMIN_MEMBER_NO = #{memberNo} OR USER_MEMBER_NO = #{memberNo})	    
+	</select>
+	
+	<!-- 페이징 처리된 목록 조회 -->
+	<select id="selectRoomListPaging" resultMap="chattingRoom_rm">
+	    SELECT * FROM (
+	        SELECT R.*, ROW_NUMBER() OVER(ORDER BY 
+	            /* MAX(SEND_TIME)을 MAX(SENT_AT)으로 수정 */
+	            (SELECT MAX(SENT_AT) FROM CHATTING_MESSAGE M WHERE M.CHATTING_ROOM_ID = R.CHATTING_ROOM_ID) DESC NULLS LAST
+	        ) AS RNUM
+	        FROM CHATTING_ROOM R
+	        WHERE ADMIN_MEMBER_NO = #{memberNo} OR USER_MEMBER_NO = #{memberNo}
+	    ) WHERE RNUM BETWEEN #{start} AND #{end}
+	</select>
+	
 
 </mapper>
