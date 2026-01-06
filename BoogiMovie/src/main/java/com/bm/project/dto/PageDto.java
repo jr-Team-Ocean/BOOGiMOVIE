@@ -45,6 +45,22 @@ public class PageDto<T> {
 		
 	}
 	
+	// 채팅용 MyBatis 페이지네이션
+    public PageDto(List<T> content, int currentPage, int totalCount, int limit) {
+        this.content = content;
+        this.currentPage = currentPage;
+        this.totalCount = (long)totalCount; 
+        
+        // 전체 페이지 수 직접 계산
+        this.totalPage = (int) Math.ceil((double) totalCount / limit);
+        
+        // 다음/이전 페이지 존재 여부 계산
+        this.hasNext = this.currentPage < this.totalPage;
+        this.hasPrevious = this.currentPage > 1;
+                 
+        pagination();
+    }
+	
 	private void pagination() {
 		
 		this.startPage = 1;

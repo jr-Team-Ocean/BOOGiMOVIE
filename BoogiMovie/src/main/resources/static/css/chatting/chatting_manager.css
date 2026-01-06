@@ -401,3 +401,49 @@ main {
     list-style: none;
 }
 
+
+.recent-message {
+    width: 50px;
+}
+
+.message-box .recent-message {
+    width: 80px; /* 원하는 너비 설정 */
+    white-space: nowrap;      /* 줄바꿈 방지 */
+    overflow: hidden;         /* 영역 밖 숨김 */
+    text-overflow: ellipsis;  /* 넘치면 ... 표시 */
+    display: block;           /* p태그라면 기본값이지만 명시해두면 안전 */
+}
+
+
+/* ========================================= */
+/* ========================================= */
+/* ========================================= */
+/* 기존 .pagination 디자인을 새 클래스명에 연결 */
+.side_pagination_section {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 70px;
+    margin-bottom: 50px;
+}
+
+/* nav 내부의 a 태그들 디자인 */
+.side_list_pagination a {
+    width: 35px;
+    height: 35px;
+    text-decoration: none;    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    margin: 0 5px; /* 숫자 간격을 위해 추가 */
+    transition: all 0.3s; /* 부드러운 색상 변화 */
+}
+
+/* 마우스를 올렸을 때와 활성화된 페이지(active) 디자인 */
+.side_list_pagination a:hover,
+.side_list_pagination a.active {
+    background-color: #082A71; /* 기존에 쓰시던 남색 */
+    color: white;
+    border-radius: 4px; /* 살짝 둥글게 (선택사항) */
+}

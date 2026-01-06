@@ -1,4 +1,61 @@
+console.log("경로 확인: header.js 파일 로드 성공");
+console.log("현재 전역 변수 상태: ", window.loginMemberNo);
+
 document.addEventListener("DOMContentLoaded", () => {
+
+    // SSE 실시간 알림 카운트 연동
+    if (window.loginMemberNo && window.loginMemberNo != 'null') {
+        
+        console.log('SSE 초기화 시작 / 회원번호: ' + window.loginMemberNo);
+        
+        const eventSource = new EventSource("/subscribe");
+
+        eventSource.onmessage = (event) => {
+            console.log("SSE 수신데이터", event.data);
+
+            if (isNaN(event.data)) {
+                console.log('SSE 더미 데이터 - 참고용');
+                return;
+            }
+
+            const totalCount = parseInt(event.data);
+            const badge = document.getElementById("headerUnreadBadge");
+            
+            if (badge) {
+                badge.innerText = totalCount;
+                if (totalCount > 0) {
+                    badge.style.setProperty("display", "inline-block", "important"); // !important 강제 적용
+                    console.log('배지 노출됨: ' + totalCount);
+                } else {
+                    badge.style.display = "none";
+                }
+            }
+        };
+
+        // 초기 로드 시 안읽은 개수 가져오기
+        fetch("/chatting/totalUnreadCount")
+            .then(resp => resp.text())
+            .then(count => {
+                console.log('초기 로딩시 DB 데이터: ' + count);
+                const badge = document.getElementById("headerUnreadBadge");
+                if (badge && !isNaN(count)) {
+                    badge.innerText = count;
+                    badge.style.display = parseInt(count) > 0 ? "inline-block" : "none";
+                }
+            })
+            .catch(err => console.error("알림 카운트 조회 실패:", err));
+
+        eventSource.onerror = (err) => {
+            console.log("SSE 연결 상태 확인 중...");
+            // 에러 발생 시 err 변수 참조 오류 방지를 위해 매개변수 추가
+        };
+    }
+
+    /* ============================================================================ */
+    /* ============================================================================ */
+
+
+
     const searchList = document.querySelector(".popular_search_list");
     let items = searchList.querySelectorAll("li");
 
@@ -63,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     });
 
-
+    
     /* ============================================================================ */
     /* ============================================================================ */
 
@@ -142,48 +199,9 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
     `;
     }
+   
 
-    updateHeaderUnreadCount();
+
 });
 
-/* ============================================================================ */
-    /* 안읽은 알림 카운트 동기화 (홈 이동 시 초기화 방지) */
-/* ============================================================================ */
-
-    function updateHeaderUnreadCount() {
-    console.log('=== updateHeaderUnreadCount 시작 ===');
-    console.log('현재 경로:', window.location.pathname);
     
-    if (window.location.pathname.includes('/chatting')) {
-        console.log('채팅 페이지이므로 업데이트 건너뜀');
-        return;
-    }
-    
-    console.log('fetch 요청 시작: /chatting/totalUnreadCount');
-    
-    fetch('/chatting/totalUnreadCount') 
-        .then(resp => {
-            console.log('응답 상태:', resp.status);
-            return resp.text();
-        })
-        .then(count => {
-            console.log('받아온 카운트:', count);
-            console.log('카운트 타입:', typeof count);
-            
-            const headerBadge = document.getElementById('headerUnreadBadge');
-            console.log('headerBadge 요소:', headerBadge);
-            
-            // ✅ 요소가 없으면 (로그인 안 했거나 권한 없음) 조용히 종료
-            if (!headerBadge) {
-                console.log('배지 요소가 없습니다 (로그인 안 했거나 권한 없음)');
-                return;
-            }
-            
-            const cnt = Number(count);
-            console.log('숫자로 변환된 카운트:', cnt);
-            headerBadge.innerText = cnt;
-            headerBadge.style.display = cnt > 0 ? 'inline-block' : 'none';
-            console.log('✅ 배지 업데이트 완료');
-        })
-        .catch(err => console.error("헤더 카운트 동기화 실패:", err));
-}
