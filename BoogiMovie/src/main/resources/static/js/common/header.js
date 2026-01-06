@@ -54,36 +54,6 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ============================================================================ */
     /* ============================================================================ */
 
-
-
-    const searchList = document.querySelector(".popular_search_list");
-    let items = searchList.querySelectorAll("li");
-
-    const itemHeight = 20; // li 하나 높이
-    let currentIdx = 0;
-
-    const firstItemClone = items[0].cloneNode(true);
-    searchList.appendChild(firstItemClone);
-
-    setInterval(() => {
-        currentIdx++;
-
-        searchList.style.transition = "transform 0.5s ease-in-out";
-        searchList.style.transform = `translateY(-${currentIdx * itemHeight}px)`;
-
-        if (currentIdx === items.length) {
-
-            setTimeout(() => {
-                searchList.style.transition = "none"; // 애니메이션 끄기
-                searchList.style.transform = "translateY(0)"; // 처음으로 이동
-                currentIdx = 0; // 인덱스 초기화
-            }, 500);
-        }
-    }, 3000); // 3초마다 실행
-
-    /* ============================================================================ */
-    /* ============================================================================ */
-
     /* 통합검색 */
 
     const searchInput = document.querySelector('.search_input input'); // 검색바
@@ -129,7 +99,6 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error('검색 실패', error);
         });
     }
-
 
     
     /* ============================================================================ */
@@ -214,14 +183,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 });
-
-// 예솔님
-/* ======================================================================================== */
-
-// 남구님
-/* ============================================================================ */
-    /* 안읽은 알림 카운트 동기화 (홈 이동 시 초기화 방지) */
-/* ============================================================================ */
 
     function updateHeaderUnreadCount() {
     console.log('=== updateHeaderUnreadCount 시작 ===');
