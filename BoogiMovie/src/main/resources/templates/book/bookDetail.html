@@ -41,22 +41,21 @@
 
         <section class="book-category-path">
             <!-- 도서 경로 -->
-            <span>
-                도서 &gt; 
+            <span>도서</span> 
+            <span>&gt;</span> 
 
-                <!-- 부모카테고리 있을때만 -->
-                <a th:if="${book.pCategoryId != null}"
-                   th:href="@{/books(category=${book.pCategoryId})}"
-                   th:text="${book.pCategoryName}">
-                </a>
-                <span th:if="${book.pCategoryId != null}"> &gt; </span>
+            <!-- 부모카테고리 있을때만 -->
+            <a th:if="${book.pCategoryId != null}"
+                th:href="@{/books(category=${book.pCategoryId})}"
+                th:text="${book.pCategoryName}">
+            </a>
+            
+            <span th:if="${book.pCategoryId != null}"> &gt; </span>
 
-                <!-- 카테고리 -->
-                <a th:href="@{/books(category=${book.categoryId})}"
-                   th:text="${book.categoryName}">
-                </a>
-
-            </span>
+            <!-- 카테고리 -->
+            <a th:href="@{/books(category=${book.categoryId})}"
+                th:text="${book.categoryName}">
+            </a>
 
             <!-- 관리자용 수정 삭제 -->
             <div class="book-edit" sec:authorize="hasRole('ADMIN')">
@@ -78,7 +77,7 @@
 
                 <!-- 책 기본 정보 -->
                 <div class="book-info">
-                    <span th:each="w : ${book.writers}" th:text="${w}">작가</span>
+                    <span th:text="${#strings.listJoin(book.writers, ', ')}">작가</span>
                     <span>|</span>
                     <span th:each="p : ${book.publishers}" th:text="${p}">출판사</span>
                     <span>|</span>
@@ -86,7 +85,7 @@
                 </div>
 
                 <div class="book-rating">
-                    <span>평점 <b class="rate-value">4.4</b></span>
+                    <span>평점 <b class="rate-value" th:text="${reviewAvg}">4.4</b></span>
 
 
                     <button id="bookLikeBtn" >

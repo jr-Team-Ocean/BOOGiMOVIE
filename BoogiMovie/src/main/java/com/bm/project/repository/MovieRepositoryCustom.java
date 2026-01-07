@@ -35,4 +35,7 @@ public interface MovieRepositoryCustom{
 	// 후기 목록
 	List<Review> selectReviewList(Long productNo);
 	
+	// 평점
+	Double selectReviewAvg(Long productNo);
+	
 }

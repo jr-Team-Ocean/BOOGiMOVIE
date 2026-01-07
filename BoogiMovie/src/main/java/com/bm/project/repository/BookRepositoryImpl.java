@@ -46,12 +46,22 @@ public class BookRepositoryImpl implements BookRepository{
 	        sort = paramMap.get("sort").toString();
 	    }
 		
-		String query = "select p " +
-				       "from Book b " +
-				       "join b.product p " +
-					   "where p.productDelFl = 'N' " +
-					   "and p.productType.typeCode = 1 " +
-					   "and b.bookCount > 0";
+//		String query = "select p " +
+//				       "from Book b " +
+//				       "join b.product p " +
+//				       "left join Likes l on l.product = p " +
+//					   "where p.productDelFl = 'N' " +
+//					   "and p.productType.typeCode = 1 " +
+//					   "and b.bookCount > 0";
+		String query = """
+				select p 
+				from Book b 
+				join b.product p 
+				where p.productDelFl = 'N' 
+				and p.productType.typeCode = 1 
+				and b.bookCount > 0 
+				""";
+		
 		
 		
 		// 카테고리를 선택했을 경우
@@ -74,6 +84,18 @@ public class BookRepositoryImpl implements BookRepository{
 	        
 	        case "latest": query += " order by p.productDate desc";
 	        break;
+
+	        case "popular":
+	            query += """
+	                order by (
+	                    select count(l)
+	                    from Likes l
+	                    where l.product = p
+	                ) desc,
+            		p.productDate desc 
+	            """;
+            break;
+
 	        
 	        default: query += " order by p.productDate desc";
             break;
@@ -183,6 +205,7 @@ public class BookRepositoryImpl implements BookRepository{
 		String query = "select p " +
 				       "from Book b " +
 				       "join b.product p " +
+				       "left join Likes l on l.product = p " +
 					   "where p.productDelFl = 'N' " +
 					   "and p.productType.typeCode = 1 " +
 					   "and b.bookCount > 0";
@@ -218,6 +241,9 @@ public class BookRepositoryImpl implements BookRepository{
 	        break;
 	        
 	        case "latest": query += " order by p.productDate desc";
+	        break;
+
+	        case "popular": query += " group by p order by count(l) desc";
 	        break;
 	        
 	        default: query += " order by p.productDate desc";
@@ -450,6 +476,22 @@ public class BookRepositoryImpl implements BookRepository{
                 			  .build();
 		em.persist(review);
 		return 1;
+	}
+
+
+
+	// 평점
+	@Override
+	public Double selectReviewAverage(Long productNo) {
+
+		String query = "select avg(r.reviewScore) " +
+					   "from Review r " +
+					   "where r.productNo = :productNo";
+		
+		return em.createQuery(query, Double.class)
+		         .setParameter("productNo", productNo)
+		         .getSingleResult();
+		  
 	}
 	
 	

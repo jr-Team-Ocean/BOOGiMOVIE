@@ -1,12 +1,9 @@
-console.log("경로 확인: header.js 파일 로드 성공");
-console.log("현재 전역 변수 상태: ", window.loginMemberNo);
+console.log("로그인 번호: ", window.loginMemberNo);
 
 document.addEventListener("DOMContentLoaded", () => {
 
     // SSE 실시간 알림 카운트 연동
-    if (window.loginMemberNo && window.loginMemberNo != 'null') {
-        
-        console.log('SSE 초기화 시작 / 회원번호: ' + window.loginMemberNo);
+    if (window.loginMemberNo && window.loginMemberNo != 'null') {              
         
         const eventSource = new EventSource("/subscribe");
 
@@ -184,7 +181,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-    function updateHeaderUnreadCount() {
-    console.log('=== updateHeaderUnreadCount 시작 ===');
-    console.log('현재 경로:', window.location.pathname);
-}
+   

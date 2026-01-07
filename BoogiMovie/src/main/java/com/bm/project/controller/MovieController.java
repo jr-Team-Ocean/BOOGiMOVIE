@@ -65,6 +65,7 @@ public class MovieController {
 		// 검색
 		String query = (paramMap.get("query") == null) ? "" : paramMap.get("query").toString().trim();
 		
+		
 		// 전체 목록
 		if (query.isBlank()) {
             moviePage = movieService.selectMovieList(paramMap, pageable);
@@ -109,6 +110,10 @@ public class MovieController {
 		// 후기
 		List<Review> reviewList = movieService.selectReviewList(productNo);
 		
+		// 평점
+		double rating = movieService.getReviewAvg(productNo);
+		
+		model.addAttribute("rating", rating);
 		model.addAttribute("reviewList", reviewList);
 		model.addAttribute("movie", movie);
 		model.addAttribute("url", "movies");

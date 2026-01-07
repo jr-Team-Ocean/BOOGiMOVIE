@@ -2,11 +2,11 @@ package com.bm.project.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -16,9 +16,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.bm.project.dto.BookDto;
 import com.bm.project.dto.BookDto.Create;
@@ -28,19 +35,19 @@ import com.bm.project.elasticsearch.ProductDocument;
 import com.bm.project.elasticsearch.ProductSearchRepository;
 import com.bm.project.entity.Book;
 import com.bm.project.entity.Category;
-import com.bm.project.entity.Likes;
-import com.bm.project.entity.Member;
 import com.bm.project.entity.Product;
 import com.bm.project.entity.ProductTag;
 import com.bm.project.entity.ProductType;
 import com.bm.project.entity.Review;
 import com.bm.project.entity.TagCode;
+import com.bm.project.enums.CommonEnums;
 import com.bm.project.repository.BookRepository;
 import com.bm.project.repository.BookRepository2;
 import com.bm.project.repository.LikeRepository;
 import com.bm.project.repository.ReviewRepository;
 import com.bm.project.repository.TagRepository;
-import com.bm.project.enums.CommonEnums;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -479,11 +486,218 @@ public class BookServiceImpl  implements BookService {
 
 
 
+
+	// 평점
+	@Override
+	public double getReviewAverage(Long productNo) {
+		
+		Double avg = bookRepository.selectReviewAverage(productNo);
+		
+		if (avg == null) {
+	        return 0.0;
+	    }
+
+	    return avg;
+	}
+
+	@Value("${aladin.api.base-url}")
+	private String aladinBaseUrl;
+
+	@Value("${aladin.api.ttb-key}")
+	private String aladinTtbKey;
+
+
+
+	// api 임시
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public boolean bookWriteByApiIsbn(String isbn) {
+		
+		// 중복 여부
+		if (bookRepository2.existsByIsbn(isbn)) {
+	        return false; // 중복
+	    }
+	    
+		UriComponentsBuilder uriBuilder =
+	            UriComponentsBuilder.fromUriString(aladinBaseUrl)
+	                .queryParam("ttbkey", aladinTtbKey)
+	                .queryParam("itemIdType", "ISBN")
+	                .queryParam("ItemId", isbn)
+	                .queryParam("Cover", "Big")
+	                .queryParam("output", "xml")
+	                .queryParam("Version", "20131101");
+		
+		String uri = uriBuilder.build().toUriString();
+		
+		HttpHeaders headers = new HttpHeaders();
+	    headers.set("Accept", "application/xml");
+		
+	    HttpEntity<String> entity = new HttpEntity<>(headers);
+	    
+	    RestTemplate restTemplate = new RestTemplate();
+	    restTemplate.getMessageConverters()
+	                .add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
+	    
+	    ResponseEntity<String> resp =
+	            restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
+	    
+	    String xml = resp.getBody();
+	    
+	    
+	    try {
+	    	
+	    	XmlMapper xmlMapper = new XmlMapper();
+		    JsonNode root = xmlMapper.readTree(xml);
+	
+		    // <item> 하나
+		    JsonNode item = root.path("item");
+	
+		    if (item.isMissingNode()) {
+		        // 조회 실패 or ISBN 잘못됨
+		        return false;
+		    }
+		    
+		    // 값 추출
+		    String title        = item.path("title").asText();
+		    String description  = item.path("description").asText();
+		    String isbn13       = item.path("isbn13").asText();
+		    String cover        = item.path("cover").asText();
+		    int priceSales      = item.path("priceSales").asInt();
+		    String pubDateStr   = item.path("pubDate").asText(); // yyyy-MM-dd
+		    String categoryName = item.path("categoryName").asText();
+		    String authorA      = item.path("author").asText();
+		    String publisherA   = item.path("publisher").asText();
+		    
+		    // 시간
+		    LocalDateTime productDate = LocalDate.parse(pubDateStr).atStartOfDay();
+		    
+		    Long categoryId = resolveCategoryId(categoryName);
+		    
+		    
+		    
+		    
+		    
+		    Product product = Product.builder()
+					                 .productTitle(title)
+					                 .productContent(description)
+					                 .productPrice(priceSales)
+					                 .productDate(productDate)
+					                 .imgPath(cover)
+					                 .build();
+		    
+		    // 카테고리
+		    Category category = bookRepository.getReference(Category.class, categoryId);
+		    product.setCategory(category);
+		    // 도서타입으로 
+		    ProductType productType = bookRepository.getReference(ProductType.class, 1L);
+		    product.setProductType(productType);
+		    
+		    
+		    
+		    
+		    // 도서부분 값 저장
+		    Book book = Book.builder()
+			                .isbn(isbn13)
+			                .bookCount(100)
+			                .product(product)
+			                .build();
+		    
+		   bookRepository2.save(book);
+		   
+		   // 작가, 출판사 자르기
+		   List<String> writers = splitToList(authorA);
+		   List<String> publishers = splitToList(publisherA);
+	 		
+		   // 작가 중복검사 + 저장
+		   TagCode wCode = bookRepository.getTagCodeRef(1L);
+		   for (String writer : writers) {
+			   connectTag(product, wCode, writer);
+		   }
+ 		
+		   // 출판사 중복검사 + 저장
+		   TagCode pCode = bookRepository.getTagCodeRef(3L);
+		   for (String publisher : publishers) {
+			   connectTag(product, pCode, publisher);
+		   }
+	   
+		   ProductDocument doc =
+				    ProductDocument.builder()
+				        .productNo(product.getProductNo())
+				        .productTitle(product.getProductTitle())
+				        .productPrice(product.getProductPrice())
+				        .productDate(product.getProductDate())
+				        .imgPath(product.getImgPath())
+				        .categoryName(product.getCategory().getCategoryName())
+				        .productType("도서")
+				        .authors(writers)
+				        .publisher(publishers)
+				        .build();
+
+		   searchRepository.save(doc);
+	 		
+	 		
+		    
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	    
+	    
+	    
+	    return true;
+	    
+	}
+
+
+
+
 	
 	
 	
-	
-	
+	// api로 끌어로 때 카테고리 검사?
+	private Long resolveCategoryId(String categoryName) {
+		
+		if (categoryName == null || categoryName.isBlank()) {
+	        return 99L;
+	    }
+
+	    String[] parts = categoryName.split(">");
+	    if (parts.length < 2) return 99L;
+
+	    String second = parts[1].trim(); // 핵심 기준
+	    String full = categoryName.replace(">", " ").toLowerCase();
+
+	    // ===== 소설/희곡 (부모 11) =====
+	    if (second.contains("소설") || second.contains("시") || second.contains("희곡")) {
+
+	        if (full.contains("라이트노벨")) return 12L;
+	        if (full.contains("판타지"))     return 13L;
+	        if (full.contains("sf") || full.contains("과학소설")) return 14L;
+	        if (full.contains("추리"))       return 15L;
+	        if (full.contains("로맨스"))     return 16L;
+	        if (full.contains("무협"))       return 17L;
+	        if (full.contains("희곡"))       return 18L;
+
+	        return 19L; // 소설/희곡 기타
+	    }
+
+	    // ===== 나머지는 2번째 토큰 기준 =====
+	    if (second.contains("에세이")) return 4L; // 여행/에세이 → 여행 카테고리
+	    if (second.contains("어린이") || second.contains("유아")) return 3L;
+	    if (second.contains("만화")) return 8L;
+	    if (second.contains("컴퓨터") || second.contains("모바일")) return 9L;
+	    if (second.contains("외국어")) return 7L;
+	    if (second.contains("과학") || second.contains("사회과학")) return 6L;
+	    if (second.contains("역사") || second.contains("문화")
+	        || second.contains("예술") || second.contains("종교")) return 5L;
+	    if (second.contains("경제") || second.contains("경영")) return 99L; // 기타
+	    if (second.contains("여행")) return 4L;
+
+	    // 외국도서
+	    if (parts[0].contains("외국도서")) return 10L;
+
+	    return 99L;
+	}
 	
 	
 	

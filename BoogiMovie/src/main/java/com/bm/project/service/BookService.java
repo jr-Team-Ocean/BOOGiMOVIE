@@ -53,6 +53,12 @@ public interface BookService {
 	// 후기 삭제
 	int deleteReview(Long reviewNo, Long memberNo);
 
+	// 평점
+	double getReviewAverage(Long productNo);
+
+	// api 임시
+	boolean bookWriteByApiIsbn(String isbn);
+
 	
 
 }

@@ -140,7 +140,7 @@
 
 .card-img-top{
     border: 1px solid #b2b2b2;
-    border-radius: 10px;
+    border-radius: 5px;
     width: 180px;
     height: 260px;
 }
@@ -157,6 +157,11 @@
 .card-title{
     font-weight: bold;
     text-align: left;
+}
+
+.card-money{
+    color: #5170B0;
+    font-weight: bold;
 }
 
 .btn-area{
