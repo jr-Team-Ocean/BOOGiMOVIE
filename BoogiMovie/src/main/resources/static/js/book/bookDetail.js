@@ -452,3 +452,52 @@ document.querySelector('.add-cart').addEventListener('click', () => {
     })
     .catch(err => console.error(err));
 });
+
+// ---------------------------------------------------------------------------------
+// 즉시 구매
+document.querySelector('.buy').addEventListener('click', () => {
+
+    // 로그인 체크
+    if (loginMemberNo === "") {
+        alert("로그인 후 이용해주세요.");
+        return;
+    }
+
+    // 수량 기본값
+    let value = 1;
+
+    const quantityInput = document.querySelector('.book-price input[type="number"]');
+
+    if (quantityInput != null) {
+        value = parseInt(quantityInput.value);
+    }
+
+    if (value < 1) {
+        alert("수량은 1개 이상이어야 합니다.");
+        return;
+    }
+
+    const orderItemList = [];
+
+    const orderItem = {
+        product_no: parseInt(productNo),
+        quantity: parseInt(value)
+    };
+
+    orderItemList.push(orderItem);
+
+    fetch("/cart/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderItemList)
+    })
+    .then(resp => resp.text())
+    .then(result => {
+        if (result > 0) {
+            location.href = "/order/delivery";
+        } else {
+            alert("배송 정보가 없어 주문할 수 없습니다.");
+        }
+    })
+    .catch(e => console.log(e));
+});

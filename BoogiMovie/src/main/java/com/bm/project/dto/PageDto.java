@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 
 import lombok.Getter;
+import lombok.ToString;
 
 // 페이지 처리용
 
+@ToString
 
 @Getter
 public class PageDto<T> {

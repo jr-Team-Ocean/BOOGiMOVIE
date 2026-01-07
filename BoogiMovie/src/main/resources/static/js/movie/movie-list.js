@@ -168,7 +168,7 @@ document.addEventListener("click", (e) => {
  * ========================= */
 const writeBtn = document.getElementById('write-btn');
     
-writeBtn.addEventListener('click', () => {
+writeBtn?.addEventListener('click', () => {
     location.href = '/movies/write';
 });
 

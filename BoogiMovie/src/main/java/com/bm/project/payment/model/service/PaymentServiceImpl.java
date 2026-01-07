@@ -47,6 +47,7 @@ public class PaymentServiceImpl implements PaymentService {
 	private final DeliveryRepository deliveryRepo;
 	private final CartRepository cartRepo;
 	
+	// 결제 전용 로그
 	private final Logger statLogger = LoggerFactory.getLogger("STAT_LOGGER");
 
 	// 결제 전 총금액 사전 검증

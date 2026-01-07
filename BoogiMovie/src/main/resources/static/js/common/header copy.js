@@ -59,31 +59,31 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.querySelector('.search_input input'); // 검색바
     const searchDropdown = document.querySelector('.search_dropdown'); // 결과 박스
 
-    // ✅ searchInput이 존재할 때만 실행되도록 감싸기
-    if (searchInput) {
-        /* 사용자가 검색어 치고 엔터를 보냈을 경우 */
-        searchInput.addEventListener('keydown', e => {
-            if(e.key === 'Enter') {
-                const keyword = e.target.value.trim();
-                const isEnter = 'yes';
-                headerSearch(keyword, isEnter);
-            }
-        });
-
-        /* 검색어만 입력하는 경우 */
-        searchInput.addEventListener('input', e => {
+    /* 사용자가 검색어 치고 엔터를 보냈을 경우 로그 찍기 (엔터 상태값) */
+    searchInput.addEventListener('keydown', e => {
+        if(e.key === 'Enter') {
+            // console.log("엔터 감지");
             const keyword = e.target.value.trim();
+            const isEnter = 'yes';
 
-            /* 검색어 없으면 결과 박스 숨김 */
-            if (keyword.length === 0) {
-                if (searchDropdown) searchDropdown.style.display = 'none';
-                return;
-            }
-
-            const isEnter = 'no'; 
             headerSearch(keyword, isEnter);
-        });
-    }
+        }
+    })
+
+    /* 검색어만 입력하는 경우 */
+    searchInput.addEventListener('input', e => {
+        const keyword = e.target.value.trim();
+
+        /* 검색어 없으면 결과 박스 숨김 */
+        if (keyword.length === 0) {
+            searchDropdown.style.display = 'none';
+            return;
+        }
+
+        const isEnter = 'no'; // 로그 분석 X
+        headerSearch(keyword, isEnter);
+
+    });
 
     function headerSearch(keyword, isEnter) {
         fetch(`/search?query=${keyword}&isEnter=${isEnter}`)
