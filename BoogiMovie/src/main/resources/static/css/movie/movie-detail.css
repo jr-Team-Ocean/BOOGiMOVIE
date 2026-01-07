@@ -152,6 +152,11 @@ main{
     display: block;
 }
 
+/* 영화소개 */
+.tab-content > p{
+    font-size: 24px;
+}
+
 /* 상세정보 */
 #detail > p{
     font-weight: bold;
@@ -168,7 +173,7 @@ main{
 }
 
 .movie-pre{
-    font-size: 16px;
+    font-size: 20px;
     margin-bottom: 20px;
     width: 100%;
     max-width: 1000px;
