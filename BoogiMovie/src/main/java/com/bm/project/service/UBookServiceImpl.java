@@ -19,6 +19,8 @@ import com.bm.project.entity.Book;
 import com.bm.project.entity.Category;
 import com.bm.project.entity.Product;
 import com.bm.project.entity.Ubook;
+import com.bm.project.repository.CategoryRepository;
+import com.bm.project.repository.TagRepository;
 import com.bm.project.repository.UbookRepository;
 import com.bm.project.repository.UbookRepository2;
 
@@ -36,6 +38,8 @@ public class UBookServiceImpl implements UbookService{
 	
 	private final UbookRepository ubookRepository;
 	private final UbookRepository2 ubookRepositories;
+	private final TagRepository tagRepository;
+	private final CategoryRepository categoryRepository;
 
 	
 	// 중고도서 목록 조회
@@ -153,6 +157,16 @@ public class UBookServiceImpl implements UbookService{
 		Product product = createUbook.toProductEntity();
 		
 		System.out.println(product);
+		
+		Long categoryId = createUbook.getCategoryId();
+		
+		Category category =
+			    categoryRepository.findById(categoryId)
+			        .orElseThrow(() -> new IllegalArgumentException("카테고리 없음"));
+		
+		System.out.println("categoryId : " + category.getCategoryId());
+		
+		
 		
 		
 		
