@@ -1,4 +1,4 @@
-console.log('chatting_manager.js 로드됨 (순환 배분 관리자용)');
+console.log('chatting_manager.js 로드됨');
 
 let chattingSock; 
 let selectChattingNo;      // 선택된 채팅방 번호
@@ -44,7 +44,7 @@ function getTotalUnreadCount() {
 
 // ========== 안읽음 UI 업데이트 ==========
 function updateUnreadUI() {
-    const badges = document.querySelectorAll('.notread_img'); // 화면 내 모든 배지 선택
+    const badges = document.querySelectorAll('.notread_img1'); // 화면 내 모든 배지 선택
     
     badges.forEach(badge => {
         badge.innerText = unreadCount;
@@ -115,6 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         list.forEach(member => {
                             const li = document.createElement('li');
                             li.classList.add('result-row');
+
+                            console.log(member)
                             
                             const memberNo = member.target_no || member.memberNo || member.member_no;
                             const name     = member.target_name || member.memberName || member.member_name || '이름없음';
@@ -154,6 +156,50 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// ======= 취소 기능 (ESC / 외부영역 클릭) ====================
+// ======= 취소 기능 (ESC / 외부영역 클릭) ====================
+
+
+//외부 영역 클릭 시 팝업 닫기 (resultArea - 검색 결과창)
+document.addEventListener('mouseup', (e) =>{
+    const resultArea = document.getElementById('resultArea');
+    const targetInput = document.getElementById('targetInput');
+
+    if (resultArea) {
+        if (!resultArea.contains(e.target) && e.target !== targetInput) {
+            resultArea.style.display = 'none';
+            resultArea.innerHTML = '';
+            if(targetInput) targetInput.value = '';
+        }
+    }
+});
+
+
+//ESC 키 누를시 팝업 닫기 (resultArea - 검색 결과창)
+document.addEventListener('keydown', (e) => {
+        if (e.key ==='Escape') {
+            const resultArea = document.getElementById('resultArea');
+            if (resultArea) {
+                resultArea.style.display = 'None';
+                resultArea.innerHTML = '';
+                if(targetInput) targetInput.value = '';
+            }
+    }
+});
+
+//ESC 키 누를시 글 지우기 (채팅 입력창)
+document.addEventListener('keydown', (e) => {
+        if (e.key ==='Escape') {
+            const chattingInput = document.getElementById('chattingInput');
+            if (chattingInput) {                             
+                chattingInput.value = '';
+                chattingInput.focus();
+            }
+    }
+});
+
+
+
 // 3. [추가] 특정 회원 번호를 가진 채팅방을 찾아 클릭해주는 함수
 function selectRoomByMemberNo(memberNo) {
     // 1. 현재 화면 왼쪽 리스트에 해당 유저의 방이 있는지 확인
@@ -188,8 +234,7 @@ function selectRoomByMemberNo(memberNo) {
     }
 }
 
-// ========== 채팅방 목록 조회 (수정 완료) ==========
-// ========== 채팅방 목록 조회 (수정 완료) ==========
+// ========== 채팅방 목록 조회 ==========
 function selectRoomList() {
     fetch(`/chatting/roomList?page=${currentPage}&filter=${filterType}`)
         .then(resp => resp.json())
@@ -203,12 +248,11 @@ function selectRoomList() {
             let totalUnread = 0;
 
             roomList.forEach(room => {
-                console.log("서버에서 온 방 데이터:", room);
-
-                const roomId = room.chatting_room_id || room.chattingRoomId; 
-                const userNo = room.target_no || room.targetNo;
-                const notReadCount = room.not_read_count || room.notReadCount || 0;
                 
+                const roomId = room.chatting_room_id; 
+                const userNo = room.target_no;
+                const notReadCount = room.not_read_count || 0;
+
                 totalUnread += notReadCount;
 
                 const li = document.createElement('li');
@@ -226,13 +270,13 @@ function selectRoomList() {
                 }
 
                 li.innerHTML = `
-                    <img class="list-profile" src="${room.target_profile || room.targetProfile || '/svg/person.svg'}">
+                    <img class="list-profile" src="${room.target_profile || '/svg/person.svg'}">
                     <div class="item-body">
                         <p>
                             <span class="target-name">${room.target_name || '이름없음'} (${room.target_nick_name || room.target_nickname || '닉네임없음'})</span>
                         </p>
                         <div>
-                            <p class="recent-message">${room.last_message || room.lastMessage || '메시지 없음'}</p>
+                            <p class="recent-message">${room.last_message || '메시지 없음'}</p>
                             ${notReadCount > 0 ? `<span class="not-read-count">${notReadCount}</span>` : ''}
                             <button class="delete-room-btn" onclick="deleteChattingRoom('${roomId}', event)">&times;</button>
                         </div>
@@ -529,6 +573,44 @@ function updateSearchUI() {
         }
     }
 }
+
+// ESC 키 누를 시 검색 초기화
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        const searchInput = document.getElementById('messageSearchInput');
+        const searchCountSpan = document.getElementById('searchCount');
+        
+        // [수정 1] chatDisplay를 이 안에서 직접 찾아야 합니다.
+        const chatDisplay = document.querySelector('.display-chatting');
+
+        if (searchInput) {
+            searchInput.value = '';
+            searchInput.focus();
+        }
+
+        if (searchCountSpan) {
+            searchCountSpan.innerText = '0 / 0';
+        }
+
+        // [수정 2] 하이라이트 제거
+        if (chatDisplay) {
+            const highlighted = chatDisplay.querySelectorAll('.chat');
+            
+            // 변수명을Highlighted로 통일
+            console.log("초기화할 메시지 개수:", highlighted.length); 
+            
+            highlighted.forEach(msg => {
+                msg.style.backgroundColor = '';
+                msg.style.color = ''; 
+                msg.style.boxShadow = '';
+            });
+        }
+
+        // 4. 검색 데이터 변수 초기화
+        searchResults = [];
+        currentSearchIndex = -1;
+    }
+});
 
 // 3. 해당 위치로 스크롤 및 하이라이트
 function scrollToSearchResult() {
