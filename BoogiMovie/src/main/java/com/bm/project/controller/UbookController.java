@@ -115,7 +115,6 @@ public class UbookController {
 	
 	
 	// 중고도서 등록화면 전환
-	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/enroll")
 	public String goEnrollUbook() {
 		
