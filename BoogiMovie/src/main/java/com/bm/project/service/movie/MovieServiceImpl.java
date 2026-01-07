@@ -408,5 +408,15 @@ public class MovieServiceImpl implements MovieService{
 		reviewRepository.deleteByReviewNoAndMemberNo(reviewNo, memberNo);
 		return 1;
 	}
+
+	// 평점
+	@Override
+	public double getReviewAvg(Long productNo) {
+		Double avg = movieRepository.selectReviewAvg(productNo);
+		
+		if(avg == null) return 0.0;
+		
+		return avg;
+	}
 	
 }

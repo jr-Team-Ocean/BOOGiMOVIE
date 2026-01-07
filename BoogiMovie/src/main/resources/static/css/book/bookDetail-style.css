@@ -225,19 +225,26 @@ main {
     font-family: 'Noto Sans KR', sans-serif;
 }
 
+
 /* ---------------------------------------------------------------------------- */
 
 /* 책 소개 */
 .detail-text {
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 25px;
+    font-size: 22px;
     line-height: 1.5;
     white-space: pre-wrap;
     margin: 0;
 }
 
+.detail-text-area > p{
+    font-size: 24px;
+    font-weight: bold;
+}
+
 /* 접힘상태 */
 .detail-text.closed {
+    font-size: 22px;
     max-height: 180px;
     overflow: hidden;
     position: relative;
@@ -246,11 +253,14 @@ main {
 /* 더보기 버튼 */
 .open-toggle {
     width: 100px;
-    height: 30px;
-    display: block;
-    font-size: 18px;
+    padding: 8px;
     border: none;
-    margin: 15px 0 30px;
+    background-color: #5170B1;
+    color: white;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-block: 20px;
 }
 
 
@@ -372,21 +382,32 @@ main {
 /* ---------------------------------------------------------------------------- */
 /* ---------------------------------------------------------------------------- */
 
+.no-review{
+    text-align: center;
+    color: #7F7F7F;
+    padding: 40px 0;
+    border-top: 3px solid #e0e0e0;
+    border-bottom: 3px solid #e0e0e0;
+    margin-top: 10px;
+}
 
+.no-review > span{
+    font-size: 20px;
+}
 
 
 /* 후기 작성 버튼 */
 .review-write-btn {
-    width: 150px;
-    height: 50px;
+    width: 120px;
+    height: 45px;
     border-radius: 10px;
     border: none;
     background-color: #5170B0;
     color: white;
     font-weight: bold;
     font-size: 18px;
-
 }
+
 .review-write-btn-disabled {
     width: 120px;
     height: 45px;
@@ -408,7 +429,6 @@ main {
 }
 
 .review-write-top {
-    
     display: flex;
     gap: 50px;
     margin-bottom: 10px;
@@ -489,17 +509,18 @@ main {
 .review-write-submit {
     border: none;
     border-radius: 10px;
-    font-size: 20px;
-    width: 80px;
+    font-size: 16px;
+    width: 70px;
     height: 40px;
     background-color: #5170B0;
     color: white;
 }
+
 .review-write-cancel {
     border: none;
     border-radius: 10px;
-    font-size: 20px;
-    width: 80px;
+    font-size: 16px;
+    width: 70px;
     height: 40px;
     background-color: #B3B3B3;
     color: black;

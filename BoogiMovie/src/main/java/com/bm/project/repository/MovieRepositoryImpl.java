@@ -310,6 +310,20 @@ public class MovieRepositoryImpl implements MovieRepositoryCustom{
 				.setParameter("productNo", productNo)
 				.getResultList();
 	}
+
+	// 평점
+	@Override
+	public Double selectReviewAvg(Long productNo) {
+		
+		String query = "select avg(r.reviewScore) " + 
+					   "from Review r " +
+					   "where r.productNo = :productNo";
+		
+		return em.createQuery(query, Double.class)
+				 .setParameter("productNo", productNo)
+				 .getSingleResult();
+		
+	}
 	
 	
 	
