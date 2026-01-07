@@ -27,9 +27,9 @@
                     <a th:href="@{/cart}"><div class="white font-18px">장바구니</div></a>
                     <a th:href="@{/myPage}"><div class="white font-18px">마이페이지</div></a>
                     
-                    <a th:href="@{/chatting}" style="text-decoration: none; display: flex; align-items: center; gap: 8px;">
-                        <div class="white font-18px">1:1 문의</div>
-                        <span class="notread_img" style="display: none;">0</span>
+                    <a th:href="@{/chatting}" id="headerChatLink" style="text-decoration: none; display: flex; align-items: center; gap: 8px;">
+                            <div class="white font-18px">1:1 문의</div>
+                            <span class="notread_img" id="headerUnreadBadge" style="display: none;">0</span>
                     </a>
 
                     <a th:href="@{/member/logout}"><div class="white font-18px">로그아웃</div></a>
@@ -39,9 +39,9 @@
                 <div sec:authorize="hasRole('ADMIN')" class="header_login">
                     <a th:href="@{/admin/statistics}"><div class="white font-18px">관리자 페이지</div></a>
 
-                    <a th:href="@{/chatting}" style="text-decoration: none; display: flex; align-items: center; gap: 8px;">
-                        <div class="white font-18px">1:1 문의</div>
-                        <span class="notread_img" style="display: none;">0</span>
+                    <a th:href="@{/chatting}" id="headerChatLink" style="text-decoration: none; display: flex; align-items: center; gap: 8px;">
+                            <div class="white font-18px">1:1 문의</div>
+                            <span class="notread_img" id="headerUnreadBadge" style="display: none;">0</span>
                     </a>
 
                     <a th:href="@{/admin/logout}"><div class="white font-18px">로그아웃</div></a>
@@ -136,36 +136,39 @@
                         
                         <div class="popular_search_window">
                             <ul class="popular_search_list">
-                                <li>개발자 책 추천</li>
-                                <li>자바스크립트 죽어</li>
+                                <!-- <li>개발자 책 추천</li>
                                 <li>아 살려주세요</li>
                                 <li>여기 사람 갇혔어요</li>
                                 <li>이거 언제 다 만드냐고</li>
                                 <li>왜 되다 말어</li>
                                 <li>왜애애애</li>
                                 <li>제발 잠 좀</li>
-                                <li>자게 해주세요</li>
-                                <li>종강원해요</li>
+                                <li>자게 해주세요</li> -->
                             </ul>
                         </div>
-    
-                        <!-- <div class="popular_search_window">
-                            <ul class="popular_search_list" id="rollingList">
-                                <li th:each="keyword, stat : ${popularKeywords}" 
-                                    th:text="${stat.count + '. ' + keyword}">검색어</li>
-                                
-                                검색어 무한 반복을 위해 처음 요소를 다시 넣어줌!
-                                <li th:if="${not #lists.isEmpty(popularKeywords)}" 
-                                    th:text="${'1. ' + popularKeywords[0]}">검색어</li>
-                            </ul>
-                        </div> -->
                 </div>
             </div>
         </div>
 
     </div>
 
+        <script th:inline="javascript">
+        /*<![CDATA[*/
+        // null 체크를 더 명확히 하고, 타임리프 문법이 확실히 적용되게 수정
+        window.loginMemberNo = /*[[${session.loginMember?.memberNo}]]*/ null;
+        
+        // 만약 undefined 방지를 위해 강제로 null 대입 로직 추가
+        if (typeof window.loginMemberNo === 'undefined') {
+            window.loginMemberNo = null;
+        }
+        
+        console.log("변수 설정완료: ", window.loginMemberNo);
+        /*]]>*/
+    </script>
     <script th:src="@{/js/common/header.js}"></script>
+    <script th:src="@{/js/common/search.js}"></script>
+
+
 
 </header>
 

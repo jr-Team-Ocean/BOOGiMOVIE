@@ -61,6 +61,22 @@
 
     </div>
 
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        // null 체크를 더 명확히 하고, 타임리프 문법이 확실히 적용되게 수정
+        window.loginMemberNo = /*[[${session.loginMember?.memberNo}]]*/ null;
+        
+        // 만약 undefined 방지를 위해 강제로 null 대입 로직 추가
+        if (typeof window.loginMemberNo === 'undefined') {
+            window.loginMemberNo = null;
+        }
+        
+        console.log("변수 설정완료: ", window.loginMemberNo);
+        /*]]>*/
+    </script>
+    <script th:src="@{/js/common/header.js}"></script>
+
+
 </body>
 
 </html>

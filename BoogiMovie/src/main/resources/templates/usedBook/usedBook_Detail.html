@@ -131,17 +131,19 @@
     
                         <div class="button_bottom">
                             
-                            <form class="del_btn_case" th:action="@{/ubooks/{id}(id=${ubook.productNo})}" method="">
+                            <form class="del_btn_case" th:action="@{/ubooks/{id}(id=${ubook.productNo})}" method="" sec:authorize="hasRole('ADMIN')">
 
-                                <button class="edit_btn">수정하기</button>
+                                <!-- <button class="edit_btn" sec:authorize="hasRole('ADMIN')">수정하기</button> -->
+
+                                
 
                             </form>
         
                         
 
-                            <form class="del_btn_case" th:action="@{/ubooks/{id}(id=${ubook.productNo})}" method="post">
+                            <form class="del_btn_case" th:action="@{/ubooks/{id}(id=${ubook.productNo})}" method="post" sec:authorize="hasRole('ADMIN')">
                                 
-                                <button type="submit" class="del_btn">삭제하기</button>
+                                <button type="submit" class="del_btn" sec:authorize="hasRole('ADMIN')">삭제하기</button>
                             </form>
                             
                             <a th:href="@{/ubooks}">

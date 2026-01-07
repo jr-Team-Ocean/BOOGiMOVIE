@@ -117,8 +117,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-document.getElementById('enroll').addEventListener('click', () => {
+document.getElementById('enroll')?.addEventListener('click', () => {
 
-    location.href = `/ubooks/insert`;
-
+    location.href = `/ubooks/enroll`;
+    
+    
+    console.log(location.href)
 })

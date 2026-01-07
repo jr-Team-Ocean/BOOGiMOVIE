@@ -12,6 +12,7 @@ import com.bm.project.entity.Ubook;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 public class UbookDto {
 	
@@ -104,6 +105,8 @@ public class UbookDto {
 	}
 	
 	
+	// 중고도서 등록용
+	@ToString
 	@Getter
 	@Setter
 	@Builder

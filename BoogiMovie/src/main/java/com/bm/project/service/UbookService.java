@@ -1,11 +1,13 @@
 package com.bm.project.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.bm.project.dto.UbookDto;
+import com.bm.project.dto.UbookDto.Create;
 import com.bm.project.dto.UbookDto.Response;
 
 public interface UbookService {
@@ -19,6 +21,9 @@ public interface UbookService {
 	
 	// 중고도서 상품 삭제
 	void deleteProduct(Long productNo);
+
+	// 중고도서 상품 등록
+	Long insertUbook(Create createUbook);
 	
 	
 	

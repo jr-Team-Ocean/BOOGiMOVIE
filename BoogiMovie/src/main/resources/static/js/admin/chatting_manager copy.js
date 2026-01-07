@@ -64,7 +64,6 @@ let filterType = 'all';
 document.addEventListener('DOMContentLoaded', () => {
     selectRoomList();
     getUnreadCount();
-    console.log("1")
 
     // 1. 기존 공통 로직
     const sendBtn = document.getElementById('sendBtn');
@@ -189,70 +188,112 @@ function selectRoomByMemberNo(memberNo) {
 }
 
 // ========== 채팅방 목록 조회 (수정 완료) ==========
-// ========== 채팅방 목록 조회 (수정 완료) ==========
 function selectRoomList() {
-    fetch(`/chatting/roomList?page=${currentPage}&filter=${filterType}`)
+    // 쿼리스트링 파라미터를 cp로 변경 (Controller와 일치)
+    fetch(`/chatting/roomList?cp=${currentPage}&filter=${filterType}`)
         .then(resp => resp.json())
         .then(data => {
             const chattingList = document.querySelector('.chatting_list');
+            const paginationArea = document.querySelector('.side_list_pagination'); // 페이징 영역 선택
             if (!chattingList) return;
 
-            let roomList = data.roomList || (Array.isArray(data) ? data : []);
+            // PageDto 구조에 맞춰 데이터 추출
+            let roomList = data.content || []; 
             chattingList.innerHTML = '';
             
             let totalUnread = 0;
 
+            // 1. 목록 그리기 (기존 로직과 동일하나 data.content 사용)
             roomList.forEach(room => {
-                console.log("서버에서 온 방 데이터:", room);
-
-                const roomId = room.chatting_room_id || room.chattingRoomId; 
-                const userNo = room.target_no || room.targetNo;
-                const notReadCount = room.not_read_count || room.notReadCount || 0;
-                
+                const roomId = room.chattingRoomId; 
+                const userNo = room.targetNo;
+                const notReadCount = room.notReadCount || 0;
                 totalUnread += notReadCount;
 
                 const li = document.createElement('li');
                 li.classList.add('individual_chatter', 'chatting-item');
-                
-                if (roomId) {
-                    li.setAttribute('data-chat-no', roomId);
-                    li.setAttribute('data-user-no', userNo);
-                } else {
-                    console.error("이 데이터에는 방 번호가 없습니다 ->", room);
-                }
+                li.setAttribute('data-chat-no', roomId);
+                li.setAttribute('data-user-no', userNo);
 
                 if (selectChattingNo && Number(roomId) === Number(selectChattingNo)) {
                     li.classList.add('select');
                 }
 
                 li.innerHTML = `
-                    <img class="list-profile" src="${room.target_profile || room.targetProfile || '/svg/person.svg'}">
+                    <img class="list-profile" src="${room.targetProfile || '/svg/person.svg'}">
                     <div class="item-body">
                         <p>
-                            <span class="target-name">${room.target_name || '이름없음'} (${room.target_nick_name || room.target_nickname || '닉네임없음'})</span>
+                            <span class="target-name">${room.targetNickName || '이름없음'}</span>
                         </p>
                         <div>
-                            <p class="recent-message">${room.last_message || room.lastMessage || '메시지 없음'}</p>
+                            <p class="recent-message">${room.lastMessage || '메세지 없음'}</p>
                             ${notReadCount > 0 ? `<span class="not-read-count">${notReadCount}</span>` : ''}
                             <button class="delete-room-btn" onclick="deleteChattingRoom('${roomId}', event)">&times;</button>
                         </div>
                     </div>
                 `;
                 chattingList.appendChild(li);
-
-                const deleteBtn = li.querySelector('.delete-room-btn');
-                if(deleteBtn) {
-                    deleteBtn.style.cssText = 'display:flex !important; align-items:center !important; justify-content:center !important; opacity:1 !important; visibility:visible !important; background-color:#ff4444 !important; position:static !important; width:22px !important; height:22px !important; color:white !important; border:none !important; border-radius:50% !important; cursor:pointer !important; z-index:9999 !important; font-size:16px !important; line-height:1 !important; flex-shrink:0 !important; margin-left:15px !important;';
-                }
             });
             
-            // ⭐ 목록 조회 후 전체 안읽음 개수 업데이트
+            // 2. 하단 페이징 버튼 그리기 (추가된 부분)
+            renderPagination(data);
+
             unreadCount = totalUnread;
             updateUnreadUI();
-            
             roomListAddEvent(); 
         });
 }
+
+// ========== 페이지네이션 버튼 렌더링 함수 (추가) ==========
+function renderPagination(data) {
+    const paginationArea = document.querySelector('.side_list_pagination');
+    if (!paginationArea) return;
+
+    paginationArea.innerHTML = ''; // 초기화
+
+    // 처음으로 (&laquo;)
+    const firstBtn = document.createElement('a');
+    firstBtn.innerHTML = '&laquo;';
+    firstBtn.href = "javascript:void(0)";
+    firstBtn.onclick = () => { currentPage = 1; selectRoomList(); };
+    paginationArea.appendChild(firstBtn);
+
+    // 이전 블록 (&lt;)
+    const prevBtn = document.createElement('a');
+    prevBtn.innerHTML = '&lt;';
+    prevBtn.href = "javascript:void(0)";
+    prevBtn.onclick = () => { currentPage = data.prevPage; selectRoomList(); };
+    paginationArea.appendChild(prevBtn);
+
+    // 페이지 번호 (숫자)
+    for (let i = data.blockStart; i <= data.blockEnd; i++) {
+        const pageBtn = document.createElement('a');
+        pageBtn.innerText = i;
+        pageBtn.href = "javascript:void(0)";
+        if (i === data.currentPage) pageBtn.classList.add('active');
+        
+        pageBtn.onclick = () => {
+            currentPage = i;
+            selectRoomList();
+        };
+        paginationArea.appendChild(pageBtn);
+    }
+
+    // 다음 블록 (&gt;)
+    const nextBtn = document.createElement('a');
+    nextBtn.innerHTML = '&gt;';
+    nextBtn.href = "javascript:void(0)";
+    nextBtn.onclick = () => { currentPage = data.nextPage; selectRoomList(); };
+    paginationArea.appendChild(nextBtn);
+
+    // 마지막으로 (&raquo;)
+    const lastBtn = document.createElement('a');
+    lastBtn.innerHTML = '&raquo;';
+    lastBtn.href = "javascript:void(0)";
+    lastBtn.onclick = () => { currentPage = data.totalPage; selectRoomList(); };
+    paginationArea.appendChild(lastBtn);
+}
+
 
 // ========== 목록 클릭 이벤트 (수정 완료) ==========
 function roomListAddEvent() {
@@ -446,11 +487,11 @@ function triggerFileInput() {
 
 // ========== 채팅방 목록에서만 삭제 (프론트엔드) ==========
 function deleteChattingRoom(roomId, event) {
-    event.stopPropagation(); // 부모 li 클릭 이벤트 방지
-    
+    event.stopPropagation(); // 부모 li 클릭 이벤트 방지        
     if (!confirm('목록에서 이 채팅방을 삭제하시겠습니까?')) {
         return;
     }
+    console.log('페이지삭제')
     
     // 해당 채팅방 li 요소 찾기
     const roomElement = document.querySelector(`[data-chat-no="${roomId}"]`);

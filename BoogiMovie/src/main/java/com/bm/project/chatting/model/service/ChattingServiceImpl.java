@@ -6,16 +6,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bm.project.chatting.controller.ChattingController;
 import com.bm.project.chatting.model.dao.ChattingMapper;
 import com.bm.project.chatting.model.dto.ChattingRoom;
 import com.bm.project.chatting.model.dto.Member_C;
+import com.bm.project.chatting.model.dto.Pagination;
 import com.bm.project.chatting.model.dto.ChattingMessage;
 import com.bm.project.chatting.model.dto.ChattingImage;
 import com.bm.project.common.utility.Util;
+import com.bm.project.dto.PageDto;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,27 +30,42 @@ public class ChattingServiceImpl implements ChattingService {
     @Autowired
     private ChattingMapper mapper;
 
-    // 1. 메시지 삽입 (글자 + 이미지 통합)
-    // WebsocketHandler에서 호출하며, 이미지가 있다면 msg.getImgPath()에 경로가 담겨있어야 함
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int insertMessage(ChattingMessage msg) {
-        
-        // [A 장부 기록] 메시지 테이블(CHATTING_MESSAGE)에 기본 정보 저장
-        // MyBatis의 useGeneratedKeys 덕분에 msg.getMessageId()에 자동 생성된 번호가 채워짐
-        int result = mapper.insertMessage(msg);
+	    // 1. 메시지 저장 (기존 로직)
+	    int result = mapper.insertMessage(msg);
+	
+	    // 2. 이미지 저장 (기존 로직)
+	    if (result > 0 && msg.getImgPath() != null) {
+	        ChattingImage img = new ChattingImage();
+	        img.setMessageId(String.valueOf(msg.getMessageId()));
+	        img.setChattingImagePath(msg.getImgPath());
+	        mapper.insertChattingImg(img);      
 
-        // [B 장부 기록] 만약 메시지 객체에 이미지 경로가 들어있다면 사진 테이블에도 저장
-        if (result > 0 && msg.getImgPath() != null) {
-            ChattingImage img = new ChattingImage();
-            img.setMessageId(String.valueOf(msg.getMessageId())); // 연결고리(FK)
-            img.setChattingImagePath(msg.getImgPath());           // 이미지 주소
-            
-            result = mapper.insertChattingImg(img);
-        }
+	    }
+	
+	    // 3. 실시간 알림 연동
+	    if (result > 0) {
+	        // 1. Map 생성 및 데이터 담기 (DTO 변수명에 맞춤)
+	        Map<String, Object> params = new HashMap<>();
+	        params.put("chattingNo", msg.getChattingRoomId()); 
+	        params.put("senderNo", msg.getSenderId());        
 
-        return result; 
+	        // 2. 수신자 ID 조회
+	        int receiverId = mapper.getReceiverId(params);
+	        
+	        // 3. 알림 전송
+	        int totalCount = mapper.getTotalUnreadCount((long)receiverId);
+	        
+	        System.out.println("메세지 저장 성공 / 상대방" + receiverId);
+	        
+	        ChattingController.sendCount((long)receiverId, totalCount);
+	    }
+
+	    return result;
     }
+
 
     // 2. 이미지 파일 서버 실제 저장
     // Controller에서 호출하여 파일을 하드디스크에 저장하고 이름을 반환함
@@ -61,11 +80,32 @@ public class ChattingServiceImpl implements ChattingService {
         return rename;
     }
 
-    // --- 아래는 중복 제거 및 유지된 기존 메서드들 ---
-
     @Override
-    public List<ChattingRoom> selectRoomList(Long memberNo) {
-        return mapper.selectRoomList(memberNo);
+    public Map<String, Object> selectRoomList(Long memberNo, int cp) {
+        
+    	Long listCount = (long) mapper.getListCount(memberNo);
+    	
+		Pagination pagination = new Pagination(cp, listCount.intValue());
+
+		// 3. 특정 게시판에서 현재 페이지에 해당하는 부분에 대한 게시글 목록 조회
+		// -> 어떤 게시판(boardCode)에서
+		//    몇 페이지(pagination.currentPage)에 대한
+		//    게시글 몇 개 (pagination.limit) 조회
+
+		// 1) offset 계산
+		int offset = (pagination.getCurrentPage() - 1) * pagination.getLimit();
+
+		// 2) RowBounds 객체 생성
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+
+		List<ChattingRoom> roomList = mapper.selectRoomList(memberNo, rowBounds); 
+
+		// 4. pagination, boardList를 Map에 담아서 반환
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("pagination", pagination);
+		map.put("roomList", roomList);
+
+		return map;
     }
 
     @Override
@@ -85,7 +125,14 @@ public class ChattingServiceImpl implements ChattingService {
 
     @Override
     public int updateReadFlag(Map<String, Object> paramMap) {
-        return mapper.updateReadFlag(paramMap);
+        int result = mapper.updateReadFlag(paramMap);        
+        
+        if(result > 0) {
+            int myNo = Integer.parseInt(paramMap.get("memberNo").toString());
+            int totalCount = mapper.getTotalUnreadCount((long)myNo);
+            ChattingController.sendCount((long)myNo, totalCount);
+        }
+        return result;
     }
 
     @Override
@@ -100,28 +147,6 @@ public class ChattingServiceImpl implements ChattingService {
     @Override
     public ChattingRoom selectChattingRoom(int chattingRoomId) {
         return mapper.selectChattingRoom(chattingRoomId);
-    }
-
-    @Override
-    public Map<String, Object> enterAdminChat(Long memberNo) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("memberNo", memberNo);
-        List<Integer> adminList = mapper.enterAdminChat();
-        if (adminList.isEmpty()) throw new RuntimeException("채팅 가능한 관리자가 없습니다.");
-        
-        int targetNo = adminList.get(0); 
-        map.put("targetNo", targetNo);
-        int chattingNo = mapper.checkChattingNo(map);
-
-        if (chattingNo == 0) { 
-            mapper.createChattingRoom(map); 
-            chattingNo = (int)map.get("chattingNo");
-        }
-
-        Map<String, Object> result = new HashMap<>();
-        result.put("chattingNo", chattingNo);
-        result.put("targetNo", targetNo);
-        return result;
     }
 
     @Override
@@ -145,4 +170,30 @@ public class ChattingServiceImpl implements ChattingService {
 	public int getTotalUnreadCount(Long memberNo) {
 	    return mapper.getTotalUnreadCount(memberNo);
 	}
+	
+	 // 여러 관리자중 1명 선택
+	@Override
+	public Map<String, Object> enterAdminChat(Long memberNo) {
+	  Map<String, Object> map = new HashMap<>();
+	  map.put("memberNo", memberNo);
+	  List<Integer> adminList = mapper.enterAdminChat();
+	  if (adminList.isEmpty()) throw new RuntimeException("채팅 가능한 관리자가 없습니다.");
+	  
+	  int targetNo = adminList.get(0); 
+	  map.put("targetNo", targetNo);
+	  int chattingNo = mapper.checkChattingNo(map);
+	
+	  if (chattingNo == 0) { 
+	      mapper.createChattingRoom(map); 
+	      chattingNo = (int)map.get("chattingNo");
+	  }
+	
+	  Map<String, Object> result = new HashMap<>();
+	  result.put("chattingNo", chattingNo);
+	  result.put("targetNo", targetNo);
+	  return result;
+	}
+
 }
+
+

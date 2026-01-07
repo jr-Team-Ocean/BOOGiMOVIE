@@ -1,5 +1,6 @@
 package com.bm.project.elasticsearch;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -8,11 +9,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bm.project.payment.model.service.PaymentServiceImpl;
+
+import co.elastic.clients.elasticsearch._types.ElasticsearchException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class ElasticsearchController {
 	
 	private final ElasticsearchService service;
@@ -28,10 +34,21 @@ public class ElasticsearchController {
 	// 통합검색
 	@GetMapping("/search")
 	@ResponseBody
-	public HeaderSearchDto headerSearch(@RequestParam("query") String query) {
+	public HeaderSearchDto headerSearch(@RequestParam("query") String query, 
+										@RequestParam("isEnter") String isEnter) {
+		
+		System.out.println("요청 확인!!!");
+		System.out.println(query);
+		System.out.println(isEnter);
+		
 		if (query == null || query.isBlank()) {
             return new HeaderSearchDto();
         }
+		
+		// 로그 분석 여부
+		if(isEnter.equals("yes")) {
+			service.getSearchLogData(query);
+		}
 		
 		List<ProductDocument> docs = service.headerSearch(query);
 		
@@ -43,6 +60,13 @@ public class ElasticsearchController {
         }
 
         return searchDto;
+	}
+	
+	// 인기 검색어
+	@GetMapping("/search/rank")
+	@ResponseBody
+	public List<String> getTopKeywords() throws ElasticsearchException, IOException {
+		return service.getTopKeywords();
 	}
 
 }
