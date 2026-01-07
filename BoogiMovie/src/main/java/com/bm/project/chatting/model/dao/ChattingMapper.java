@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 
 import com.bm.project.chatting.model.dto.ChattingRoom;
 import com.bm.project.chatting.model.dto.Member_C;
@@ -14,11 +15,10 @@ import com.bm.project.chatting.model.dto.ChattingMessage;
 public interface ChattingMapper {
 
     // 1. 채팅방 관련
-    List<ChattingRoom> selectRoomList(Long memberNo);        // 채팅방 목록 조회
     int checkChattingNo(Map<String, Object> map);           // 채팅방 번호 확인
     int createChattingRoom(Map<String, Object> map);        // 채팅방 생성
     ChattingRoom selectChattingRoom(int chattingRoomId);    // 채팅방 상세 정보 조회
-    List<Integer> enterAdminChat();                         // 관리자 번호 목록 조회
+
 
     // 2. 메시지 관련
     List<ChattingMessage> selectMessageList(Map<String, Object> map); // 메시지 내역 조회
@@ -50,6 +50,11 @@ public interface ChattingMapper {
 	int getListCount(Long memberNo);
 
 	// 페이징 처리된 목록 조회
-	List<ChattingRoom> selectRoomListPaging(Map<String, Object> map);
+
 	
+	List<ChattingRoom> selectRoomList(Long memberNo, RowBounds rowBounds);  // 채팅방 목록 조회
+	
+	
+	List<Integer> enterAdminChat();                         // 관리자 번호 목록 조회
 }
+

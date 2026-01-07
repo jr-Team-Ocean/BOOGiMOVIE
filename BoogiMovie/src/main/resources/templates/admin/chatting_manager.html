@@ -27,6 +27,7 @@
             </header>
 
             <section class="section_nav"> 
+    
                 <div class="header_nav_button">
                     <button class="notread">안읽음</button>
                     <span class="notread_img">3</span>
@@ -49,40 +50,41 @@
                         <button type="button" class="search-nav-btn" onclick="nextSearchResult()">&gt;</button>
                     </nav>
                 </div>
+
             </section>
 
             <section class="chat_container">
                 <aside class="side_list">
                     <ul class="chatter_list chatting_list">
-                        <th:block th:if="${roomList != null and not #lists.isEmpty(roomList.content)}">
-                            <th:block th:each="room : ${roomList.content}">
-                                <li class="individual_chatter chatting-item" 
-                                    th:classappend="${room.notReadCount > 0} ? 'active_chat'"
-                                    th:data-chat-no="${room.chattingRoomId}" 
-                                    th:data-target-no="${room.targetNo}">
-                                    
-                                    <img th:unless="${room.targetProfile}" class="list-profile" th:src="@{/svg/person.svg}">
-                                    <img th:if="${room.targetProfile}" class="list-profile" th:src="${room.targetProfile}">
-                                    
-                                    <div class="item-body">
-                                        <p>
-                                            <span class="target-name" th:text="${room.targetNickName}">상대방 이름</span>
-                                            <span class="recent-send-time" th:text="${room.sendTime}">14:30</span>
-                                        </p>
-                                        <div>
-                                            <p class="recent-message" th:text="${room.lastMessage}">마지막 메시지 내용</p>
-                                            <p th:if="${room.notReadCount > 0}" class="not-read-count" th:text="${room.notReadCount}"></p>
-                                            <button class="delete-room-btn" 
-                                                    th:onclick="|deleteChattingRoom('${room.chattingRoomId}', event)|">
-                                                &times;
-                                            </button>
-                                        </div>
+                        <th:block th:each="room : ${roomList}" th:if="${room != null}">
+                            <li class="individual_chatter chatting-item" 
+                                th:classappend="${room != null and room.notReadCount != null and room.notReadCount > 0} ? 'active_chat'"
+                                th:data-chat-no="${room.chattingRoomId}" 
+                                th:data-target-no="${room.targetNo}">
+                                
+                                <img th:unless="${room.targetProfile}" class="list-profile" th:src="@{/svg/person.svg}">
+                                <img th:if="${room.targetProfile}" class="list-profile" th:src="${room.targetProfile}">
+                                
+                                <div class="item-body">
+                                    <p>
+                                        <span class="target-name" th:text="${room.targetNickName}">상대방 이름</span>
+                                        <span class="recent-send-time" th:text="${room.sendTime}">14:30</span>
+                                    </p>
+                                    <div>
+                                        <p class="recent-message" th:text="${room.lastMessage}">마지막 메시지 내용</p>
+                                        <p th:if="${room.notReadCount > 0}" class="not-read-count" th:text="${room.notReadCount}"></p>
+                                        <button class="delete-room-btn" 
+                                                th:onclick="|deleteChattingRoom('${room.chattingRoomId}', event)|">
+                                            &times;
+                                        </button>
+
                                     </div>
-                                </li>
-                            </th:block>
+
+                                </div>
+                            </li>
                         </th:block>
                         
-                        <th:block th:if="${roomList == null or #lists.isEmpty(roomList.content)}">
+                        <th:block th:if="${#lists.isEmpty(roomList)}">
                             <li class="individual_chatter">채팅 내역이 없습니다.</li>
                         </th:block>
                     </ul>
@@ -95,27 +97,12 @@
             
             <section class="bottom_control_row">
                 <div class="side_pagination_section">
-                    <nav class="side_list_pagination" th:if="${roomList != null and roomList.totalPage > 0}">
-        
-                        <a th:href="@{/chatting(cp=1)}">&laquo;</a>
-                        
-                        <a th:href="@{/chatting(cp=${roomList.prevPage})}">&lt;</a>
-                        
-                        <th:block th:each="i : ${#numbers.sequence(roomList.blockStart, roomList.blockEnd)}">
-                            <th:block th:if="${i > 0}">
-                                <a th:if="${i == roomList.currentPage}" 
-                                class="active" 
-                                th:text="${i}">1</a>
-                                
-                                <a th:unless="${i == roomList.currentPage}" 
-                                th:href="@{/chatting(cp=${i})}" 
-                                th:text="${i}">2</a>
-                            </th:block>
-                        </th:block>
-
-                        <a th:href="@{/chatting(cp=${roomList.nextPage})}">&gt;</a>
-                        
-                        <a th:href="@{/chatting(cp=${roomList.totalPage})}">&raquo;</a>
+                    <nav class="bottom_pagination side_list_pagination">
+                        <a href="#">&laquo;</a>
+                        <a href="#">&lt;</a>
+                        <a href="#" class="active">1</a>
+                        <a href="#">&gt;</a>
+                        <a href="#">&raquo;</a>
                     </nav>
                 </div>
 
@@ -131,7 +118,6 @@
                     </div>
                 </div>
             </section>
-
         </main>
     </div>
     
@@ -139,7 +125,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script th:inline="javascript">
+        // 로그인한 회원 번호 (Session에서 가져옴)
         const loginMemberNo = /*[[${session.loginMember?.memberNo}]]*/ 0;
+        console.log('로그인 회원 번호:', loginMemberNo);
     </script>
     <script th:src="@{/js/admin/chatting_manager.js}"></script>
 </body>
