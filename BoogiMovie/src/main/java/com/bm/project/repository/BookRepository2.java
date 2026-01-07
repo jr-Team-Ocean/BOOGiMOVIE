@@ -10,4 +10,6 @@ public interface BookRepository2 extends JpaRepository<Book, Long>{
 
 	Optional<Book> findByProduct_ProductNo(Long productNo);
 
+	boolean existsByIsbn(String isbn);
+
 }
