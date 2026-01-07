@@ -50,6 +50,11 @@ main {
     position: relative;
 }
 
+.notread {
+    color: white;
+    background-color: #4a98f7;
+}
+
 .header_nav_button > button {
     border-radius: 20px;
     height: 38px;
@@ -62,18 +67,18 @@ main {
     transition: all 0.2s;
 }
 
-.header_nav_button > button.active {
+/* .header_nav_button > button.active {
     background-color: #4a98f7;
     color: white;
     box-shadow: 0 2px 8px rgba(74, 152, 247, 0.4);
-}
+} */
 
 .header_nav_button > button:hover:not(.active) {
     background-color: #e0e6eb;
     transform: translateY(-1px);
 }
 
-.notread_img {
+.notread_img1 {
     position: absolute;
     top: -5px;
     right: 5px;
@@ -81,6 +86,10 @@ main {
     height: 18px;
     background-color: #e74c3c;
     border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* 검색창 */
@@ -144,6 +153,7 @@ main {
     cursor: pointer;
     transition: background-color 0.2s;
     gap: 10px;
+    width: 100%;
     border-bottom: 1px solid #f0f0f0;
 }
 
@@ -310,6 +320,12 @@ main {
     color: #999;
     font-size: 12px;
     flex-shrink: 0;
+}
+
+.message_search_group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .recent-message {
@@ -646,7 +662,7 @@ main {
 /* 메시지 검색창 컨테이너 */
 .header_nav_search {
     position: relative;
-    width: 350px;
+    width: 250px;      
     flex-shrink: 0; /* ✅ 크기 고정 */
 }
 
