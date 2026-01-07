@@ -167,7 +167,7 @@ public class UBookServiceImpl implements UbookService{
 
 	
 	// 중고도서 상품 등록
-	@Transactional(readOnly=false)
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public Long insertUbook(Create createUbook) throws IllegalStateException, IOException {
 		
@@ -216,7 +216,7 @@ public class UBookServiceImpl implements UbookService{
 		}
 		
 		
-		Ubook ubook = createUbook.toUbookEntity();
+		Ubook ubook = createUbook.toUbookEntity(product);
 		ubookRepositories.save(ubook);
 		
 		
