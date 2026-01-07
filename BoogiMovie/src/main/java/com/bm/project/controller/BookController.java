@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -314,9 +315,30 @@ public class BookController {
 	    return bookService.deleteReview(reviewNo, loginMember.getMemberNo());
 	}
 	
+	// api 데이터?
+	@GetMapping("/write/api")
+	@PreAuthorize("hasRole('ADMIN')")
+	public String bookInsertApi() {
+		return "book/bookWriteApiTest";
+	}
+	
+	@PostMapping("/write/api")
+    @ResponseBody
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> bookInsertApi(@RequestParam String isbn) {
+
+		boolean success = bookService.bookWriteByApiIsbn(isbn);
+
+        // 이미 등록된 ISBN
+        if (!success) {
+            return ResponseEntity.status(409).build();
+        }
+
+        return ResponseEntity.ok().build();
+    }
+}
+	
+	
+	
 	
 
-	
-	
-	
-}

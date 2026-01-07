@@ -64,6 +64,8 @@ dependencies {
     // Spring - Mybais 관련 라이브러리 모음
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
     
+    //
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
 }
 
 tasks.named('test') {

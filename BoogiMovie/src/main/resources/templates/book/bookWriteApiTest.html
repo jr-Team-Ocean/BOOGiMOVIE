@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="../../static/css/common/header.css"> -->
+    <link rel="stylesheet" th:href="@{/css/book/bookWrite-style.css}">
+    <title>도서 상품 등록</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    
+    
+
+</head>
+<body>
+    <!-- 헤더 -->
+    <th:block th:replace="~{common/header}"></th:block>
+
+
+    <!-- 주 화면 -->
+    <main class="write-container">
+
+        <div class="table-wrapper">
+            <h3>도서 상품 등록</h3> 
+            <form th:action="@{/books/write}" method="POST" name="bookFrm" id="writeFrm" enctype="multipart/form-data">
+                
+                <table class="table-container">
+                    
+                    <tbody>
+                        <tr> <!-- isbn -->
+                            <th>ISBN</th>
+                            <td><input name="isbn" class="book-isbn" type="text" placeholder="국제도서고유번호를 입력해 주세요. (공란 가능)"></td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+                <!-- 제출버튼 -->
+                <div class="button-group">
+                    <button class="submit" id="submit-btn">등록하기</button>
+                    <button class="reset" id="reset-btn">취소</button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+
+    <th:block th:replace="~{common/footer}"></th:block>
+    
+    <script th:src="@{/js/book/bookWriteApiTest.js}"></script>
+</body>
+</html>
