@@ -101,7 +101,7 @@ public class ElasticsearchService {
 	}
 
 	// 인기 검색어
-	public List<String> getTopKeywords() throws ElasticsearchException, IOException {
+	public List<String> getTopKeywords() {
 		try {
 			// 1. [조립] 검색 요청 만들기
 			SearchRequest searchRequest = SearchRequest.of(r -> r.index("search-rank-*") // 인덱스 패턴
@@ -133,6 +133,10 @@ public class ElasticsearchService {
 
 		} catch (IOException e) {
 			e.printStackTrace();
+			return new ArrayList<>();
+			
+		} catch (ElasticsearchException e) {
+			// 인기검색어 인덱스가 존재하지 않을 경우에도 그냥 빈 리스트 반환
 			return new ArrayList<>();
 		}
 	}

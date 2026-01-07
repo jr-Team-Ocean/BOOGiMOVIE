@@ -65,7 +65,7 @@ public class ElasticsearchController {
 	// 인기 검색어
 	@GetMapping("/search/rank")
 	@ResponseBody
-	public List<String> getTopKeywords() throws ElasticsearchException, IOException {
+	public List<String> getTopKeywords() {
 		return service.getTopKeywords();
 	}
 
