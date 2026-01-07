@@ -157,10 +157,10 @@ public class UbookDto {
         		
         		return Ubook.builder()
         				.product(product)
-        				.ubookStatus(this.ubookStatus)
-        				.nbookPrice(this.nbookPrice)
-        				.ubookIndex(this.ubookIndex)
-        				.authorIntro(this.authorIntro)
+        				.ubookStatus(ubookStatus)
+        				.nbookPrice(nbookPrice)
+        				.ubookIndex(ubookIndex)
+        				.authorIntro(authorIntro)
         				.build();
         		
         		

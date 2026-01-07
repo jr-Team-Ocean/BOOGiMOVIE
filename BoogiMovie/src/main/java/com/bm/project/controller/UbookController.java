@@ -144,7 +144,7 @@ public class UbookController {
 		if (productNo > 0) {
 			// 게시글 삽입 성공 시
 			// -> 방금 삽입한 게시글의 상세 조회 페이지로 리다이렉트	
-			path += "/books/" + productNo; 
+			path += "/ubooks/" + productNo; 
 			message = "도서 상품이 등록되었습니다.";
 			
 		} else {
@@ -152,7 +152,7 @@ public class UbookController {
 			// -> 게시글 작성 페이지로 리다이렉트
 
 			// ==> 작성하는 요청 주소와 리다이렉트 할 주소가 똑같음 = 상대주소로 
-			path += "write";
+			path += "insert";
 			message = "도서 등록에 실패하였습니다.";
 		}
 		

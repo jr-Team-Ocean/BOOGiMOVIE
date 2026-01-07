@@ -211,6 +211,7 @@ main{
     height: 50px;
 
     margin-top: 30px;
+    margin-bottom: 30px;
     gap: 10px;
 
     
@@ -221,6 +222,7 @@ main{
     color: white;
     background-color: #082A71;
 
+    cursor: pointer;
     border-radius: 5px;
     border: none;
 }
@@ -229,6 +231,7 @@ main{
     width: 100px;
     background-color: #B3B3B3;
 
+    cursor: pointer;
     border-radius: 5px;
     border: none;
 }

@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -55,8 +56,11 @@ public class UBookServiceImpl implements UbookService{
 	private final ProductTypeRepository productTypeRepository;
 	private final ProductSearchRepository searchRepository;
 	
-	private final String UPLOAD_PATH = "C:\\bmImg\\";
-	private final String WEB_PATH = "\\images\\ubook\\";
+	@Value("${my.ubook.location}")
+	private String UPLOAD_PATH;
+	
+	@Value("${my.ubook.webpath}")
+	private String WEB_PATH;
 
 	
 	// 중고도서 목록 조회
@@ -178,7 +182,7 @@ public class UBookServiceImpl implements UbookService{
 				ubookRepository.getReference(Category.class, createUbook.getCategoryId());
 		
 		ProductType productType =
-	            ubookRepository.getReference(ProductType.class, 1L);
+	            ubookRepository.getReference(ProductType.class, 3L);
 		
 		product.setCategory(category);
         product.setProductType(productType);
@@ -187,20 +191,18 @@ public class UBookServiceImpl implements UbookService{
         MultipartFile image = createUbook.getImage();
 		
 		
-		// 이미지
-		String changeName = null;
-		String originName = null;
+		
 		
 		
 		// 이미지 파일이 null인지, 이미지 객체는 있는데 파일이 비어있지 않은지 검사
 		if(createUbook.getImage() != null && !createUbook.getImage().isEmpty()) {
 			
 			
-			originName = createUbook.getImage().getOriginalFilename();
+			String originName = createUbook.getImage().getOriginalFilename();
 			
 			System.out.println(createUbook.getImage().getOriginalFilename());
 			
-			changeName = UUID.randomUUID().toString() + "_" + originName;
+			String changeName = UUID.randomUUID().toString() + "_" + originName;
 			
 			File uploadDir = new File(UPLOAD_PATH);
 			
