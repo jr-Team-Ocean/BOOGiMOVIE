@@ -116,6 +116,11 @@ body {
     margin-right: 28px;
 }
 
+.movieTitle {
+    width: 180px;
+    height: 55px;
+}
+
 .my_movie > div > img {
     width: 180px;
     height: 250px;
