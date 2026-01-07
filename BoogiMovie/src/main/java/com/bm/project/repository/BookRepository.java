@@ -60,4 +60,7 @@ public interface BookRepository {
 	// 후기 등록
 	int insertReview(Long productNo, Long memberNo, Integer reviewScore, String reviewContent);
 
+	// 평점
+	Double selectReviewAverage(Long productNo);
+
 }

@@ -2,11 +2,8 @@ package com.bm.project.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -28,19 +25,17 @@ import com.bm.project.elasticsearch.ProductDocument;
 import com.bm.project.elasticsearch.ProductSearchRepository;
 import com.bm.project.entity.Book;
 import com.bm.project.entity.Category;
-import com.bm.project.entity.Likes;
-import com.bm.project.entity.Member;
 import com.bm.project.entity.Product;
 import com.bm.project.entity.ProductTag;
 import com.bm.project.entity.ProductType;
 import com.bm.project.entity.Review;
 import com.bm.project.entity.TagCode;
+import com.bm.project.enums.CommonEnums;
 import com.bm.project.repository.BookRepository;
 import com.bm.project.repository.BookRepository2;
 import com.bm.project.repository.LikeRepository;
 import com.bm.project.repository.ReviewRepository;
 import com.bm.project.repository.TagRepository;
-import com.bm.project.enums.CommonEnums;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -474,6 +469,23 @@ public class BookServiceImpl  implements BookService {
 	public int deleteReview(Long reviewNo, Long memberNo) {
 		reviewRepository.deleteByReviewNoAndMemberNo(reviewNo, memberNo);
 		return 1;
+	}
+
+
+
+
+
+	// 평점
+	@Override
+	public double getReviewAverage(Long productNo) {
+		
+		Double avg = bookRepository.selectReviewAverage(productNo);
+		
+		if (avg == null) {
+	        return 0.0;
+	    }
+
+	    return avg;
 	}
 
 
