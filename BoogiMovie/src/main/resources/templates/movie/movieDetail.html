@@ -66,7 +66,7 @@
                 </button>
                 
                 <div class="movie-price">
-                    <div>평점 <b class="rate-value">4.8</b></div>
+                    <div>평점 <b class="rate-value" th:text="${rating}">4.8</b></div>
 
                     <label class="sell-price">판매가 <b th:text="${#numbers.formatInteger(movie.productPrice, 3, 'COMMA')} + '원'">23,400원</b></label>
                 </div>
