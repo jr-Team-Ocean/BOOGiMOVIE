@@ -33,6 +33,7 @@ main{
 .img-area > img{
     width: 240px;
     height: 350px;
+    border: 1px solid #b2b2b2;
 }
 
 /* 제목 및 상세정보 */
