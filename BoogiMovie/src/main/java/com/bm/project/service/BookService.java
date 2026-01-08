@@ -59,9 +59,6 @@ public interface BookService {
 	// api 임시
 	boolean bookWriteByApiIsbn(String isbn);
 
-	// 더미생성
-	void batchBookWriteByApiIsbn();
-
 	
 
 }
