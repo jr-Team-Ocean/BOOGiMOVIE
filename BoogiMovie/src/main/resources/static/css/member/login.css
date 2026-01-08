@@ -26,7 +26,7 @@ body {
     display: flex;
     align-items: center;
     flex-direction: column;
-    margin-top: 100px;
+    margin-top: 200px;
 }
 
 .login_id_container > div {
