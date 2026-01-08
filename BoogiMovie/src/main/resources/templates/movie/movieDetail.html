@@ -66,7 +66,7 @@
                 </button>
                 
                 <div class="movie-price">
-                    <div>평점 <b class="rate-value">4.8</b></div>
+                    <div>평점 <b class="rate-value" th:text="${rating}">4.8</b></div>
 
                     <label class="sell-price">판매가 <b th:text="${#numbers.formatInteger(movie.productPrice, 3, 'COMMA')} + '원'">23,400원</b></label>
                 </div>
@@ -117,11 +117,9 @@
                         <li>제작사 : <span th:text="${#strings.listJoin(movie.companies, ', ')}">월트 디즈니 픽처스, 월트 디즈니 애니메이션 스튜디오</span></li>
                     </ul>
 
-                    <hr>
-
                     <!-- 연관 콘텐츠 추천 -->
                     <!-- 도서 추천 -->
-                    <section id="book">
+                    <!-- <section id="book">
                         <h4>연관 도서 추천</h4>
                         <div class="book-row">
                             <a th:href="@{#}" class="related">
@@ -155,12 +153,10 @@
                                 <p>18,000원</p>
                             </a>
                         </div>
-                    </section>
-
-                    <hr>
+                    </section> -->
 
                     <!-- 배우 작품 추천 -->
-                    <section id="actor">
+                    <!-- <section id="actor">
                         <h4>출연배우 작품 추천</h4>
                         <div class="book-row">
                             <a th:href="@{#}" class="related">
@@ -194,12 +190,11 @@
                                 <p>18,000원</p>
                             </a>
                         </div>
-                    </section>
+                    </section> -->
 
-                    <hr>
 
                     <!-- 감독 작품 추천 -->
-                    <section id="creator">
+                    <!-- <section id="creator">
                         <h4>감독 작품 추천</h4>
                         <div class="book-row">
                             <a th:href="@{#}" class="related">
@@ -233,7 +228,7 @@
                                 <p>18,000원</p>
                             </a>
                         </div>
-                    </section>
+                    </section> -->
                 </div>
 
 

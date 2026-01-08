@@ -57,6 +57,9 @@ public interface MovieService {
 	// 후기 삭제
 	int deleteReview(Long reviewNo, Long memberNo);
 
+	// 평점
+	double getReviewAvg(Long productNo);
+
 	
 
 

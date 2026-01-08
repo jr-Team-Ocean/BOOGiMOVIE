@@ -1,5 +1,6 @@
 package com.bm.project.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -128,17 +129,40 @@ public class UbookController {
 	@PostMapping("/insert")
 	public String UbookInsert(
 			
-			@ModelAttribute UbookDto.Create createUbook
+			@ModelAttribute UbookDto.Create createUbook,
 			
-			) {
+			RedirectAttributes ra
+			
+			) throws IllegalStateException, IOException {
 		
 		System.out.println(createUbook);
 		
 		Long productNo = ubookService.insertUbook(createUbook);
 		
+		String message = null;
+		String path = "redirect:";
+		if (productNo > 0) {
+			// 게시글 삽입 성공 시
+			// -> 방금 삽입한 게시글의 상세 조회 페이지로 리다이렉트	
+			path += "/ubooks/" + productNo; 
+			message = "도서 상품이 등록되었습니다.";
+			
+		} else {
+			// 게시글 삽입 실패 시
+			// -> 게시글 작성 페이지로 리다이렉트
+
+			// ==> 작성하는 요청 주소와 리다이렉트 할 주소가 똑같음 = 상대주소로 
+			path += "insert";
+			message = "도서 등록에 실패하였습니다.";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		return path;
+		
 		
 				
-		return null;
+		
 		
 	}
 	

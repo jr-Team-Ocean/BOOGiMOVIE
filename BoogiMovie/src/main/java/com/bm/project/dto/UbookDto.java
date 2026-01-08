@@ -3,6 +3,8 @@ package com.bm.project.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.bm.project.dto.BookDto.Response;
 import com.bm.project.entity.Book;
 import com.bm.project.entity.Category;
@@ -116,7 +118,10 @@ public class UbookDto {
         private String productContent; // 책 소개
         private LocalDateTime productDate; // 출간일
         private Integer productPrice; // 판매가
-        private String imgPath; // 대표 이미지
+        
+        // 임시 DTO 필드. 실제 파일은 지정 서버에 저장.
+        // imgPath는 경로 문자열만 DB에 저장
+        private MultipartFile image; // 대표 이미지
 
         
         private String ubookStatus; // 중고도서 분류        
@@ -125,6 +130,8 @@ public class UbookDto {
         private String authorIntro;
         
         private Long categoryId; // 카테고리 
+        
+        private Long typeCode; // 상품 분류
         
         private String writers; // 작가
         private String publishers; // 출판사
@@ -139,20 +146,21 @@ public class UbookDto {
         				.productContent(this.productContent)
         				.productDate(this.productDate)
         				.productPrice(this.productPrice)
-        				.imgPath(this.imgPath)
+        				.imgPath(null)
         				.build();
         		
         	}
         	
         	
         	// 중고도서 담기용
-        	public Ubook toUbookEntity() {
+        	public Ubook toUbookEntity(Product product) {
         		
         		return Ubook.builder()
-        				.ubookStatus(this.ubookStatus)
-        				.nbookPrice(this.nbookPrice)
-        				.ubookIndex(this.ubookIndex)
-        				.authorIntro(this.authorIntro)
+        				.product(product)
+        				.ubookStatus(ubookStatus)
+        				.nbookPrice(nbookPrice)
+        				.ubookIndex(ubookIndex)
+        				.authorIntro(authorIntro)
         				.build();
         		
         		

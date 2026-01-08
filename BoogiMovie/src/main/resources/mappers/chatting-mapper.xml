@@ -48,7 +48,7 @@
 			     FROM CHATTING_MESSAGE CM
 			     WHERE CM.CHATTING_ROOM_ID = R.CHATTING_ROOM_ID
 			     AND CM.READ_YN = 'N'
-			     AND CM.SENDER_ID != 21) AS NOT_READ_COUNT
+			     AND CM.SENDER_ID != ${loginMemberNo}) AS NOT_READ_COUNT
 			
 			FROM CHATTING_ROOM R
 			
@@ -183,11 +183,16 @@
 
 	<!-- 채팅 상대 검색 -->
 	<select id="selectTarget" resultMap="member_rm">
-		SELECT MEMBER_NO, PROFILE_PATH, MEMBER_NICKNAME, MEMBER_EMAIL
-		FROM MEMBER
-		WHERE (MEMBER_EMAIL LIKE '%${query}%' OR MEMBER_NICKNAME LIKE '%${query}%')
-		AND SECESSION_FL = 'N'
-		AND MEMBER_NO != #{memberNo} <!-- 자기 자신은 제외-->
+	    SELECT 
+	        MEMBER_NO, 
+	        PROFILE_PATH, 
+	        MEMBER_NICKNAME, 
+	        MEMBER_EMAIL,
+	        MEMBER_NAME  FROM "MEMBER"
+	    WHERE (MEMBER_EMAIL LIKE '%' || #{query} || '%' 
+	       OR MEMBER_NAME LIKE '%' || #{query} || '%'
+	       OR MEMBER_NICKNAME LIKE '%' || #{query} || '%') AND SECESSION_FL = 'N'
+	    AND MEMBER_NO != #{memberNo}
 	</select>
 	
 	<!-- 여러 관리자를 선택하기 위한 관리자 번호 확인하기-->

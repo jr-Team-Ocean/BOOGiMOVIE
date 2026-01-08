@@ -1,5 +1,6 @@
 package com.bm.project.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +24,7 @@ public interface UbookService {
 	void deleteProduct(Long productNo);
 
 	// 중고도서 상품 등록
-	Long insertUbook(Create createUbook);
+	Long insertUbook(Create createUbook) throws IllegalStateException, IOException;
 	
 	
 	
