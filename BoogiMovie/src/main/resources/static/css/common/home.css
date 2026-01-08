@@ -10,7 +10,9 @@
 /* 저자 및 출판사 글씨 연하게 */
 .info_gray {
     color: #777;
+    text-align: center;
 }
+
 
 /* 홈 컨테이너 */
 .home_container {
@@ -26,7 +28,6 @@
 .banner_area {
     width: 1200px;
     height: 340px;
-    border: 1px solid gray;
 }
 
 /* 버튼 자리 차지 */
