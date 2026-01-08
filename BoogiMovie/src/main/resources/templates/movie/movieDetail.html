@@ -302,7 +302,7 @@
                                 <div class="review-right">
                                     <!-- 관람평 내용 -->
                                     <div class="review-content">
-                                        <p class="report-btn" th:if="${loginMember != null and loginMember.memberNo != review.member.memberNo}">신고</p>
+                                        <p class="report-btn" th:if="${session.loginMember != null and session.loginMember.memberNo != review.member.memberNo}">신고</p>
                                         
                                         <!-- 별점 -->
                                         <div class="review-star readonly">
@@ -320,12 +320,10 @@
                                             <p th:text="${#temporals.format(review.reviewTime, 'yyyy.MM.dd HH:mm')}">12분전</p>
                 
                                             <!-- 수정/삭제 버튼 -->
-                                            <div class="buttons">
-                                                <th:block th:if="${loginMember != null and loginMember.memberNo == review.member.memberNo}">
+                                            <div class="buttons" th:if="${session.loginMember != null and session.loginMember.memberNo == review.member.memberNo}">
                                                     <span class="update-review-btn">수정</span>
                                                     <span>|</span>
                                                     <span class="delete-review-btn">삭제</span>
-                                                </th:block>
                                             </div>
 
                                         </div>

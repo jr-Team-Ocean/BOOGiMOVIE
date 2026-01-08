@@ -86,7 +86,7 @@
                 </div>
 
                 <div class="book-rating">
-                    <span>평점 <b class="rate-value" th:text="${reviewAvg.avg}">4.4</b></span>
+                    <span>평점 <b class="rate-value" th:text="${reviewAvg}">4.4</b></span>
 
 
                     <button id="bookLikeBtn" >
@@ -165,10 +165,6 @@
     <!-- 푸터 -->
     <th:block th:replace="~{common/footer}"></th:block>
 
-    <!-- 우측하단 -->
-    <th:block th:replace="~{common/bot-nav-btn}"></th:block>
-
-
     <script th:inline="javascript">
 
         let loginMemberNo = /*[[${session.loginMember?.memberNo}]]*/ null;
@@ -181,12 +177,6 @@
         const productNo = /*[[${book.productNo}]]*/ '게시글 번호';
 
     </script>
-
-
-
-
-
-
 
 
     <script th:src="@{/js/book/bookDetail.js}"></script>

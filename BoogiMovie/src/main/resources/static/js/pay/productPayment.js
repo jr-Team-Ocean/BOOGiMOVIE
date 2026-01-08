@@ -6,6 +6,18 @@
 
 console.log("productPayment.js");
 
+/* 결제정보 수정 창에서 결제 취소시 뒤로가기 */
+const cancelPayment = document.querySelector("#cancel_payment");
+cancelPayment.addEventListener("click", () => {
+    if(confirm("결제 진행을 취소하시겠습니까?")) {
+        history.back();
+    }
+})
+
+
+/* ================================================ */
+/* ================================================ */
+
 const storeId = document.querySelector("#portone-store-id").value;
 const channelKey = document.querySelector("#portone-channel-key").value;
 
@@ -123,7 +135,7 @@ async function payment(validationData, needsDelivery, payMethod) {
         if (response.code !== undefined) {
             console.log("결제 실패 / 취소 : ", response.message);
             console.log(resp.order_no);
-            alert("결제에 실패했습니다.");
+            alert("결제가 취소 되었습니다.");
 
             await fetch("/order/fail", {
                 method: "POST",

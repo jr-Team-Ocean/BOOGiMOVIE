@@ -56,6 +56,9 @@ public interface BookService {
 	// 평점
 	double getReviewAverage(Long productNo);
 
+	// api 임시
+	boolean bookWriteByApiIsbn(String isbn);
+
 	
 
 }
