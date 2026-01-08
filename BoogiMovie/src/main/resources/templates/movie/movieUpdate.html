@@ -18,7 +18,7 @@
 
     <div class="write-container">
         <div class="table-wrapper">
-            <h3>영화 상품 등록</h3> 
+            <h3>영화 수정</h3> 
             <form th:action="@{/movies/{productNo}/update(productNo=*{productNo})}" method="POST" name="movieFrm" id="updateFrm" enctype="multipart/form-data" th:object="${movie}">
                 <input type="hidden" th:field="*{productNo}">
                 <table class="table-container">

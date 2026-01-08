@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOOGiMOVIE 회원가입</title>
+    <title>회원가입</title>
     <!-- 폰트 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,16 +18,16 @@
             <img th:src="@{/images/common/logo_basic.png}">
         </div>
         <div class="header">
-            <div>휴대폰으로 인증</div>
+            <div>회원가입 정보입력</div>
             <div class="steps">
-                <div class="basic select">1</div>
-                <div class="basic">2</div>
+                <!-- <div class="basic select">1</div> -->
+                <!-- <div class="basic">2</div> -->
             </div>
         </div>
         
         <div class="line"></div>
 
-        <div class="step1">
+        <!-- <div class="step1">
             <div>사용할 휴대폰 번호를 입력해 주세요.</div>
         
             <label for="phone">휴대폰 번호</label>
@@ -47,10 +47,10 @@
             </div>
     
             <button type="button" id="sendBtn" data-state="send">인증번호 발송</button>
-        </div>
+        </div> -->
         
 
-        <div class="step2 hidden">
+        <div class="step2">
             <form th:action="@{/member/signUp}" method="POST" name="signUpFrm" id="signUpFrm">
                 <label for="memberId">
                     <span class="required">*</span>
@@ -87,11 +87,11 @@
                 <input type="text" name="memberBirth" id="memberBirth" placeholder="ex) 20251221" maxlength="8">
                 <span class="signUp-message" id="birth-message"></span>
                 
-                <label for="phoneNumber">
+                <label for="memberPhone">
                     <span class="required">*</span>
                     전화번호
                 </label>
-                <input type="tel" name="memberPhone" id="memberPhone" placeholder="‘-’ 없이 숫자만 입력" maxlength="11">
+                <input type="text" name="memberPhone" id="memberPhone" placeholder="‘-’ 없이 숫자만 입력" maxlength="11">
                 <span class="signUp-message" id="tel-message"></span>
 
                 <label for="memberNickName">
