@@ -699,21 +699,4 @@ public class BookServiceImpl  implements BookService {
 	    return 99L;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

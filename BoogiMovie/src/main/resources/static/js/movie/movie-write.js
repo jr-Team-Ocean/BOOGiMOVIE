@@ -3,7 +3,7 @@ console.log('movie.js loaded....')
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("writeFrm");
     const fileInput = document.getElementById("movieImg");
-    const previewImg = document.getElementById("add-img"); // 너가 label 안에 둔 img
+    const previewImg = document.getElementById("add-img");
 
     // 이미지 선택 시 미리보기 + 파일 체크
     fileInput.addEventListener("change", () => {
@@ -51,11 +51,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // 2) 제목
-        const title = form.querySelector('input[name="movieTitle"]')?.value?.trim();
+        const title = form.querySelector('input[name="productTitle"]')?.value?.trim();
+        console.log(title);
         if (!title) {
             alert("영화제목은 필수입니다.");
-            form.querySelector('input[name="movieTitle"]').focus();
             e.preventDefault();
+            title.focus();
             return;
         }
 
@@ -63,8 +64,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const productDate = form.querySelector('input[name="productDate"]')?.value;
         if (!productDate) {
             alert("개봉일은 필수입니다.");
-            form.querySelector('input[name="productDate"]').focus();
             e.preventDefault();
+            productDate.focus();
             return;
         }
 
@@ -73,14 +74,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const genreType = form.querySelector('select[name="genreType"]')?.value;
         if (!movieType) {
             alert("국내/해외 카테고리를 선택해주세요.");
-            form.querySelector('select[name="movieType"]').focus();
             e.preventDefault();
+            movieType.focus();
             return;
         }
         if (!genreType) {
             alert("장르를 선택해주세요.");
-            form.querySelector('select[name="genreType"]').focus();
             e.preventDefault();
+            genreType.focus();
             return;
         }
 
@@ -89,8 +90,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const movieTime = Number(movieTimeStr);
         if (!movieTimeStr || Number.isNaN(movieTime) || movieTime <= 0) {
             alert("상영시간(분)을 1 이상으로 입력해주세요.");
-            form.querySelector('input[name="movieTime"]').focus();
             e.preventDefault();
+            movieTimeStr.focus();
             return;
             }
 
@@ -107,8 +108,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const price = Number(priceStr);
         if (priceStr === "" || Number.isNaN(price) || price < 0) {
             alert("판매가는 0 이상으로 입력해주세요.");
-            form.querySelector('input[name="productPrice"]').focus();
             e.preventDefault();
+            priceStr.focus();
             return;
         }
     });
