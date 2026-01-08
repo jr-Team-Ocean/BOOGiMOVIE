@@ -28,14 +28,14 @@
         <p class="top_title">도서 등록</p>
 
 
-        <form th:action="@{/ubooks/insert}" method="post" enctype="multipart/form-data">
+        <form id="enrollFrm" th:action="@{/ubooks/insert}" method="post" enctype="multipart/form-data">
 
 
             <section class="enroll_container">
     
                 <div class="enroll_line">
                     <span class="enroll_left"><p class="left_label">도서명</p></span>
-                    <span class="enroll_right"><input name="productTitle" type="text"></span>
+                    <span class="enroll_right"><input id="title" name="productTitle" type="text"></span>
     
                 </div>
 
@@ -43,9 +43,9 @@
                     <span class="enroll_left"><p class="left_label">대표 이미지</p></span>
                     <span class="enroll_right">
                         <div class="img_case">
-                            <img class="usedBook_enroll_thumbnail">
-                            <input type="file" name="image" class="inputImage" hidden>
-                        
+                            <label for="thumbnailImage" class><img class="usedBook_enroll_thumbnail" id="preview"></label>
+                            <input type="file" id="thumbnailImage" name="image" class="inputImage" hidden>
+                            <span id="deleteImage">&times;</span>
                         </div>
                     </span>
     
@@ -53,13 +53,13 @@
     
                 <div class="enroll_line">
                     <span class="enroll_left"><p class="left_label">작가</p></span>
-                    <span class="enroll_right"><input name="writers" type="text"></span>
+                    <span class="enroll_right"><input id="writerName" name="writers" type="text"></span>
     
                 </div>
     
                 <div class="enroll_line">
                     <span class="enroll_left"><p class="left_label">출판사</p></span>
-                    <span class="enroll_right"><input name="publishers" type="text"></span>
+                    <span class="enroll_right"><input id="publisherName" name="publishers" type="text"></span>
     
                 </div>
     
@@ -222,13 +222,13 @@
     
                 <div class="enroll_line">
                     <span class="enroll_left"><p class="left_label">정가</p></span>
-                    <span class="enroll_right"><input name="nbookPrice" type="number"></span>
+                    <span class="enroll_right"><input id="nprice" name="nbookPrice" type="number"></span>
     
                 </div>
     
                 <div class="enroll_line">
                     <span class="enroll_left"><p class="left_label">판매가</p></span>
-                    <span class="enroll_right"><input name="productPrice" type="number"></span>
+                    <span class="enroll_right"><input id="uprice" name="productPrice" type="number"></span>
     
                 </div>
     
@@ -236,7 +236,7 @@
                     <span class="enroll_left"><p class="left_label">카테고리</p></span>
                     <span class="enroll_right">
                         <span>
-                            <select class="select_category" name="categoryId" id="usedBook_category" size="6">
+                            <select class="select_category" name="categoryIdBig" id="usedBook_category" size="6">
                                 <option value="1">운동/취미/살림</option>
                                 <option value="2">교재/참고서/자격증</option>
                                 <option value="3">유아/어린이</option>
@@ -252,7 +252,7 @@
                                 
                             </select>
 
-                            <select class="select_small_category" name="categorySelectorSmall" id="smallCategory" size="6">
+                            <select class="select_small_category" name="categoryIdSmall" id="smallCategory" size="6">
                                 <option value="12">라이트노벨</option>
                                 <option value="13">판타지</option>
                                 <option value="14">SF</option>
@@ -266,6 +266,7 @@
 
 
                         </span>
+                        <input type="hidden" name="categoryId" id="categoryId">
                         
                     </span>
     
@@ -273,19 +274,19 @@
     
                 <div class="enroll_line">
                     <span class="enroll_left"><p class="left_label">책소개</p></span>
-                    <span class="enroll_right"><textarea class="intro" name="productContent" id=""></textarea></span>
+                    <span class="enroll_right"><textarea class="intro" name="productContent" id="ubookIntro"></textarea></span>
     
                 </div>
     
                 <div class="enroll_line">
                     <span class="enroll_left"><p class="left_label">목차</p></span>
-                    <span class="enroll_right"><textarea class="intro" name="ubookIndex" id=""></textarea></span>
+                    <span class="enroll_right"><textarea class="intro" name="ubookIndex" id="uIndex"></textarea></span>
     
                 </div>
     
                 <div class="enroll_line">
                     <span class="enroll_left"><p class="left_label">저자 및 역자 소개</p></span>
-                    <span class="enroll_right"><textarea class="intro" name="authorIntro" id=""></textarea></span>
+                    <span class="enroll_right"><textarea class="intro" name="authorIntro" id="aIntro"></textarea></span>
     
                 </div>
 
