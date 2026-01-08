@@ -158,16 +158,17 @@
 }
 
 .del_btn{
-    margin-left: 5px;
+    
     background-color: #F4307E;
     cursor: pointer;
 
     font-size: 16px;
-    width: 90px;
+    width: 100px;
     height: 35px;
     border-radius: 5px;
     color: white;
     margin-top: 15px;
+    margin-right: 10px;
     font-weight: bold;
     border: 0px;
 
