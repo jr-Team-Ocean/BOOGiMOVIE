@@ -11,6 +11,7 @@ public class JwtToken {
 	private String grantType; 		// JWT에 대한 인증 타입, Bearer 인증 방식 사용 예정
 	private String accessToken; 	// 액세스 토큰
 	private String refreshToken;    // 리프레시 토큰
+	private Long adminNo;			// 관리자 회원 번호
 	
 	/* Bearer Token (무기명 토큰)
 	 * "이 토큰의 소유자를 인증하라"
