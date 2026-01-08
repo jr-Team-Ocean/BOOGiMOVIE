@@ -338,7 +338,7 @@ public class BookController {
     }
 	
 	// 더미 확인용
-	@PostMapping("/api/setting/imnotrobot")
+	@GetMapping("/api/setting/imnotrobot")
 	@ResponseBody
 	public String insertBooksByApi() {
 
