@@ -307,7 +307,8 @@ hr{
 
 /* 리뷰 O */
 .review-box{
-    max-height: 500px;
+    min-height: 120px;
+    height: auto;
     overflow: hidden;
 }
 

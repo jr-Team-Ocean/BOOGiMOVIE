@@ -628,6 +628,17 @@ main {
     text-decoration: underline;
 }
 
+.review-more-btn{
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    font-size: 18px;
+    border: 1px solid #b3b3b3;
+    background-color: white;
+    color: #7F7F7F;
+    cursor: pointer;
+}
+
 /* --------------------------------------------------------------------------- */
 /* --------------------------------------------------------------------------- */
 /* --------------------------------------------------------------------------- */
