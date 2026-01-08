@@ -30,7 +30,11 @@
     
 }
 
+.usedBook_thumbnail{
 
+    width: 244px;
+    height: 325px;
+}
 
 
 .detail_title{
@@ -174,12 +178,12 @@
 }
 
 .list_btn {
-    margin-left: 5px;
+    
     background-color: #5170B1;
     cursor: pointer;
 
     font-size: 16px;
-    width: 90px;
+    width: 100px;
     height: 35px;
     border-radius: 5px;
     color: white;

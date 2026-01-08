@@ -201,7 +201,7 @@ public class ChattingController {
 	        if (emitters.containsKey(memberNo)) {
 	            try {
 	                emitters.get(memberNo).send(totalCount);
-	                System.out.println("전송 성공" );
+	                System.out.println("전송 성공" + memberNo);
 	            } catch (Exception e) {
 	            	System.out.println("전송 실패" + e.getMessage());
 	                emitters.remove(memberNo);

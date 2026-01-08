@@ -164,7 +164,7 @@ document.addEventListener("click", (e) => {
 });
 
 /* =========================
- * 6) 글쓰기 버튼 이동 (기존)
+ * 6) 글쓰기 버튼 이동 
  * ========================= */
 const writeBtn = document.getElementById('write-btn');
     
