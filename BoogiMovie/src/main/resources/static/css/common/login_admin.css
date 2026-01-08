@@ -117,8 +117,5 @@ label {
     width: 550px;
     display: flex;
     justify-content: end;
-}
-
-.go_user_login {
-    font-size: 12px;
+    margin-top: 10px;
 }

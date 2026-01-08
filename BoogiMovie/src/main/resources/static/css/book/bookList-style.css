@@ -283,6 +283,10 @@
 /* -------------------------------------------------------- */
 
 /* 글쓰기 버튼 */
+.btn-area {
+    display: flex;
+    justify-content: flex-end;
+}
 #write-btn{
     margin: 10px 0;
     font-weight: bold;
