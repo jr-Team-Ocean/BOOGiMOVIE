@@ -1,18 +1,18 @@
 console.log('member.js loaded....')
 
-const phoneInput = document.getElementById('phone')
-const step2Phone = document.getElementById('memberPhone')
-const sendBtn = document.getElementById('sendBtn')
-const okSendBtn = document.getElementById('okBtn') // 인증번호 확인 버튼
-const reSendBtn = document.getElementById('reBtn') // 재전송 버튼
+// const phoneInput = document.getElementById('phone')
+// const step2Phone = document.getElementById('memberPhone')
+// const sendBtn = document.getElementById('sendBtn')
+// const okSendBtn = document.getElementById('okBtn') // 인증번호 확인 버튼
+// const reSendBtn = document.getElementById('reBtn') // 재전송 버튼
 
-const authArea = document.querySelector('.auth-area')
+// const authArea = document.querySelector('.auth-area')
 
-const headerTitle = document.querySelector('.header > div:first-child')
-const step1 = document.querySelector('.step1')
-const step2 = document.querySelector('.step2')
-const stepsOne = document.querySelector('.steps > div:first-child')
-const stepsTwo = document.querySelector('.steps > div:last-child')
+// const headerTitle = document.querySelector('.header > div:first-child')
+// const step1 = document.querySelector('.step1')
+// const step2 = document.querySelector('.step2')
+// const stepsOne = document.querySelector('.steps > div:first-child')
+// const stepsTwo = document.querySelector('.steps > div:last-child')
 
 let authTimer;
 let authMin = 2;
@@ -28,88 +28,139 @@ const checkObj = {
     'memberTel' : false,
     'memberBirth' : false,
     'memberAddress' : false,
-    'authKey' : false
+    // 'authKey' : false
 }
 
 // step2 페이지로 넘어가기
-function goStep2(number){
-    headerTitle.innerText = '정보입력'
-    stepsOne.classList.remove('select')
-    stepsTwo.classList.add('select')
-    step1.classList.add('hidden')
-    step2.classList.remove('hidden')
-    step2Phone.value = number;
-}
+// function goStep2(number){
+//     headerTitle.innerText = '정보입력'
+//     stepsOne.classList.remove('select')
+//     stepsTwo.classList.add('select')
+//     step1.classList.add('hidden')
+//     step2.classList.remove('hidden')
+//     step2Phone.value = number;
+// }
 
 
 // 전화번호 유효성 검사 + 문자인증 발송
-let tempPhone;
+// let tempPhone;
 
-sendBtn?.addEventListener('click', async (e)=>{
-    const state = sendBtn.dataset.state
-    const regEx = /^010\d{8}$/;
+// sendBtn?.addEventListener('click', async (e)=>{
+//     const state = sendBtn.dataset.state
+//     const regEx = /^010\d{8}$/;
 
-    if(state == 'next'){
-        if(!checkObj.authKey){
-            alert('인증번호 확인을 먼저 해주세요');
-            return;
-        }
-        goStep2(phoneInput.value.trim())
-    }
+//     if(state == 'next'){
+//         if(!checkObj.authKey){
+//             alert('인증번호 확인을 먼저 해주세요');
+//             return;
+//         }
+//         goStep2(phoneInput.value.trim())
+//     }
 
-    if(phoneInput.value.trim() == ""){
-        alert('휴대폰 번호를 입력해주세요.')
-        phoneInput.focus()
-        return
-    }
+//     if(phoneInput.value.trim() == ""){
+//         alert('휴대폰 번호를 입력해주세요.')
+//         phoneInput.focus()
+//         return
+//     }
 
-    if(!regEx.test(phoneInput.value.trim())){
-        alert('010으로 시작하는 숫자11자리로 입력해주세요.')
-        phoneInput.value = "";
-        phoneInput.focus();
-        return
-    }
+//     if(!regEx.test(phoneInput.value.trim())){
+//         alert('010으로 시작하는 숫자11자리로 입력해주세요.')
+//         phoneInput.value = "";
+//         phoneInput.focus();
+//         return
+//     }
 
-    try{
-        // 휴대폰 중복검사 여부
-        const resp = await fetch(`/dupCheck/phone?phone=${encodeURIComponent(phoneInput.value)}`)
+//     try{
+//         // 휴대폰 중복검사 여부
+//         const resp = await fetch(`/dupCheck/phone?phone=${encodeURIComponent(phoneInput.value)}`)
         
+//         if(!resp.ok){
+//             console.log('HTTP status:', resp.status);
+//             const t = await resp.text();
+//             console.log('response text:', t);
+//             alert('서버 요청에 실패했습니다.');
+//             return;
+//         }
+
+//         const data = await resp.text(); 
+        
+//         if(data == 'true'){
+//             alert('이미 사용중인 번호입니다.')
+//             checkObj.memberTel = false;
+//             return
+//         }
+        
+//         if(state == 'send'){
+//             alert('인증번호를 발송합니다. 휴대폰을 확인해주세요.');
+//             checkObj.memberTel = true;
+//             checkObj.authKey = false
+//             authArea.classList.remove('hidden')
+//             sendBtn.dataset.state = 'next'
+//             sendBtn.innerText = '다음';
+//         }
+        
+//     }catch(error){
+//         console.log('휴대폰 번호 처리 중 에러', error);
+//         alert('요청 중 오류가 발생했습니다.');
+//     }
+// })
+
+// okSendBtn?.addEventListener("click", () => {
+//     // TODO: 여기서 실제 인증번호 검증(fetch) 넣어야 함
+//     // 일단 성공했다고 가정
+//     checkObj.authKey = true;
+//     alert("인증이 완료되었습니다.");
+// })
+
+// 전화번호 중복 + 유효성검사
+const phoneNumber = document.getElementById('memberPhone')
+const telMessage = document.getElementById('tel-message')
+
+phoneNumber?.addEventListener('input', ()=>{
+    if(phoneNumber.value.trim() == ''){
+        telMessage.innerText = '휴대폰 번호를 입력해주세요.';
+        telMessage.classList.remove('confirm', 'error');
+        checkObj.memberTel = false;
+        return
+    }
+
+    // 유효성 검사
+    const regEx = /^010\d{8}$/;
+    if(!regEx.test(phoneNumber.value.trim())){
+        telMessage.innerText = '010으로 시작하는 숫자11자리로 입력해주세요.'
+        telMessage.classList.remove('confirm');
+        telMessage.classList.add('error');
+        phoneNumber.focus();
+        return
+    }
+
+    // 휴대폰 중복검사 여부
+    fetch(`/dupCheck/phone?phone=${encodeURIComponent(phoneNumber.value)}`)
+    .then(resp => {
         if(!resp.ok){
             console.log('HTTP status:', resp.status);
-            const t = await resp.text();
+            const t = resp.text();
             console.log('response text:', t);
             alert('서버 요청에 실패했습니다.');
             return;
         }
+    })
+    .then(data => {
 
-        const data = await resp.text(); 
-        
         if(data == 'true'){
-            alert('이미 사용중인 번호입니다.')
+            telMessage.innerText = '이미 사용중인 번호입니다.'
+            telMessage.classList.remove('confirm');
+            telMessage.classList.add('error');
             checkObj.memberTel = false;
             return
         }
-        
-        if(state == 'send'){
-            alert('인증번호를 발송합니다. 휴대폰을 확인해주세요.');
-            checkObj.memberTel = true;
-            checkObj.authKey = false
-            authArea.classList.remove('hidden')
-            sendBtn.dataset.state = 'next'
-            sendBtn.innerText = '다음';
-        }
-        
-    }catch(error){
-        console.log('휴대폰 번호 처리 중 에러', error);
-        alert('요청 중 오류가 발생했습니다.');
-    }
-})
 
-okSendBtn?.addEventListener("click", () => {
-    // TODO: 여기서 실제 인증번호 검증(fetch) 넣어야 함
-    // 일단 성공했다고 가정
-    checkObj.authKey = true;
-    alert("인증이 완료되었습니다.");
+        telMessage.innerText = '사용가능한 번호입니다.'
+        telMessage.classList.remove('error')
+        telMessage.classList.add('confirm')
+        checkObj.memberTel = true;
+    })
+    .catch(err => console.log(err))    
 })
 
 
@@ -366,7 +417,7 @@ const focusTarget = {
     memberTel: "#memberPhone",              // key: memberTel / input id: memberPhone
     memberBirth: "#memberBirth",
     memberAddress: "#sample6_postcode",     // 주소 대표로 우편번호
-    authKey: "#authKey"                     // step1 인증번호 입력칸
+    // authKey: "#authKey"                     // step1 인증번호 입력칸
 };
 
 // key -> 안내 메시지
@@ -380,27 +431,27 @@ const errorMessage = {
     memberTel: "핸드폰 번호가 유효하지 않습니다.",
     memberBirth: "생년월일이 유효하지 않습니다.",
     memberAddress: "주소를 입력해주세요.",
-    authKey: "인증번호가 유효하지 않습니다."
+    // authKey: "인증번호가 유효하지 않습니다."
 };
 
 // step 이동 함수: authKey가 false면 step1로, 나머지는 step2에 있으니 step2로
-function ensureStepVisible(key) {
-    const step1 = document.querySelector(".step1");
-    const step2 = document.querySelector(".step2");
+// function ensureStepVisible(key) {
+//     const step1 = document.querySelector(".step1");
+//     const step2 = document.querySelector(".step2");
 
-    if (!step1 || !step2) return;
+//     if (!step1 || !step2) return;
 
-    // authKey는 step1에 있음
-    if (key === "authKey") {
-        step2.classList.add("hidden");
-        step1.classList.remove("hidden");
-        return;
-    }
+//     // authKey는 step1에 있음
+//     if (key === "authKey") {
+//         step2.classList.add("hidden");
+//         step1.classList.remove("hidden");
+//         return;
+//     }
 
-    // 나머지는 step2에 있음(주소/회원정보 등)
-    step1.classList.add("hidden");
-    step2.classList.remove("hidden");
-}
+//     // 나머지는 step2에 있음(주소/회원정보 등)
+//     step1.classList.add("hidden");
+//     step2.classList.remove("hidden");
+// }
 
 document.getElementById("signUpFrm").addEventListener("submit", (e) => {
     validateAddress();
