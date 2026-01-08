@@ -251,10 +251,10 @@ document.addEventListener("DOMContentLoaded", () => {
             deliveryFee = 0;
         } else if(productTotal >= 30000) {
             /* 3만원 이상 배송비 무료 */
-            deliveryFee = 0;
+            // deliveryFee = 0;
         } else {
             /* 기본 3000원 */
-            deliveryFee = 3000;
+            // deliveryFee = 3000;
         }
 
         /* 배송비 포함 */

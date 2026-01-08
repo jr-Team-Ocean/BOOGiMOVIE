@@ -2,12 +2,16 @@ package com.bm.project.common.filter;
 
 import java.io.IOException;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.bm.project.jwt.model.dto.AdminDto;
+import com.bm.project.jwt.model.service.JwtService;
+import com.bm.project.jwt.model.service.JwtServiceImpl;
 import com.bm.project.jwt.provider.JwtTokenProvider;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -41,6 +45,7 @@ public class JwtFilter extends OncePerRequestFilter {
 	 */
 
 	private final JwtTokenProvider jwtTokenProvider;
+	private final JwtServiceImpl jwtService;
 
 	public static final String AUTHORIZATION_HEADER = "Authorization";
 	public static final String BEARER_PREFIX = "Bearer ";
@@ -62,7 +67,9 @@ public class JwtFilter extends OncePerRequestFilter {
 					SecurityContextHolder.getContext().setAuthentication(authentication);
 //					System.out.println(authentication);
 					// => 현재 실행 중인 Thread에 인증 정보 저장
+					// => 이 세팅은 하나의 요청이 끝나면 값이 비워짐
 				}
+					
 				
 			} catch (ExpiredJwtException e) {
 				// AccessToken이 유효하지 않는 경우 RefreshToken을 통해 재발급
