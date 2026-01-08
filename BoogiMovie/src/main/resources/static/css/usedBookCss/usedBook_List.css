@@ -244,6 +244,7 @@ main{
 .list_info {
     
     flex-direction: column;
+    width: 180px;
     /* width: 100px; */
     cursor: pointer;
 }
@@ -251,6 +252,10 @@ main{
 .list_img{
     width: 180px;
     height: 260px;
+}
+
+.img_case{
+    width: 180px;
 }
 
 .list_title{
