@@ -336,6 +336,17 @@ public class BookController {
 
         return ResponseEntity.ok().build();
     }
+	
+	// 더미 확인용
+	@PostMapping("/api/setting/imnotrobot")
+	@ResponseBody
+	public String insertBooksByApi() {
+
+        bookService.batchBookWriteByApiIsbn();
+
+        return "OK";
+    }
+	
 }
 	
 	
