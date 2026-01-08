@@ -135,16 +135,8 @@ phoneNumber?.addEventListener('input', ()=>{
     }
 
     // 휴대폰 중복검사 여부
-    fetch(`/dupCheck/phone?phone=${encodeURIComponent(phoneNumber.value)}`)
-    .then(resp => {
-        if(!resp.ok){
-            console.log('HTTP status:', resp.status);
-            const t = resp.text();
-            console.log('response text:', t);
-            alert('서버 요청에 실패했습니다.');
-            return;
-        }
-    })
+    fetch(`/dupCheck/phone?phone=${phoneNumber.value.trim()}`)
+    .then(resp => resp.text())
     .then(data => {
 
         if(data == 'true'){
@@ -153,12 +145,14 @@ phoneNumber?.addEventListener('input', ()=>{
             telMessage.classList.add('error');
             checkObj.memberTel = false;
             return
+
+        } else{
+            telMessage.innerText = '사용가능한 번호입니다.'
+            telMessage.classList.remove('error')
+            telMessage.classList.add('confirm')
+            checkObj.memberTel = true;
         }
 
-        telMessage.innerText = '사용가능한 번호입니다.'
-        telMessage.classList.remove('error')
-        telMessage.classList.add('confirm')
-        checkObj.memberTel = true;
     })
     .catch(err => console.log(err))    
 })

@@ -6,6 +6,6 @@ public interface AjaxService {
 
 	boolean checkNickname(String nickname);
 
-	boolean checkPhone(String memberPhone);
+	boolean checkPhone(String phone);
 
 }

@@ -35,8 +35,8 @@ public class AjaxController {
 	
 	// 전화번호 중복 검사
 	@GetMapping("/phone")
-	public boolean checkPhone(@RequestParam String memberPhone){
-		boolean duplicated = ajaxService.checkPhone(memberPhone);
+	public boolean checkPhone(@RequestParam String phone){
+		boolean duplicated = ajaxService.checkPhone(phone);
 		return duplicated;
 	}
 }
