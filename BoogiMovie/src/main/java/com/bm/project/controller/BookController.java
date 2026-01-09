@@ -344,7 +344,6 @@ public class BookController {
 	
 	// 더미 확인용
 	@GetMapping("/api/setting/imnotrobot")
-	@ResponseBody
 	public String insertBooksByApi() {
 
         List<String> isbns = List.of(
@@ -408,7 +407,7 @@ public class BookController {
             }
             System.out.println("도서 더미 등록 종료");
 
-        return "book/bookList";
+        return "redirect:/books";
     }
 	
 }
