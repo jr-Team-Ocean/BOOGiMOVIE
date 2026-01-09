@@ -40,30 +40,30 @@
                     </thead>
                     <tbody>
                         <tr class="table-content">
-                            <td><input type="text" class="movie-input-css" th:field="*{productTitle}" placeholder="영화 제목을 입력하세요."></td>
+                            <td><input type="text" class="movie-input-css" th:field="*{productTitle}" placeholder="영화 제목을 입력하세요." autocomplete="off"></td>
                             <td>
                                 <label for="movieImg"><img th:src="${movie.imgPath}" id="add-img"></label>
                                 <input type="file" id="movieImg" name="movieImg" accept="image/*" hidden>
                             </td>
-                            <td><input name='directors' class='movie-input-css' th:value="${#strings.listJoin(movie.directors, ', ')}" placeholder='감독을 콤마(,)로 구분해서 입력'></td>
-                            <td><input name='actors' class='movie-input-css' th:value="${#strings.listJoin(movie.actors, ', ')}" placeholder='배우를 콤마(,)로 구분해서 입력'></td>
-                            <td><input type="number" class="input" th:field="*{movieTime}">분</td>
+                            <td><input name='directors' class='movie-input-css' th:value="${#strings.listJoin(movie.directors, ', ')}" placeholder='감독을 콤마(,)로 구분해서 입력' autocomplete="off"></td>
+                            <td><input name='actors' class='movie-input-css' th:value="${#strings.listJoin(movie.actors, ', ')}" placeholder='배우를 콤마(,)로 구분해서 입력' autocomplete="off"></td>
+                            <td><input type="number" class="input" th:field="*{movieTime}" autocomplete="off">분</td>
                             <td class="td-radio">
                                 <input type="radio" value="All" th:field="*{filmRating}"> 전체관람
                                 <input type="radio" value="TWELVE" th:field="*{filmRating}"> 12세이상 관람
                                 <input type="radio" value="FIFTEEN" th:field="*{filmRating}"> 15세이상 관람
                                 <input type="radio" value="ADULT" th:field="*{filmRating}"> 청소년관람불가
                             </td>
-                            <td><input name='companies' class='movie-input-css' th:value="${#strings.listJoin(movie.companies, ', ')}" placeholder='제작사를 콤마(,)로 구분해서 입력'></td>
-                            <td><input type="date" name="productDate" class="open-date" th:value="${#temporals.format(movie.productDate, 'yyyy-MM-dd')}"></td>
-                            <td><input type="number" name="productPrice" class="input" th:field="*{productPrice}">원</td>
-                            <td><input name='nation' class='movie-input-css' th:value="${#strings.listJoin(movie.nation, ', ')}" placeholder='국가를 입력해주세요.'></td>
+                            <td><input name='companies' class='movie-input-css' th:value="${#strings.listJoin(movie.companies, ', ')}" placeholder='제작사를 콤마(,)로 구분해서 입력' autocomplete="off"></td>
+                            <td><input type="date" name="productDate" class="open-date" th:value="${#temporals.format(movie.productDate, 'yyyy-MM-dd')}" autocomplete="off"></td>
+                            <td><input type="number" name="productPrice" class="input" th:field="*{productPrice}" autocomplete="off">원</td>
+                            <td><input name='nation' class='movie-input-css' th:value="${#strings.listJoin(movie.nation, ', ')}" placeholder='국가를 입력해주세요.' autocomplete="off"></td>
                             <td class="category-td">
                                 <select th:field="*{parentId}" size="5" required>
                                     <option value="100" >국내영화</option>
                                     <option value="200" >해외영화</option>
                                 </select>
-                                <select th:field="*{categoryId}" size="5" required th:with="base=${movie.parentId}">
+                                <select th:field="*{categoryId}" size="5" required th:with="base=*{parentId}">
                                     <option th:value="${base + 1}">액션</option>
                                     <option th:value="${base + 2}">모험</option>
                                     <option th:value="${base + 3}">애니메이션</option>
@@ -85,7 +85,7 @@
                                     <option th:value="${base + 19}">서부</option>
                                 </select>
                             </td>
-                            <td class="movie-td"><textarea id="movie-content" th:field="*{productContent}" placeholder="내용을 입력하세요."></textarea></td>
+                            <td class="movie-td"><textarea id="movie-content" th:field="*{productContent}" placeholder="내용을 입력하세요." autocomplete="off"></textarea></td>
                         </tr>
                     </tbody>
                 </table>
