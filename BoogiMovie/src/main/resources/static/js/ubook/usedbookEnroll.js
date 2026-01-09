@@ -54,31 +54,31 @@ document.addEventListener('DOMContentLoaded', function() {
     
     })
     
-    if(selectCategory){
+    
 
 
-        selectCategory.addEventListener('change', function() {
-        
-            const selectedOption = this.value
-        
-            // 세부카테고리 펼치기
-            if(selectedOption === "11"){
-                selectSmallCategory.classList.add('active')
-        
-                categoryId.value = selectedOption;
-        
-                console.log('active')
-        
-        
-        
-            } else {
-                selectSmallCategory.classList.remove('active')
-                
-                categoryId.value = ''
-            }
-        })
+    selectCategory.addEventListener('change', function() {
+    
+        const selectedOption = this.value
+    
+        // 세부카테고리 펼치기
+        if(selectedOption === "11"){
+            selectSmallCategory.classList.add('active')
+    
+            categoryId.value = selectedOption;
+    
+            console.log('active')
+    
+    
+    
+        } else {
+            selectSmallCategory.classList.remove('active')
+            
+            categoryId.value = ''
+        }
+    })
 
-    }
+    
     
 
     
@@ -199,6 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return
     
             }
+
     
             if(uContent.value.trim()===''){
                 alert("책소개를 입력하세요.");
