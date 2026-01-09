@@ -9,7 +9,30 @@
 </div>
 
 <!-- 연관상품 구역 -->
-<!-- <hr> -->
+<hr>
+
+<!-- 카테고리 -->
+<section class="same-box" id="type"
+         th:if="${popList != null and !#lists.isEmpty(popList)}">
+    
+    <h2 class="same-type">카테고리 인기 도서</h2>
+    <div class="same-product-row">
+
+        <a class="same-product"
+           th:each="book : ${popList}"
+           th:href="@{/books/{id}(id=${book.productNo})}">
+
+            <img class="same-img" th:src="${book.imgPath}">
+
+            <div class="same-title" th:text="${book.productTitle}">흑백요리사 1</div>
+
+            <div class="same-price" th:text="${#numbers.formatInteger(book.productPrice, 0, 'COMMA')} + ' 원'">20,000 원</div>
+        </a>
+    </div>
+
+</section>
+
+
 <!-- 영화 -->
 <!-- <section class="same-box" id="movie">
     
@@ -97,43 +120,3 @@
 
 <hr> -->
 
-<!-- 카테고리 -->
-<!-- <section class="same-box" id="type">
-    
-    <h2 class="same-type">카테고리 인기 도서</h2>
-    <div class="same-product-row">
-
-        <a class="same-product" href="#">
-            <img class="same-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-            <div class="same-title">흑백요리사 1</div>
-            <div class="same-maker">백종원</div>
-            <div class="same-price">20,000 원</div>
-        </a>
-        <a class="same-product" href="#">
-            <img class="same-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-            <div class="same-title">흑백요리사 1</div>
-            <div class="same-maker">백종원</div>
-            <div class="same-price">20,000 원</div>
-        </a>
-        <a class="same-product" href="#">
-            <img class="same-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-            <div class="same-title">흑백요리사 1</div>
-            <div class="same-maker">백종원</div>
-            <div class="same-price">20,000 원</div>
-        </a>
-        <a class="same-product" href="#">
-            <img class="same-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-            <div class="same-title">흑백요리사 1</div>
-            <div class="same-maker">백종원</div>
-            <div class="same-price">20,000 원</div>
-        </a>
-        <a class="same-product" href="#">
-            <img class="same-img" src="https://image.aladin.co.kr/product/37880/99/cover200/k072033906_1.jpg">
-            <div class="same-title">흑백요리사 1</div>
-            <div class="same-maker">백종원</div>
-            <div class="same-price">20,000 원</div>
-        </a>
-
-    </div>
-
-</section> -->

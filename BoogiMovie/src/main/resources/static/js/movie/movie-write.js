@@ -1,9 +1,10 @@
 console.log('movie.js loaded....')
 
+const form = document.getElementById("writeFrm");
+const fileInput = document.getElementById("movieImg");
+const previewImg = document.getElementById("add-img");
+
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("writeFrm");
-    const fileInput = document.getElementById("movieImg");
-    const previewImg = document.getElementById("add-img");
 
     // 이미지 선택 시 미리보기 + 파일 체크
     fileInput.addEventListener("change", () => {
