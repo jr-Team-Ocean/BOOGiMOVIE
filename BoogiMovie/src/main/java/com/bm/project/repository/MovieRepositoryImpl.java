@@ -121,7 +121,7 @@ public class MovieRepositoryImpl implements MovieRepositoryCustom{
     	
         // 정렬
         if ("popular".equals(sort)) {
-            sb.append(" order by (select count(l) from Likes l where l.product = p) desc, p.productDate desc ");
+            sb.append(" order by (select count(l) from Likes l where l.product = p) desc, p.productTitle");
         
         } else {
             sb.append(" order by p.productDate desc ");
