@@ -220,7 +220,7 @@ document.getElementById("delete-btn")?.addEventListener("click", () => {
 
 
 
-const bookLike = document.getElementById("bookLike");
+const bookLike = document.getElementById("bookLikeBtn");
 
 bookLike.addEventListener("click", e => {
 

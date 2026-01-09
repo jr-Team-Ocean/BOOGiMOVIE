@@ -62,5 +62,8 @@ public interface BookRepository {
 
 	// 평점
 	Double selectReviewAverage(Long productNo);
+	
+	// 해당 카테고리 인기도서 5개 간략요소
+	List<Product> selectPopularBookList(Long ct, Long thisNo);
 
 }

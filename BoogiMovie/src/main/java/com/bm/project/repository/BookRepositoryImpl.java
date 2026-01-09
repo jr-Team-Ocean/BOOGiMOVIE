@@ -493,6 +493,33 @@ public class BookRepositoryImpl implements BookRepository{
 		         .getSingleResult();
 		  
 	}
+
+
+	// 상세조회 하단에 있는 해당 카테고리 인기 도서 목록 5개
+	@Override
+	public List<Product> selectPopularBookList(Long ct, Long thisNo) {
+
+		String query = "select p " +
+		        	   "from Book b " +
+		        	   "join b.product p " +
+		        	   "left join Likes l on l.product = p " +
+		        	   "where p.productDelFl = 'N' " +
+		        	   "and p.productType.typeCode = 1 " +
+		        	   "and b.bookCount > 0 " +
+		        	   "and p.category.categoryId = :categoryId " +
+		        	   "and p.productNo <> :thisNo " +
+		        	   "order by (" +
+		        	   "   select count(l) " +
+		        	   "   from Likes l " +
+		        	   "   where l.product = p" +
+		        	   ") desc";
+		
+		return em.createQuery(query, Product.class)
+				 .setParameter("categoryId", ct)
+				 .setParameter("thisNo", thisNo)
+				 .setMaxResults(5)
+				 .getResultList();
+	}
 	
 	
 }
