@@ -5,6 +5,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const fileInput = document.getElementById("movieImg");
     const previewImg = document.getElementById("add-img"); // 너가 label 안에 둔 img
 
+    const parentId = form.querySelector('select[name="parentId"]');   // 100/200
+    const genreId  = form.querySelector('select[name="categoryId"]'); // 101~ / 201~
+
     // 이미지 처리
     fileInput.addEventListener("change", function (e) {
         
@@ -32,14 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // 제출 전 검증(이미지 필수 포함)
     form.addEventListener("submit", (e) => {
         // 1) 이미지 필수
-        const file = fileInput.files?.[0];
-        if (!file) {
-            alert("대표이미지는 필수입니다.");
-            e.preventDefault();
-            return;
-        }
-        if (!file.type.startsWith("image/")) {
-            alert("이미지 파일만 업로드할 수 있어요.");
+        if (fileInput.files.length === 0 && !previewImg.getAttribute("src")) {
+            alert("대표 이미지를 등록해주세요.");
             e.preventDefault();
             return;
         }
@@ -54,26 +51,28 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // 3) 개봉일
-        const productDate = form.querySelector('input[name="productDate"]')?.value;
-        if (!productDate) {
+        const productDate = form.querySelector('input[name="productDate"]');
+        if (!productDate.value) {
             alert("개봉일은 필수입니다.");
-            form.querySelector('input[name="productDate"]').focus();
+            productDate.focus();
             e.preventDefault();
             return;
         }
 
         // 4) 카테고리 선택(movieType/genreType)
-        const movieType = form.querySelector('select[name="movieType"]')?.value;
-        const genreType = form.querySelector('select[name="genreType"]')?.value;
-        if (!movieType) {
+        
+         // 1) 국내/해외
+        if (!parentId.value) {
             alert("국내/해외 카테고리를 선택해주세요.");
-            form.querySelector('select[name="movieType"]').focus();
+            parentSel?.focus();
             e.preventDefault();
             return;
         }
-        if (!genreType) {
+
+        // 2) 장르
+        if (!genreId.value) {
             alert("장르를 선택해주세요.");
-            form.querySelector('select[name="genreType"]').focus();
+            genreSel?.focus();
             e.preventDefault();
             return;
         }
