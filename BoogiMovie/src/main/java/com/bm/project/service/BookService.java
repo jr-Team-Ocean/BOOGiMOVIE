@@ -9,7 +9,9 @@ import org.springframework.data.domain.Pageable;
 
 import com.bm.project.dto.BookDto;
 import com.bm.project.dto.BookDto.Create;
+import com.bm.project.dto.BookDto.Response;
 import com.bm.project.dto.BookDto.Update;
+import com.bm.project.entity.Product;
 import com.bm.project.entity.Review;
 
 public interface BookService {
@@ -58,6 +60,9 @@ public interface BookService {
 
 	// api 임시
 	boolean bookWriteByApiIsbn(String isbn);
+
+	// 해당 카테고리 인기도서?
+	List<Product> selectPopList(Long ct, Long thisNo);
 
 	
 

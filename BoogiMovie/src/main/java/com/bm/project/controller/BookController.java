@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.bm.project.dto.BookDto;
 import com.bm.project.dto.MemberDto;
 import com.bm.project.dto.PageDto;
+import com.bm.project.entity.Product;
 import com.bm.project.entity.Review;
 import com.bm.project.service.BookService;
 
@@ -124,6 +125,10 @@ public class BookController {
 		model.addAttribute("url", "books");
 		
 		
+		Long ct = book.getCategoryId();
+		Long thisNo = book.getProductNo();
+		List<Product> popularCList = bookService.selectPopList(ct, thisNo);
+		model.addAttribute("popList", popularCList);
 		
 		
 		return "book/bookDetail";
@@ -349,19 +354,19 @@ public class BookController {
 				"9791193790403",
 				"9791193790410",
 				"9791193790427",
-				"9791173899621",
+				
 				"9788932916194",
 				"9788937460449",
 				"9788932916804",
 				"9788932916811",
 				"9791169814140",
-				"9788956658117",
+				
 				"9791197723780",
 				"9791192817989",
 				"9791194120254",
 				"9791112107893",
 				"9788943318451",
-				"9773022641001",
+				
 				"9791199289949",
 				"9791175561861",
 				"9788932042725",
@@ -376,7 +381,7 @@ public class BookController {
 				"9788959131648",
 				"9788915025554",
 				"9788959752072",
-				"9788915067646",
+				
 				"9788934935971"
             );
 
@@ -403,7 +408,7 @@ public class BookController {
             }
             System.out.println("도서 더미 등록 종료");
 
-        return "OK";
+        return "book/bookList";
     }
 	
 }
