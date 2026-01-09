@@ -111,7 +111,7 @@ public class UBookServiceImpl implements UbookService{
 		            })
 		            .toList();
 
-		System.out.println(page.getContent());
+		
 		
 		
 		return new PageImpl<>(listUbookDto, pageable, page.getTotalElements());
@@ -222,7 +222,7 @@ public class UBookServiceImpl implements UbookService{
 		ubookRepositories.save(ubook);
 		
 		
-		System.out.println("productNo2222 : " + product.getProductNo());
+		
 		
 		
 		
@@ -231,7 +231,7 @@ public class UBookServiceImpl implements UbookService{
 		List<String> writers = splitToList(createUbook.getWriters());
 		List<String> publishers = splitToList(createUbook.getPublishers());
 		
-		System.out.println("writers : " + writers);
+		
 		
 		// 작가 중복검사 + 저장
 		TagCode wCode = ubookRepository.getTagCodeRef(1L);

@@ -120,7 +120,7 @@ public class UbookController {
 	@GetMapping("/enroll")
 	public String goEnrollUbook() {
 		
-		System.out.println("가가나나나나나나나");
+		
 		
 		return "usedBook/usedBook_Enroll";
 	}
