@@ -294,7 +294,7 @@ document.addEventListener('click', e => {
 
     if(!confirm('정말 삭제하겠습니까?')) return;
 
-    fetch(`movies/review/${reviewNo}/delete`, {
+    fetch(`/movies/review/${reviewNo}/delete`, {
         method : "POST"
     })
     .then(resp => resp.text())
