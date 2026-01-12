@@ -71,7 +71,7 @@ public class Product {
 	private CommonEnums.ProductDelFl productDelFl;
 	
 	
-	@Column(name="IMG_PATH", length=200, nullable=false)
+	@Column(name="IMG_PATH", length=500, nullable=false)
 	private String imgPath;
 	
 	@jakarta.persistence.Transient

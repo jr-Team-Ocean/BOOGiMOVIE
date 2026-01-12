@@ -272,7 +272,7 @@ main {
     margin-top: 50px;
     margin-bottom: 50px;
     width: 1080px;
-    height: 550px;
+    height: 500px;
     border: 1px solid #F7F7F7;
     border-radius: 30px;
     background-color: #F7F7F7;
@@ -345,6 +345,7 @@ main {
 
 /* 연관상품 가격 */
 .same-price {
+    margin-top: 30px;
     width: 178px;
     height: 30px;
     
@@ -626,6 +627,17 @@ main {
 .review-delete-btn:hover {
     cursor: pointer;
     text-decoration: underline;
+}
+
+.review-more-btn{
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    font-size: 18px;
+    border: 1px solid #b3b3b3;
+    background-color: white;
+    color: #7F7F7F;
+    cursor: pointer;
 }
 
 /* --------------------------------------------------------------------------- */

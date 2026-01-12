@@ -49,6 +49,7 @@ main{
 
 .enroll_right{
     width: 980px;
+    
 }
 
 .enroll_right {
@@ -64,17 +65,33 @@ main{
 }
 
 .img_case{
-    width: 230px;
-    height: 200px;
+    width: 300px;
+    height: 250px;
     display: flex;
-    align-items: center;
+    align-items: start;
+    flex-direction: column;
 }
 
 .usedBook_enroll_thumbnail{
     display: flex;
     height: 90%;
-    align-content: center;
+    
+    width: 150px;
+    height: 200px;
 }
+
+.inputImage{
+    
+    margin-top: 5px;
+}
+
+#deleteImage{
+    position: absolute;
+    margin-left: 150px;
+}
+
+
+
 
 
 .select_usedBook_status{

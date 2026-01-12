@@ -698,22 +698,15 @@ public class BookServiceImpl  implements BookService {
 
 	    return 99L;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+	// 도서 상세 하단 카테고리 인기도서
+	@Override
+	public List<Product> selectPopList(Long ct, Long thisNo) {
+		
+		return bookRepository.selectPopularBookList(ct, thisNo);
+	}
 	
 }

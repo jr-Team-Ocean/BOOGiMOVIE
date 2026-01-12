@@ -6,7 +6,7 @@
     <link rel="stylesheet" th:href="@{/css/common/header.css}">
     <link rel="stylesheet" th:href="@{/css/common/footer.css}">
     <link rel="stylesheet" th:href="@{/css/movie/movie-list.css}">
-    <title>영화List</title>
+    <title>영화</title>
     
     <!-- 폰트 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -117,13 +117,13 @@
         <ul class="pagination-list">
 
             <!-- 처음 -->
-            <li class="pagination-item" th:if="${pageDto.currentPage > 1}">
+            <li class="pagination-item" th:classappend="${pageDto.currentPage == pageDto.startPage} ? ' disabled' : ''">
                 <a class="pagination-link" th:data-page="1" href="#">&lt;&lt;</a>
             </li>
 
             <!-- 이전 -->
-            <li class="pagination-item" th:if="${pageDto.hasPrevious}">
-                <a class="pagination-link" th:data-page="${pageDto.prevPage}" href="#">&lt;</a>
+            <li class="pagination-item" th:classappend="${!pageDto.hasPrevious} ? ' disabled' : ''">
+                <a class="pagination-link" th:data-page="${pageDto.currentPage - 1}" href="#">&lt;</a>
             </li>
 
             <th:block th:each="i : ${#numbers.sequence(pageDto.blockStart, pageDto.blockEnd)}">
@@ -141,12 +141,12 @@
             </th:block>
 
             <!-- 다음 -->
-            <li class="pagination-item" th:if="${pageDto.hasNext}">
-                <a class="pagination-link" th:data-page="${pageDto.nextPage}" href="#">&gt;</a>
+            <li class="pagination-item" th:classappend="${!pageDto.hasNext} ? ' disabled' : ''">
+                <a class="pagination-link" th:data-page="${pageDto.currentPage + 1}" href="#">&gt;</a>
             </li>
             
             <!-- 마지막(끝) -->
-            <li class="pagination-item" th:if="${pageDto.currentPage < pageDto.totalPage}">
+            <li class="pagination-item" th:classappend="${pageDto.currentPage == pageDto.endPage} ? ' disabled' : ''">
                 <a class="pagination-link" th:data-page="${pageDto.endPage}" href="#">&gt;&gt;</a>
             </li>
         </ul>

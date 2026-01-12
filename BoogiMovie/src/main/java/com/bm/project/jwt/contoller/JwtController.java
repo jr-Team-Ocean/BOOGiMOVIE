@@ -58,6 +58,13 @@ public class JwtController {
 			refreshCookie.setMaxAge(60 * 60);
 			response.addCookie(refreshCookie);
 			
+			// 관리자 회원 번호도 쿠키에 저장
+			Cookie adminNoCookie = new Cookie("adminNo", String.valueOf(adminToken.getAdminNo()));
+			adminNoCookie.setHttpOnly(true);
+			adminNoCookie.setPath("/");
+			adminNoCookie.setMaxAge(60 * 60);
+			response.addCookie(adminNoCookie);
+			
 			ra.addFlashAttribute("message", "관리자 페이지 로그인 성공");
 			return "redirect:/admin/statistics";
 			

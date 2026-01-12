@@ -144,7 +144,7 @@
                 <section class="review-controll">
 
                     <div class="review-report">
-                        <span class="report-btn"  th:if="${loginMember != null and loginMember.memberNo != review.member.memberNo}">신고</span>
+                        <!-- <span class="report-btn"  th:if="${loginMember != null and loginMember.memberNo != review.member.memberNo}">신고</span> -->
                     </div>
 
                     <div class="review-edit">
@@ -166,7 +166,7 @@
 
 
             <div class="review-more" th:if="${#lists.size(reviewList) > 5}">
-                <button type="button" class="review-more-btn">더보기</button>
+                <button type="button" class="review-more-btn">더보기 ▼</button>
             </div>
 
         </div>

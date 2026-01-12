@@ -14,11 +14,11 @@
 </head>
 <body>
     <!-- 헤더 -->
-    <th:block th:replace="~{common/header}">header.html</th:block>
+    <th:block th:replace="~{common/header_no_search}">header.html</th:block>
 
     <div class="write-container">
         <div class="table-wrapper">
-            <h3>영화 상품 등록</h3> 
+            <h3>영화 등록</h3> 
             <form th:action="@{/movies/write}" method="POST" name="movieFrm" id="writeFrm" enctype="multipart/form-data">
                 <table class="table-container">
                     <thead>
