@@ -1,0 +1,48 @@
+services:
+  elastic:
+    build:
+      context: .
+      dockerfile: Dockerfile 
+    ports:
+      - 9200:9200 # 9200번 포트에서 Elasticsearch 실행
+    environment:
+      # 아래 설정은 개발/테스트 환경에서 간단하게 테스트하기 위한 옵션 (운영 환경에서는 설정하면 안 됨)
+      - discovery.type=single-node # 단일 노드 
+      - xpack.security.enabled=false # 보안 설정
+      - xpack.security.http.ssl.enabled=false # 보안 설정
+    volumes:
+      - es-data:/usr/share/elasticsearch/data   # ES 데이터 영구 보관  
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.18.8 # 8.18.8 버전
+    ports:
+      - 5601:5601 # 5601번 포트에서 kibana 실행
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elastic:9200 # kibana가 통신할 Elasticsearch 주소 알려주기
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.18.8 # 8.18.8 버전
+    ports:
+      - "5044:5044"  # 5044번 포트에서 logstash 실행           
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline  # 로컬 ./logstash/pipeline 폴더를 컨테이너의 pipeline 디렉토리에 마운트
+    depends_on: # 순서를 정해주는 옵션
+      - elastic # elastic 컨테이너 먼저 띄우고 그 다음에 logstash를 띄워라
+
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.18.8 # 8.18.8 버전
+    user: root # 컨테이너 안에서 root 계정으로 실행 (로그 파일/설정 파일 권한 이슈 방지)
+    volumes:
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - "C:/logs:/logs:ro"
+      - filebeat-data:/usr/share/filebeat/data  # Filebeat 내부 상태 저장용 데이터 디렉토리(읽은 위치 등)  → 볼륨으로 분리
+    command: ["-e", "--strict.perms=false"]   # -e: 로그를 stdout(콘솔)로 출력해서 docker logs로 확인 가능
+                                              # --strict.perms=false: 파일 권한이 안 맞아도 그냥 실행 (권한 에러 무시)
+
+    depends_on: # 순서를 정해주는 옵션
+      - elastic # elastic 컨테이너 먼저 띄우고 그 다음에 logstash를 띄워라
+
+volumes:
+  filebeat-data:   # 위에서 사용한 volume 정의 (컨테이너 재시작해도 filebeat 상태 유지)
+  es-data:   # ES 데이터 영구 보관(컨테이너 재시작해도 유지)
