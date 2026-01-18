@@ -123,7 +123,7 @@
 
             <!-- 이전 -->
             <li class="pagination-item" th:classappend="${!pageDto.hasPrevious} ? ' disabled' : ''">
-                <a class="pagination-link" th:data-page="${pageDto.prevPage}" href="#">&lt;</a>
+                <a class="pagination-link" th:data-page="${pageDto.currentPage - 1}" href="#">&lt;</a>
             </li>
 
             <th:block th:each="i : ${#numbers.sequence(pageDto.blockStart, pageDto.blockEnd)}">
@@ -142,7 +142,7 @@
 
             <!-- 다음 -->
             <li class="pagination-item" th:classappend="${!pageDto.hasNext} ? ' disabled' : ''">
-                <a class="pagination-link" th:data-page="${pageDto.nextPage}" href="#">&gt;</a>
+                <a class="pagination-link" th:data-page="${pageDto.currentPage + 1}" href="#">&gt;</a>
             </li>
             
             <!-- 마지막(끝) -->
