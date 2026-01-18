@@ -22,6 +22,7 @@ import com.bm.project.service.myPage.MyPageService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
@@ -150,12 +151,15 @@ public class MyPageController {
 	public String secession(@SessionAttribute("loginMember") MemberDto.LoginResult loginMember,
 							Model model,
 							RedirectAttributes ra,
-							SessionStatus status, HttpServletResponse response) {
+							SessionStatus status, HttpServletResponse response,
+							HttpSession session) {
 		
 		int secession = service.secession(loginMember.getMemberNo());
 		
 		SecurityContextHolder.clearContext(); // 시큐리티 컨텍스트 비우기
 	    status.setComplete(); // 세션 만료
+	    
+	    session.invalidate();
 	    
 		// 쿠키 삭제
 		Cookie cookie = new Cookie("saveId", "");
