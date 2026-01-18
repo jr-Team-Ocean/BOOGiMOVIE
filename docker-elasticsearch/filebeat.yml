@@ -1,0 +1,22 @@
+filebeat.inputs:
+
+# 결제/통계 로그용
+- type: log
+  enabled: true
+  paths:
+    - /logs/stat_log.log
+  fields:
+    log_type: "payment_stat"
+  fields_under_root: true
+
+# 검색어 로그용
+- type: log
+  enabled: true
+  paths:
+    - /logs/search_log.log 
+  fields:
+    log_type: "search_keyword"
+  fields_under_root: true
+
+output.logstash:
+  hosts: ["logstash:5044"]
